@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>
+(function(){
+  var raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');if(!raw)return;
+  var sess=JSON.parse(raw);
+  if(sess.addon_decompte_st!==true){
+    document.addEventListener('DOMContentLoaded',function(){
+      if(typeof OT!=='undefined'&&!OT.can('decompte_st'))window.location.href='optimum_trans_dashboard.html';
+    });
+  }
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>T SERVICE & CO — Décompte ST</title>
+<link rel="stylesheet" href="/fonts.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+<style>
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
+.sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:18px 20px;border-bottom:1px solid var(--border);}
+.logo-tag{font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);line-height:1;margin-top:4px;}
+.logo-name span{color:var(--accent);}
+.sidebar-nav{flex:1;padding:10px 12px;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);padding:5px 8px 2px;margin-top:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:1px;font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;}
+.nav-item:hover{background:var(--card);color:var(--light);}
+.nav-item.active{background:linear-gradient(135deg,rgba(26,79,191,0.4),rgba(26,79,191,0.2));color:var(--white);border:1px solid rgba(26,79,191,0.3);}
+.nav-icon{font-size:16px;width:20px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--accent);color:var(--navy);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.sidebar-footer{padding:12px 12px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:10px;border:1px solid var(--border);cursor:pointer;}
+.user-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;}
+.topbar{height:60px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.content{padding:24px 28px;flex:1;}
+.btn-sm{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all 0.2s;}
+.btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);}
+.btn-ghost{background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--light);}
+.btn-ghost:hover{background:rgba(255,255,255,0.1);}
+.btn-green{background:linear-gradient(135deg,#27AE60,#219a52);color:#fff;}
+.btn-danger{background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.3);color:#FC8181;}
+
+/* Upload zone */
+.upload-zone{border:2px dashed rgba(26,79,191,0.4);border-radius:14px;padding:40px;text-align:center;cursor:pointer;transition:all 0.3s;background:rgba(26,79,191,0.04);margin-bottom:20px;}
+.upload-zone:hover,.upload-zone.drag-over{border-color:var(--accent);background:rgba(245,166,35,0.06);}
+.upload-zone .uz-icon{font-size:40px;margin-bottom:10px;}
+.upload-zone .uz-text{font-size:14px;color:var(--gray);margin-bottom:6px;}
+.upload-zone .uz-sub{font-size:11px;color:var(--gray2);}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:20px;}
+.kpi{display:flex;flex-direction:column;align-items:center;padding:16px 10px;border-radius:12px;text-decoration:none;transition:transform 0.2s;}
+.kpi:hover{transform:translateY(-2px);}
+.kpi-icon{font-size:22px;margin-bottom:6px;}
+.kpi-val{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);}
+.kpi-label{font-size:11px;color:var(--gray);margin-top:2px;}
+.kpi.blue{background:linear-gradient(135deg,rgba(26,79,191,0.15),rgba(26,79,191,0.05));border:1px solid rgba(26,79,191,0.2);}
+.kpi.green{background:linear-gradient(135deg,rgba(39,174,96,0.15),rgba(39,174,96,0.05));border:1px solid rgba(39,174,96,0.2);}
+.kpi.orange{background:linear-gradient(135deg,rgba(245,166,35,0.15),rgba(245,166,35,0.05));border:1px solid rgba(245,166,35,0.2);}
+.kpi.purple{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(124,58,237,0.05));border:1px solid rgba(124,58,237,0.2);}
+.kpi.teal{background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(16,185,129,0.05));border:1px solid rgba(16,185,129,0.2);}
+
+/* Sections */
+.section-card{background:var(--navy2);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+
+/* Tarifs grid */
+.tarif-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.tarif-item{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;}
+.tarif-item label{font-size:12px;color:var(--gray);min-width:32px;font-weight:600;}
+.tarif-item input{background:transparent;border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--white);font-size:13px;width:70px;font-family:inherit;text-align:right;}
+.tarif-item input:focus{outline:none;border-color:var(--blue);}
+
+/* Table */
+.table-wrap{background:var(--navy2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.table-wrap>div:last-child{max-height:60vh;overflow-y:auto;}
+.table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
+.table-title{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--white);letter-spacing:1px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:var(--navy2);padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gray);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;z-index:2;}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+th.r,td.r{text-align:right;}
+tr:hover{background:rgba(255,255,255,0.02);}
+.row-st{cursor:pointer;transition:background 0.15s;}
+.row-st:hover{background:rgba(26,79,191,0.1);}
+.row-st td:first-child::before{content:'▶ ';font-size:10px;color:var(--gray);}
+.row-st.open td:first-child::before{content:'▼ ';}
+.row-chauffeur{display:none;background:rgba(255,255,255,0.015);}
+.row-chauffeur td:first-child{padding-left:36px;font-size:12px;color:var(--gray);}
+.row-st.open~.row-chauffeur{display:table-row;}
+
+/* Historique */
+.hist-list{display:flex;flex-direction:column;gap:6px;max-height:250px;overflow-y:auto;}
+.hist-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}
+.hist-item:hover{border-color:var(--blue);background:rgba(26,79,191,0.08);}
+.hist-item.active{border-color:var(--accent);background:rgba(245,166,35,0.08);}
+.hist-date{font-weight:600;font-size:13px;color:var(--white);}
+.hist-info{font-size:11px;color:var(--gray);}
+.hist-actions{display:flex;gap:6px;}
+
+/* Tabs */
+.tab-bar{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0;}
+.tab-btn{padding:10px 20px;font-size:13px;font-weight:600;color:var(--gray);background:none;border:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;transition:all 0.2s;}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-btn:hover{color:var(--light);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--blue);color:#fff;padding:14px 22px;border-radius:12px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transform:translateY(20px);transition:all 0.3s;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* Filter date */
+.date-filter{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.date-filter select,.date-filter input{background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--light);font-size:13px;font-family:inherit;}
+.date-filter select:focus,.date-filter input:focus{outline:none;border-color:var(--blue);}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .main{margin-left:0;}
+  .topbar{padding:0 16px;}
+  .content{padding:16px;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .tarif-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+<script src="ot_401_guard.js"></script>
+<script src="ot_session.js"></script>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+    <div class="logo-tag">Gestion Transport</div>
+    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">&#127968;</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">&#128198;</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">&#128221;</span> Saisie Tourn&#233;es</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">&#128506;</span> Feuille de Route</a>
+    <div class="nav-section-label">Gestion</div>
+    <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">&#128119;</span> Chauffeurs &amp; Salaires</a>
+    <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">&#128084;</span> RH &amp; Contrats</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">&#9981;</span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">&#128202;</span> Clients &amp; Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">&#128656;</span> Parc V&#233;hicules</a>
+    <a class="nav-item" href="amende.html"><span class="nav-icon">&#128660;</span> Amendes</a>
+    <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">&#128722;</span> Mon March&#233;</a>
+    <a class="nav-item active" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">&#128200;</span> D&#233;compte ST <span class="nav-badge">NEW</span></a>
+    <div class="nav-section-label">Communication</div>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">&#128172;</span> Messagerie</a>
+    <div class="nav-section-label">Intelligence</div>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">&#129302;</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">&#129504;</span> IA Dispatch <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">&#128225;</span> Suivi Temps R&#233;el <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">&#128205;</span> Mon GPS (Chauffeur)</a>
+    <div class="nav-section-label">Param&#232;tres</div>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">&#9881;</span> Param&#232;tres</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
+      <div class="user-avatar">T.S</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)">&#9881; Param&#232;tres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="D&#233;connexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;">&#9211;</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">&#128200; DECOMPTE SOUS-TRAITANTS</div>
+    <div class="topbar-right">
+      <span id="sync-info" style="font-size:11px;color:var(--gray)"></span>
+      <button class="btn-sm btn-ghost" onclick="showTab('historique')" id="btn-hist">&#128197; Historique</button>
+      <button class="btn-sm btn-ghost" onclick="showTab('tarifs')" id="btn-tarifs">&#9881; Tarifs zones</button>
+      <button class="btn-sm btn-accent" onclick="showTab('import')" id="btn-import">&#128228; Importer</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- TAB: Import -->
+    <div class="tab-content active" id="tab-import">
+      <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <div class="uz-icon">&#128228;</div>
+        <div class="uz-text">Glisser-d&#233;poser un fichier CSV ou Excel ici</div>
+        <div class="uz-sub">ou cliquer pour s&#233;lectionner &middot; Format attendu : export CAC Delifresh</div>
+        <input type="file" id="file-input" accept=".csv,.xlsx,.xls" style="display:none">
+      </div>
+
+      <div id="import-preview" style="display:none">
+        <div class="kpi-grid" id="kpi-zone"></div>
+        <div style="display:flex;gap:10px;margin-bottom:20px">
+          <button class="btn-sm btn-green" onclick="saveImport()">&#9989; Enregistrer cet import</button>
+          <button class="btn-sm btn-ghost" onclick="exportExcel()">&#128196; Export Excel</button>
+          <button class="btn-sm btn-ghost" onclick="exportPDF()">&#128196; Export PDF</button>
+          <button class="btn-sm btn-danger" onclick="cancelImport()">&#10060; Annuler</button>
+        </div>
+        <div id="results-zone"></div>
+      </div>
+    </div>
+
+    <!-- TAB: Tarifs -->
+    <div class="tab-content" id="tab-tarifs">
+      <div class="section-card">
+        <div class="section-title">&#9881; Grille tarifaire par zone (&#8364;/point)</div>
+        <div class="tarif-grid" id="tarif-grid"></div>
+        <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+          <button class="btn-sm btn-green" onclick="saveTarifs()">&#9989; Enregistrer les tarifs</button>
+          <button class="btn-sm btn-ghost" onclick="addZone()">+ Ajouter une zone</button>
+          <span id="tarif-status" style="font-size:12px;color:var(--success)"></span>
+        </div>
+      </div>
+      <div class="section-card" style="margin-top:20px">
+        <div class="section-title" style="justify-content:space-between">
+          <span>&#127463; Mapping villes &rarr; zones</span>
+          <div style="display:flex;gap:8px">
+            <input type="text" id="city-search" placeholder="Rechercher une ville..." oninput="filterCities(this.value)" style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--light);font-size:12px;font-family:inherit;width:200px">
+            <button class="btn-sm btn-accent" onclick="openAddCity()">+ Ajouter une ville</button>
+          </div>
+        </div>
+        <div id="city-info" style="font-size:12px;color:var(--gray);margin-bottom:10px"></div>
+        <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+          <table id="city-table">
+            <thead><tr><th>Ville</th><th>D&#233;pt</th><th class="r">Zone</th><th class="r">Tarif</th><th class="r">Actions</th></tr></thead>
+            <tbody id="city-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Historique -->
+    <div class="tab-content" id="tab-historique">
+      <div class="section-card">
+        <div class="section-title">&#128197; Historique des imports</div>
+        <div class="hist-list" id="hist-list">
+          <div style="text-align:center;padding:30px;color:var(--gray)">Aucun import pour le moment</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Détail (affiché quand on clique sur un historique) -->
+    <div class="tab-content" id="tab-detail">
+      <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center">
+        <button class="btn-sm btn-ghost" onclick="showTab('historique')">&#9664; Retour</button>
+        <span id="detail-title" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:1px"></span>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button class="btn-sm btn-ghost" onclick="exportExcel()">&#128196; Excel</button>
+          <button class="btn-sm btn-ghost" onclick="exportPDF()">&#128196; PDF</button>
+          <button class="btn-sm btn-danger" onclick="deleteImport()">&#128465; Supprimer</button>
+        </div>
+      </div>
+      <div class="kpi-grid" id="detail-kpi"></div>
+      <div id="detail-results"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+
+let currentData=null;
+let currentImportId=null;
+let tarifs={}; // {zone_num: price}
+let cityZoneMap={}; // normalized_ville -> zone_num
+const ZONE_LABELS={'1':'Zone 1 (Paris+)','2':'Zone 2','3':'Zone 3','4':'Zone 4'};
+
+function normalizeVille(v){
+  return v.toString().toUpperCase().trim()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^A-Z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+}
+
+// ===== TABS =====
+function showTab(name){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  ['import','tarifs','historique'].forEach(n=>{
+    var b=document.getElementById('btn-'+n);
+    if(b)b.style.opacity=n===name?'1':'0.6';
+  });
+  if(name==='historique')loadHistorique();
+}
+
+// ===== TOAST =====
+function showToast(msg){
+  var t=document.createElement('div');t.className='toast show';t.textContent=msg;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),3000);
+}
+
+// ===== TARIFS =====
+async function loadTarifs(){
+  var cid=OT.getCompanyId();
+  try{
+    var r=await fetch(SB+'/rest/v1/decompte_st_zones?company_id=eq.'+cid,{headers:OT.authHeaders()});
+    if(r.ok){var data=await r.json();tarifs={};data.forEach(d=>{tarifs[d.zone]=parseFloat(d.tarif)||0;});}
+  }catch(e){}
+  if(Object.keys(tarifs).length===0){tarifs={'1':6,'2':7.5,'3':9,'4':11.5};}
+  renderTarifs();
+}
+
+async function loadCityZones(){
+  var cid=OT.getCompanyId();
+  try{
+    var r=await fetch(SB+'/rest/v1/decompte_st_city_zones?company_id=eq.'+cid+'&select=id,ville,cp_prefix,zone&order=ville&limit=5000',{headers:OT.authHeaders()});
+    if(r.ok){var data=await r.json();cityZoneMap={};allCityData=data;data.forEach(d=>{cityZoneMap[normalizeVille(d.ville)]=d.zone;});renderCityTable('');}
+  }catch(e){}
+  document.getElementById('sync-info').textContent=Object.keys(cityZoneMap).length+' villes chargees';
+}
+
+var allCityData=[]; // raw city data for table display
+
+function renderCityTable(filter){
+  var tbody=document.getElementById('city-tbody');
+  var filtered=filter?allCityData.filter(c=>normalizeVille(c.ville).includes(normalizeVille(filter))):allCityData;
+  document.getElementById('city-info').textContent=filtered.length+' villes sur '+allCityData.length+' total';
+  var shown=filtered.slice(0,200);
+  tbody.innerHTML='';
+  shown.forEach(c=>{
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+c.ville+'</td><td>'+(c.cp_prefix||'-')+'</td><td class="r"><select onchange="updateCityZone(\''+c.id+'\',this.value)" style="background:var(--navy);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--light);font-size:12px;font-family:inherit"><option value="1"'+(c.zone==1?' selected':'')+'>Z1 (6.00&#8364;)</option><option value="2"'+(c.zone==2?' selected':'')+'>Z2 (7.50&#8364;)</option><option value="3"'+(c.zone==3?' selected':'')+'>Z3 (9.00&#8364;)</option><option value="4"'+(c.zone==4?' selected':'')+'>Z4 (11.50&#8364;)</option></select></td><td class="r">'+(tarifs[String(c.zone)]||0).toFixed(2)+' &#8364;</td><td class="r"><button class="btn-sm btn-danger" onclick="deleteCity(\''+c.id+'\',\''+c.ville.replace(/'/g,"\\'")+'\')" style="padding:4px 10px;font-size:11px">&#10060;</button></td>';
+    tbody.appendChild(tr);
+  });
+  if(shown.length<filtered.length){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td colspan="5" style="text-align:center;color:var(--gray);font-size:12px">... et '+(filtered.length-shown.length)+' autres villes. Utilisez la recherche pour filtrer.</td>';
+    tbody.appendChild(tr);
+  }
+}
+
+function filterCities(val){renderCityTable(val);}
+
+async function updateCityZone(id,newZone){
+  var cid=OT.getCompanyId();
+  await fetch(SB+'/rest/v1/decompte_st_city_zones?id=eq.'+id+'&company_id=eq.'+cid,{method:'PATCH',headers:{...OT.authHeaders(),'Prefer':'return=minimal'},body:JSON.stringify({zone:parseInt(newZone)})});
+  var c=allCityData.find(x=>x.id===id);
+  if(c){c.zone=parseInt(newZone);cityZoneMap[normalizeVille(c.ville)]=parseInt(newZone);}
+  showToast('Zone mise a jour');
+}
+
+function openAddCity(){
+  var ville=prompt('Nom de la ville :');
+  if(!ville||!ville.trim())return;
+  var dept=prompt('Departement (ex: 75, 92, 77) :');
+  if(!dept||!dept.trim())return;
+  var zone=prompt('Zone (1, 2, 3 ou 4) :');
+  if(!zone||!['1','2','3','4'].includes(zone.trim()))return;
+  addCity(ville.trim(),dept.trim(),parseInt(zone.trim()));
+}
+
+async function addCity(ville,dept,zone){
+  var cid=OT.getCompanyId();
+  var r=await fetch(SB+'/rest/v1/decompte_st_city_zones',{method:'POST',headers:{...OT.authHeaders(),'Prefer':'return=representation'},body:JSON.stringify({company_id:cid,ville:ville,cp_prefix:dept,zone:zone})});
+  if(r.ok){
+    var data=await r.json();
+    if(data&&data[0])allCityData.push(data[0]);
+    allCityData.sort((a,b)=>a.ville.localeCompare(b.ville));
+    cityZoneMap[normalizeVille(ville)]=zone;
+    renderCityTable(document.getElementById('city-search').value);
+    showToast(ville+' ajoutee en zone '+zone);
+  }else{showToast('Erreur ajout ville');}
+}
+
+async function deleteCity(id,ville){
+  if(!confirm('Supprimer '+ville+' du mapping ?'))return;
+  var cid=OT.getCompanyId();
+  await fetch(SB+'/rest/v1/decompte_st_city_zones?id=eq.'+id+'&company_id=eq.'+cid,{method:'DELETE',headers:OT.authHeaders()});
+  allCityData=allCityData.filter(c=>c.id!==id);
+  delete cityZoneMap[normalizeVille(ville)];
+  renderCityTable(document.getElementById('city-search').value);
+  showToast(ville+' supprimee');
+}
+
+function findZone(ville,cp){
+  var norm=normalizeVille(ville);
+  if(cityZoneMap[norm])return String(cityZoneMap[norm]);
+  var keys=Object.keys(cityZoneMap);
+  for(var k of keys){if(norm.includes(k)||k.includes(norm))return String(cityZoneMap[k]);}
+  var dept=cp.substring(0,2);
+  if(dept==='75')return '1';
+  if(dept==='92')return '2';
+  if(dept==='93')return '2';
+  if(dept==='94')return '2';
+  return '4';
+}
+
+function renderTarifs(){
+  var g=document.getElementById('tarif-grid');g.innerHTML='';
+  ['1','2','3','4'].forEach(z=>{
+    if(tarifs[z]===undefined)tarifs[z]=0;
+    var d=document.createElement('div');d.className='tarif-item';
+    d.innerHTML='<label>Z'+z+'</label><input type="number" step="0.01" min="0" value="'+(tarifs[z]||0).toFixed(2)+'" onchange="tarifs[\''+z+'\']=parseFloat(this.value)||0"><span style="font-size:10px;color:var(--gray);margin-left:4px">'+(ZONE_LABELS[z]||'')+'</span>';
+    g.appendChild(d);
+  });
+}
+
+function addZone(){
+  var z=prompt('Numero de zone (ex: 5) :');
+  if(!z||z.trim().length===0)return;z=z.trim();
+  if(tarifs[z]!==undefined){showToast('Zone '+z+' existe deja');return;}
+  tarifs[z]=0;renderTarifs();
+}
+
+async function saveTarifs(){
+  var cid=OT.getCompanyId();
+  // Delete existing
+  await fetch(SB+'/rest/v1/decompte_st_zones?company_id=eq.'+cid,{method:'DELETE',headers:OT.authHeaders()});
+  // Insert all
+  var rows=Object.entries(tarifs).map(([z,t])=>({company_id:cid,zone:z,tarif:t}));
+  if(rows.length>0){
+    await fetch(SB+'/rest/v1/decompte_st_zones',{method:'POST',headers:{...OT.authHeaders(),'Prefer':'return=minimal'},body:JSON.stringify(rows)});
+  }
+  document.getElementById('tarif-status').textContent='Tarifs enregistres !';
+  setTimeout(()=>{document.getElementById('tarif-status').textContent='';},2500);
+  showToast('Tarifs enregistres');
+}
+
+// ===== FILE IMPORT =====
+function setupUpload(){
+  var dz=document.getElementById('drop-zone');
+  var fi=document.getElementById('file-input');
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0]);});
+  fi.addEventListener('change',e=>{if(e.target.files.length)handleFile(e.target.files[0]);});
+}
+
+function handleFile(file){
+  var ext=file.name.split('.').pop().toLowerCase();
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var wb;
+    if(ext==='csv'){
+      var text=new TextDecoder('utf-8').decode(new Uint8Array(e.target.result));
+      wb=XLSX.read(text,{type:'string'});
+    }else{
+      wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+    }
+    var ws=wb.Sheets[wb.SheetNames[0]];
+    var rows=XLSX.utils.sheet_to_json(ws,{defval:'',raw:false});
+    parseAndProcess(rows,file.name);
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ===== COLUMN MAPPING =====
+// Parse French number: handles "26,19" "1 234,56" "26.19" etc.
+function parseFrNum(val){
+  if(val===null||val===undefined||val==='')return 0;
+  var s=val.toString().trim();
+  // Remove spaces (thousands separator in French)
+  s=s.replace(/\s/g,'');
+  // If contains comma AND dot: "1.234,56" -> dot is thousands sep
+  if(s.includes('.')&&s.includes(',')){s=s.replace(/\./g,'').replace(',','.');}
+  // If only comma: "26,19" -> comma is decimal
+  else if(s.includes(',')){s=s.replace(',','.');}
+  var n=parseFloat(s);
+  return isNaN(n)?0:n;
+}
+
+// Convert Excel serial date to dd/mm/yyyy
+function parseDate(val){
+  if(!val)return '';
+  var s=val.toString().trim();
+  // Already a date string like "10/03/2026" or "2026-03-10"
+  if(s.includes('/')&&s.length>=8)return s;
+  if(s.includes('-')&&s.length>=8){
+    var parts=s.split('-');
+    if(parts.length===3&&parts[0].length===4)return parts[2]+'/'+parts[1]+'/'+parts[0];
+    return s;
+  }
+  // Excel serial number
+  var n=parseFloat(s);
+  if(!isNaN(n)&&n>40000&&n<60000){
+    var d=new Date((n-25569)*86400000);
+    return ('0'+d.getUTCDate()).slice(-2)+'/'+('0'+(d.getUTCMonth()+1)).slice(-2)+'/'+d.getUTCFullYear();
+  }
+  return s;
+}
+
+// Strip accents, replacement chars, and non-alphanumeric for fuzzy matching
+function stripH(s){
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\uFFFD/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+}
+
+var _usedCols=new Set();
+// patterns: array of strings or arrays. String = single includes. Array = ALL terms must be present.
+function findCol(headers,patterns){
+  for(var h of headers){
+    if(_usedCols.has(h))continue;
+    var hl=stripH(h);
+    for(var p of patterns){
+      var match=false;
+      if(Array.isArray(p)){match=p.every(function(t){return hl.includes(t);});}
+      else{match=hl.includes(p);}
+      if(match){_usedCols.add(h);return h;}
+    }
+  }
+  return null;
+}
+
+function parseAndProcess(rows,fileName){
+  if(!rows||rows.length===0){showToast('Fichier vide');return;}
+  var headers=Object.keys(rows[0]);
+  _usedCols=new Set();
+  console.log('[DST] Headers bruts:',headers);
+
+  // Multi-term patterns: ['term1','term2'] = header must contain ALL terms
+  // Order matters: specific first to avoid wrong matches
+  var COL={
+    date:       findCol(headers,[['dates','livraison']]),
+    nom:        findCol(headers,['nom livr','nom de livraison']),
+    num_rue:    findCol(headers,[['num','rue de']]),
+    rue:        findCol(headers,['rue livraison']),
+    cp:         findCol(headers,['cp livraison','code postal']),
+    ville:      findCol(headers,['ville de livraison','ville livraison']),
+    prestation: findCol(headers,['code prestation']),
+    heure:      findCol(headers,[['heure','livraison']]),
+    colis:      findCol(headers,['nombre de colis','nb colis']),
+    poids:      findCol(headers,['poids total','poids']),
+    montant:    findCol(headers,['montant']),
+    nom_chauf:  findCol(headers,['nom chauffeur']),
+    code_chauf: findCol(headers,['code chauff','code chauffeur']),
+    code_st:    findCol(headers,['code sous traitant']),
+  };
+
+  // Use last code chauffeur / sous-traitant columns if duplicates exist
+  var chaufCols=headers.filter(h=>stripH(h).includes('code chauff'));
+  var stCols=headers.filter(h=>stripH(h).includes('code sous traitant'));
+  if(chaufCols.length>1)COL.code_chauf=chaufCols[chaufCols.length-1];
+  if(stCols.length>1)COL.code_st=stCols[stCols.length-1];
+
+  if(!COL.cp){showToast('Colonne CP Livraison introuvable');return;}
+  if(!COL.code_chauf){showToast('Colonne Code chauffeur introuvable');return;}
+  console.log('[DST] Colonnes trouvees:',JSON.stringify(COL));
+  console.log('[DST] Date col raw samples:',rows.slice(0,3).map(r=>({raw:r[COL.date],type:typeof r[COL.date]})));
+
+  var lines=[],unmatchedVilles={};
+  rows.forEach(r=>{
+    var prest=(r[COL.prestation]||'').toString().trim().toUpperCase();
+    if(prest==='RETNF'||prest==='ANNEX')return;
+    var st=(r[COL.code_st]||'').toString().trim();
+    if(!st)return;
+    var cp=(r[COL.cp]||'').toString().trim();
+    var ville=(r[COL.ville]||'').toString().trim();
+    var zone=findZone(ville,cp);
+    if(!cityZoneMap[normalizeVille(ville)])unmatchedVilles[ville]=(unmatchedVilles[ville]||0)+1;
+    var numRue=(r[COL.num_rue]||'').toString().trim();
+    var rue=(r[COL.rue]||'').toString().trim();
+    var adresse=(numRue+' '+rue).trim().toLowerCase().replace(/\s+/g,' ');
+    var dateStr=parseDate(r[COL.date]);
+    var codeChauf=(r[COL.code_chauf]||'').toString().trim();
+    var nomChauf=(r[COL.nom_chauf]||'').toString().trim();
+    lines.push({
+      date:dateStr,heure:(r[COL.heure]||'').toString().trim(),
+      nom:(r[COL.nom]||'').toString().trim(),
+      adresse:adresse,cp:cp,ville:ville,zone:zone,
+      prestation:prest,code_chauf:codeChauf,sous_traitant:st,
+      colis:parseFrNum(r[COL.colis]),
+      poids:parseFrNum(r[COL.poids]),
+      montant:parseFrNum(r[COL.montant]),
+      nom_chauf:nomChauf
+    });
+  });
+  if(lines.length===0){showToast('Aucune ligne sous-traitant trouvee');return;}
+
+  // Debug: log first 3 montant values
+  console.log('[DST] Montant samples:',lines.slice(0,5).map(l=>l.montant));
+
+  // Auto-detect centimes: if average montant > 500€ per line, values are likely in centimes
+  var avgMontant=lines.reduce((s,l)=>s+l.montant,0)/lines.length;
+  if(avgMontant>500){
+    console.warn('[DST] Average montant='+avgMontant.toFixed(2)+' - detected centimes, dividing by 100');
+    lines.forEach(l=>{l.montant=l.montant/100;});
+  }
+
+  var unmatchedCount=Object.keys(unmatchedVilles).length;
+  if(unmatchedCount>0)console.warn('Villes non trouvees (fallback dept):',unmatchedVilles);
+
+  // Get all dates
+  var dates=[...new Set(lines.map(l=>l.date))].sort();
+
+  // Compute grouped data for all dates
+  var computed=computeFromLines(lines);
+
+  // Store compact lines for per-date recomputation
+  var compactLines=lines.map(l=>({d:l.date,c:l.code_chauf,s:l.sous_traitant,z:l.zone,m:l.montant,a:l.adresse,cp:l.cp,n:l.nom_chauf}));
+
+  currentData={lines:lines,compactLines:compactLines,byST:computed.byST,points:computed.points,dates:dates,allZones:computed.allZones,fileName:fileName,importDate:new Date().toISOString(),rawCount:rows.length,filteredCount:lines.length,selectedDate:'all'};
+
+  renderResults(currentData,'kpi-zone','results-zone',currentData.dates);
+  document.getElementById('import-preview').style.display='block';
+  document.getElementById('drop-zone').style.display='none';
+  var msg=points.length+' points calcules sur '+lines.length+' lignes';
+  if(unmatchedCount>0)msg+=' ('+unmatchedCount+' villes non trouvees)';
+  showToast(msg);
+}
+
+// ===== COMPUTE FROM LINES =====
+function computeFromLines(lines){
+  var pointsMap={};
+  lines.forEach(l=>{
+    var key=l.code_chauf+'|'+l.adresse+'|'+l.cp+'|'+l.date;
+    if(!pointsMap[key]){pointsMap[key]={...l,raw_lines:1,total_colis:l.colis||0,total_poids:l.poids||0,total_montant:l.montant||0};}
+    else{pointsMap[key].raw_lines++;pointsMap[key].total_colis+=(l.colis||0);pointsMap[key].total_poids+=(l.poids||0);pointsMap[key].total_montant+=(l.montant||0);}
+  });
+  var points=Object.values(pointsMap);
+  var byST={};
+  points.forEach(p=>{
+    if(!byST[p.sous_traitant])byST[p.sous_traitant]={chauffeurs:{},total_points:0,total_montant_st:0,total_montant_client:0};
+    var st=byST[p.sous_traitant];
+    var cc=p.code_chauf||p.c;
+    if(!st.chauffeurs[cc])st.chauffeurs[cc]={nom:p.nom_chauf||p.n||'',zones:{},total_points:0,total_montant_st:0,total_montant_client:0};
+    var ch=st.chauffeurs[cc];
+    var zn=p.zone||p.z;
+    if(!ch.zones[zn])ch.zones[zn]={points:0,montant_client:0};
+    ch.zones[zn].points++;
+    ch.zones[zn].montant_client+=(p.total_montant||p.m||0);
+    var tarifZone=tarifs[zn]||0;
+    ch.total_points++;ch.total_montant_st+=tarifZone;ch.total_montant_client+=(p.total_montant||p.m||0);
+    st.total_points++;st.total_montant_st+=tarifZone;st.total_montant_client+=(p.total_montant||p.m||0);
+  });
+  var allZones=[...new Set(points.map(p=>p.zone||p.z))].sort();
+  return {byST:byST,points:points,allZones:allZones};
+}
+
+// Recompute from compact lines (used for historique + date filter)
+function computeFromCompact(compactLines){
+  var lines=compactLines.map(l=>({date:l.d,code_chauf:l.c,sous_traitant:l.s,zone:l.z,montant:l.m,adresse:l.a,cp:l.cp,nom_chauf:l.n,colis:0,poids:0}));
+  return computeFromLines(lines);
+}
+
+function filterByDate(dateVal,kpiId,resultsId){
+  if(!currentData)return;
+  currentData.selectedDate=dateVal;
+  var src=currentData.compactLines||currentData.lines;
+  if(dateVal&&dateVal!=='all'){
+    var filtered=src.filter(l=>(l.d||l.date)===dateVal);
+    var computed=src[0]&&src[0].d!==undefined?computeFromCompact(filtered):computeFromLines(filtered);
+    var viewData={byST:computed.byST,dates:[dateVal],allZones:computed.allZones,filteredCount:filtered.length,rawCount:currentData.rawCount,fileName:currentData.fileName};
+    renderResults(viewData,kpiId,resultsId,currentData.dates);
+  }else{
+    var viewData={byST:currentData.byST,dates:currentData.dates,allZones:currentData.allZones,filteredCount:currentData.filteredCount,rawCount:currentData.rawCount,fileName:currentData.fileName};
+    renderResults(viewData,kpiId,resultsId,currentData.dates);
+  }
+}
+
+// ===== RENDER RESULTS =====
+function renderResults(data,kpiId,resultsId,allDates){
+  allDates=allDates||data.dates||[];
+  var totalPoints=0,totalMontantST=0,totalMontantClient=0,nbST=Object.keys(data.byST).length;
+  Object.values(data.byST).forEach(st=>{totalPoints+=st.total_points;totalMontantST+=st.total_montant_st;totalMontantClient+=st.total_montant_client;});
+
+  // KPIs
+  document.getElementById(kpiId).innerHTML=
+    '<div class="kpi blue"><div class="kpi-icon">&#128666;</div><div class="kpi-val">'+nbST+'</div><div class="kpi-label">Sous-traitants</div></div>'+
+    '<div class="kpi green"><div class="kpi-icon">&#128205;</div><div class="kpi-val">'+totalPoints+'</div><div class="kpi-label">Points livraison</div></div>'+
+    '<div class="kpi orange"><div class="kpi-icon">&#128182;</div><div class="kpi-val">'+totalMontantST.toFixed(2)+' &#8364;</div><div class="kpi-label">Co&#251;t ST total</div></div>'+
+    '<div class="kpi purple"><div class="kpi-icon">&#128200;</div><div class="kpi-val">'+totalMontantClient.toFixed(2)+' &#8364;</div><div class="kpi-label">CA client</div></div>'+
+    '<div class="kpi teal"><div class="kpi-icon">&#128176;</div><div class="kpi-val">'+(totalMontantClient-totalMontantST).toFixed(2)+' &#8364;</div><div class="kpi-label">Marge</div></div>';
+
+  // Filter bar
+  var zones=data.allZones;
+  var stNames=Object.keys(data.byST).sort();
+  var html='<div style="display:flex;gap:10px;margin-bottom:12px;align-items:center;flex-wrap:wrap">';
+  html+='<input type="text" id="filter-search-'+resultsId+'" placeholder="Rechercher ST ou chauffeur..." oninput="filterResultsTable(\''+resultsId+'\')" style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--light);font-size:13px;font-family:inherit;width:250px">';
+  html+='<select id="filter-st-'+resultsId+'" onchange="filterResultsTable(\''+resultsId+'\')" style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--light);font-size:13px;font-family:inherit"><option value="">Tous les ST</option>';
+  stNames.forEach(function(n){html+='<option value="'+n+'">'+n+'</option>';});
+  html+='</select>';
+  // Date filter (only if multiple dates)
+  if(allDates.length>1){
+    html+='<select id="filter-date-'+resultsId+'" onchange="filterByDate(this.value,\''+kpiId+'\',\''+resultsId+'\')" style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--light);font-size:13px;font-family:inherit"><option value="all">Toute la periode ('+allDates.length+' jours)</option>';
+    allDates.forEach(function(d){html+='<option value="'+d+'"'+(data.dates.length===1&&data.dates[0]===d?' selected':'')+'>'+d+'</option>';});
+    html+='</select>';
+  }
+  html+='<span id="filter-count-'+resultsId+'" style="font-size:12px;color:var(--gray)"></span>';
+  html+='</div>';
+
+  // Table
+  html+='<div class="table-wrap"><div class="table-header"><div><div class="table-title">DECOMPTE PAR SOUS-TRAITANT</div><div style="font-size:12px;color:var(--gray);margin-top:2px">'+data.dates.join(', ')+' &middot; '+data.filteredCount+' lignes trait&#233;es ('+data.rawCount+' dans le fichier)</div></div></div><div style="overflow-x:auto"><table><thead><tr><th>Sous-traitant / Chauffeur</th>';
+  zones.forEach(z=>{html+='<th class="r">Z'+z+' ('+(tarifs[z]||0).toFixed(2)+'&#8364;)</th>';});
+  html+='<th class="r">Total pts</th><th class="r">Montant ST</th><th class="r">CA client</th></tr></thead><tbody>';
+
+  var stEntries=Object.entries(data.byST).sort((a,b)=>b[1].total_points-a[1].total_points);
+  stEntries.forEach(([stName,st],idx)=>{
+    // Build chauffeur names for search
+    var chaufNames=Object.entries(st.chauffeurs).map(([c,ch])=>c+' '+(ch.nom||'')).join(' ');
+    html+='<tr class="row-st" data-stname="'+stName+'" data-chaufnames="'+chaufNames.replace(/"/g,'')+'" onclick="toggleST(this)"><td><strong>'+stName+'</strong></td>';
+    zones.forEach(z=>{
+      var zp=0;Object.values(st.chauffeurs).forEach(ch=>{zp+=(ch.zones[z]||{points:0}).points;});
+      html+='<td class="r">'+(zp||'-')+'</td>';
+    });
+    html+='<td class="r" style="font-weight:700">'+st.total_points+'</td><td class="r" style="font-weight:700;color:var(--accent)">'+st.total_montant_st.toFixed(2)+' &#8364;</td><td class="r">'+st.total_montant_client.toFixed(2)+' &#8364;</td></tr>';
+
+    Object.entries(st.chauffeurs).sort((a,b)=>b[1].total_points-a[1].total_points).forEach(([code,ch])=>{
+      html+='<tr class="row-chauffeur" data-stname="'+stName+'" data-chaufname="'+code+' '+(ch.nom||'').replace(/"/g,'')+'" data-st="'+idx+'"><td>'+code+(ch.nom?' - '+ch.nom:'')+'</td>';
+      zones.forEach(z=>{html+='<td class="r">'+((ch.zones[z]||{}).points||'-')+'</td>';});
+      html+='<td class="r">'+ch.total_points+'</td><td class="r" style="color:var(--accent)">'+ch.total_montant_st.toFixed(2)+' &#8364;</td><td class="r">'+ch.total_montant_client.toFixed(2)+' &#8364;</td></tr>';
+    });
+  });
+
+  html+='</tbody></table></div></div>';
+  document.getElementById(resultsId).innerHTML=html;
+}
+
+function filterResultsTable(resultsId){
+  var searchEl=document.getElementById('filter-search-'+resultsId);
+  var stEl=document.getElementById('filter-st-'+resultsId);
+  var countEl=document.getElementById('filter-count-'+resultsId);
+  var q=(searchEl?searchEl.value:'').toLowerCase().trim();
+  var stFilter=stEl?stEl.value:'';
+  var table=document.getElementById(resultsId).querySelector('table');
+  if(!table)return;
+  var rows=table.querySelectorAll('tbody tr');
+  var shown=0,total=0;
+  rows.forEach(function(tr){
+    var isST=tr.classList.contains('row-st');
+    var isChauf=tr.classList.contains('row-chauffeur');
+    if(!isST&&!isChauf)return;
+    var stName=tr.getAttribute('data-stname')||'';
+    var chaufName=tr.getAttribute('data-chaufname')||tr.getAttribute('data-chaufnames')||'';
+    var matchST=!stFilter||stName===stFilter;
+    var matchQ=!q||stName.toLowerCase().includes(q)||chaufName.toLowerCase().includes(q);
+    var visible=matchST&&matchQ;
+    if(isST){
+      total++;
+      tr.style.display=visible?'':'none';
+      if(visible)shown++;
+    }
+    if(isChauf){
+      // Show chauffeur if parent ST matches and chauffeur matches search
+      var chaufMatchQ=!q||chaufName.toLowerCase().includes(q)||stName.toLowerCase().includes(q);
+      tr.style.display=(matchST&&chaufMatchQ)?'none':'none'; // hidden by default, toggleST reveals
+      if(matchST&&chaufMatchQ&&q){tr.style.display='table-row';} // show if actively searching
+    }
+  });
+  if(countEl)countEl.textContent=(q||stFilter)?(shown+'/'+total+' ST'):'';
+}
+
+function toggleST(row){
+  row.classList.toggle('open');
+  var next=row.nextElementSibling;
+  while(next&&next.classList.contains('row-chauffeur')){
+    next.style.display=row.classList.contains('open')?'table-row':'none';
+    next=next.nextElementSibling;
+  }
+}
+
+// ===== SAVE IMPORT =====
+async function saveImport(){
+  if(!currentData){showToast('Rien a enregistrer');return;}
+  var cid=OT.getCompanyId();
+  var record={
+    company_id:cid,
+    file_name:currentData.fileName,
+    import_date:currentData.importDate,
+    dates:currentData.dates,
+    raw_count:currentData.rawCount,
+    filtered_count:currentData.filteredCount,
+    total_points:0,total_montant_st:0,total_montant_client:0,
+    tarifs_snapshot:JSON.parse(JSON.stringify(tarifs)),
+    data_by_st:currentData.byST,
+    all_zones:currentData.allZones,
+    lines_data:currentData.compactLines||null
+  };
+  Object.values(currentData.byST).forEach(st=>{record.total_points+=st.total_points;record.total_montant_st+=st.total_montant_st;record.total_montant_client+=st.total_montant_client;});
+
+  var r=await fetch(SB+'/rest/v1/decompte_st_imports',{method:'POST',headers:{...OT.authHeaders(),'Prefer':'return=representation'},body:JSON.stringify(record)});
+  if(r.ok){
+    showToast('Import enregistre !');
+    cancelImport();
+    showTab('historique');
+  }else{showToast('Erreur enregistrement');}
+}
+
+function cancelImport(){
+  currentData=null;
+  document.getElementById('import-preview').style.display='none';
+  document.getElementById('drop-zone').style.display='';
+  document.getElementById('file-input').value='';
+}
+
+// ===== HISTORIQUE =====
+async function loadHistorique(){
+  var cid=OT.getCompanyId();
+  var r=await fetch(SB+'/rest/v1/decompte_st_imports?company_id=eq.'+cid+'&order=import_date.desc&limit=50',{headers:OT.authHeaders()});
+  if(!r.ok)return;
+  var data=await r.json();
+  var list=document.getElementById('hist-list');
+  if(!data.length){list.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray)">Aucun import pour le moment</div>';return;}
+  list.innerHTML='';
+  data.forEach(imp=>{
+    var d=document.createElement('div');d.className='hist-item';
+    var dates=(imp.dates||[]).join(', ');
+    d.innerHTML='<div><div class="hist-date">'+(dates||'Sans date')+'</div><div class="hist-info">'+imp.file_name+' &middot; '+imp.total_points+' points &middot; '+((imp.total_montant_st||0).toFixed(2))+' &#8364; ST</div></div><div class="hist-actions"><button class="btn-sm btn-ghost" onclick="event.stopPropagation();viewImport(\''+imp.id+'\')">&#128065; Voir</button><button class="btn-sm btn-danger" onclick="event.stopPropagation();deleteImportById(\''+imp.id+'\')" style="padding:4px 10px;font-size:11px">&#128465;</button></div>';
+    d.onclick=function(){viewImport(imp.id);};
+    list.appendChild(d);
+  });
+}
+
+async function viewImport(id){
+  var cid=OT.getCompanyId();
+  var r=await fetch(SB+'/rest/v1/decompte_st_imports?id=eq.'+id+'&company_id=eq.'+cid,{headers:OT.authHeaders()});
+  if(!r.ok)return;
+  var data=await r.json();if(!data.length)return;
+  var imp=data[0];
+  currentImportId=id;
+  // Restore tarifs from snapshot if available
+  if(imp.tarifs_snapshot){tarifs=imp.tarifs_snapshot;}
+  currentData={byST:imp.data_by_st,compactLines:imp.lines_data||null,dates:imp.dates||[],allZones:imp.all_zones||[],rawCount:imp.raw_count,filteredCount:imp.filtered_count,fileName:imp.file_name,selectedDate:'all'};
+
+  document.getElementById('detail-title').textContent='Import du '+(imp.dates||[]).join(', ')+' - '+imp.file_name;
+  renderResults(currentData,'detail-kpi','detail-results',currentData.dates);
+  showTab('detail');
+}
+
+async function deleteImport(){
+  if(!currentImportId)return;
+  if(!confirm('Supprimer cet import ?'))return;
+  await deleteImportById(currentImportId);
+  currentImportId=null;currentData=null;
+  showTab('historique');
+}
+
+async function deleteImportById(id){
+  if(!confirm('Supprimer cet import ?'))return;
+  var cid=OT.getCompanyId();
+  await fetch(SB+'/rest/v1/decompte_st_imports?id=eq.'+id+'&company_id=eq.'+cid,{method:'DELETE',headers:OT.authHeaders()});
+  showToast('Import supprime');
+  loadHistorique();
+}
+
+// ===== EXPORT EXCEL =====
+function addSTSheet(wb,byST,zones,sheetName){
+  var rows=[['Sous-traitant','Chauffeur','Nom'].concat(zones.map(z=>'Zone '+z+' ('+(tarifs[z]||0)+'EUR)')).concat(['Total points','Montant ST (EUR)','CA client (EUR)'])];
+  Object.entries(byST).sort((a,b)=>b[1].total_points-a[1].total_points).forEach(([stName,st])=>{
+    // ST total row
+    var row=[stName,'',''];
+    zones.forEach(z=>{var zp=0;Object.values(st.chauffeurs).forEach(ch=>{zp+=(ch.zones[z]||{}).points||0;});row.push(zp||'');});
+    row.push(st.total_points,Math.round(st.total_montant_st*100)/100,Math.round(st.total_montant_client*100)/100);
+    rows.push(row);
+    // Chauffeur rows
+    Object.entries(st.chauffeurs).sort((a,b)=>b[1].total_points-a[1].total_points).forEach(([code,ch])=>{
+      var cr=['',code,ch.nom||''];
+      zones.forEach(z=>{cr.push((ch.zones[z]||{}).points||'');});
+      cr.push(ch.total_points,Math.round(ch.total_montant_st*100)/100,Math.round(ch.total_montant_client*100)/100);
+      rows.push(cr);
+    });
+  });
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),sheetName.substring(0,31).replace(/[\[\]*?\/\\]/g,''));
+}
+
+function exportExcel(){
+  if(!currentData||!currentData.byST)return;
+  var wb=XLSX.utils.book_new();
+  var zones=currentData.allZones;
+  var dates=currentData.dates||[];
+
+  // If viewing a filtered date, export just that
+  if(currentData.selectedDate&&currentData.selectedDate!=='all'){
+    addSTSheet(wb,currentData.byST,zones,'Jour '+currentData.selectedDate.replace(/\//g,'-'));
+  }else{
+    // Recap total
+    addSTSheet(wb,currentData.byST,zones,'Recap Total');
+
+    // One sheet per day (if multiple dates and compact lines available)
+    if(dates.length>1&&currentData.compactLines){
+      dates.forEach(function(d){
+        var filtered=currentData.compactLines.filter(l=>l.d===d);
+        var computed=computeFromCompact(filtered);
+        addSTSheet(wb,computed.byST,computed.allZones.length?computed.allZones:zones,'Jour '+d.replace(/\//g,'-'));
+      });
+    }
+  }
+
+  var dateStr=dates.join('_').replace(/\//g,'-')||'export';
+  XLSX.writeFile(wb,'Decompte_ST_'+dateStr+'.xlsx');
+  showToast('Excel exporte');
+}
+
+// ===== EXPORT PDF =====
+function exportPDF(){
+  if(!currentData||!currentData.byST)return;
+  var zones=currentData.allZones;
+  var totalPts=0,totalST=0,totalClient=0;
+  Object.values(currentData.byST).forEach(st=>{totalPts+=st.total_points;totalST+=st.total_montant_st;totalClient+=st.total_montant_client;});
+
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Decompte ST</title><style>';
+  html+='body{font-family:Arial,sans-serif;font-size:12px;color:#333;padding:30px;}';
+  html+='h1{font-size:20px;margin-bottom:4px;}h2{font-size:14px;color:#666;margin-bottom:20px;}';
+  html+='table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:11px;}';
+  html+='th{background:#1A4FBF;color:#fff;padding:8px 10px;text-align:left;font-size:10px;}';
+  html+='td{padding:6px 10px;border-bottom:1px solid #ddd;}';
+  html+='th.r,td.r{text-align:right;}.total-row{font-weight:bold;background:#f0f4ff;}';
+  html+='.kpi-row{display:flex;gap:16px;margin-bottom:20px;}.kpi-box{border:1px solid #ddd;border-radius:8px;padding:12px 16px;text-align:center;flex:1;}';
+  html+='.kpi-box .val{font-size:22px;font-weight:bold;}.kpi-box .lbl{font-size:10px;color:#666;}';
+  html+='@media print{body{padding:10px;}}';
+  html+='</style></head><body>';
+  html+='<h1>DECOMPTE SOUS-TRAITANTS</h1>';
+  html+='<h2>Dates : '+(currentData.dates||[]).join(', ')+'</h2>';
+  html+='<div class="kpi-row"><div class="kpi-box"><div class="val">'+totalPts+'</div><div class="lbl">Points</div></div>';
+  html+='<div class="kpi-box"><div class="val">'+totalST.toFixed(2)+' EUR</div><div class="lbl">Cout ST</div></div>';
+  html+='<div class="kpi-box"><div class="val">'+totalClient.toFixed(2)+' EUR</div><div class="lbl">CA client</div></div>';
+  html+='<div class="kpi-box"><div class="val">'+(totalClient-totalST).toFixed(2)+' EUR</div><div class="lbl">Marge</div></div></div>';
+
+  html+='<table><thead><tr><th>Sous-traitant</th>';
+  zones.forEach(z=>{html+='<th class="r">Z'+z+' ('+(tarifs[z]||0).toFixed(2)+'&#8364;)</th>';});
+  html+='<th class="r">Total</th><th class="r">Montant ST</th><th class="r">CA client</th></tr></thead><tbody>';
+
+  Object.entries(currentData.byST).sort((a,b)=>b[1].total_points-a[1].total_points).forEach(([stName,st])=>{
+    html+='<tr class="total-row"><td><strong>'+stName+'</strong></td>';
+    zones.forEach(z=>{var zp=0;Object.values(st.chauffeurs).forEach(ch=>{zp+=(ch.zones[z]||{}).points||0;});html+='<td class="r">'+(zp||'-')+'</td>';});
+    html+='<td class="r">'+st.total_points+'</td><td class="r">'+st.total_montant_st.toFixed(2)+'</td><td class="r">'+st.total_montant_client.toFixed(2)+'</td></tr>';
+
+    Object.entries(st.chauffeurs).forEach(([code,ch])=>{
+      html+='<tr><td style="padding-left:24px;color:#666">'+code+(ch.nom?' - '+ch.nom:'')+'</td>';
+      zones.forEach(z=>{html+='<td class="r" style="color:#666">'+((ch.zones[z]||{}).points||'-')+'</td>';});
+      html+='<td class="r" style="color:#666">'+ch.total_points+'</td><td class="r" style="color:#666">'+ch.total_montant_st.toFixed(2)+'</td><td class="r" style="color:#666">'+ch.total_montant_client.toFixed(2)+'</td></tr>';
+    });
+  });
+  html+='</tbody></table>';
+  html+='<div style="font-size:10px;color:#999;margin-top:20px">Genere par T SERVICE & CO le '+new Date().toLocaleDateString('fr-FR')+'</div>';
+  html+='</body></html>';
+
+  var w=window.open('','_blank');
+  w.document.write(html);w.document.close();
+  setTimeout(()=>w.print(),500);
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded',async function(){
+  try{
+    if(!OT.requireLogin())return;
+  }catch(e){console.error('[DST] requireLogin error:',e);return;}
+
+  // Refresh en arrière-plan ; on s'appuie sur la session en cache pour can()
+  try{ OT.refreshSession().catch(function(){}); }catch(e){}
+
+  try{
+    if(!OT.can('decompte_st')){OT.requireAddon('decompte_st');return;}
+  }catch(e){console.warn('[DST] can() error:',e);}
+
+  // applyPlanRestrictions is called automatically by ot_session.js DOMContentLoaded
+
+  setupUpload();
+
+  // Render default tarifs immediately
+  tarifs={'1':6,'2':7.5,'3':9,'4':11.5};
+  renderTarifs();
+
+  // Then try to load from DB (overrides defaults if found)
+  try{await loadTarifs();}catch(e){console.warn('[DST] loadTarifs error:',e);}
+  try{await loadCityZones();}catch(e){console.warn('[DST] loadCityZones error:',e);}
+
+  showTab('import');
+  document.getElementById('sync-info').textContent=Object.keys(cityZoneMap).length+' villes';
+});
+</script>
+<script src="/ot_gps_persistent.js"></script>
+</body>
+</html>

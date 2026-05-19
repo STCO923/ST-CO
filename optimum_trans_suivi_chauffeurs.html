@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Suivi Chauffeurs — T SERVICE & CO</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/fonts.css">
+<link rel="stylesheet" href="/lib/leaflet.css">
+<script src="/lib/leaflet.js" defer></script>
+<script src="ot_session.js" defer></script>
+<script src="ot_security.js" defer></script>
+<style>
+:root{--navy:#0A1628;--navy2:#0D1F3C;--navy3:#112244;--blue:#2563EB;--accent:#F5A623;--green:#10B981;--red:#EF4444;--purple:#8B5CF6;--white:#F0F4FF;--light:#C8D4E8;--gray:#8A9BB5;--gray2:#4A5568;--border:rgba(255,255,255,0.07);--shadow:0 4px 24px rgba(0,0,0,0.35)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;display:flex;height:100vh;overflow:hidden}
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;z-index:10}
+.sidebar-logo{padding:20px 16px 16px;cursor:pointer;border-bottom:1px solid var(--border)}
+.logo-tag{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:2px}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;line-height:1.1}
+.logo-name span{color:var(--accent)}
+.sidebar-nav{flex:1;overflow-y:auto;padding:12px 0}
+.nav-section-label{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gray2);text-transform:uppercase;padding:10px 16px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;font-weight:500;color:var(--light);text-decoration:none;border-radius:8px;margin:1px 8px;transition:all 0.15s}
+.nav-item:hover{background:rgba(255,255,255,0.05);color:var(--white)}
+.nav-item.active{background:rgba(37,99,235,0.15);color:#60A5FA;border:1px solid rgba(37,99,235,0.2)}
+.nav-icon{width:18px;text-align:center;font-size:14px}
+.nav-badge{font-size:8px;font-weight:800;padding:2px 5px;border-radius:4px;background:rgba(245,166,35,0.15);color:var(--accent);letter-spacing:0.5px;margin-left:auto}
+.sidebar-footer{padding:12px;border-top:1px solid var(--border)}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.04);cursor:pointer}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:56px;border-bottom:1px solid var(--border);background:var(--navy2);flex-shrink:0}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--white)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.btn-sm{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:Outfit,sans-serif;transition:all 0.2s}
+.btn-ghost{background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--light)}
+.btn-ghost:hover{background:rgba(255,255,255,0.1)}
+.btn-accent{background:linear-gradient(135deg,var(--accent),#E8941A);color:#0A1628;font-weight:700}
+/* BODY LAYOUT — positionnement absolu pour Leaflet */
+.app-body{position:relative;flex:1;overflow:hidden}
+/* MAP — positionné en absolu, laisse 320px à droite pour le panel */
+#map{position:absolute;top:0;left:0;right:320px;bottom:0;z-index:1}
+/* SIDE PANEL */
+.side-panel{position:absolute;top:0;right:0;width:320px;bottom:0;background:var(--navy2);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.panel-header{padding:16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1.5px;color:var(--white);margin-bottom:8px}
+.panel-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi-box{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center}
+.kpi-val{font-size:22px;font-weight:800;color:var(--green)}
+.kpi-lbl{font-size:10px;color:var(--gray);margin-top:2px}
+.panel-list{flex:1;overflow-y:auto;padding:12px}
+/* DRIVER CARD */
+.driver-card{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;cursor:pointer;transition:all 0.2s}
+.driver-card:hover{border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.05)}
+.driver-card.selected{border-color:var(--green);background:rgba(16,185,129,0.08)}
+.driver-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.driver-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1A4FBF,#2563EB);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;position:relative}
+.driver-dot{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-radius:50%;border:2px solid var(--navy2)}
+.driver-name{font-size:13px;font-weight:700;color:var(--white)}
+.driver-sub{font-size:11px;color:var(--gray);margin-top:1px}
+.driver-meta{display:flex;gap:8px;flex-wrap:wrap}
+.driver-badge{font-size:10px;padding:3px 8px;border-radius:5px;font-weight:600}
+.badge-en_route{background:rgba(96,165,250,0.15);color:#60A5FA}
+.badge-livraison{background:rgba(245,166,35,0.15);color:#F5A623}
+.badge-pause{background:rgba(139,92,246,0.15);color:#A78BFA}
+.badge-fin{background:rgba(107,114,128,0.15);color:#9CA3AF}
+.badge-hors_ligne{background:rgba(239,68,68,0.1);color:#FC8181}
+/* EMPTY STATE */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;text-align:center;color:var(--gray);padding:24px}
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#1E293B;border:1px solid var(--border);border-radius:10px;padding:12px 20px;font-size:13px;font-weight:600;color:var(--white);z-index:9999;transition:transform 0.3s;white-space:nowrap;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0)}
+/* LAST UPDATE BAR */
+.last-update-bar{padding:8px 16px;background:rgba(0,0,0,0.2);border-top:1px solid var(--border);font-size:10px;color:var(--gray2);text-align:center;flex-shrink:0}
+/* STALE WARNING */
+.stale-warn{font-size:10px;color:#F5A623;margin-top:4px}
+/* MOBILE */
+@media(max-width:768px){
+  .sidebar{display:none}
+  #map{position:absolute;top:0;left:0;right:0;bottom:50vh}
+  .side-panel{position:absolute;bottom:0;left:0;right:0;width:100%;height:50vh;border-left:none;border-top:1px solid var(--border);z-index:100}
+  #history-banner{right:10px !important}
+}
+/* HISTORY MODAL — options du <select> lisibles (fond sombre + texte clair) */
+#history-chauffeur option, #activity-chauffeur option, #activity-period option, #activity-type option{background:#0D1F3C;color:#F0F4FF}
+#history-date::-webkit-calendar-picker-indicator{filter:invert(0.8)}
+/* HISTORY MODAL — tabs */
+.history-tabs{display:flex;background:rgba(0,0,0,0.25);border-bottom:1px solid var(--border);flex-shrink:0}
+.history-tab{flex:1;background:none;border:none;color:var(--gray);font-family:Outfit,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;padding:12px 8px;cursor:pointer;border-bottom:2px solid transparent;transition:color 0.15s,border-color 0.15s,background 0.15s}
+.history-tab:hover{color:var(--light);background:rgba(255,255,255,0.04)}
+.history-tab.active{color:var(--white);border-bottom-color:var(--accent)}
+.history-tab-content{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
+/* ACTIVITY FEED */
+.activity-filters{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0}
+.activity-filters select, .activity-filters input{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--white);font-family:inherit;font-size:12px;color-scheme:dark}
+.activity-list{flex:1;overflow-y:auto;padding:8px 12px;min-height:0}
+.activity-item{display:flex;gap:12px;padding:10px;border-radius:10px;margin-bottom:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);cursor:default;transition:background 0.15s,border-color 0.15s}
+.activity-item.has-pos{cursor:pointer}
+.activity-item.has-pos:hover{background:rgba(16,185,129,0.06);border-color:rgba(16,185,129,0.4)}
+.activity-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:rgba(255,255,255,0.05)}
+.activity-body{flex:1;min-width:0}
+.activity-row1{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:2px}
+.activity-name{font-size:13px;font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.activity-time{font-size:11px;color:var(--gray);font-variant-numeric:tabular-nums;white-space:nowrap}
+.activity-time.approx{font-style:italic}
+.activity-desc{font-size:12px;color:var(--light);margin-bottom:2px;line-height:1.35}
+.activity-meta{font-size:11px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.activity-empty{padding:32px 16px;text-align:center;color:var(--gray);font-size:13px;line-height:1.6}
+.activity-loading{padding:24px 16px;text-align:center;color:var(--gray);font-size:12px}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+    <div class="logo-tag">Gestion Transport</div>
+    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <div class="nav-section-label">Gestion</div>
+    <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
+    <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH & Contrats</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
+    <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+    <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+    <div class="nav-section-label">Communication</div>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <div class="nav-section-label">Intelligence</div>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
+    <a class="nav-item active" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <div class="nav-section-label">Paramètres</div>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card" onclick="window.location='optimum_trans_parametres.html'">
+      <div class="user-avatar">T.S</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 8px;cursor:pointer;font-size:13px;color:#FC8181">⏻</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">📡 SUIVI CHAUFFEURS — TEMPS RÉEL</div>
+    <div class="topbar-right">
+      <span id="realtime-status" style="font-size:11px;color:var(--gray)">⏳ Connexion...</span>
+      <button class="btn-sm btn-ghost" onclick="openHistoryModal()">📅 Historique</button>
+      <button class="btn-sm btn-ghost" onclick="suiviDiagnose()">🔍 Diag</button>
+      <button class="btn-sm btn-ghost" onclick="loadLocations()">🔄 Actualiser</button>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <!-- HISTORY MODE BANNER (hidden by default) -->
+    <div id="history-banner" style="display:none;position:absolute;top:10px;left:10px;right:330px;z-index:500;background:rgba(124,58,237,0.95);backdrop-filter:blur(10px);border:1px solid rgba(167,139,250,0.4);border-radius:10px;padding:10px 14px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 16px rgba(0,0,0,0.4);font-family:Outfit,sans-serif">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0">
+        <span style="font-size:16px">📅</span>
+        <div style="min-width:0">
+          <div style="font-size:12px;font-weight:700;color:#fff;letter-spacing:0.5px" id="history-banner-title">Historique</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:1px" id="history-banner-sub">—</div>
+        </div>
+      </div>
+      <button onclick="restoreRealtimeView()" style="background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:7px;padding:6px 12px;font-size:11px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;white-space:nowrap">← Temps réel</button>
+    </div>
+    <!-- MAP -->
+    <div id="map"></div>
+
+    <!-- SIDE PANEL -->
+    <div class="side-panel">
+      <div class="panel-header">
+        <div class="panel-title">🚐 CHAUFFEURS EN SERVICE</div>
+        <div class="panel-stats">
+          <div class="kpi-box">
+            <div class="kpi-val" id="kpi-actifs">0</div>
+            <div class="kpi-lbl">En service</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val" id="kpi-livraison" style="color:var(--accent)">0</div>
+            <div class="kpi-lbl">En livraison</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-list" id="driver-list">
+        <div class="empty-state">
+          <div style="font-size:40px;margin-bottom:12px">📡</div>
+          <div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">En attente de données</div>
+          <div style="font-size:12px;line-height:1.6">Les chauffeurs doivent activer<br>le partage GPS depuis la page<br><strong>📍 Mon GPS (Chauffeur)</strong></div>
+        </div>
+      </div>
+
+      <div class="last-update-bar" id="last-update-bar">— Dernière mise à jour : jamais —</div>
+    </div>
+  </div>
+</main>
+
+<!-- HISTORY MODAL -->
+<div id="history-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,22,40,0.82);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;font-family:Outfit,sans-serif" onclick="if(event.target===this)closeHistoryModal()">
+  <div style="background:var(--navy2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:560px;height:80vh;max-height:720px;box-shadow:0 20px 60px rgba(0,0,0,0.6);overflow:hidden;display:flex;flex-direction:column">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:#fff">📅 HISTORIQUE & ACTIVITÉ</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:2px">Journal des actions chauffeurs</div>
+      </div>
+      <button onclick="closeHistoryModal()" style="background:none;border:none;color:var(--gray);font-size:22px;cursor:pointer;line-height:1;padding:4px 8px">×</button>
+    </div>
+
+    <!-- TABS -->
+    <div class="history-tabs">
+      <button class="history-tab active" data-tab="activity" onclick="switchHistoryTab('activity')">📋 ACTIVITÉ RÉCENTE</button>
+      <button class="history-tab" data-tab="trace" onclick="switchHistoryTab('trace')">🗺️ TRACÉ GPS</button>
+    </div>
+
+    <!-- TAB: ACTIVITY FEED -->
+    <div id="tab-activity" class="history-tab-content">
+      <div class="activity-filters">
+        <select id="activity-period" onchange="loadActivityFeed()" title="Période">
+          <option value="1">Aujourd'hui</option>
+          <option value="2">48 dernières heures</option>
+          <option value="7" selected>7 derniers jours</option>
+          <option value="30">30 derniers jours</option>
+        </select>
+        <select id="activity-type" onchange="renderActivityFeed()" title="Type d'action">
+          <option value="">Tous types</option>
+          <option value="gazole">⛽ Gazole</option>
+          <option value="edl">📸 État des lieux</option>
+          <option value="msg">💬 Messages</option>
+          <option value="pos">📍 Positions GPS</option>
+          <option value="amende">🚔 Amendes</option>
+        </select>
+        <select id="activity-chauffeur" onchange="renderActivityFeed()" title="Chauffeur">
+          <option value="">Tous chauffeurs</option>
+        </select>
+        <button class="btn-sm btn-ghost" onclick="loadActivityFeed()" style="padding:7px 10px;font-size:12px" title="Recharger">🔄</button>
+      </div>
+      <div id="activity-list" class="activity-list">
+        <div class="activity-loading">Chargement…</div>
+      </div>
+    </div>
+
+    <!-- TAB: GPS TRACE -->
+    <div id="tab-trace" class="history-tab-content" style="display:none">
+      <div style="padding:20px;flex:1;overflow-y:auto">
+        <label style="display:block;font-size:11px;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Date</label>
+        <input type="date" id="history-date" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--white);font-family:inherit;font-size:14px;margin-bottom:16px">
+        <label style="display:block;font-size:11px;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Chauffeur</label>
+        <select id="history-chauffeur" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--white);font-family:inherit;font-size:14px;margin-bottom:8px;color-scheme:dark">
+          <option value="">— Sélectionner —</option>
+        </select>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--light);margin-top:14px;cursor:pointer">
+          <input type="checkbox" id="history-snap" checked style="accent-color:var(--accent)">
+          <span>🛣️ Coller le tracé aux routes (lissage OSRM)</span>
+        </label>
+        <div id="history-hint" style="font-size:11px;color:var(--gray);margin-top:12px;line-height:1.5">ℹ️ Les positions de plus de 30 jours sont automatiquement supprimées.<br>Le lissage OSRM aligne les points GPS sur les vraies rues — utile quand le signal est imprécis.</div>
+      </div>
+      <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;flex-shrink:0">
+        <button onclick="closeHistoryModal()" class="btn-sm btn-ghost">Fermer</button>
+        <button onclick="submitHistory()" class="btn-sm btn-accent">Afficher le tracé</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="ot_401_guard.js"></script>
+<script>
+const SB  = 'https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+function H(){ return OT.authHeaders(); }
+
+// ── STATUT CONFIG ──
+const STATUTS = {
+  en_route:  { label:'En route',  color:'#60A5FA', dot:'#60A5FA', emoji:'🚐' },
+  livraison: { label:'Livraison', color:'#F5A623', dot:'#F5A623', emoji:'📦' },
+  pause:     { label:'Pause',     color:'#A78BFA', dot:'#A78BFA', emoji:'⏸' },
+  fin:       { label:'Fin',       color:'#9CA3AF', dot:'#6B7280', emoji:'🏁' },
+  hors_ligne:{ label:'Hors ligne',color:'#FC8181', dot:'#4B5563', emoji:'📵' },
+};
+
+let map, markersLayer;
+var trailLayer;
+var historyLayer = null;
+var historyMode = false;
+let driversData = {};        // { chauffeur_id: { data, marker } }
+let selectedDriverId = null;
+let realtimeChannel = null;
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', async function() {
+  if (!OT.requireAddon('tracking')) return;
+  initMap();
+  await loadLocations();
+  startRealtime();
+  // Rafraîchissement de secours toutes les 30s si Realtime KO
+  // (pause auto quand l'onglet est caché, fallback setInterval si OT_VIS absent)
+  (window.OT_VIS && OT_VIS.setManagedInterval)
+    ? OT_VIS.setManagedInterval(loadLocations, 30000)
+    : setInterval(loadLocations, 30000);
+});
+
+function initMap() {
+  map = L.map('map', { zoomControl: true }).setView([46.6, 1.888], 6);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
+    maxZoom: 19
+  }).addTo(map);
+  markersLayer = L.layerGroup().addTo(map);
+  trailLayer = L.layerGroup().addTo(map);
+  // Forcer Leaflet à recalculer après rendu DOM complet
+  setTimeout(function() { map.invalidateSize(); }, 100);
+  setTimeout(function() { map.invalidateSize(); }, 500);
+  window.addEventListener('resize', function() { map.invalidateSize(); });
+}
+
+// ── CHARGER POSITIONS ──
+// ── DIAGNOSTIC — visible côté admin ──
+async function suiviDiagnose() {
+  var s = OT.getSession();
+  var cid = s ? (s.company_id || s.id) : null;
+  var out = { session_company_id: cid, session_id: s ? s.id : null, driversData_count: Object.keys(driversData).length, driversData: Object.values(driversData).map(function(d){ return { nom: d.chauffeur_nom, id: d.chauffeur_id, company_id: d.company_id, updated_at: d.updated_at, lat: d.latitude, lng: d.longitude, statut: d._effectiveStatut }; }) };
+  try {
+    var r = await fetch(SB + '/rest/v1/driver_locations?company_id=eq.' + cid + '&select=chauffeur_id,chauffeur_nom,company_id,latitude,longitude,updated_at,statut&order=updated_at.desc', { headers: H() });
+    out.http_status = r.status;
+    out.rows_raw = r.ok ? await r.json() : await r.text();
+  } catch(e) { out.fetch_error = e.message; }
+  var w = window.open('', '_blank');
+  if (w) { w.document.body.style.cssText = 'background:#0A1628;color:#A7F3D0;font-family:monospace;padding:20px;white-space:pre-wrap;word-break:break-word;font-size:12px'; w.document.body.textContent = JSON.stringify(out, null, 2); }
+  else { alert(JSON.stringify(out, null, 2).substring(0, 2000)); }
+  console.log('[Suivi diagnose]', out);
+}
+
+async function loadLocations() {
+  var s = OT.getSession();
+  if (!s) return;
+  var cid = s.company_id || s.id;
+  try {
+    var r = await fetch(SB + '/rest/v1/driver_locations?company_id=eq.' + cid + '&order=updated_at.desc', { headers: H() });
+    if (!r.ok) return;
+    var data = await r.json();
+    processLocations(data);
+    updateLastUpdate();
+  } catch(e) {
+    console.warn('[Suivi] loadLocations:', e);
+  }
+}
+
+function processLocations(rows) {
+  // Marquer les anciens chauffeurs hors ligne (inactif > 5 min)
+  var now = Date.now();
+  rows.forEach(function(row) {
+    var age = now - new Date(row.updated_at).getTime();
+    var effectiveStatut = (age > 300000) ? 'hors_ligne' : (row.statut || 'en_route');
+    row._effectiveStatut = effectiveStatut;
+    row._age = age;
+    driversData[row.chauffeur_id] = row;
+  });
+  renderDriverList(Object.values(driversData));
+  if (!historyMode) renderMarkers(Object.values(driversData));
+  updateKPIs(Object.values(driversData));
+}
+
+// ── RENDER LIST ──
+function renderDriverList(drivers) {
+  var list = document.getElementById('driver-list');
+  // Trier : actifs en premier, puis par nom
+  drivers.sort(function(a,b) {
+    var order = { en_route:0, livraison:1, pause:2, fin:3, hors_ligne:4 };
+    var sa = order[a._effectiveStatut] || 3;
+    var sb = order[b._effectiveStatut] || 3;
+    if (sa !== sb) return sa - sb;
+    return (a.chauffeur_nom || '').localeCompare(b.chauffeur_nom || '');
+  });
+
+  if (drivers.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div style="font-size:40px;margin-bottom:12px">📡</div><div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">En attente de données</div><div style="font-size:12px;line-height:1.6">Les chauffeurs doivent activer<br>le partage GPS depuis la page<br><strong>📍 Mon GPS (Chauffeur)</strong></div></div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  drivers.forEach(function(d) {
+    var st = STATUTS[d._effectiveStatut] || STATUTS.hors_ligne;
+    var initials = (d.chauffeur_nom || '?').split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
+    var ageMin = Math.floor((d._age || 0) / 60000);
+    var ageTxt = ageMin < 1 ? 'À l\'instant' : ageMin < 60 ? 'Il y a ' + ageMin + ' min' : 'Il y a ' + Math.floor(ageMin/60) + 'h';
+    var staleWarn = ageMin > 5 ? '<div class="stale-warn">⚠️ Hors ligne depuis ' + ageMin + ' min</div>' : '';
+
+    var card = document.createElement('div');
+    card.className = 'driver-card' + (selectedDriverId === d.chauffeur_id ? ' selected' : '');
+    card.innerHTML =
+      '<div class="driver-header">' +
+        '<div class="driver-avatar">' + initials +
+          '<div class="driver-dot" style="background:' + st.dot + '"></div>' +
+        '</div>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div class="driver-name">' + escHtml(d.chauffeur_nom) + '</div>' +
+          '<div class="driver-sub">' + ageTxt + (d.vitesse > 0 ? ' · ' + d.vitesse + ' km/h' : '') + '</div>' +
+          staleWarn +
+        '</div>' +
+      '</div>' +
+      '<div class="driver-meta">' +
+        '<span class="driver-badge badge-' + d._effectiveStatut + '">' + st.emoji + ' ' + st.label + '</span>' +
+        (d.tournee_info ? '<span class="driver-badge" style="background:rgba(255,255,255,0.06);color:var(--gray)">' + escHtml(d.tournee_info) + '</span>' : '') +
+      '</div>';
+    card.addEventListener('click', function() { focusDriver(d.chauffeur_id); });
+    list.appendChild(card);
+  });
+}
+
+// ── MARKERS LEAFLET ──
+function renderMarkers(drivers) {
+  markersLayer.clearLayers();
+  drivers.forEach(function(d) {
+    if (!d.latitude || !d.longitude || (d.latitude === 0 && d.longitude === 0)) return;
+    if (d._effectiveStatut === 'hors_ligne' || d._effectiveStatut === 'fin') return;
+    var st = STATUTS[d._effectiveStatut] || STATUTS.en_route;
+    var initials = (d.chauffeur_nom || '?').split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
+
+    var icon = L.divIcon({
+      className: '',
+      html: '<div style="' +
+        'width:42px;height:42px;border-radius:50%;' +
+        'background:linear-gradient(135deg,' + st.dot + '33,' + st.dot + '66);' +
+        'border:3px solid ' + st.dot + ';' +
+        'display:flex;align-items:center;justify-content:center;' +
+        'font-size:12px;font-weight:800;color:#fff;font-family:Outfit,sans-serif;' +
+        'box-shadow:0 2px 12px rgba(0,0,0,0.5),0 0 0 3px ' + st.dot + '33;' +
+        'cursor:pointer;' +
+        '">' + initials + '</div>',
+      iconSize: [42, 42],
+      iconAnchor: [21, 21],
+      popupAnchor: [0, -24],
+    });
+
+    var ageMin = Math.floor((d._age || 0) / 60000);
+    var popup = '<div style="font-family:Outfit,sans-serif;min-width:160px">' +
+      '<div style="font-weight:700;font-size:14px;margin-bottom:6px">' + escHtml(d.chauffeur_nom) + '</div>' +
+      '<div style="font-size:12px;color:#555;margin-bottom:4px">' + st.emoji + ' ' + st.label + '</div>' +
+      (d.vitesse > 0 ? '<div style="font-size:12px;color:#555">⚡ ' + d.vitesse + ' km/h</div>' : '') +
+      (d.tournee_info ? '<div style="font-size:11px;color:#777;margin-top:4px">📋 ' + escHtml(d.tournee_info) + '</div>' : '') +
+      '<div style="font-size:10px;color:#aaa;margin-top:6px">MAJ il y a ' + (ageMin < 1 ? 'moins d\'1 min' : ageMin + ' min') + '</div>' +
+      '</div>';
+
+    var marker = L.marker([d.latitude, d.longitude], { icon: icon })
+      .addTo(markersLayer)
+      .bindPopup(popup);
+    marker.on('click', function() { focusDriver(d.chauffeur_id); });
+    if (driversData[d.chauffeur_id]) driversData[d.chauffeur_id]._marker = marker;
+  });
+}
+
+// ── KPIs ──
+function updateKPIs(drivers) {
+  var actifs = drivers.filter(function(d){ return d._effectiveStatut !== 'hors_ligne' && d._effectiveStatut !== 'fin'; });
+  var livraison = drivers.filter(function(d){ return d._effectiveStatut === 'livraison'; });
+  document.getElementById('kpi-actifs').textContent = actifs.length;
+  document.getElementById('kpi-livraison').textContent = livraison.length;
+}
+
+// ── FOCUS DRIVER ──
+function focusDriver(id) {
+  selectedDriverId = id;
+  var d = driversData[id];
+  if (!d) return;
+  // Mettre à jour la liste visuellement
+  document.querySelectorAll('.driver-card').forEach(function(c){ c.classList.remove('selected'); });
+  // Re-render pour appliquer .selected (simple)
+  renderDriverList(Object.values(driversData));
+  // Centrer la carte si coordonnées valides
+  if (d.latitude && d.longitude && !(d.latitude === 0 && d.longitude === 0)) {
+    map.setView([d.latitude, d.longitude], 14, { animate: true });
+    if (d._marker) d._marker.openPopup();
+  }
+  // Charger et afficher le tracé du parcours
+  loadDriverTrail(id);
+}
+
+// ── ROAD SNAPPING — aligne les points GPS bruts sur les vraies rues via OSRM Match API ──
+// Utile car les positions enregistrées par le téléphone du chauffeur ont une précision
+// variable (5-50m), ce qui donne un tracé "en zigzag à travers les bâtiments".
+// OSRM match aligne les points sur le réseau routier OpenStreetMap (driving profile).
+// Limite publique : 100 coords/requête → on échantillonne si nécessaire.
+async function snapToRoads(latlngs) {
+  if (!Array.isArray(latlngs) || latlngs.length < 2) return latlngs;
+
+  // Échantillonnage si > 100 points : on garde 100 points équirépartis dans le tableau
+  // (préserve début, fin, et ~98 points intermédiaires).
+  var sampled = latlngs;
+  var MAX = 100;
+  if (latlngs.length > MAX) {
+    sampled = [];
+    var step = (latlngs.length - 1) / (MAX - 1);
+    for (var i = 0; i < MAX; i++) {
+      sampled.push(latlngs[Math.round(i * step)]);
+    }
+  }
+
+  // OSRM attend lng,lat (pas lat,lng)
+  var coordsStr = sampled.map(function(p){ return p[1] + ',' + p[0]; }).join(';');
+  // Radius=20m par point : tolérance pour le snapping (compromis précision GPS / déformation)
+  var radii = sampled.map(function(){ return 20; }).join(';');
+  var url = 'https://router.project-osrm.org/match/v1/driving/' + coordsStr +
+            '?geometries=geojson&overview=full&radiuses=' + radii;
+
+  try {
+    var ctrl = new AbortController();
+    var to = setTimeout(function(){ ctrl.abort(); }, 8000);
+    var r = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(to);
+    if (!r.ok) return latlngs;
+    var data = await r.json();
+    if (data.code !== 'Ok' || !Array.isArray(data.matchings) || data.matchings.length === 0) return latlngs;
+    // Concatène toutes les matchings (l'API peut couper le tracé en sous-segments en cas de gap)
+    var snapped = [];
+    data.matchings.forEach(function(m){
+      if (m.geometry && Array.isArray(m.geometry.coordinates)) {
+        m.geometry.coordinates.forEach(function(c){ snapped.push([c[1], c[0]]); });
+      }
+    });
+    return snapped.length >= 2 ? snapped : latlngs;
+  } catch(e) {
+    console.warn('[Snap] OSRM error, fallback raw points:', e);
+    return latlngs;
+  }
+}
+
+// ── TRACÉ DU PARCOURS ──
+async function loadDriverTrail(chauffeurId) {
+  if (trailLayer) trailLayer.clearLayers();
+  var s = OT.getSession();
+  if (!s) return;
+  var cid = s.company_id || s.id;
+
+  // Récupérer les positions du jour (dernières 24h)
+  var since = new Date(Date.now() - 24*60*60*1000).toISOString();
+  try {
+    var r = await fetch(
+      SB + '/rest/v1/driver_positions_history?company_id=eq.' + cid +
+      '&chauffeur_id=eq.' + encodeURIComponent(chauffeurId) +
+      '&recorded_at=gte.' + since +
+      '&order=recorded_at.asc&limit=500',
+      { headers: H() }
+    );
+    if (!r.ok) return;
+    var points = await r.json();
+    if (!Array.isArray(points) || points.length < 2) return;
+
+    var latlngs = points
+      .filter(function(p){ return p.latitude && p.longitude; })
+      .map(function(p){ return [parseFloat(p.latitude), parseFloat(p.longitude)]; });
+
+    if (latlngs.length < 2) return;
+
+    // Snap aux routes (fallback automatique sur les points bruts si OSRM KO)
+    var smooth = await snapToRoads(latlngs);
+
+    // Tracé principal
+    L.polyline(smooth, {
+      color: '#60A5FA',
+      weight: 4,
+      opacity: 0.75,
+      lineJoin: 'round',
+      lineCap: 'round'
+    }).addTo(trailLayer);
+
+    // Point de départ (vert)
+    L.circleMarker(latlngs[0], {
+      radius: 6, color: '#10B981', fillColor: '#10B981',
+      fillOpacity: 1, weight: 2
+    }).addTo(trailLayer).bindPopup('🟢 Départ');
+
+  } catch(e) {
+    console.warn('[Trail]', e);
+  }
+}
+
+// ── HISTORIQUE GPS (admin) ──
+var _activityCache = [];   // cache des événements bruts (pour re-rendu via filtres)
+
+function switchHistoryTab(tab) {
+  document.querySelectorAll('.history-tab').forEach(function(b){
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  document.getElementById('tab-activity').style.display = (tab === 'activity') ? 'flex' : 'none';
+  document.getElementById('tab-trace').style.display = (tab === 'trace') ? 'flex' : 'none';
+}
+
+async function openHistoryModal() {
+  var modal = document.getElementById('history-modal');
+  switchHistoryTab('activity');
+  // Date par défaut (onglet Tracé) : hier
+  var d = new Date(); d.setDate(d.getDate() - 1);
+  document.getElementById('history-date').value = d.toISOString().slice(0,10);
+  var traceSel = document.getElementById('history-chauffeur');
+  traceSel.innerHTML = '<option value="">— Chargement…</option>';
+  var actSel = document.getElementById('activity-chauffeur');
+  actSel.innerHTML = '<option value="">Tous chauffeurs</option>';
+  modal.style.display = 'flex';
+
+  // Charger la liste des chauffeurs (utilisée par les deux onglets) ET le feed en parallèle
+  populateChauffeurDropdowns();
+  loadActivityFeed();
+}
+
+async function populateChauffeurDropdowns() {
+  var names = {};
+  Object.values(driversData).forEach(function(x){
+    if (x.chauffeur_nom) names[x.chauffeur_nom] = true;
+  });
+
+  var s = OT.getSession();
+  if (s) {
+    var cid = s.company_id || s.id;
+    try {
+      var rCh = await fetch(
+        SB + '/rest/v1/chauffeurs?company_id=eq.' + cid + '&select=nom&order=nom',
+        { headers: H() }
+      );
+      if (rCh.ok) {
+        var chs = await rCh.json();
+        if (Array.isArray(chs)) chs.forEach(function(c){ if (c.nom) names[c.nom] = true; });
+      }
+    } catch(e) { console.warn('[History] chauffeurs:', e); }
+
+    try {
+      var since = new Date(Date.now() - 30*24*60*60*1000).toISOString();
+      var rH = await fetch(
+        SB + '/rest/v1/driver_positions_history?company_id=eq.' + cid +
+        '&select=chauffeur_nom&recorded_at=gte.' + since +
+        '&order=recorded_at.desc&limit=2000',
+        { headers: H() }
+      );
+      if (rH.ok) {
+        var rows = await rH.json();
+        if (Array.isArray(rows)) rows.forEach(function(p){ if (p.chauffeur_nom) names[p.chauffeur_nom] = true; });
+      }
+    } catch(e) { console.warn('[History] positions_history:', e); }
+  }
+
+  var list = Object.keys(names).sort(function(a,b){ return a.localeCompare(b); });
+  var traceSel = document.getElementById('history-chauffeur');
+  var actSel   = document.getElementById('activity-chauffeur');
+
+  if (list.length === 0) {
+    traceSel.innerHTML = '<option value="">— Aucun chauffeur trouvé —</option>';
+    actSel.innerHTML   = '<option value="">Aucun chauffeur</option>';
+    return;
+  }
+  traceSel.innerHTML = '<option value="">— Sélectionner —</option>';
+  actSel.innerHTML   = '<option value="">Tous chauffeurs</option>';
+  list.forEach(function(nom){
+    var o1 = document.createElement('option'); o1.value = nom; o1.textContent = nom; traceSel.appendChild(o1);
+    var o2 = document.createElement('option'); o2.value = nom; o2.textContent = nom; actSel.appendChild(o2);
+  });
+}
+
+// ── JOURNAL D'ACTIVITÉ ──
+// Agrège : gazole_pleins, etats_vehicule, messages, driver_locations,
+// driver_positions_history (échantillonné), amendes — triés par date desc.
+async function loadActivityFeed() {
+  var s = OT.getSession();
+  if (!s) return;
+  var cid = s.company_id || s.id;
+  var listEl = document.getElementById('activity-list');
+  listEl.innerHTML = '<div class="activity-loading">Chargement…</div>';
+
+  var days = parseInt(document.getElementById('activity-period').value, 10) || 7;
+  var sinceMs = Date.now() - days*24*60*60*1000;
+  var sinceIso  = new Date(sinceMs).toISOString();
+  var sinceDate = sinceIso.slice(0,10);
+
+  function safeJson(r) { return r && r.ok ? r.json().catch(function(){ return []; }) : Promise.resolve([]); }
+  function fetchSafe(url) {
+    return fetch(url, { headers: H() }).then(safeJson).catch(function(){ return []; });
+  }
+
+  var tasks = [
+    // Gazole : created_at si présent (post-migration), sinon fallback sur date
+    fetchSafe(SB + '/rest/v1/gazole_pleins?company_id=eq.' + cid + '&date=gte.' + sinceDate + '&order=date.desc&limit=80&select=id,chauffeur,vehicule,date,montant,litres,saisie_par,created_at'),
+    // États des lieux
+    fetchSafe(SB + '/rest/v1/etats_vehicule?company_id=eq.' + cid + '&date_heure=gte.' + sinceIso + '&order=date_heure.desc&limit=80&select=id,chauffeur_nom,vehicule_immat,type,date_heure,km,gps_lat,gps_lng,gps_adresse'),
+    // Messages chauffeurs
+    fetchSafe(SB + '/rest/v1/messages?company_id=eq.' + cid + '&created_at=gte.' + sinceIso + '&sender_role=eq.chauffeur&order=created_at.desc&limit=50&select=id,sender_name,chauffeur_name,content,created_at'),
+    // Dernière position connue de chaque chauffeur (1 ligne par chauffeur dans driver_locations)
+    fetchSafe(SB + '/rest/v1/driver_locations?company_id=eq.' + cid + '&updated_at=gte.' + sinceIso + '&order=updated_at.desc&select=chauffeur_id,chauffeur_nom,latitude,longitude,vitesse,statut,updated_at'),
+    // Amendes
+    fetchSafe(SB + '/rest/v1/amendes?company_id=eq.' + cid + '&date_infraction=gte.' + sinceDate + '&order=date_infraction.desc&limit=50&select=id,chauffeur_nom,immatriculation,date_infraction,heure,montant,nature,motif')
+  ];
+
+  var results = await Promise.all(tasks);
+  var pleins = results[0], edls = results[1], msgs = results[2], locs = results[3], amendes = results[4];
+
+  var events = [];
+
+  pleins.forEach(function(p){
+    var iso = p.created_at || (p.date ? p.date + 'T12:00:00' : null);
+    if (!iso) return;
+    var litres = (p.litres != null) ? Number(p.litres) : null;
+    var montant = (p.montant != null) ? Number(p.montant) : null;
+    events.push({
+      type: 'gazole', icon: '⛽',
+      iso: iso, approx: !p.created_at,
+      name: p.chauffeur || '— Non assigné —',
+      desc: 'Plein gazole' + (montant ? ' · ' + montant.toFixed(2) + ' €' : '') + (litres ? ' · ' + litres.toFixed(1) + ' L' : ''),
+      meta: p.vehicule ? '🚐 ' + p.vehicule : ''
+    });
+  });
+
+  edls.forEach(function(e){
+    if (!e.date_heure) return;
+    var typeLabel = e.type === 'depart' ? '🟢 Départ tournée' : (e.type === 'retour' ? '🔴 Retour tournée' : '📸 État des lieux');
+    var icon = e.type === 'depart' ? '🟢' : (e.type === 'retour' ? '🔴' : '📸');
+    var hasPos = (e.gps_lat != null && e.gps_lng != null);
+    events.push({
+      type: 'edl', icon: icon,
+      iso: e.date_heure,
+      name: e.chauffeur_nom || '— Inconnu —',
+      desc: typeLabel + (e.km != null ? ' · ' + Number(e.km).toLocaleString('fr-FR') + ' km' : ''),
+      meta: e.vehicule_immat ? ('🚐 ' + e.vehicule_immat) : (e.gps_adresse || ''),
+      lat: hasPos ? Number(e.gps_lat) : null,
+      lng: hasPos ? Number(e.gps_lng) : null
+    });
+  });
+
+  msgs.forEach(function(m){
+    if (!m.created_at) return;
+    var preview = (m.content || '').replace(/\s+/g, ' ').trim();
+    if (preview.length > 80) preview = preview.slice(0, 80) + '…';
+    events.push({
+      type: 'msg', icon: '💬',
+      iso: m.created_at,
+      name: m.sender_name || m.chauffeur_name || '— Inconnu —',
+      desc: 'Message envoyé',
+      meta: preview
+    });
+  });
+
+  locs.forEach(function(l){
+    if (!l.updated_at) return;
+    var st = STATUTS[l.statut] || STATUTS.en_route;
+    var hasPos = (l.latitude != null && l.longitude != null && !(l.latitude === 0 && l.longitude === 0));
+    events.push({
+      type: 'pos', icon: '📍',
+      iso: l.updated_at,
+      name: l.chauffeur_nom || '— Inconnu —',
+      desc: 'Dernière position GPS · ' + st.label + (l.vitesse > 0 ? ' · ' + l.vitesse + ' km/h' : ''),
+      meta: '',
+      lat: hasPos ? Number(l.latitude) : null,
+      lng: hasPos ? Number(l.longitude) : null
+    });
+  });
+
+  amendes.forEach(function(a){
+    if (!a.date_infraction) return;
+    var iso = a.date_infraction + 'T' + (a.heure ? a.heure : '12:00:00');
+    var motif = a.motif || a.nature || 'Infraction';
+    var montant = (a.montant != null) ? Number(a.montant) : null;
+    events.push({
+      type: 'amende', icon: '🚔',
+      iso: iso, approx: !a.heure,
+      name: a.chauffeur_nom || '— Non identifié —',
+      desc: 'Amende · ' + motif + (montant ? ' · ' + montant.toFixed(2) + ' €' : ''),
+      meta: a.immatriculation ? ('🚐 ' + a.immatriculation) : ''
+    });
+  });
+
+  // Tri par date desc
+  events.sort(function(a, b){ return new Date(b.iso) - new Date(a.iso); });
+
+  _activityCache = events;
+  renderActivityFeed();
+}
+
+function renderActivityFeed() {
+  var listEl = document.getElementById('activity-list');
+  if (!listEl) return;
+  var typeFilter = document.getElementById('activity-type').value;
+  var nameFilter = document.getElementById('activity-chauffeur').value;
+  var events = _activityCache.filter(function(ev){
+    if (typeFilter && ev.type !== typeFilter) return false;
+    if (nameFilter && ev.name !== nameFilter) return false;
+    return true;
+  });
+
+  if (events.length === 0) {
+    listEl.innerHTML = '<div class="activity-empty">📭<br>Aucune activité sur cette période<br><span style="font-size:11px">Essayez d\'élargir la période ou de retirer les filtres.</span></div>';
+    return;
+  }
+
+  var html = '';
+  var lastDay = '';
+  events.forEach(function(ev){
+    var d = new Date(ev.iso);
+    var day = d.toLocaleDateString('fr-FR', { weekday:'short', day:'2-digit', month:'short' });
+    if (day !== lastDay) {
+      html += '<div style="font-size:10px;font-weight:700;color:var(--gray2);text-transform:uppercase;letter-spacing:1.5px;padding:10px 4px 6px">' + day + '</div>';
+      lastDay = day;
+    }
+    var time = d.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+    var hasPos = (ev.lat != null && ev.lng != null);
+    var posAttrs = hasPos
+      ? (' data-lat="' + ev.lat + '" data-lng="' + ev.lng + '" data-name="' + escAttr(ev.name) + '" data-desc="' + escAttr(ev.desc) + '"')
+      : '';
+    html += '<div class="activity-item' + (hasPos ? ' has-pos' : '') + '"' + posAttrs +
+      ' title="' + (hasPos ? 'Cliquer pour centrer la carte' : '') + '">' +
+        '<div class="activity-icon">' + ev.icon + '</div>' +
+        '<div class="activity-body">' +
+          '<div class="activity-row1">' +
+            '<div class="activity-name">' + escHtml(ev.name) + '</div>' +
+            '<div class="activity-time' + (ev.approx ? ' approx' : '') + '">' + time + '</div>' +
+          '</div>' +
+          '<div class="activity-desc">' + escHtml(ev.desc) + '</div>' +
+          (ev.meta ? '<div class="activity-meta">' + escHtml(ev.meta) + '</div>' : '') +
+        '</div>' +
+      '</div>';
+  });
+  listEl.innerHTML = html;
+  // Attache les listeners aux items géolocalisés (évite de coller du JS dans onclick="...")
+  listEl.querySelectorAll('.activity-item.has-pos').forEach(function(el){
+    el.addEventListener('click', function(){
+      focusActivityOnMap(parseFloat(el.dataset.lat), parseFloat(el.dataset.lng), el.dataset.name || '', el.dataset.desc || '');
+    });
+  });
+}
+
+function focusActivityOnMap(lat, lng, name, desc) {
+  closeHistoryModal();
+  if (!map) return;
+  map.setView([lat, lng], 15, { animate: true });
+  L.popup()
+    .setLatLng([lat, lng])
+    .setContent('<div style="font-family:Outfit,sans-serif;min-width:140px"><div style="font-weight:700;font-size:13px;margin-bottom:4px">' + escHtml(name) + '</div><div style="font-size:12px;color:#555">' + escHtml(desc) + '</div></div>')
+    .openOn(map);
+}
+
+function closeHistoryModal() {
+  document.getElementById('history-modal').style.display = 'none';
+}
+
+async function submitHistory() {
+  var date = document.getElementById('history-date').value;
+  var chauffeurNom = document.getElementById('history-chauffeur').value;
+  if (!date) { toast('Sélectionnez une date', 'error'); return; }
+  if (!chauffeurNom) { toast('Sélectionnez un chauffeur', 'error'); return; }
+  closeHistoryModal();
+  await loadHistoryTrail(chauffeurNom, date);
+}
+
+async function loadHistoryTrail(chauffeurNom, dateStr) {
+  var s = OT.getSession();
+  if (!s) return;
+  var cid = s.company_id || s.id;
+
+  // Entrer en mode historique : masquer markers temps réel + trail 24h
+  historyMode = true;
+  if (markersLayer) markersLayer.clearLayers();
+  if (trailLayer) trailLayer.clearLayers();
+  if (historyLayer) { historyLayer.clearLayers(); } else { historyLayer = L.layerGroup().addTo(map); }
+
+  // Afficher la bannière
+  var banner = document.getElementById('history-banner');
+  banner.style.display = 'flex';
+  document.getElementById('history-banner-title').textContent = '📅 Historique — ' + chauffeurNom;
+  var prettyDate = new Date(dateStr + 'T12:00:00').toLocaleDateString('fr-FR', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
+  document.getElementById('history-banner-sub').textContent = 'Chargement des positions du ' + prettyDate + '…';
+
+  // Bornes de la journée (UTC)
+  var fromIso = new Date(dateStr + 'T00:00:00').toISOString();
+  var toIso = new Date(dateStr + 'T23:59:59.999').toISOString();
+
+  try {
+    // Match insensible à la casse (ilike) : tolère les différences de casse/accents mineurs
+    var url = SB + '/rest/v1/driver_positions_history?company_id=eq.' + cid +
+      '&chauffeur_nom=ilike.' + encodeURIComponent(chauffeurNom) +
+      '&recorded_at=gte.' + fromIso +
+      '&recorded_at=lte.' + toIso +
+      '&order=recorded_at.asc&limit=2000';
+    console.log('[HistoryTrail] URL:', url);
+    var r = await fetch(url, { headers: H() });
+    if (!r.ok) {
+      console.warn('[HistoryTrail] HTTP', r.status, await r.text());
+      toast('Erreur chargement historique (' + r.status + ')', 'error');
+      return;
+    }
+    var points = await r.json();
+    console.log('[HistoryTrail] Rows returned:', Array.isArray(points) ? points.length : 0);
+
+    // Si 0 résultat pour ce chauffeur+date, diagnostiquer en listant ce qui existe
+    if (!Array.isArray(points) || points.length < 2) {
+      var diag = await fetch(
+        SB + '/rest/v1/driver_positions_history?company_id=eq.' + cid +
+        '&select=chauffeur_nom,recorded_at&order=recorded_at.desc&limit=50',
+        { headers: H() }
+      );
+      var diagRows = diag.ok ? await diag.json() : [];
+      var uniqNames = {};
+      var lastDates = [];
+      (Array.isArray(diagRows) ? diagRows : []).forEach(function(p){
+        if (p.chauffeur_nom) uniqNames[p.chauffeur_nom] = true;
+        if (p.recorded_at) lastDates.push(p.recorded_at.slice(0,10));
+      });
+      console.log('[HistoryTrail] Chauffeurs avec historique:', Object.keys(uniqNames));
+      console.log('[HistoryTrail] Dernières dates de trace:', [...new Set(lastDates)].slice(0,10));
+      var msg = 'Aucun tracé pour ' + chauffeurNom + ' le ' + prettyDate;
+      if (Object.keys(uniqNames).length === 0) {
+        msg = 'Aucun chauffeur n\'a encore utilisé le GPS';
+      }
+      document.getElementById('history-banner-sub').textContent = msg;
+      toast(msg, 'error');
+      return;
+    }
+    var latlngs = points
+      .filter(function(p){ return p.latitude && p.longitude; })
+      .map(function(p){ return [parseFloat(p.latitude), parseFloat(p.longitude)]; });
+    if (latlngs.length < 2) {
+      document.getElementById('history-banner-sub').textContent = 'Positions insuffisantes le ' + prettyDate;
+      return;
+    }
+
+    // Lissage OSRM (collage aux routes) si la case est cochée
+    var snapEl = document.getElementById('history-snap');
+    var doSnap = !snapEl || snapEl.checked;
+    document.getElementById('history-banner-sub').textContent = doSnap
+      ? (prettyDate + ' · ' + latlngs.length + ' positions · 🛣️ lissage en cours…')
+      : (prettyDate + ' · ' + latlngs.length + ' positions');
+    var smooth = doSnap ? await snapToRoads(latlngs) : latlngs;
+
+    L.polyline(smooth, { color:'#A78BFA', weight:4, opacity:0.85, lineJoin:'round', lineCap:'round' }).addTo(historyLayer);
+    L.circleMarker(latlngs[0], { radius:7, color:'#10B981', fillColor:'#10B981', fillOpacity:1, weight:2 })
+      .addTo(historyLayer).bindPopup('🟢 Départ');
+    L.circleMarker(latlngs[latlngs.length-1], { radius:7, color:'#EF4444', fillColor:'#EF4444', fillOpacity:1, weight:2 })
+      .addTo(historyLayer).bindPopup('🔴 Arrivée');
+
+    map.fitBounds(L.latLngBounds(smooth), { padding:[40,40] });
+    document.getElementById('history-banner-sub').textContent = prettyDate + ' · ' + latlngs.length + ' positions' + (doSnap ? ' · 🛣️ collé aux routes' : '');
+  } catch(e) {
+    console.warn('[HistoryTrail]', e);
+    toast('Erreur réseau', 'error');
+  }
+}
+
+function restoreRealtimeView() {
+  historyMode = false;
+  if (historyLayer) historyLayer.clearLayers();
+  document.getElementById('history-banner').style.display = 'none';
+  // Recharger l'état temps réel
+  loadLocations();
+}
+
+// ── REALTIME SUPABASE ──
+function startRealtime() {
+  // Utiliser Supabase Realtime via long-polling WebSocket
+  // Connexion manuelle via l'API Realtime de Supabase
+  var s = OT.getSession();
+  if (!s) return;
+  var cid = s.company_id || s.id;
+
+  try {
+    // Utilise l'API Realtime Supabase (WebSocket)
+    var wsUrl = 'wss://kfdyqcbclueppmvkccdz.supabase.co/realtime/v1/websocket?apikey=' + KEY + '&vsn=1.0.0';
+    var ws = new WebSocket(wsUrl);
+    var heartbeat;
+
+    ws.onopen = function() {
+      // S'abonner aux changements sur driver_locations filtrés par company_id.
+      // Passe le JWT du user pour que Realtime applique RLS avec la bonne identité
+      // (sans ça, Realtime tourne en anon → aucun event reçu si RLS est stricte).
+      var accessToken = (s && s.token) ? s.token : KEY;
+      ws.send(JSON.stringify({
+        topic: 'realtime:public:driver_locations:company_id=eq.' + cid,
+        event: 'phx_join',
+        payload: {
+          config: {
+            broadcast: { self: false },
+            presence: { key: '' },
+            postgres_changes: [{ event: '*', schema: 'public', table: 'driver_locations', filter: 'company_id=eq.' + cid }]
+          },
+          access_token: accessToken
+        },
+        ref: '1'
+      }));
+      heartbeat = setInterval(function() {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: null }));
+        }
+      }, 25000);
+      document.getElementById('realtime-status').innerHTML = '<span style="color:#10B981">● Temps réel actif</span>';
+    };
+
+    ws.onmessage = function(e) {
+      try {
+        var msg = JSON.parse(e.data);
+        if (msg.event === 'postgres_changes' && msg.payload && msg.payload.data) {
+          var row = msg.payload.data.record || msg.payload.data;
+          if (row && row.chauffeur_id) {
+            var now = Date.now();
+            var age = now - new Date(row.updated_at).getTime();
+            row._effectiveStatut = (age > 300000) ? 'hors_ligne' : (row.statut || 'en_route');
+            row._age = age;
+            driversData[row.chauffeur_id] = Object.assign(driversData[row.chauffeur_id] || {}, row);
+            renderDriverList(Object.values(driversData));
+            renderMarkers(Object.values(driversData));
+            updateKPIs(Object.values(driversData));
+            updateLastUpdate();
+          }
+        }
+      } catch(err) {}
+    };
+
+    ws.onerror = function() {
+      document.getElementById('realtime-status').innerHTML = '<span style="color:#F5A623">⚠️ Polling 30s</span>';
+    };
+
+    ws.onclose = function() {
+      clearInterval(heartbeat);
+      document.getElementById('realtime-status').innerHTML = '<span style="color:#FC8181">● Déconnecté</span>';
+      // Tentative de reconnexion après 5s
+      setTimeout(startRealtime, 5000);
+    };
+  } catch(e) {
+    document.getElementById('realtime-status').innerHTML = '<span style="color:#F5A623">⚠️ Mode polling</span>';
+  }
+}
+
+// ── HELPERS ──
+function updateLastUpdate() {
+  var now = new Date();
+  document.getElementById('last-update-bar').textContent =
+    '— Dernière mise à jour : ' + now.toLocaleTimeString('fr-FR') + ' —';
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+// Pour interpolation sûre dans un attribut HTML lui-même injecté via innerHTML (échappe aussi les apostrophes)
+function escAttr(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+var _toastTimer;
+function toast(msg, type) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.borderColor = type === 'error' ? 'rgba(239,68,68,0.4)' : 'rgba(16,185,129,0.3)';
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 3000);
+}
+
+function logout() { OT.logout(); }
+</script>
+
+<script src="/pwa-register.js"></script>
+<script src="ot_mobile_nav.js"></script>
+<script src="/ot_visibility_pause.js"></script>
+<script src="/ot_messaging.js"></script>
+<script src="ot_decompte_guard.js" defer></script>
+</body>
+</html>

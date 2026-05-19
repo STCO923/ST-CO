@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mon Marche - T SERVICE & CO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1f6d2;</text></svg>">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="/fonts.css">
+<script src="ot_session.js"></script>
+<script src="pwa-register.js" defer></script>
+<style>
+:root{
+  --navy:#07111F;--navy2:#0D1B2E;--navy3:#0A1525;--card:#0F1E33;
+  --border:rgba(255,255,255,0.12);--blue:#1A4FBF;--blue2:#2563EB;
+  --accent:#F5A623;--red:#E74C3C;--red2:#FC8181;
+  --green:#2ECC71;--gray:#5A7A9A;--light:#B8D0E8;--white:#EEF4FF;
+  --input-bg:#1a2d45;--input-color:#EEF4FF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--white);min-height:100vh;overflow-x:hidden;}
+.app{display:flex;min-height:100vh;}
+/* SIDEBAR */
+.sidebar{width:240px;background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:24px 20px;border-bottom:1px solid var(--border);}
+.logo-tag{font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);line-height:1;margin-top:4px;}
+.logo-name span{color:var(--accent);}
+.sidebar-nav{flex:1;padding:16px 12px;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#4A5568;padding:8px 8px 4px;margin-top:8px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:2px;font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;}
+.nav-item:hover{background:var(--card);color:var(--light);}
+.nav-item.active{background:linear-gradient(135deg,rgba(26,79,191,0.4),rgba(26,79,191,0.2));color:var(--white);border:1px solid rgba(26,79,191,0.3);}
+.nav-badge{display:inline-block;padding:1px 5px;border-radius:4px;font-size:9px;font-weight:700;background:rgba(245,166,35,0.2);color:var(--accent);margin-left:4px;}
+.nav-icon{font-size:16px;width:20px;text-align:center;}
+.sidebar-footer{padding:16px 12px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:10px;border:1px solid var(--border);cursor:pointer;}
+.user-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);}
+/* MAIN */
+.main{margin-left:240px;width:calc(100vw - 240px);flex:1;padding:0 0 80px 0;min-height:100vh;overflow-y:auto;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);background:var(--navy2);position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px;}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--white);}
+.page-sub{font-size:11px;color:var(--gray);margin-top:2px;}
+.sync-info{font-size:11px;color:var(--gray);}
+.content{padding:20px 16px;}
+/* BUTTONS */
+.btn-primary{padding:9px 18px;border-radius:8px;border:none;background:var(--blue2);color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-primary:hover{background:#1d4ed8;}
+.btn-sync{padding:9px 18px;border-radius:8px;border:none;background:var(--green);color:#0a1f12;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-sync:hover{background:#25a85a;}
+.btn-sync:disabled{opacity:.5;cursor:not-allowed;}
+.btn-ghost{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--gray);font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
+.btn-ghost:hover{color:var(--white);border-color:var(--gray);}
+/* WEEK NAV */
+.week-nav{display:flex;align-items:center;gap:10px;margin-bottom:16px;background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:12px 16px;}
+.week-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--gray);cursor:pointer;font-size:16px;padding:5px 12px;border-radius:8px;transition:all .2s;font-weight:700;}
+.week-btn:hover{background:rgba(26,79,191,0.15);color:var(--white);border-color:rgba(26,79,191,0.4);}
+.cal-wrap{position:relative;flex:1;text-align:center;}
+.cal-trigger{cursor:pointer;display:inline-flex;align-items:center;gap:8px;justify-content:center;}
+.cal-trigger:hover .week-label{color:var(--accent);}
+.week-label{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--white);transition:color .2s;}
+.cal-icon{font-size:14px;opacity:.6;}
+.cal-popup{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:14px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.5);min-width:260px;}
+.cal-popup.hidden{display:none;}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.cal-month-label{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--white);letter-spacing:1px;}
+.cal-nav{background:none;border:1px solid var(--border);color:var(--gray);cursor:pointer;border-radius:6px;padding:2px 8px;font-size:14px;}
+.cal-nav:hover{color:var(--white);border-color:var(--accent);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.cal-dow{font-size:9px;color:var(--gray);text-align:center;padding:3px 0;font-weight:700;}
+.cal-day{font-size:11px;text-align:center;padding:5px 3px;border-radius:6px;cursor:pointer;color:var(--gray);transition:all .15s;}
+.cal-day:hover{background:rgba(26,79,191,0.3);color:var(--white);}
+.cal-day.in-month{color:var(--white);}
+.cal-day.today{background:rgba(245,166,35,0.2);color:var(--accent);font-weight:700;}
+.cal-day.in-week{background:rgba(26,79,191,0.2);color:#7ab3ff;}
+@media(max-width:768px){.cal-popup{left:0!important;right:0!important;transform:none!important;min-width:unset!important;}}
+/* TABLE */
+.table-wrap{overflow-x:scroll;border:1px solid var(--border);border-radius:12px;background:var(--card);}
+::-webkit-scrollbar{width:8px;height:10px;}
+::-webkit-scrollbar-track{background:var(--navy2);}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:5px;}
+::-webkit-scrollbar-thumb:hover{background:var(--blue2);}
+table.mm{border-collapse:collapse;table-layout:fixed;width:1670px;}
+table.mm th,table.mm td{border:1px solid var(--border);text-align:center;vertical-align:middle;overflow:hidden;}
+table.mm thead th{background:var(--navy2);color:var(--light);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:6px 4px;}
+table.mm thead th.day-hdr{background:var(--navy3);font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--accent);}
+table.mm thead th.am-hdr{background:rgba(245,166,35,0.12);color:var(--accent);}
+table.mm thead th.pm-hdr{background:rgba(37,99,235,0.12);color:var(--blue2);}
+table.mm thead th.zone-hdr{background:var(--navy3);padding:6px 8px;}
+/* SLOT CELL */
+.slot-inner{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 3px;}
+.shift-btn{display:block;width:100%;padding:4px 6px;border-radius:5px;border:1px solid rgba(231,76,60,0.4);background:rgba(231,76,60,0.12);color:var(--red2);font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.shift-btn:hover{background:rgba(231,76,60,0.25);}
+.shift-btn.assigned{border-color:rgba(46,204,113,0.4);background:rgba(46,204,113,0.12);color:var(--green);}
+/* INPUTS - fix white on white */
+select.mm-sel,select.veh-sel{
+  width:100%;
+  background:var(--input-bg);
+  color:var(--input-color);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:4px;
+  padding:2px 3px;
+  font-family:'Outfit',sans-serif;
+  font-size:10px;
+  outline:none;
+  cursor:pointer;
+  -webkit-appearance:auto;
+  appearance:auto;
+  max-width:96px;
+}
+select.mm-sel:focus,select.veh-sel:focus{border-color:var(--blue2);}
+select.mm-sel option,select.veh-sel option{background:#1a2d45;color:#EEF4FF;}
+.dur-label{font-size:9px;color:var(--accent);font-weight:600;margin-top:1px;}
+.times-row{display:flex;gap:3px;align-items:center;width:100%;}
+.times-label{font-size:8px;color:var(--gray);min-width:18px;}
+/* ZONE CELL — sticky left */
+.zone-cell{background:var(--navy3);padding:6px 8px;text-align:left;min-width:100px;max-width:120px;position:sticky;left:0;z-index:4;box-shadow:2px 0 6px rgba(0,0,0,0.4);}
+.zone-name{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:1px;color:var(--accent);margin-bottom:2px;}
+/* Sticky first-col — ONLY zone-hdr in thead (rowspan=2), not row-2 first th */
+.zone-hdr{position:sticky;left:0;z-index:6;background:var(--navy3);box-shadow:2px 0 6px rgba(0,0,0,0.4);}
+table.mm tbody td:first-child{position:sticky;left:0;z-index:4;background:var(--navy3);box-shadow:2px 0 6px rgba(0,0,0,0.3);}
+table.mm tfoot td:first-child{position:sticky;left:0;z-index:4;background:var(--navy2);box-shadow:2px 0 6px rgba(0,0,0,0.3);}
+/* TOTAL CELLS — en fin de tableau (pas sticky) */
+.total-hdr{background:var(--navy3);padding:4px;}
+.total-hdr2{background:var(--navy3);padding:4px;}
+td.total-val{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--accent);background:var(--navy3);padding:4px 5px;}
+td.total-hrs{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--green);background:var(--navy3);padding:4px 5px;}
+td.del-cell{background:var(--navy3);width:30px;}
+/* SUMMARY ROW */
+tr.summary-row td{background:rgba(245,166,35,0.06);font-weight:600;font-size:11px;padding:4px 6px;}
+tr.summary-row td.lbl{text-align:left;padding-left:10px;color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:1px;}
+.del-btn{background:none;border:none;color:var(--red);font-size:14px;cursor:pointer;opacity:.4;transition:opacity .2s;}
+.del-btn:hover{opacity:1;}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--navy2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:380px;max-height:80vh;display:flex;flex-direction:column;animation:fadeUp .2s ease;}
+.modal-hdr{padding:16px 20px;border-bottom:1px solid var(--border);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;}
+.modal-search{padding:10px 14px;}
+.modal-search input{width:100%;background:var(--input-bg);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:9px 12px;color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;outline:none;}
+.modal-search input:focus{border-color:var(--blue2);}
+.modal-search input::placeholder{color:var(--gray);}
+.modal-list{flex:1;overflow-y:auto;padding:0 10px 10px;max-height:48vh;}
+.modal-item{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;cursor:pointer;transition:all .15s;margin-bottom:2px;}
+.modal-item:hover{background:rgba(37,99,235,0.2);}
+.modal-item-name{font-size:13px;font-weight:500;}
+.modal-item-type{font-size:10px;color:var(--gray);background:rgba(255,255,255,0.05);padding:2px 8px;border-radius:10px;}
+.modal-foot{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;}
+/* SYNC REPORT */
+.sync-report{margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;display:none;}
+.sync-report h3{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;margin-bottom:8px;}
+.r-ok{color:var(--green);font-size:12px;margin-bottom:3px;}
+.r-warn{color:var(--accent);font-size:12px;margin-bottom:3px;}
+.r-err{color:var(--red2);font-size:12px;margin-bottom:3px;}
+/* TOAST */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 18px;font-size:13px;opacity:0;transform:translateY(8px);transition:all .3s;z-index:300;pointer-events:none;max-width:380px;}
+.toast.show{opacity:1;transform:translateY(0);}
+.demo-banner{display:none;align-items:center;gap:10px;padding:9px 24px;background:rgba(245,166,35,0.08);border-bottom:1px solid rgba(245,166,35,0.15);font-size:12px;color:var(--accent);}
+.demo-banner button{margin-left:auto;padding:4px 10px;border-radius:6px;border:1px solid rgba(245,166,35,0.4);background:none;color:var(--accent);font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+/* FILTER BAR */
+.filter-bar{display:flex;align-items:center;gap:12px;padding:8px 24px;background:var(--navy2);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.filter-lbl{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gray);white-space:nowrap;}
+.filter-sel{background:var(--card);border:1px solid var(--border);color:var(--white);border-radius:7px;padding:5px 10px;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;outline:none;}
+.day-toggle{display:flex;gap:3px;}
+.day-btn{padding:4px 9px;border-radius:6px;border:1px solid var(--border);background:none;color:var(--gray);font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;}
+.day-btn.active{background:var(--blue2);border-color:var(--blue2);color:#fff;}
+@media(max-width:768px){
+  .sidebar{display:none!important;}
+  .main{margin-left:0!important;}
+  .topbar,.content{padding:12px 10px;}
+}
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--navy2);border-top:1px solid var(--border);z-index:100;padding:5px 0;}
+.mobile-nav-items{display:flex;justify-content:space-around;}
+.mobile-nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:var(--gray);text-decoration:none;padding:5px 4px;}
+.mobile-nav-item.active{color:var(--accent);}
+.mobile-nav-icon{font-size:18px;}
+@media(max-width:768px){.mobile-nav{display:block;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity .2s" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+      <div class="logo-tag">Gestion Transport</div>
+      <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Principal</div>
+      <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">&#x1f3e0;</span> Tableau de bord</a>
+      <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">&#x1f4c6;</span> Planning Semaine</a>
+      <a class="nav-item" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">&#x1f4dd;</span> Saisie Tournees</a>
+      <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">&#x1f5fa;</span> Feuille de Route</a>
+      <div class="nav-section-label">Gestion</div>
+      <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">&#x1f477;</span> Chauffeurs &amp; Salaires</a>
+      <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">&#x1f454;</span> RH &amp; Contrats</a>
+      <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">&#x26fd;</span> Suivi Gazole</a>
+      <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">&#x1f4ca;</span> Clients &amp; Facturation</a>
+      <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">&#x1f690;</span> Parc Vehicules</a>
+      <a class="nav-item" href="amende.html"><span class="nav-icon">&#x1f694;</span> Amendes</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+      <a class="nav-item active" href="monmarche.html"><span class="nav-icon">&#x1f6d2;</span> Mon Marche</a>
+      <div class="nav-section-label">Communication</div>
+      <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie</a>
+      <div class="nav-section-label">Intelligence</div>
+      <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+      <a class="nav-item" style="display:none" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
+      <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+      <div class="nav-section-label">Parametres</div>
+      <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">&#x2699;</span> Parametres</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card" onclick="window.location='optimum_trans_parametres.html'">
+        <div class="user-avatar" id="user-av">T.S</div>
+        <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)" id="user-name">Mon compte</div><div style="font-size:10px;color:var(--gray)" id="user-role">Admin</div></div>
+        <button onclick="event.stopPropagation();OT.logout()" title="Deconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:15px;color:#FC8181;line-height:1;">&#x1f6aa;</button>
+      </div>
+    </div>
+  </aside>
+  <main class="main">
+    <div id="demo-banner" class="demo-banner">&#x1f512; Mode demo <button onclick="OT.logout()">&#x1f6aa; Quitter</button></div>
+    <div class="topbar">
+      <div>
+        <div class="page-title">&#x1f6d2; MON MARCHE</div>
+        <div class="page-sub">Planning hebdomadaire Mon Marche &mdash; MS Express</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span class="sync-info" id="sync-info">Chargement...</span>
+        <input type="file" id="xlsx-file-input" accept=".xlsx,.xls" style="display:none" onchange="handleExcelImport(event)">
+        <button class="btn-ghost" onclick="document.getElementById('xlsx-file-input').value='';document.getElementById('xlsx-file-input').click()">&#x1f4c2; Importer Excel</button>
+        <button class="btn-ghost" onclick="exportExcel()" style="color:var(--green);border-color:rgba(46,204,113,0.4)">&#x1f4e5; Exporter Excel</button>
+        <button class="btn-ghost" style="color:#e74c3c;border-color:rgba(231,76,60,0.4)" onclick="clearWeek()">&#x1f5d1; Vider la semaine</button>
+        <button class="btn-primary" onclick="addRow()">+ Ajouter ligne</button>
+        <button class="btn-sync" id="btn-sync" onclick="syncToPlanning()">&#x1f504; Synchroniser vers Planning</button>
+      </div>
+    </div>
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <span class="filter-lbl">&#x1f9d1;&#x200d;&#x2708;&#xfe0f; Chauffeur :</span>
+      <select class="filter-sel" id="filter-chauffeur" onchange="applyFilters()">
+        <option value="">— Tous les chauffeurs —</option>
+      </select>
+      <span class="filter-lbl" style="margin-left:8px">&#x1f4c5; Jour :</span>
+      <div class="day-toggle">
+        <button class="day-btn active" onclick="toggleDay(0)">Lun</button>
+        <button class="day-btn active" onclick="toggleDay(1)">Mar</button>
+        <button class="day-btn active" onclick="toggleDay(2)">Mer</button>
+        <button class="day-btn active" onclick="toggleDay(3)">Jeu</button>
+        <button class="day-btn active" onclick="toggleDay(4)">Ven</button>
+        <button class="day-btn active" onclick="toggleDay(5)">Sam</button>
+        <button class="day-btn active" onclick="toggleDay(6)">Dim</button>
+      </div>
+      <span id="filter-count" style="font-size:11px;color:var(--gray);margin-left:auto"></span>
+    </div>
+    <div class="content">
+      <div class="week-nav">
+        <button class="week-btn" onclick="changeWeek(-1)">&#x25c0;</button>
+        <div class="cal-wrap">
+          <div class="cal-trigger" onclick="toggleCalendar(event)" title="Choisir une semaine">
+            <div class="week-label" id="week-label">Chargement...</div>
+            <span class="cal-icon">&#x1f4c5;</span>
+          </div>
+          <div class="cal-popup hidden" id="cal-popup">
+            <div class="cal-header">
+              <button class="cal-nav" onclick="calNav(-1,event)">&#x25c0;</button>
+              <span class="cal-month-label" id="cal-month-label">—</span>
+              <button class="cal-nav" onclick="calNav(1,event)">&#x25b6;</button>
+            </div>
+            <div class="cal-grid" id="cal-grid"></div>
+          </div>
+        </div>
+        <button class="week-btn" onclick="changeWeek(1)">&#x25b6;</button>
+        <button class="btn-ghost" onclick="goToday()">Aujourd'hui</button>
+      </div>
+      <div class="table-wrap">
+        <table class="mm" id="mm-table">
+          <colgroup id="mm-colgroup"></colgroup>
+          <thead id="mm-thead"></thead>
+          <tbody id="mm-tbody"></tbody>
+          <tfoot id="mm-tfoot"></tfoot>
+        </table>
+      </div>
+      <div class="sync-report" id="sync-report">
+        <h3>&#x1f4cb; Rapport de synchronisation</h3>
+        <div id="sync-report-body"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- DRIVER MODAL -->
+<div class="modal-overlay" id="driver-modal">
+  <div class="modal">
+    <div class="modal-hdr">Assigner un chauffeur</div>
+    <div class="modal-search"><input type="text" id="driver-search" placeholder="Rechercher..." oninput="filterDrivers()"></div>
+    <div class="modal-list" id="driver-list"></div>
+    <div class="modal-foot">
+      <button class="btn-ghost" onclick="clearDriver()" style="flex:1;color:var(--red2)">&#x2715; Vider</button>
+      <button class="btn-ghost" onclick="closeModal()" style="flex:1">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<nav class="mobile-nav">
+  <div class="mobile-nav-items">
+    <a href="optimum_trans_dashboard.html" class="mobile-nav-item"><span class="mobile-nav-icon">&#x1f4ca;</span>Dashboard</a>
+    <a href="optimum_trans_planning.html" class="mobile-nav-item"><span class="mobile-nav-icon">&#x1f4c5;</span>Planning</a>
+    <a href="monmarche.html" class="mobile-nav-item active"><span class="mobile-nav-icon">&#x1f6d2;</span>Mon Marche</a>
+    <a href="amende.html" class="mobile-nav-item"><span class="mobile-nav-icon">&#x1f694;</span>Amendes</a>
+    <a href="optimum_trans_parametres.html" class="mobile-nav-item"><span class="mobile-nav-icon">&#x2699;</span>Config</a>
+  </div>
+</nav>
+<script>
+const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+const CLIENT_NOM='MON MARCHE';
+const CLIENT_NOM_DIM='MON MARCHE DIMANCHE';
+const JOURS=['lun','mar','mer','jeu','ven','sam','dim'];
+const JOUR_LABELS=['LUNDI','MARDI','MERCREDI','JEUDI','VENDREDI','SAMEDI','DIMANCHE'];
+const SLOTS=['am','pm'];
+
+function getClientNom(d){return d===6?CLIENT_NOM_DIM:CLIENT_NOM;}
+function H(){const s=OT.getSession();const t=s?.token||KEY;return{'apikey':KEY,'Authorization':'Bearer '+t,'Content-Type':'application/json'};}
+function H_REP(){return{...H(),'Prefer':'return=representation'};}
+
+let companyId=null,currentMonday=null,allShifts=[],allChauffeurs=[],allClients=[],allVehicules=[];
+let modalTarget=null,saveTimers={};
+let filterChauffeur='',visibleDays=new Set([0,1,2,3,4,5,6]);
+let _syncing=false;
+
+/* TIME OPTIONS */
+function genTimes(){const a=[''];for(let h=4;h<24;h++)for(let m=0;m<60;m+=5)a.push(String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'));return a;}
+const TIMES=genTimes();
+function timeSel(sel,id,slotKey,field){
+  return '<select class="mm-sel" id="sel-'+id+'" onchange="onTime(\''+id+'\',\''+slotKey+'\',\''+field+'\',this.value)">'+
+    TIMES.map(t=>'<option value="'+t+'"'+(t===sel?' selected':'')+'>'+( t||'--:--')+'</option>').join('')+'</select>';
+}
+function vehSel(sel,id,slotKey){
+  let html='<select class="veh-sel" onchange="onVeh(\''+slotKey+'\',this.value)">';
+  html+='<option value="">-- Vehicule --</option>';
+  allVehicules.forEach(v=>{html+='<option value="'+v.id+'"'+(v.id===sel?' selected':'')+'>'+v.immatriculation+(v.typologie?' ['+v.typologie+']':'')+'</option>';});
+  return html+'</select>';
+}
+
+/* UTILS */
+function monday(d){const dt=new Date(d),day=dt.getDay(),diff=dt.getDate()-day+(day===0?-6:1);dt.setDate(diff);dt.setHours(0,0,0,0);return dt;}
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function fmt(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),j=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${j}`;}
+function fmtShort(d){return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});}
+function mins(debut,fin){if(!debut||!fin)return 0;const[dh,dm]=debut.split(':').map(Number);const[fh,fm]=fin.split(':').map(Number);const v=(fh*60+fm)-(dh*60+dm);return v>0?v:0;}
+function fmtH(m){if(!m)return'';const h=Math.floor(m/60);const mn=m%60;return h+'h'+(mn?String(mn).padStart(2,'0'):'00');}
+function calcHrs(debut,fin){const m=mins(debut,fin);return m?parseFloat((m/60).toFixed(2)):null;}
+function toast(msg,ms=3000){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),ms);}
+
+/* WEEK NAV */
+function changeWeek(dir){currentMonday=addDays(currentMonday,dir*7);updateLabel();loadData();}
+function goToday(){currentMonday=monday(new Date());updateLabel();loadData();}
+function updateLabel(){
+  const sun=addDays(currentMonday,6);
+  document.getElementById('week-label').textContent='Semaine du '+fmtShort(currentMonday)+' au '+fmtShort(sun)+' '+currentMonday.getFullYear();
+}
+
+/* INIT */
+document.addEventListener('DOMContentLoaded',async()=>{
+  const s=OT.getSession();if(!s)return;
+  companyId=s.company_id||s.id;
+  if(s.id==='demo')document.getElementById('demo-banner').style.display='flex';
+  const nm=s.name||s.email||'Admin';
+  document.getElementById('user-name').textContent=nm;
+  document.getElementById('user-role').textContent=s.role||'Admin';
+  document.getElementById('user-av').textContent=nm.split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'OT';
+  currentMonday=monday(new Date());
+  updateLabel();
+  // Afficher les addons selon le plan
+  if(s.addon_dispatch===true||s.id==='demo'){
+    document.querySelectorAll('a[href="optimum_trans_dispatch.html"]').forEach(el=>el.style.display='');
+  }
+  if(s.addon_tracking===true||s.id==='demo'){
+    const role=s.role||'admin';
+    if(role!=='chauffeur'){
+      document.querySelectorAll('a[href="optimum_trans_suivi_chauffeurs.html"]').forEach(el=>el.style.display='');
+    }
+  }
+  await loadMaster();
+  await loadData();
+});
+
+async function loadMaster(){
+  try{
+    const[rC,rCl,rV]=await Promise.all([
+      fetch(`${SB}/rest/v1/chauffeurs?company_id=eq.${companyId}&order=nom&select=id,nom,type,entreprise_nom`,{headers:H()}),
+      fetch(`${SB}/rest/v1/clients?company_id=eq.${companyId}&order=nom`,{headers:H()}),
+      fetch(`${SB}/rest/v1/vehicules?company_id=eq.${companyId}&order=immatriculation&select=id,immatriculation,marque,modele,typologie`,{headers:H()})
+    ]);
+    if(rC.ok){allChauffeurs=await rC.json();populateFilterChauffeur();}
+    if(rCl.ok)allClients=await rCl.json();
+    if(rV.ok)allVehicules=await rV.json();
+  }catch(e){console.error(e);}
+}
+
+async function loadData(){
+  const mon=fmt(currentMonday);
+  document.getElementById('sync-info').textContent='Chargement...';
+  try{
+    const r=await fetch(`${SB}/rest/v1/monmarche_shifts?company_id=eq.${companyId}&semaine_debut=eq.${mon}&order=ordre`,{headers:H()});
+    allShifts=r.ok?await r.json():[];
+  }catch(e){allShifts=[];}
+  render();
+  document.getElementById('sync-info').textContent=allShifts.length+' ligne'+(allShifts.length!==1?'s':'');
+}
+
+/* FILTER FUNCTIONS */
+function populateFilterChauffeur(){
+  const sel=document.getElementById('filter-chauffeur');if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Tous les chauffeurs —</option>'+allChauffeurs.map(c=>`<option value="${c.nom}">${c.nom}</option>`).join('');
+  if(cur)sel.value=cur;
+}
+function applyFilters(){filterChauffeur=document.getElementById('filter-chauffeur').value;render();}
+function toggleDay(d){
+  if(visibleDays.has(d)){if(visibleDays.size>1)visibleDays.delete(d);}
+  else visibleDays.add(d);
+  document.querySelectorAll('.day-btn').forEach((btn,i)=>btn.classList.toggle('active',visibleDays.has(i)));
+  render();
+}
+
+/* RENDER */
+function render(){renderHead();renderBody();renderFoot();}
+
+function renderHead(){
+  const vd=[...visibleDays].sort((a,b)=>a-b);
+  let cg='<col style="width:140px">';
+  for(let i=0;i<vd.length*2;i++) cg+='<col style="width:100px">';
+  cg+='<col style="width:50px"><col style="width:60px"><col style="width:30px">';
+  document.getElementById('mm-colgroup').innerHTML=cg;
+  document.querySelector('table.mm').style.width=(140+vd.length*200+140)+'px';
+  let r1='<tr><th rowspan="2" class="zone-hdr">ZONE</th>';
+  for(const d of vd){
+    const dt=addDays(currentMonday,d);
+    r1+=`<th colspan="2" class="day-hdr">${JOUR_LABELS[d]}<br><span style="font-family:Outfit;font-size:9px;font-weight:400">${fmtShort(dt)}</span></th>`;
+  }
+  r1+='<th rowspan="2" class="total-hdr" style="color:var(--accent)">NB</th>';
+  r1+='<th rowspan="2" class="total-hdr2" style="color:var(--green)">HRS</th>';
+  r1+='<th rowspan="2" style="background:var(--navy3);position:sticky;right:0;z-index:5;"></th></tr>';
+  let r2='<tr>';
+  for(let i=0;i<vd.length;i++) r2+='<th class="am-hdr">AM</th><th class="pm-hdr">PM</th>';
+  r2+='</tr>';
+  document.getElementById('mm-thead').innerHTML=r1+r2;
+}
+
+function renderBody(){
+  const vd=[...visibleDays].sort((a,b)=>a-b);
+  let rows=allShifts.filter(s=>!s.zone_nom?.startsWith('_'));
+  if(filterChauffeur) rows=rows.filter(shift=>Object.values(shift.slots||{}).some(c=>c.chauffeur===filterChauffeur));
+  const fc=document.getElementById('filter-count');
+  if(fc)fc.textContent=rows.length+' ligne'+(rows.length!==1?'s':'');
+  if(!rows.length){
+    document.getElementById('mm-tbody').innerHTML='<tr><td colspan="'+(vd.length*2+4)+'" style="padding:36px;text-align:center;color:var(--gray)">'+(filterChauffeur?'Aucune ligne pour ce chauffeur.':'Aucune ligne. Cliquez <strong>+ Ajouter ligne</strong> pour commencer.')+'</td></tr>';
+    return;
+  }
+  let html='';
+  rows.forEach(shift=>{
+    const sl=shift.slots||{};
+    let totalShifts=0,totalMins=0;
+    for(let d=0;d<7;d++){for(const s of SLOTS){const k=JOURS[d]+'_'+s;const c=sl[k]||{};if(c.chauffeur||c.debut)totalShifts++;totalMins+=mins(c.debut,c.fin);}}
+    html+=`<tr><td class="zone-cell"><div class="zone-name">${shift.zone_nom||'THIAIS MMP'}</div></td>`;
+    for(const d of vd){
+      for(const s of SLOTS){
+        const key=JOURS[d]+'_'+s;const c=sl[key]||{};
+        const bg=s==='am'?'background:rgba(245,166,35,0.04)':'background:rgba(37,99,235,0.04)';
+        const dur=mins(c.debut,c.fin);
+        const btnLbl=c.chauffeur||'SHIFT NA';
+        const shortLbl=btnLbl.length>14?btnLbl.slice(0,13)+'…':btnLbl;
+        html+=`<td style="${bg}"><div class="slot-inner">`;
+        html+=`<button class="${c.chauffeur?'shift-btn assigned':'shift-btn'}" onclick="openModal('${shift.id}','${key}')" title="${btnLbl}">${shortLbl}</button>`;
+        html+=vehSel(c.vehicule_id||'',shift.id+'_'+key,shift.id+'|'+key);
+        html+=`<div class="times-row"><span class="times-label">Dbt</span>${timeSel(c.debut||'',shift.id+'_'+key+'_d',shift.id+'|'+key,'debut')}</div>`;
+        html+=`<div class="times-row"><span class="times-label">Fin</span>${timeSel(c.fin||'',shift.id+'_'+key+'_f',shift.id+'|'+key,'fin')}</div>`;
+        if(dur)html+=`<div class="dur-label">${fmtH(dur)}</div>`;
+        html+=`</div></td>`;
+      }
+    }
+    html+=`<td class="total-val">${totalShifts||0}</td><td class="total-hrs">${fmtH(totalMins)||'—'}</td>`;
+    html+=`<td class="del-cell"><button class="del-btn" onclick="delRow('${shift.id}')">&#x1f5d1;</button></td></tr>`;
+  });
+  document.getElementById('mm-tbody').innerHTML=html;
+}
+
+function renderFoot(){
+  const vd=[...visibleDays].sort((a,b)=>a-b);
+  const rows=allShifts.filter(s=>!s.zone_nom?.startsWith('_'));
+  if(!rows.length){document.getElementById('mm-tfoot').innerHTML='';return;}
+  let r1=`<tr class="summary-row"><td class="lbl">NB SHIFTS / JOUR</td>`;
+  let r2=`<tr class="summary-row"><td class="lbl">NB HR / JOUR</td>`;
+  let grandShifts=0,grandMins=0;
+  for(let d=0;d<7;d++){
+    let cntAm=0,cntPm=0,mAm=0,mPm=0;
+    rows.forEach(sh=>{const sl=sh.slots||{};const a=sl[JOURS[d]+'_am']||{};const p=sl[JOURS[d]+'_pm']||{};if(a.chauffeur||a.debut)cntAm++;if(p.chauffeur||p.debut)cntPm++;mAm+=mins(a.debut,a.fin);mPm+=mins(p.debut,p.fin);});
+    grandShifts+=cntAm+cntPm;grandMins+=mAm+mPm;
+    if(visibleDays.has(d)){
+      r1+=`<td style="color:var(--accent)">${cntAm||''}</td><td style="color:var(--blue2)">${cntPm||''}</td>`;
+      r2+=`<td style="color:var(--accent)">${fmtH(mAm)||''}</td><td style="color:var(--blue2)">${fmtH(mPm)||''}</td>`;
+    }
+  }
+  r1+=`<td style="color:var(--accent)">${grandShifts}</td><td></td><td></td></tr>`;
+  r2+=`<td></td><td style="color:var(--green);font-family:'Bebas Neue';font-size:15px">${fmtH(grandMins)}</td><td></td></tr>`;
+  document.getElementById('mm-tfoot').innerHTML=r1+r2;
+}
+
+/* ADD / DELETE */
+async function addRow(){
+  const mon=fmt(currentMonday);
+  const ordre=allShifts.filter(s=>!s.zone_nom?.startsWith('_')).length;
+  try{
+    const r=await fetch(`${SB}/rest/v1/monmarche_shifts`,{method:'POST',headers:H_REP(),body:JSON.stringify({company_id:companyId,semaine_debut:mon,zone_nom:'THIAIS MMP',ordre,slots:{}})});
+    if(r.ok){const rows=await r.json();if(rows[0])allShifts.push(rows[0]);render();toast('Ligne ajoutee');}
+    else toast('Erreur ajout',4000);
+  }catch(e){toast('Erreur reseau',4000);}
+}
+async function delRow(id){
+  const shift=allShifts.find(s=>s.id===id);
+  const syncedCount=Object.values(shift?.slots||{}).filter(c=>c?.tournee_id).length;
+  let msg='Supprimer cette ligne ?';
+  if(syncedCount>0){
+    msg=`⚠️ Attention : ${syncedCount} tournée${syncedCount>1?'s':''} synchronisée${syncedCount>1?'s':''} dans le Planning ne seront PAS supprimées automatiquement.\n\nSupprimez-les manuellement dans le Planning si nécessaire.\n\nConfirmer la suppression de cette ligne Mon Marché ?`;
+  }
+  if(!confirm(msg))return;
+  try{
+    await fetch(`${SB}/rest/v1/monmarche_shifts?id=eq.${id}`,{method:'DELETE',headers:H()});
+    allShifts=allShifts.filter(s=>s.id!==id);render();toast('Ligne supprimee');
+  }catch(e){toast('Erreur',4000);}
+}
+
+/* EVENTS - parse combined key "shiftId|slotKey" */
+function onTime(elId,combinedKey,field,val){
+  const[id,key]=combinedKey.split('|');
+  const shift=allShifts.find(s=>s.id===id);if(!shift)return;
+  if(!shift.slots)shift.slots={};if(!shift.slots[key])shift.slots[key]={};
+  shift.slots[key][field]=val;
+  render();debSave(shift);
+}
+function onVeh(combinedKey,val){
+  const[id,key]=combinedKey.split('|');
+  const shift=allShifts.find(s=>s.id===id);if(!shift)return;
+  if(!shift.slots)shift.slots={};if(!shift.slots[key])shift.slots[key]={};
+  shift.slots[key].vehicule_id=val||null;
+  debSave(shift);
+}
+
+/* MODAL */
+async function openModal(id,key){
+  modalTarget={id,key};
+  // Si chauffeurs vides (race condition token), recharger
+  if(allChauffeurs.length===0)await loadMaster();
+  document.getElementById('driver-search').value='';
+  renderDriverList('');
+  document.getElementById('driver-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('driver-search').focus(),80);
+}
+function closeModal(){document.getElementById('driver-modal').classList.remove('open');modalTarget=null;}
+function filterDrivers(){renderDriverList(document.getElementById('driver-search').value);}
+function renderDriverList(f){
+  const fl=f.toLowerCase();
+  const list=allChauffeurs.filter(c=>!fl||c.nom.toLowerCase().includes(fl));
+  document.getElementById('driver-list').innerHTML=list.length
+    ?list.map(c=>`<div class="modal-item" onclick="selectDriver('${c.nom.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')"><span class="modal-item-name">${c.nom}</span><span class="modal-item-type">${c.type==='sous-traitant'&&c.entreprise_nom?`sous-traitant · ${c.entreprise_nom}`:c.type||''}</span></div>`).join('')
+    :'<div style="padding:16px;text-align:center;color:var(--gray)">Aucun resultat</div>';
+}
+function selectDriver(nom){
+  if(!modalTarget)return;
+  const shift=allShifts.find(s=>s.id===modalTarget.id);if(!shift)return;
+  if(!shift.slots)shift.slots={};if(!shift.slots[modalTarget.key])shift.slots[modalTarget.key]={};
+  shift.slots[modalTarget.key].chauffeur=nom;
+  closeModal();render();debSave(shift);
+}
+function clearDriver(){
+  if(!modalTarget)return;
+  const shift=allShifts.find(s=>s.id===modalTarget.id);if(!shift)return;
+  if(shift.slots?.[modalTarget.key])shift.slots[modalTarget.key].chauffeur=null;
+  closeModal();render();debSave(shift);
+}
+
+/* SAVE */
+function debSave(shift){
+  clearTimeout(saveTimers[shift.id]);
+  saveTimers[shift.id]=setTimeout(()=>saveShift(shift),700);
+}
+async function saveShift(shift){
+  try{
+    await fetch(`${SB}/rest/v1/monmarche_shifts?id=eq.${shift.id}`,{method:'PATCH',headers:H(),body:JSON.stringify({slots:shift.slots,updated_at:new Date().toISOString()})});
+  }catch(e){console.error('save',e);}
+}
+
+/* CALENDAR PICKER */
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
+const CAL_MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const CAL_DAYS=['L','M','M','J','V','S','D'];
+function toggleCalendar(e){e.stopPropagation();const p=document.getElementById('cal-popup');if(p.classList.contains('hidden')){calYear=currentMonday.getFullYear();calMonth=currentMonday.getMonth();renderCal();p.classList.remove('hidden');setTimeout(()=>document.addEventListener('click',closeCal,{once:true}),0);}else{p.classList.add('hidden');}}
+function closeCal(){document.getElementById('cal-popup').classList.add('hidden');}
+function calNav(dir,e){e.stopPropagation();calMonth+=dir;if(calMonth<0){calMonth=11;calYear--;}if(calMonth>11){calMonth=0;calYear++;}renderCal();}
+function renderCal(){
+  document.getElementById('cal-month-label').textContent=CAL_MONTHS[calMonth]+' '+calYear;
+  const grid=document.getElementById('cal-grid');
+  grid.innerHTML=CAL_DAYS.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  const first=new Date(calYear,calMonth,1);
+  const startDow=first.getDay()===0?6:first.getDay()-1;
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const todayStr=fmt(new Date());
+  // Jours de la semaine courante
+  const weekStrs=new Set();for(let i=0;i<7;i++)weekStrs.add(fmt(addDays(currentMonday,i)));
+  for(let i=0;i<startDow;i++)grid.innerHTML+=`<div class="cal-day"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const ds=calYear+'-'+String(calMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const cls=['cal-day','in-month',ds===todayStr?'today':'',weekStrs.has(ds)?'in-week':''].filter(Boolean).join(' ');
+    grid.innerHTML+=`<div class="${cls}" onclick="goToDate('${ds}',event)">${d}</div>`;
+  }
+}
+function goToDate(dateStr,e){e.stopPropagation();const target=new Date(dateStr+'T12:00:00');currentMonday=monday(target);updateLabel();loadData();closeCal();}
+
+/* VIDER LA SEMAINE */
+async function clearWeek(){
+  const monStr=fmt(currentMonday);
+  const label='semaine du '+fmtShort(currentMonday)+' au '+fmtShort(addDays(currentMonday,6));
+  if(!confirm(`Supprimer toutes les lignes de la ${label} ?\n\nCette action est irréversible.`))return;
+  try{
+    const r=await fetch(`${SB}/rest/v1/monmarche_shifts?company_id=eq.${companyId}&semaine_debut=eq.${monStr}`,{method:'DELETE',headers:H()});
+    if(r.ok){allShifts=[];render();toast('Semaine vidée',3000);}
+    else toast('Erreur lors de la suppression',4000);
+  }catch(e){toast('Erreur lors de la suppression',4000);}
+}
+
+/* SYNC TO PLANNING */
+async function syncToPlanning(){
+  // Verrou anti-double-clic / soumission concurrente
+  if(_syncing){toast('⏳ Synchronisation déjà en cours…',3000);return;}
+  _syncing=true;
+  const btn=document.getElementById('btn-sync');
+  btn.disabled=true;btn.textContent='Synchronisation...';
+  const report=[];let created=0,updated=0,skipped=0,errors=0;
+  try{
+
+  // Warn if client not in clients table (optional, tariffs only)
+  const cObj=allClients.find(c=>c.nom===CLIENT_NOM);
+  if(!cObj) report.push({t:'warn',m:'Client "'+CLIENT_NOM+'" non trouve dans Clients & Facturation. Les tournees seront crees sans tarif lie.'});
+  const cObjD=allClients.find(c=>c.nom===CLIENT_NOM_DIM);
+  if(!cObjD) report.push({t:'warn',m:'Client "'+CLIENT_NOM_DIM+'" non trouve. Les dimanches seront crees sans tarif lie.'});
+
+  // Warn if tariffs zero (only if client found)
+  if(cObj){const hasT=(parseFloat(cObj.tarif_heure_am)||0)>0||(parseFloat(cObj.tarif)||0)>0||(parseFloat(cObj.salaire_ch_sem)||0)>0;
+  if(!hasT) report.push({t:'warn',m:'Les taux du client "'+CLIENT_NOM+'" semblent a 0. Verifiez la facturation.'});}
+
+  // Load existing Mon Marche tournees this week
+  const start=fmt(currentMonday),end=fmt(addDays(currentMonday,6));
+  let existing=[];
+  try{
+    const r=await fetch(`${SB}/rest/v1/tournees?company_id=eq.${companyId}&client_nom=in.(${encodeURIComponent(CLIENT_NOM)},${encodeURIComponent(CLIENT_NOM_DIM)})&date=gte.${start}&date=lte.${end}&select=id,chauffeur_nom,client_nom,date,slot`,{headers:H()});
+    if(r.ok)existing=await r.json();
+  }catch(e){}
+
+  // Vehicle immat map
+  const vmap={};allVehicules.forEach(v=>{vmap[v.id]=v.immatriculation;});
+
+  const rows=allShifts.filter(s=>!s.zone_nom?.startsWith('_'));
+  for(const shift of rows){
+    const sl=shift.slots||{};
+    for(let d=0;d<7;d++){
+      for(const s of SLOTS){
+        const key=JOURS[d]+'_'+s;
+        const c=sl[key]||{};
+        if(!c.chauffeur||!c.debut||!c.fin)continue;
+
+        const dateStr=fmt(addDays(currentMonday,d));
+        const slotType=s.toUpperCase();
+        const clientNom=getClientNom(d);
+        const hrs=calcHrs(c.debut,c.fin);
+        const veh=c.vehicule_id?vmap[c.vehicule_id]||'':'';
+
+        // Check conflict with other clients
+        try{
+          const rc=await fetch(`${SB}/rest/v1/tournees?company_id=eq.${companyId}&chauffeur_nom=eq.${encodeURIComponent(c.chauffeur)}&date=eq.${dateStr}&slot=eq.${slotType}&client_nom=not.in.(${encodeURIComponent(CLIENT_NOM)},${encodeURIComponent(CLIENT_NOM_DIM)})&select=id,client_nom`,{headers:H()});
+          if(rc.ok){const conf=await rc.json();if(conf.length){report.push({t:'warn',m:c.chauffeur+' \u2013 '+JOUR_LABELS[d]+' '+slotType+': deja sur "'+conf[0].client_nom+'". Ignore.'});skipped++;continue;}}
+        }catch(e){}
+
+        // Re-vérifier existant aussi sur tous les clients (pas que MON MARCHE) au cas où
+        // une tournée a été créée juste avant pour ce chauffeur+date+slot.
+        let ex=existing.find(t=>t.chauffeur_nom===c.chauffeur&&t.date===dateStr&&t.slot===slotType);
+        if(!ex){
+          try{
+            const rEx=await fetch(`${SB}/rest/v1/tournees?company_id=eq.${companyId}&chauffeur_nom=eq.${encodeURIComponent(c.chauffeur)}&date=eq.${dateStr}&slot=eq.${slotType}&client_nom=eq.${encodeURIComponent(clientNom)}&select=id,chauffeur_nom,date,slot,client_nom`,{headers:H()});
+            if(rEx.ok){const arr=await rEx.json();if(arr.length){ex=arr[0];existing.push(ex);}}
+          }catch(e){}
+        }
+        if(ex){
+          // PATCH only safe fields (never overwrite reel)
+          try{
+            const payload={heure:c.debut,nb_heures_estime:hrs,client_nom:clientNom};
+            if(veh)payload.vehicule=veh;
+            await fetch(`${SB}/rest/v1/tournees?id=eq.${ex.id}`,{method:'PATCH',headers:H(),body:JSON.stringify(payload)});
+            if(!shift.slots[key])shift.slots[key]=c;
+            shift.slots[key].tournee_id=ex.id;
+            updated++;
+          }catch(e){errors++;report.push({t:'err',m:'PATCH erreur: '+c.chauffeur+' '+JOUR_LABELS[d]+' '+slotType});}
+        }else{
+          // POST new
+          try{
+            const payload={company_id:companyId,chauffeur_nom:c.chauffeur,client_nom:clientNom,date:dateStr,slot:slotType,heure:c.debut,nb_heures_estime:hrs,vehicule:veh,commentaire:'Auto Mon Marche'};
+            const rp=await fetch(`${SB}/rest/v1/tournees`,{method:'POST',headers:H_REP(),body:JSON.stringify(payload)});
+            if(rp.ok){
+              const rows2=await rp.json();
+              if(rows2[0]){
+                if(!shift.slots[key])shift.slots[key]=c;
+                shift.slots[key].tournee_id=rows2[0].id;
+                // IMPORTANT : ajouter à `existing` pour éviter qu'une itération suivante recrée un doublon
+                existing.push({id:rows2[0].id,chauffeur_nom:c.chauffeur,date:dateStr,slot:slotType,client_nom:clientNom});
+              }
+              created++;
+            }
+            else{
+              const errTxt=await rp.text();
+              if(/duplicate key|uniq_tournees_no_dup|23505/i.test(errTxt)){
+                // Race condition : la tournée a été créée juste avant via un autre chemin → on l'ignore
+                skipped++;
+                report.push({t:'warn',m:c.chauffeur+' '+JOUR_LABELS[d]+' '+slotType+': doublon détecté côté base, ignoré'});
+              } else {
+                errors++;report.push({t:'err',m:'POST erreur: '+c.chauffeur+' '+JOUR_LABELS[d]+' '+slotType});
+              }
+            }
+          }catch(e){errors++;report.push({t:'err',m:'Reseau erreur: '+c.chauffeur+' '+JOUR_LABELS[d]+' '+slotType});}
+        }
+      }
+    }
+    await saveShift(shift);
+  }
+
+    report.unshift({t:'ok',m:`Sync terminee : ${created} cree(s), ${updated} mis a jour, ${skipped} ignore(s), ${errors} erreur(s)`});
+    showReport(report);
+    toast(`Sync OK: ${created} cree(s), ${updated} MAJ`,4000);
+  }catch(e){
+    report.unshift({t:'err',m:'Erreur fatale sync: '+(e?.message||e)});
+    showReport(report);
+    toast('❌ Erreur sync: '+(e?.message||e),5000);
+  }finally{
+    btn.disabled=false;btn.textContent='\u{1f504} Synchroniser vers Planning';
+    _syncing=false;
+  }
+}
+
+function showReport(report){
+  const el=document.getElementById('sync-report');
+  document.getElementById('sync-report-body').innerHTML=report.map(r=>`<div class="r-${r.t}">${r.t==='ok'?'\u2705':r.t==='warn'?'\u26a0\ufe0f':'\u274c'} ${r.m}</div>`).join('');
+  el.style.display='block';
+}
+
+// Close modal on overlay click
+document.getElementById('driver-modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+/* ============================================================
+   IMPORT EXCEL MON MARCHE (SheetJS, chargé en lazy-load)
+   Structure : groupes de 3 lignes [drivers, horaires, durées]
+   Offsets jours (col index) : Lun=1 Mar=5 Mer=9 Jeu=13 Ven=17 Sam=21 Dim=25
+   ============================================================ */
+
+const XLSX_CDN='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+const MM_DAY_OFF=[0,4,8,12,16,20,24];
+
+function loadSheetJS(){
+  return new Promise((resolve,reject)=>{
+    if(window.XLSX)return resolve();
+    const s=document.createElement('script');
+    s.src=XLSX_CDN;s.onload=resolve;
+    s.onerror=()=>reject(new Error('Chargement librairie Excel impossible'));
+    document.head.appendChild(s);
+  });
+}
+
+/* Valeur SheetJS → HH:MM ou null
+   Accepte : fraction 0-1 (temps Excel), JS Date (si cellDates:true), chaîne "H:MM:SS"/"H:MM" */
+function xlTime(v){
+  if(v===''||v===null||v===undefined)return null;
+  // JS Date (quand cellDates:true) — extraire heure/min en UTC (SheetJS crée les dates en UTC)
+  if(v instanceof Date){
+    const h=v.getUTCHours(),m=v.getUTCMinutes();
+    if(h===0&&m===0)return null;
+    return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+  }
+  // Fraction numérique (valeur temps Excel brut) : 0.28125 = 06:45
+  if(typeof v==='number'&&v>0&&v<1){
+    const totalMins=Math.round(v*24*60);
+    const h=Math.floor(totalMins/60),m=totalMins%60;
+    return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+  }
+  // Chaîne : "H:MM:SS", "HH:MM:SS", "H:MM", "HH:MM"
+  if(typeof v==='string'){
+    const t=v.trim();
+    if(!t)return null;
+    // Zéro explicite sous toutes ses formes
+    if(/^0+:0+(:0+)?$/.test(t))return null;
+    const p=t.split(':');
+    if(p.length>=2&&/^\d+$/.test(p[0])&&/^\d+$/.test(p[1])){
+      const hNum=parseInt(p[0]),mNum=parseInt(p[1]);
+      if(hNum===0&&mNum===0)return null;
+      return String(hNum).padStart(2,'0')+':'+String(mNum).padStart(2,'0');
+    }
+  }
+  return null;
+}
+
+/* Date SheetJS → YYYY-MM-DD ou null.
+   Gère : JS Date, DD/MM/YYYY, DD/MM/YY, DD/MM, YYYY-MM-DD, numéro de série Excel */
+function xlDate(v){
+  if(!v&&v!==0)return null;
+  // JS Date object (cellDates:true ou fallback)
+  if(v instanceof Date){
+    const y=v.getUTCFullYear(),mo=v.getUTCMonth()+1,d=v.getUTCDate();
+    return `${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  }
+  if(typeof v==='string'){
+    const t=v.trim();
+    // DD/MM/YYYY ou M/D/YYYY — si le 2e chiffre > 12, c'est M/D (américain)
+    const m4=t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if(m4){
+      let d=parseInt(m4[1]),mo=parseInt(m4[2]),y=m4[3];
+      if(mo>12&&d<=12){const tmp=d;d=mo;mo=tmp;}
+      if(mo<1||mo>12||d<1||d>31)return null;
+      return `${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    }
+    // DD/MM/YY ou M/D/YY → 20XX
+    const m2=t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2})$/);
+    if(m2){
+      let d=parseInt(m2[1]),mo=parseInt(m2[2]);
+      if(mo>12&&d<=12){const tmp=d;d=mo;mo=tmp;}
+      if(mo<1||mo>12)return null;
+      return `20${m2[3]}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    }
+    // DD/MM (sans année → année courante ou suivante)
+    const m0=t.match(/^(\d{1,2})\/(\d{1,2})$/);
+    if(m0){
+      const now=new Date(),cy=now.getFullYear();
+      const d=parseInt(m0[1]),mo=parseInt(m0[2]);
+      const candidate=new Date(cy,mo-1,d);
+      const y=candidate<new Date(now.getTime()-30*86400000)?cy+1:cy;
+      return `${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    }
+    // YYYY-MM-DD
+    const miso=t.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if(miso)return t;
+    // Numéro de série Excel en chaîne (ex: "46022")
+    const serial=parseInt(t);
+    if(!isNaN(serial)&&String(serial)===t&&serial>40000&&serial<100000){
+      const d=new Date(Date.UTC(1900,0,1)+(serial-2)*86400000);
+      return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
+    }
+  }
+  // Numéro de série Excel brut (entier)
+  if(typeof v==='number'&&Number.isInteger(v)&&v>40000&&v<100000){
+    const d=new Date(Date.UTC(1900,0,1)+(v-2)*86400000);
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
+  }
+  return null;
+}
+
+/* Nettoie un nom de zone multi-lignes : prend les 2 premières lignes non-vides */
+function xlZoneName(v){
+  if(!v&&v!==0)return null;
+  const s=String(v);
+  const lines=s.split(/[\r\n]+/).map(l=>l.trim()).filter(Boolean);
+  if(!lines.length)return null;
+  return lines.slice(0,2).join(' ');
+}
+
+/* Parse une feuille SheetJS (tableau 2D) vers des shifts */
+function parseMMRows(rows){
+  const isEmpty=r=>!r||r.every(c=>c===''||c===null||c===undefined);
+
+  /* 1. Trouver la ligne de dates (cherche dans toutes les colonnes de jour) */
+  let weekStart=null,datesRowIdx=-1;
+  outer:for(let i=0;i<rows.length;i++){
+    if(!rows[i])continue;
+    for(const off of MM_DAY_OFF){
+      const v=rows[i][off];
+      const ds=xlDate(v);
+      if(ds){weekStart=ds;datesRowIdx=i;break outer;}
+    }
+    // Fallback: cherche dans toute la ligne
+    for(let c=0;c<(rows[i].length||0);c++){
+      const ds=xlDate(rows[i][c]);
+      if(ds){weekStart=ds;datesRowIdx=i;break outer;}
+    }
+  }
+  if(!weekStart)return{error:'Date de la semaine introuvable dans le fichier.'};
+
+  /* 2. Trouver la ligne d'en-têtes AM/PM (cherche "AM" dans n'importe quelle colonne) */
+  let amHdrIdx=-1;
+  outerAM:for(let i=datesRowIdx;i<rows.length;i++){
+    const row=rows[i]||[];
+    for(let c=0;c<row.length;c++){
+      if(String(row[c]||'').trim().toUpperCase()==='AM'){amHdrIdx=i;break outerAM;}
+    }
+  }
+  if(amHdrIdx<0)return{error:'En-têtes AM/PM introuvables.'};
+
+  /* 3. Sauter les lignes blanches après AM/PM (pré-amble du tableau) */
+  let dataStart=amHdrIdx+1;
+  while(dataStart<rows.length&&isEmpty(rows[dataStart]))dataStart++;
+
+  /* 4. Lire les groupes de 3 lignes : [drivers, horaires, durées] */
+  const shifts=[];
+  let shiftNum=0;
+  let i=dataStart;
+
+  while(i+1<rows.length){
+    const dRow=rows[i]||[];   // ligne drivers
+    const tRow=rows[i+1]||[]; // ligne horaires
+
+    /* Condition d'arrêt */
+    if(isEmpty(dRow)&&isEmpty(tRow))break;
+    const col0=String(dRow[0]||'').trim().toUpperCase();
+    if(col0.startsWith('NB SHIFT')||col0.startsWith('CONTACT'))break;
+    if(String(tRow[0]||'').trim().toUpperCase().startsWith('NB SHIFT'))break;
+
+    /* Zone = toujours THIAIS MMP — noms drivers Mon Marché ignorés */
+    shiftNum++;
+    const currentZone='THIAIS MMP';
+
+    /* Extraction des horaires depuis tRow */
+    const slots={};
+    for(let d=0;d<7;d++){
+      const off=MM_DAY_OFF[d];
+      const ad=xlTime(tRow[off]),  af=xlTime(tRow[off+1]);
+      const pd=xlTime(tRow[off+2]),pf=xlTime(tRow[off+3]);
+      if(ad&&af)slots[JOURS[d]+'_am']={debut:ad,fin:af};
+      if(pd&&pf)slots[JOURS[d]+'_pm']={debut:pd,fin:pf};
+    }
+    if(Object.keys(slots).length>0){
+      shifts.push({zone_nom:currentZone,semaine_debut:weekStart,slots});
+    }
+    i+=3;
+  }
+
+  return{shifts,weekStart};
+}
+
+async function handleExcelImport(e){
+  const file=e.target.files[0];if(!file)return;
+
+  /* Charger SheetJS si pas encore disponible */
+  toast('Chargement...',2000);
+  try{await loadSheetJS();}
+  catch(err){toast('Erreur : librairie Excel non disponible',5000);return;}
+
+  /* Lire le fichier
+     raw:false → SheetJS formate chaque cellule via son format Excel :
+       - cellules temps (format "hh:mm:ss") → "06:45:00" (géré par xlTime string)
+       - cellules date (format "dd/mm/yyyy") → "06/04/2026" (géré par xlDate string)
+     On évite cellDates:true qui transformerait ces valeurs en objets Date JS
+     (xlTime/xlDate gèrent quand même les Date en fallback) */
+  let rows;
+  try{
+    const buf=await file.arrayBuffer();
+    const wb=XLSX.read(buf,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:'',blankrows:true});
+  }catch(err){toast('Impossible de lire le fichier Excel',5000);return;}
+
+  const result=parseMMRows(rows);
+  if(result.error){toast('Erreur import: '+result.error,5000);return;}
+  const{shifts,weekStart}=result;
+  if(!shifts.length){toast('Aucune ligne avec des horaires trouvee dans le fichier.',4000);return;}
+
+  /* Label de la semaine */
+  const weekDate=new Date(weekStart+'T12:00:00');
+  const mon=monday(weekDate);
+  const sun=addDays(mon,6);
+  const wLabel='Semaine du '+fmtShort(mon)+' au '+fmtShort(sun)+' '+mon.getFullYear();
+
+  /* Vérifier s'il y a déjà des données pour cette semaine */
+  const monStr=fmt(mon);
+  let existingCount=0;
+  try{
+    const r=await fetch(`${SB}/rest/v1/monmarche_shifts?company_id=eq.${companyId}&semaine_debut=eq.${monStr}&select=id`,{headers:H()});
+    if(r.ok){const ex=await r.json();existingCount=ex.length;}
+  }catch(err){}
+
+  let msg=`Importer ${shifts.length} ligne(s) pour ${wLabel} ?\n\nLes horaires seront pré-remplis. Vous devrez assigner les chauffeurs et véhicules.`;
+  if(existingCount>0)msg=`⚠️ Il y a déjà ${existingCount} ligne(s) pour cette semaine (${wLabel}).\n\nImporter quand même ${shifts.length} nouvelle(s) ligne(s) ?`;
+  if(!confirm(msg))return;
+
+  /* Naviguer vers la semaine importée */
+  currentMonday=mon;updateLabel();
+
+  /* Insérer en base */
+  let inserted=0,errors=0;
+  for(let idx=0;idx<shifts.length;idx++){
+    const s=shifts[idx];
+    try{
+      const r=await fetch(`${SB}/rest/v1/monmarche_shifts`,{method:'POST',headers:H_REP(),
+        body:JSON.stringify({company_id:companyId,semaine_debut:monStr,zone_nom:s.zone_nom,ordre:existingCount+idx,slots:s.slots})});
+      if(r.ok)inserted++;else errors++;
+    }catch(err){errors++;}
+  }
+
+  await loadData();
+  let msg2=`Import OK : ${inserted} ligne(s) créée(s) pour ${wLabel}`;
+  if(errors)msg2+=` (${errors} erreur(s))`;
+  toast(msg2,5000);
+}
+
+/* ============================================================
+   EXPORT EXCEL MON MARCHE
+   Mise en page identique à la page : ZONE | AM PM par jour | NB | HRS
+   3 sous-lignes par shift : chauffeur, véhicule, horaires+durée
+   ============================================================ */
+async function exportExcel(){
+  const shifts=allShifts.filter(s=>!s.zone_nom?.startsWith('_'));
+  if(!shifts.length){toast('Aucune donnée à exporter',3000);return;}
+  toast('Préparation de l\'export...',2000);
+  try{await loadSheetJS();}catch(e){toast('Erreur : librairie Excel non disponible',5000);return;}
+
+  /* Map vehicule_id → immatriculation */
+  const vmap={};
+  allVehicules.forEach(v=>{vmap[v.id]=v.immatriculation;});
+
+  /* 17 colonnes : 1 Zone + 7×2 AM/PM + NB + HRS */
+  const NC=17;
+  const data=[];
+  const merges=[];
+  const sun=addDays(currentMonday,6);
+
+  /* ── Row 0 : Titre (fusionné sur toute la largeur) ── */
+  const r0=new Array(NC).fill('');
+  r0[0]='MON MARCHE — Semaine du '+fmtShort(currentMonday)+' au '+fmtShort(sun)+' '+currentMonday.getFullYear();
+  data.push(r0);
+  merges.push({s:{r:0,c:0},e:{r:0,c:NC-1}});
+
+  /* ── Row 1 : vide ── */
+  data.push(new Array(NC).fill(''));
+
+  /* ── Row 2 : En-têtes jours (colspan=2 chacun) ── */
+  const r2=new Array(NC).fill('');
+  r2[0]='ZONE';
+  for(let d=0;d<7;d++){
+    const dt=addDays(currentMonday,d);
+    const lbl=JOUR_LABELS[d]+' '+String(dt.getDate()).padStart(2,'0')+'/'+String(dt.getMonth()+1).padStart(2,'0');
+    r2[1+d*2]=lbl;
+    r2[1+d*2+1]='';
+    merges.push({s:{r:2,c:1+d*2},e:{r:2,c:1+d*2+1}});
+  }
+  r2[15]='NB';
+  r2[16]='HRS';
+  data.push(r2);
+
+  /* ── Row 3 : Sous-en-têtes AM / PM ── */
+  const r3=new Array(NC).fill('');
+  r3[0]='';
+  for(let d=0;d<7;d++){
+    r3[1+d*2]='AM';
+    r3[1+d*2+1]='PM';
+  }
+  data.push(r3);
+
+  /* ── Données : 3 sous-lignes par shift ── */
+  shifts.forEach(shift=>{
+    const sl=shift.slots||{};
+    let totalShifts=0,totalMins=0;
+    for(let d=0;d<7;d++){
+      for(const s of SLOTS){
+        const k=JOURS[d]+'_'+s;const c=sl[k]||{};
+        if(c.chauffeur||c.debut)totalShifts++;
+        totalMins+=mins(c.debut,c.fin);
+      }
+    }
+    const baseRow=data.length;
+
+    /* Sous-ligne 1 : Chauffeurs */
+    const rCh=new Array(NC).fill('');
+    rCh[0]=shift.zone_nom||'THIAIS MMP';
+    for(let d=0;d<7;d++){
+      const am=sl[JOURS[d]+'_am']||{};
+      const pm=sl[JOURS[d]+'_pm']||{};
+      rCh[1+d*2]=am.chauffeur||'';
+      rCh[1+d*2+1]=pm.chauffeur||'';
+    }
+    rCh[15]=totalShifts||'';
+    rCh[16]=fmtH(totalMins)||'';
+    data.push(rCh);
+
+    /* Sous-ligne 2 : Véhicules */
+    const rVh=new Array(NC).fill('');
+    for(let d=0;d<7;d++){
+      const am=sl[JOURS[d]+'_am']||{};
+      const pm=sl[JOURS[d]+'_pm']||{};
+      rVh[1+d*2]=am.vehicule_id?(vmap[am.vehicule_id]||''):'';
+      rVh[1+d*2+1]=pm.vehicule_id?(vmap[pm.vehicule_id]||''):'';
+    }
+    data.push(rVh);
+
+    /* Sous-ligne 3 : Horaires (début - fin) + durée */
+    const rHr=new Array(NC).fill('');
+    for(let d=0;d<7;d++){
+      const am=sl[JOURS[d]+'_am']||{};
+      const pm=sl[JOURS[d]+'_pm']||{};
+      const amD=mins(am.debut,am.fin);
+      const pmD=mins(pm.debut,pm.fin);
+      if(am.debut&&am.fin)rHr[1+d*2]=am.debut+' - '+am.fin+(amD?' ('+fmtH(amD)+')':'');
+      if(pm.debut&&pm.fin)rHr[1+d*2+1]=pm.debut+' - '+pm.fin+(pmD?' ('+fmtH(pmD)+')':'');
+    }
+    data.push(rHr);
+
+    /* Fusionner Zone, NB et HRS sur les 3 sous-lignes */
+    merges.push({s:{r:baseRow,c:0},e:{r:baseRow+2,c:0}});
+    merges.push({s:{r:baseRow,c:15},e:{r:baseRow+2,c:15}});
+    merges.push({s:{r:baseRow,c:16},e:{r:baseRow+2,c:16}});
+  });
+
+  /* ── Ligne vide avant résumé ── */
+  data.push(new Array(NC).fill(''));
+
+  /* ── NB SHIFTS / JOUR ── */
+  const nbRow=new Array(NC).fill('');
+  nbRow[0]='NB SHIFTS / JOUR';
+  let grandShifts=0;
+  for(let d=0;d<7;d++){
+    let cntAm=0,cntPm=0;
+    shifts.forEach(sh=>{
+      const sl=sh.slots||{};
+      const a=sl[JOURS[d]+'_am']||{};
+      const p=sl[JOURS[d]+'_pm']||{};
+      if(a.chauffeur||a.debut)cntAm++;
+      if(p.chauffeur||p.debut)cntPm++;
+    });
+    nbRow[1+d*2]=cntAm||'';
+    nbRow[1+d*2+1]=cntPm||'';
+    grandShifts+=cntAm+cntPm;
+  }
+  nbRow[15]=grandShifts||'';
+  data.push(nbRow);
+
+  /* ── NB HR / JOUR ── */
+  const hrsRow=new Array(NC).fill('');
+  hrsRow[0]='NB HR / JOUR';
+  let grandMins=0;
+  for(let d=0;d<7;d++){
+    let mAm=0,mPm=0;
+    shifts.forEach(sh=>{
+      const sl=sh.slots||{};
+      const a=sl[JOURS[d]+'_am']||{};
+      const p=sl[JOURS[d]+'_pm']||{};
+      mAm+=mins(a.debut,a.fin);
+      mPm+=mins(p.debut,p.fin);
+    });
+    hrsRow[1+d*2]=fmtH(mAm)||'';
+    hrsRow[1+d*2+1]=fmtH(mPm)||'';
+    grandMins+=mAm+mPm;
+  }
+  hrsRow[16]=fmtH(grandMins)||'';
+  data.push(hrsRow);
+
+  /* ── Créer le workbook ── */
+  const ws=XLSX.utils.aoa_to_sheet(data);
+  ws['!merges']=merges;
+
+  /* Largeurs de colonnes */
+  const cols=[{wch:16}];
+  for(let d=0;d<7;d++){cols.push({wch:22});cols.push({wch:22});}
+  cols.push({wch:6});
+  cols.push({wch:8});
+  ws['!cols']=cols;
+
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Mon Marche');
+
+  const filename='MonMarche_'+fmt(currentMonday)+'.xlsx';
+  XLSX.writeFile(wb,filename);
+  toast('Export Excel téléchargé',3000);
+}
+</script>
+<script src="/ot_gps_persistent.js"></script>
+<script src="ot_decompte_guard.js" defer></script>
+</body>
+</html>

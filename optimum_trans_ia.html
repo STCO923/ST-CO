@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>
+// Visibilité du lien "Saisie" basée sur la session en cache (immédiat).
+// refreshSession() en arrière-plan ailleurs met à jour la session pour la prochaine visite.
+(function(){
+  try{
+    var raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
+    if(!raw)return;
+    var sess=JSON.parse(raw);
+    if(sess && sess.addon_saisie!==true){
+      var s=document.createElement('style');
+      s.id='sg';
+      s.textContent='a[href="optimum_trans_saisie.html"]{display:none!important}';
+      document.head.appendChild(s);
+    }
+  }catch(e){}
+})();
+</script>
+<script>
+(function(){
+  try{var _r=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');if(!_r)return;var _s=JSON.parse(_r);
+    if(_s&&(_s.role==='chef_equipe'||_s.role==='chauffeur')){window.location.href='optimum_trans_planning.html';return;}
+  }catch(e){}
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>T SERVICE & CO — IA Business Analyst</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0A1628">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="T.S">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--blue2:#2563EB;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--ai:#8B5CF6;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
+.sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:18px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity 0.2s;}
+.sidebar-logo:hover{opacity:0.8;}
+.logo-tag{font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);line-height:1;margin-top:4px;}
+.logo-name span{color:var(--accent);}
+.sidebar-nav{flex:1;padding:10px 12px;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);padding:5px 8px 2px;margin-top:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:1px;font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;}
+.nav-item:hover{background:var(--card);color:var(--light);}
+.nav-item.active{background:linear-gradient(135deg,rgba(139,92,246,0.4),rgba(139,92,246,0.15));color:var(--white);border:1px solid rgba(139,92,246,0.35);}
+.nav-icon{font-size:16px;width:20px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--ai);color:var(--white);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.sidebar-footer{padding:12px 12px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;}
+.user-card:hover{border-color:var(--blue);}
+.user-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);}
+.user-name{font-size:12px;font-weight:600;color:var(--white);}
+.user-role{font-size:10px;color:var(--gray);}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;}
+.topbar{height:60px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.btn-sm{padding:7px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+.btn-ai{background:linear-gradient(135deg,var(--ai),var(--purple));color:var(--white);font-weight:700;}
+.btn-ai:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(139,92,246,0.4);}
+.btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--gray);}
+.btn-ghost:hover{color:var(--white);border-color:var(--ai);}
+.content{padding:28px;display:flex;flex-direction:column;gap:24px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* KPI Mini Cards */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px;}
+.kpi-mini{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:14px;position:relative;overflow:hidden;}
+.kpi-mini::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.kpi-mini.ai::before{background:linear-gradient(90deg,var(--ai),var(--purple));}
+.kpi-mini.green::before{background:linear-gradient(90deg,var(--success),#2ECC71);}
+.kpi-mini.orange::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.kpi-mini.blue::before{background:linear-gradient(90deg,var(--blue),var(--blue2));}
+.kpi-mini-icon{font-size:18px;margin-bottom:6px;}
+.kpi-mini-val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--white);line-height:1;}
+.kpi-mini-label{font-size:10px;color:var(--gray);margin-top:3px;text-transform:uppercase;letter-spacing:1px;}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;animation:fadeUp 0.4s ease forwards;opacity:0;}
+.card:nth-child(1){animation-delay:.1s}.card:nth-child(2){animation-delay:.2s}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;}
+.card-body{padding:20px;}
+
+/* Daily Report */
+#daily-report{min-height:120px;font-size:13px;line-height:1.7;color:var(--light);}
+#daily-report h3{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--ai);letter-spacing:1px;margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid rgba(139,92,246,0.2);}
+#daily-report strong{color:var(--white);}
+#daily-report ul,#daily-report ol{padding-left:20px;margin:6px 0;}
+#daily-report li{margin-bottom:4px;}
+.placeholder{text-align:center;padding:40px 20px;color:var(--gray);}
+.placeholder-icon{font-size:48px;margin-bottom:12px;}
+.placeholder-text{font-size:14px;}
+
+/* Spinner */
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--ai);border-radius:50%;animation:spin 0.8s linear infinite;margin:20px auto;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Chat */
+.chat-area{max-height:500px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;}
+.msg{max-width:85%;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;animation:fadeUp 0.3s ease;}
+.msg-user{align-self:flex-end;background:linear-gradient(135deg,var(--blue),var(--blue2));color:var(--white);border-bottom-right-radius:4px;}
+.msg-ai{align-self:flex-start;background:var(--navy3);border:1px solid var(--border);border-left:3px solid var(--ai);border-bottom-left-radius:4px;color:var(--light);}
+.msg-ai strong{color:var(--white);}
+.msg-ai ul,.msg-ai ol{padding-left:18px;margin:4px 0;}
+.msg-time{font-size:9px;color:rgba(255,255,255,0.4);margin-top:4px;}
+.msg-ai .msg-time{color:var(--gray2);}
+
+/* Typing indicator */
+.typing{display:flex;align-items:center;gap:4px;padding:12px 16px;background:var(--navy3);border:1px solid var(--border);border-left:3px solid var(--ai);border-radius:14px;border-bottom-left-radius:4px;align-self:flex-start;animation:fadeUp 0.3s ease;}
+.typing-dot{width:6px;height:6px;background:var(--ai);border-radius:50%;animation:bounce 1.4s infinite;}
+.typing-dot:nth-child(2){animation-delay:0.2s;}
+.typing-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+
+/* Input area */
+.chat-input-wrap{display:flex;gap:10px;padding:16px 20px;border-top:1px solid var(--border);background:rgba(0,0,0,0.15);}
+.chat-input{flex:1;background:var(--navy3);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;resize:none;}
+.chat-input:focus{border-color:var(--ai);}
+.chat-input::placeholder{color:var(--gray2);}
+.btn-send{background:linear-gradient(135deg,var(--ai),var(--purple));color:var(--white);border:none;border-radius:10px;padding:10px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.btn-send:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(139,92,246,0.4);}
+.btn-send:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* Suggestions */
+.suggestions{display:flex;gap:8px;flex-wrap:wrap;padding:12px 20px;border-top:1px solid var(--border);}
+.suggestion-btn{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25);color:var(--ai);border-radius:20px;padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;white-space:nowrap;}
+.suggestion-btn:hover{background:rgba(139,92,246,0.2);border-color:var(--ai);color:var(--white);}
+
+/* Remaining badge */
+.remaining-badge{background:rgba(139,92,246,0.15);color:var(--ai);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;border:1px solid rgba(139,92,246,0.3);}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--navy3);border:1px solid var(--border);color:var(--light);padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;transform:translateY(80px);opacity:0;transition:all 0.3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.error{border-color:var(--error);color:#FC8181;}
+
+/* Responsive */
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .main{margin-left:0;}
+  .content{padding:16px;}
+  .kpi-row{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .chat-area{max-height:350px;}
+  .suggestions{padding:10px 14px;}
+  .card-header{padding:12px 16px;}
+  .card-body{padding:14px;}
+  .topbar{padding:0 16px;}
+}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'">
+    <div class="logo-tag">Gestion Transport</div>
+    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <div class="nav-section-label">Gestion</div>
+    <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
+    <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH & Contrats</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
+    <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+    <div class="nav-section-label">Communication</div>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <div class="nav-section-label">Intelligence</div>
+    <a class="nav-item active" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <div class="nav-section-label">Paramètres</div>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
+      <div class="user-avatar">T.S</div>
+      <div><div class="user-name">Admin</div><div class="user-role">⚙️ Paramètres →</div></div>
+      <button onclick="event.stopPropagation();OT.logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;">⏻</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">🤖 IA BUSINESS ANALYST</div>
+    <div class="topbar-right">
+      <span id="sync-info" style="font-size:11px;color:var(--gray)">🤖 IA prête</span>
+      <span class="remaining-badge" id="remaining-badge">10 messages restants</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- ANALYSE QUOTIDIENNE -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">📊 ANALYSE QUOTIDIENNE</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px" id="analysis-date">—</div>
+        </div>
+        <button class="btn-sm btn-ai" onclick="generateAnalysis()">🧠 Générer l'analyse</button>
+      </div>
+      <div class="card-body">
+        <div id="daily-report">
+          <div class="placeholder">
+            <div class="placeholder-icon">🧠</div>
+            <div class="placeholder-text">Cliquez sur <strong>Générer l'analyse</strong> pour obtenir votre rapport quotidien.<br>
+            <span style="font-size:12px;color:var(--gray2)">L'IA analysera vos données clients, chauffeurs, gazole et facturation.</span></div>
+          </div>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi-mini ai"><div class="kpi-mini-icon">💶</div><div class="kpi-mini-val" id="kpi-ca">—</div><div class="kpi-mini-label">CA du mois</div></div>
+          <div class="kpi-mini green"><div class="kpi-mini-icon">📈</div><div class="kpi-mini-val" id="kpi-growth">—</div><div class="kpi-mini-label">Évolution</div></div>
+          <div class="kpi-mini orange"><div class="kpi-mini-icon">🚐</div><div class="kpi-mini-val" id="kpi-tournees">—</div><div class="kpi-mini-label">Tournées mois</div></div>
+          <div class="kpi-mini blue"><div class="kpi-mini-icon">⛽</div><div class="kpi-mini-val" id="kpi-gazole">—</div><div class="kpi-mini-label">Gazole mois</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT IA -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">💬 ASSISTANT IA — Transport & Rentabilité</div>
+        <span class="remaining-badge" id="chat-remaining">10 restants</span>
+      </div>
+      <div class="chat-area" id="chat-messages"></div>
+      <div class="suggestions">
+        <button class="suggestion-btn" onclick="useSuggestion('Quel est le client le plus rentable ce mois-ci ?')">💰 Client le plus rentable ?</button>
+        <button class="suggestion-btn" onclick="useSuggestion('Quel chauffeur a le plus de pénalités ?')">⚠️ Pénalités chauffeurs</button>
+        <button class="suggestion-btn" onclick="useSuggestion('Comment optimiser mes coûts de transport ?')">📉 Optimiser les coûts</button>
+        <button class="suggestion-btn" onclick="useSuggestion('Fais une projection de mon CA pour la fin de l année')">📊 Projection CA</button>
+        <button class="suggestion-btn" onclick="useSuggestion('Quels clients devraient voir leurs tarifs augmentés ?')">💹 Tarifs à revoir</button>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Posez votre question sur la rentabilité, les clients, les chauffeurs..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}">
+        <button class="btn-send" id="btn-send" onclick="sendChat()">Envoyer ➤</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+<script src="ot_401_guard.js"></script>
+<script src="ot_session.js"></script>
+<script src="ot_security.js"></script>
+<script src="ot_sync.js"></script>
+<script src="ot_ai_analyst.js"></script>
+
+<script>
+// ── Formatage du texte IA ──
+function formatAIText(text) {
+  if (!text) return '';
+  var html = text;
+  // Bold **text**
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Headers ### or ##
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h3>$1</h3>');
+  // Numbered lists
+  html = html.replace(/^(\d+)\.\s+(.+)$/gm, '<li><strong>$1.</strong> $2</li>');
+  // Bullet points
+  html = html.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
+  // Wrap consecutive <li> in <ul>
+  html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+  // Line breaks
+  html = html.replace(/\n\n/g, '<br><br>');
+  html = html.replace(/\n/g, '<br>');
+  // Clean up double <br> after headers
+  html = html.replace(/<\/h3><br>/g, '</h3>');
+  return html;
+}
+
+// ── Append message bubble ──
+function appendMessage(role, text) {
+  var chat = document.getElementById('chat-messages');
+  var div = document.createElement('div');
+  div.className = 'msg ' + (role === 'user' ? 'msg-user' : 'msg-ai');
+  var now = new Date();
+  var time = now.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+  if (role === 'user') {
+    div.innerHTML = text + '<div class="msg-time">' + time + '</div>';
+  } else {
+    div.innerHTML = formatAIText(text) + '<div class="msg-time">🤖 IA · ' + time + '</div>';
+  }
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// ── Typing indicator ──
+function showTyping() {
+  var chat = document.getElementById('chat-messages');
+  var div = document.createElement('div');
+  div.className = 'typing';
+  div.id = 'typing-indicator';
+  div.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+function hideTyping() {
+  var el = document.getElementById('typing-indicator');
+  if (el) el.remove();
+}
+
+// ── Update remaining badge ──
+function updateRemaining() {
+  var r = OT_AI.getRemainingChats();
+  document.getElementById('remaining-badge').textContent = r + ' messages restants';
+  document.getElementById('chat-remaining').textContent = r + ' restants';
+  if (r <= 5) {
+    document.getElementById('remaining-badge').style.borderColor = 'rgba(231,76,60,0.5)';
+    document.getElementById('remaining-badge').style.color = '#FC8181';
+  }
+}
+
+// ── Toast ──
+function toast(msg, type) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type === 'error' ? ' error' : '');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(function() { el.className = 'toast'; }, 4000);
+}
+
+// ── Load quick stats ──
+async function loadQuickStats() {
+  try {
+    var stats = await OT_AI.getQuickStats();
+    document.getElementById('kpi-ca').textContent = Math.round(stats.caMois).toLocaleString('fr-FR') + ' EUR';
+    var growth = parseFloat(stats.caGrowth);
+    var growthEl = document.getElementById('kpi-growth');
+    if (growth > 0) {
+      growthEl.textContent = '+' + growth + '%';
+      growthEl.style.color = '#2ECC71';
+    } else if (growth < 0) {
+      growthEl.textContent = growth + '%';
+      growthEl.style.color = '#FC8181';
+    } else {
+      growthEl.textContent = '0%';
+    }
+    document.getElementById('kpi-tournees').textContent = stats.nbTourneesMois;
+    document.getElementById('kpi-gazole').textContent = Math.round(stats.totalGazole).toLocaleString('fr-FR') + ' EUR';
+    document.getElementById('sync-info').textContent = '🤖 ' + stats.nbClients + ' clients · ' + stats.nbChauffeurs + ' chauffeurs';
+  } catch (e) {
+    console.warn('[IA] Stats error:', e);
+  }
+}
+
+// ── Generate daily analysis ──
+async function generateAnalysis() {
+  var report = document.getElementById('daily-report');
+  report.innerHTML = '<div style="text-align:center;padding:40px"><div class="spinner"></div><div style="color:var(--gray);font-size:12px;margin-top:12px">Analyse en cours... L\'IA examine vos données.</div></div>';
+  try {
+    var result = await OT_AI.generateDailyAnalysis();
+    report.innerHTML = formatAIText(result);
+    toast('Analyse quotidienne générée avec succès');
+  } catch (e) {
+    if (e.message && e.message.indexOf('Limite') >= 0) {
+      report.innerHTML = '<div class="placeholder"><div class="placeholder-icon">⏰</div><div class="placeholder-text">' + e.message + '<br><span style="font-size:12px;color:var(--gray2)">L\'analyse quotidienne sera disponible demain.</span></div></div>';
+    } else {
+      report.innerHTML = '<div class="placeholder"><div class="placeholder-icon">❌</div><div class="placeholder-text">Erreur : ' + (e.message || 'Connexion impossible') + '</div></div>';
+      toast('Erreur lors de l\'analyse', 'error');
+    }
+  }
+}
+
+// ── Send chat message ──
+async function sendChat() {
+  var input = document.getElementById('chat-input');
+  var msg = input.value.trim();
+  if (!msg) return;
+
+  if (!OT_AI.canChat()) {
+    toast('Limite de messages atteinte (10/jour). Réessayez demain.', 'error');
+    return;
+  }
+
+  input.value = '';
+  document.getElementById('btn-send').disabled = true;
+  appendMessage('user', msg);
+  showTyping();
+
+  try {
+    var result = await OT_AI.chat(msg);
+    hideTyping();
+    appendMessage('assistant', result.response);
+    updateRemaining();
+  } catch (e) {
+    hideTyping();
+    appendMessage('assistant', 'Désolé, une erreur est survenue : ' + (e.message || 'Connexion impossible'));
+    toast('Erreur de communication avec l\'IA', 'error');
+  }
+  document.getElementById('btn-send').disabled = false;
+  input.focus();
+}
+
+// ── Use suggestion ──
+function useSuggestion(text) {
+  document.getElementById('chat-input').value = text;
+  sendChat();
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', function() {
+  if (!OT.requireLogin()) return;
+
+  // Date
+  var now = new Date();
+  var opts = {weekday:'long', year:'numeric', month:'long', day:'numeric'};
+  var dateStr = now.toLocaleDateString('fr-FR', opts);
+  document.getElementById('analysis-date').textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+
+  // Welcome message
+  appendMessage('assistant', 'Bonjour ! Je suis votre **assistant IA** spécialisé en transport et logistique.\n\nPosez-moi vos questions sur :\n- La **rentabilité** de vos clients\n- Les **performances** de vos chauffeurs\n- L\'**optimisation** de vos coûts (gazole, sous-traitants...)\n- Des **projections** financières\n\nJe m\'appuie sur vos données réelles pour vous donner des recommandations concrètes.');
+
+  // Load stats
+  loadQuickStats();
+  updateRemaining();
+
+  // Check if cached analysis exists
+  try {
+    var cached = JSON.parse(localStorage.getItem('ot_ai_daily_cache') || '{}');
+    if (cached.date === `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}` && cached.result) {
+      document.getElementById('daily-report').innerHTML = formatAIText(cached.result);
+    }
+  } catch(e) {}
+});
+</script>
+
+<script src="ot_mobile_nav.js"></script>
+<script src="/ot_visibility_pause.js"></script>
+<script src="/ot_messaging.js"></script>
+<script src="ot_decompte_guard.js" defer></script>
+</body>
+</html>

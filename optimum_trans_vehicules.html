@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<script>
+// Visibilité du lien "Saisie" basée sur la session en cache (immédiat, sans appel réseau).
+(function(){
+  try{
+    var raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
+    if(!raw)return;
+    var sess=JSON.parse(raw);
+    if(sess && sess.addon_saisie!==true){
+      var s=document.createElement('style');
+      s.id='sg';
+      s.textContent='a[href="optimum_trans_saisie.html"]{display:none!important}';
+      document.head.appendChild(s);
+    }
+  }catch(e){}
+})();
+</script>
+<!-- Chef d'équipe : masquer rubriques hors périmètre DÈS le chargement -->
+<script>
+(function(){
+  try{
+    var _r=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
+    if(!_r)return;
+    var _s=JSON.parse(_r);
+    if(_s&&_s.role==='chef_equipe'){
+      var _st=document.createElement('style');
+      _st.id='ot-chef-nav-restrict';
+      _st.textContent=[
+        'a[href="optimum_trans_rh.html"]',
+        'a[href="optimum_trans_clients.html"]',
+        'a[href="amende.html"]',
+        'a[href="optimum_trans_parametres.html"]',
+        'a[href="optimum_trans_chauffeurs.html"]',
+        'a[href="optimum_trans_feuille_route.html"]',
+        'a[href="optimum_trans_saisie.html"]',
+        'a[href="optimum_trans_ia.html"]',
+        'a[href="optimum_trans_dispatch.html"]',
+        '.sidebar-footer .user-card'
+      ].join(',')+'{display:none!important}';
+      document.head.appendChild(_st);
+    }
+  }catch(e){}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>T SERVICE & CO — Parc Véhicules</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0A1628">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="T.S">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="stylesheet" href="/fonts.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js" defer></script>
+<style>
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
+.sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:18px 20px;border-bottom:1px solid var(--border);}
+.logo-tag{font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);line-height:1;margin-top:4px;}
+.logo-name span{color:var(--accent);}
+.sidebar-nav{flex:1;padding:10px 12px;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);padding:5px 8px 2px;margin-top:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:1px;font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;}
+.nav-item:hover{background:var(--card);color:var(--light);}
+.nav-item.active{background:linear-gradient(135deg,rgba(26,79,191,0.4),rgba(26,79,191,0.2));color:var(--white);border:1px solid rgba(26,79,191,0.3);}
+.nav-icon{font-size:16px;width:20px;text-align:center;}
+.sidebar-footer{padding:12px 12px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:10px;border:1px solid var(--border);cursor:pointer;}
+.user-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;}
+.topbar{height:60px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.btn-sm{padding:7px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+.btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-weight:700;}
+.btn-accent:hover{transform:translateY(-1px);}
+.btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--gray);}
+.btn-ghost:hover{color:var(--white);border-color:var(--blue);}
+.content{padding:28px;}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi.blue::before{background:linear-gradient(90deg,var(--blue),#2563EB);}
+.kpi.green::before{background:linear-gradient(90deg,var(--success),#2ECC71);}
+.kpi.orange::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.kpi.red::before{background:linear-gradient(90deg,var(--error),#FF6B6B);}
+.kpi-icon{font-size:22px;margin-bottom:8px;}
+.kpi-val{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);}
+.kpi-label{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+.sql-banner{background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.3);border-radius:12px;padding:16px 18px;margin-bottom:20px;}
+.sql-code{background:rgba(0,0,0,0.4);border-radius:8px;padding:12px 16px;font-family:'Courier New',monospace;font-size:11px;color:#A5B4FC;margin-top:10px;white-space:pre;overflow-x:auto;}
+.inline-form{background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.25);border-radius:12px;padding:20px;margin-bottom:20px;display:none;}
+.inline-form.show{display:block;}
+.form-title{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;}
+.form-grid{display:grid;gap:12px;}
+.fg-4{grid-template-columns:repeat(4,1fr);}
+.lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:4px;display:block;}
+.ii{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;width:100%;transition:border-color 0.2s;}
+.ii::placeholder{color:var(--gray2);}
+.ii:focus{border-color:var(--blue);}
+.is{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--light);outline:none;cursor:pointer;width:100%;}
+.is option{background:var(--navy2);}
+.btn-save{background:linear-gradient(135deg,var(--blue),#0D3A9E);color:var(--white);border:none;border-radius:8px;padding:10px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-save:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-cancel-f{background:var(--card);border:1px solid var(--border);color:var(--gray);border-radius:8px;padding:10px 14px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;}
+.filters-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.search-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;width:220px;}
+.search-input::placeholder{color:var(--gray);}
+.search-input:focus{border-color:var(--blue);}
+.filter-select{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--light);outline:none;cursor:pointer;}
+.filter-select option{background:var(--navy2);}
+.v-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.v-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;transition:all 0.2s;}
+.v-card:hover{border-color:var(--blue);transform:translateY(-2px);}
+.v-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.v-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.v-immat{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--white);letter-spacing:2px;line-height:1;}
+.v-model{font-size:11px;color:var(--gray);margin-top:2px;}
+.v-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.v-stat{background:rgba(255,255,255,0.03);border-radius:8px;padding:8px;text-align:center;}
+.v-stat-val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);}
+.v-stat-lbl{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+.v-footer{display:flex;align-items:center;justify-content:space-between;}
+.badge{display:inline-flex;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-green{background:rgba(39,174,96,0.15);color:#2ECC71;}
+.badge-orange{background:rgba(245,166,35,0.15);color:var(--accent);}
+.badge-red{background:rgba(231,76,60,0.15);color:#FC8181;}
+.badge-blue{background:rgba(26,79,191,0.2);color:#60A5FA;}
+.badge-gray{background:rgba(138,155,181,0.1);color:var(--gray2);}
+.icon-btn{background:none;border:none;cursor:pointer;padding:5px 8px;border-radius:6px;font-size:13px;color:var(--gray);transition:all 0.2s;}
+.icon-btn:hover{background:rgba(255,255,255,0.06);color:var(--white);}
+.spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:28px;right:28px;background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:14px 20px;font-size:13px;color:var(--white);z-index:300;transform:translateY(20px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.toast.show{transform:translateY(0);opacity:1;}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--navy2)}::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:3px}
+
+/* ─── ONGLETS PAGE ─── */
+.page-tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0;}
+.page-tab{background:none;border:none;border-bottom:2px solid transparent;padding:10px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--gray);cursor:pointer;transition:all 0.2s;margin-bottom:-1px;border-radius:8px 8px 0 0;}
+.page-tab:hover{color:var(--light);background:rgba(255,255,255,0.04);}
+.page-tab.active{color:var(--white);border-bottom-color:var(--blue);background:rgba(26,79,191,0.1);}
+
+/* ─── SECTION MAINTENANCE ─── */
+.maint-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+.maint-table{width:100%;border-collapse:collapse;font-size:13px;}
+.maint-table th{background:rgba(255,255,255,0.04);border-bottom:1px solid var(--border);padding:10px 14px;text-align:left;font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;}
+.maint-table td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--light);vertical-align:middle;}
+.maint-table tr:hover td{background:rgba(255,255,255,0.03);}
+.maint-type-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(26,79,191,0.15);color:#60A5FA;}
+.maint-cout{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--accent);}
+@media(max-width:768px){.maint-kpi-grid{grid-template-columns:repeat(2,1fr)!important;}}
+
+/* ═══════════════════════════════════════════
+   T SERVICE & CO — RESPONSIVE MOBILE
+   Barre de navigation en bas (≤ 768px)
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Masquer la sidebar sur mobile */
+  .sidebar { display: none !important; }
+
+  /* Contenu plein écran */
+  .content, .main-content, [class*="content"] {
+    margin-left: 0 !important;
+    padding: 12px 14px 80px 14px !important;
+    width: 100% !important;
+  }
+
+  /* Topbar mobile */
+  .topbar, .page-header {
+    padding: 0 14px !important;
+    height: 52px !important;
+  }
+  .topbar-title { font-size: 16px !important; }
+
+  /* Cartes KPI en 2 colonnes */
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* Tables scrollables horizontalement */
+  table { min-width: 600px; }
+  .table-wrap, [style*="overflow-x:auto"], [style*="overflow-x: auto"] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Cards plein largeur */
+  .card { padding: 14px !important; margin-bottom: 12px !important; }
+
+  /* Modals plein écran */
+  .modal, .modal-overlay .modal {
+    width: 96vw !important;
+    max-width: 96vw !important;
+    max-height: 92vh !important;
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Formulaires grille → 1 colonne */
+  .fg-2, .fg-3, .fg-4 { grid-template-columns: 1fr !important; }
+  .fg { grid-template-columns: 1fr !important; }
+
+  /* Drawers plein écran */
+  [id*="drawer"] {
+    width: 100vw !important;
+    right: -100vw !important;
+  }
+  [id*="drawer"][style*="right: 0"] {
+    right: 0 !important;
+  }
+
+  /* Boutons plus grands (zone tactile) */
+  .btn, .btn-sm, .btn-accent, .btn-ghost, button[class*="btn"] {
+    min-height: 40px !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+
+  /* Inputs plus grands */
+  .ii, input[class*="ii"], select[class*="ii"] {
+    height: 44px !important;
+    font-size: 14px !important;
+  }
+
+  /* Plan cards en colonne */
+  #plan-selector { flex-direction: column !important; }
+  .plan-card { width: 100% !important; min-width: unset !important; }
+
+  /* Week nav planning */
+  .week-nav { flex-wrap: wrap !important; gap: 6px !important; }
+  .week-grid { overflow-x: auto !important; min-width: 700px; }
+
+  /* Cacher certains labels sur mobile */
+  .nav-section-label { display: none; }
+}
+
+/* ═══════════════════════════════════
+   BARRE DE NAVIGATION EN BAS
+═══════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════
+   T SERVICE & CO — REFONTE MOBILE COMPLÈTE v2.0
+   Breakpoint: 768px
+═══════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+
+  /* ─── LAYOUT DE BASE ─── */
+  body { overflow-x: hidden; }
+  .sidebar { display: none !important; }
+  .content, .main-content {
+    margin-left: 0 !important;
+    padding: 10px 12px 80px 12px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  /* ─── TOPBAR ─── */
+  .topbar {
+    padding: 0 12px !important;
+    height: 50px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+  }
+  .topbar-title { font-size: 15px !important; letter-spacing: 1px !important; }
+  .topbar-sub, .topbar-date { font-size: 10px !important; }
+  /* Cacher les boutons secondaires du topbar, garder seulement l'action principale */
+  .topbar .btn-ghost { display: none !important; }
+  .topbar > div { flex-wrap: wrap !important; gap: 6px !important; }
+
+  /* ─── KPIs ─── */
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+  .kpi { padding: 12px !important; }
+  .kpi-val { font-size: 22px !important; }
+  .kpi-label { font-size: 9px !important; }
+  .kpi-sub { font-size: 9px !important; }
+  .kpi-icon { font-size: 18px !important; margin-bottom: 6px !important; }
+
+  /* ─── CARDS ─── */
+  .card { padding: 12px !important; margin-bottom: 12px !important; border-radius: 12px !important; }
+  .card-title { font-size: 13px !important; }
+  [class*="card-header"] { padding: 10px 12px !important; }
+  [class*="card-body"] { padding: 10px 12px !important; }
+
+  /* ─── GRILLES → 1 COLONNE ─── */
+  .fg-2, .fg-3, .fg-4,
+  [class*="grid-2"], [class*="grid-3"], [class*="grid-4"],
+  .two-col, .three-col, .four-col,
+  [style*="grid-template-columns: 1fr 1fr"],
+  [style*="grid-template-columns:1fr 1fr"],
+  [style*="grid-template-columns: repeat(2"],
+  [style*="grid-template-columns: repeat(3"],
+  [style*="grid-template-columns: repeat(4"] {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  .fg { grid-template-columns: 1fr !important; }
+
+  /* ─── TABLEAUX ─── */
+  .table-wrap, [style*="overflow-x:auto"], [style*="overflow-x: auto"] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 10px !important;
+  }
+  table {
+    min-width: 480px !important;
+    font-size: 11px !important;
+  }
+  th, td {
+    padding: 8px 10px !important;
+    white-space: nowrap !important;
+  }
+  /* Cacher les colonnes moins importantes sur mobile */
+  .col-hide-mobile, th.hide-mobile, td.hide-mobile { display: none !important; }
+
+  /* ─── BOUTONS ─── */
+  .btn-sm, [class*="btn-sm"],
+  .btn-accent, .btn-ghost, .btn-blue, .btn-red, .btn-green {
+    min-height: 38px !important;
+    padding: 7px 12px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+  }
+  /* Groupe de boutons: wrap */
+  [style*="display:flex"][style*="gap"] { flex-wrap: wrap !important; }
+
+  /* ─── INPUTS / SELECTS ─── */
+  .ii, input[class*="ii"], select[class*="ii"],
+  input[type="text"], input[type="email"], input[type="password"],
+  input[type="number"], input[type="date"], textarea, select {
+    height: 44px !important;
+    font-size: 15px !important;
+    border-radius: 8px !important;
+  }
+  textarea { height: auto !important; min-height: 80px !important; }
+
+  /* ─── MODALS ─── */
+  .modal-overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+  .modal, .modal-overlay .modal,
+  [class*="modal"]:not(.modal-overlay) {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 92vh !important;
+    margin: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 20px 16px 28px 16px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  /* Handle modal drag indicator */
+  .modal-overlay .modal::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    margin: 0 auto 16px auto;
+  }
+  .modal-title { font-size: 18px !important; }
+
+  /* ─── DRAWERS ─── */
+  [id*="drawer"]:not([id*="overlay"]) {
+    width: 100vw !important;
+    right: -100vw !important;
+    border-radius: 0 !important;
+  }
+
+  /* ─── PLANNING SPÉCIFIQUE ─── */
+  .week-nav { flex-wrap: wrap !important; gap: 6px !important; justify-content: center !important; }
+  .week-nav button { font-size: 12px !important; padding: 6px 10px !important; }
+  .week-grid { overflow-x: auto !important; min-width: 600px !important; }
+  .week-day { min-width: 90px !important; }
+  .week-header-cell { min-width: 90px !important; font-size: 10px !important; }
+
+  /* ─── CLIENTS SPÉCIFIQUE ─── */
+  .filter-row, [style*="display:flex"][id*="filter"] {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  /* Sélect et recherche pleine largeur */
+  [id*="search"], [id*="filter"] input, [id*="filter"] select {
+    width: 100% !important;
+  }
+
+  /* ─── CHAUFFEURS SPÉCIFIQUE ─── */
+  .chauffeur-card, [class*="chauffeur-item"] {
+    padding: 10px !important;
+  }
+  /* Stats en 2 colonnes */
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* ─── RH SPÉCIFIQUE ─── */
+  .tabs-row, [class*="tab-bar"] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+  }
+  .tab-btn, [class*="tab-btn"] {
+    font-size: 11px !important;
+    padding: 7px 10px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* ─── GAZOLE SPÉCIFIQUE ─── */
+  .gauge-container, [class*="gauge"] { transform: scale(0.85) !important; }
+
+  /* ─── VÉHICULES SPÉCIFIQUE ─── */
+  .vehicle-grid, [id*="vehicules-grid"], [id*="vehicles-grid"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+  .vehicle-card { padding: 12px !important; }
+
+  /* ─── SAISIE SPÉCIFIQUE ─── */
+  .saisie-form, [id*="saisie-form"] { padding: 12px !important; }
+
+  /* ─── PARAMÈTRES SPÉCIFIQUE ─── */
+  .params-table th { font-size: 9px !important; padding: 8px !important; }
+  .params-table td { font-size: 11px !important; padding: 8px !important; }
+
+  /* ─── PLAN CARDS ─── */
+  #plan-selector, [id*="plan-selector"] {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .plan-card, [class*="plan-card"] { width: 100% !important; min-width: unset !important; }
+
+  /* ─── BADGES ET TAGS ─── */
+  .badge, [class*="badge"], .tag, [class*="tag"] {
+    font-size: 9px !important;
+    padding: 2px 6px !important;
+  }
+
+  /* ─── TOPBAR ACTIONS → ICÔNES SEULEMENT ─── */
+  .btn-accent span.btn-text { display: none; }
+
+  /* ─── SCROLL CONTAINERS ─── */
+  [style*="overflow-y:auto"], [style*="overflow-y: auto"] {
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* ─── SPACING ─── */
+  h1, h2 { font-size: 18px !important; }
+  .section-label { font-size: 9px !important; }
+
+  /* ─── EMPTY STATES ─── */
+  .empty-state, [class*="empty"] {
+    padding: 30px 16px !important;
+    font-size: 12px !important;
+  }
+
+  /* ─── TOAST / NOTIFICATIONS ─── */
+  .toast, [id*="toast"] {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 75px !important;
+    font-size: 12px !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+
+  /* ─── COOKIE BANNER ─── */
+  #ot-cookie-banner {
+    padding: 12px 14px !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    bottom: 64px !important;
+  }
+}
+
+/* ─── BARRE MOBILE EN BAS ─── */
+.mobile-navbar {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 62px;
+  background: var(--navy2, #0F1E3C);
+  border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+  z-index: 200;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
+}
+.mobile-navbar-inner {
+  display: flex; align-items: center;
+  height: 100%; overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 2px;
+}
+.mobile-navbar-inner::-webkit-scrollbar { display: none; }
+.mob-nav-item {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px; flex: 0 0 62px; height: 100%;
+  cursor: pointer; text-decoration: none;
+  color: var(--gray, #8A9BB5); transition: color 0.2s;
+  border-radius: 10px; padding: 4px 2px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.mob-nav-item.active {
+  color: var(--blue, #1A4FBF);
+  background: rgba(26,79,191,0.12);
+}
+.mob-nav-item.mob-nav-logout { color: #FC8181; }
+.mob-nav-item .mob-icon { font-size: 20px; line-height: 1; }
+.mob-nav-item .mob-label {
+  font-size: 9px; font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap; text-align: center;
+}
+@media (max-width: 768px) {
+  .mobile-navbar { display: flex !important; }
+}
+
+</style>
+<script src="ot_401_guard.js"></script>
+<script>
+const OT = (() => {
+  const SB  = 'https://kfdyqcbclueppmvkccdz.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+  const PUBLIC_PAGES=['index.html','optimum_trans_legal.html'];
+  const SUPERADMIN_PAGE='optimum_trans_superadmin.html';
+  function getSession(){const raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');if(!raw)return null;try{return JSON.parse(raw);}catch(e){return null;}}
+  function authHeaders(){const s=getSession();const token=(s&&s.token)?s.token:KEY;return{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+token};}
+  function anonHeaders(){return{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY};}
+  const PLAN_MODULES={starter:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,vehicules:true,whatsapp:false,facturation:false,chauffeurs:false,gazole:false,feuille_route:false},pro:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,vehicules:true,whatsapp:true,facturation:true,chauffeurs:true,gazole:false,feuille_route:false},business:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,vehicules:true,whatsapp:true,facturation:true,chauffeurs:true,gazole:true,feuille_route:false}};
+  function can(feature){const s=getSession();if(!s)return false;if(s.id==='demo'){if(feature==='saisie'||feature==='feuille_route'||feature==='monmarche')return false;return true;}if(feature==='feuille_route')return s.addon_route===true;if(feature==='saisie')return s.addon_saisie===true;if(feature==='monmarche')return s.addon_monmarche===true;if(feature==='dispatch')return s.addon_dispatch===true;if(feature==='tracking')return s.addon_tracking===true;if(feature==='etat_vehicule')return s.addon_etat_vehicule===true;return(PLAN_MODULES[s.plan]||PLAN_MODULES.starter)[feature]===true;}
+  function applyPlanRestrictions(){const s=getSession();if(!s)return;document.querySelectorAll('a[href="'+SUPERADMIN_PAGE+'"]').forEach(function(el){el.style.display='none';});[{href:'optimum_trans_feuille_route.html',feature:'feuille_route'},{href:'optimum_trans_vehicules.html',feature:'vehicules'},{href:'optimum_trans_chauffeurs.html',feature:'chauffeurs'},{href:'optimum_trans_gazole.html',feature:'gazole'},{href:'optimum_trans_saisie.html',feature:'saisie'},{href:'monmarche.html',feature:'monmarche'},{href:'optimum_trans_dispatch.html',feature:'dispatch'},{href:'optimum_trans_suivi_chauffeurs.html',feature:'tracking'},{href:'optimum_trans_gps_chauffeur.html',feature:'tracking'},{href:'optimum_trans_etat_vehicule.html',feature:'etat_vehicule'}].forEach(function(rule){document.querySelectorAll('a[href="'+rule.href+'"]').forEach(function(el){el.style.display=can(rule.feature)?'':'none';});});if(!can('whatsapp')){document.querySelectorAll('.btn-wa').forEach(function(el){el.style.display='none';});document.querySelectorAll('button,a').forEach(function(el){var txt=(el.textContent||'').toLowerCase();var oc=(el.getAttribute('onclick')||'').toLowerCase();if(txt.indexOf('whatsapp')>=0||oc.indexOf('whatsapp')>=0||oc.indexOf('wa.me')>=0){el.style.display='none';}});}var avatarEl=document.querySelector('.user-avatar');var nameEl=document.querySelector('.user-card > div > div:first-child');var planEl=document.querySelector('.user-card > div > div:last-child');if(avatarEl&&s.name)avatarEl.textContent=s.name.substring(0,2).toUpperCase();if(nameEl&&s.name)nameEl.textContent=s.name.length>18?s.name.substring(0,16)+'...':s.name;if(planEl&&s.plan){var labels={starter:'Essentiel',pro:'Pro',business:'Business'};var colors={starter:'var(--gray)',pro:'#60A5FA',business:'#F5A623'};planEl.textContent=labels[s.plan]||s.plan;planEl.style.color=colors[s.plan]||'var(--gray)';}if(s.status==='suspended')_showSuspendedBanner();}
+  function _showSuspendedBanner(){if(document.getElementById('ot-suspended-banner'))return;var b=document.createElement('div');b.id='ot-suspended-banner';b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fecaca;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;border-bottom:2px solid #ef4444;';b.innerHTML='<div>Compte suspendu</div><button onclick="OT.logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>';document.body.prepend(b);var main=document.querySelector('.main');if(main)main.style.marginTop='52px';}
+  function requireLogin(){var logged=localStorage.getItem('ot_logged')||sessionStorage.getItem('ot_logged');var session=getSession();if(!logged||!session){var hash=window.location.hash;if(hash&&hash.indexOf('access_token')>=0)return true;window.location.href=window.location.origin+'/index.html';return false;}return true;}
+  function requireAddon(feature){if(!can(feature)){document.body.innerHTML='<div style="font-family:Outfit,sans-serif;background:#0A1628;color:#E8EDF5;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;"><div style="max-width:440px"><div style="font-size:64px;margin-bottom:20px">&#128274;</div><div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;margin-bottom:10px">ACCES RESTREINT</div><div style="font-size:14px;color:#8A9BB5;margin-bottom:8px">Cette fonctionnalite n\'est pas incluse dans votre forfait actuel.</div><button onclick="window.history.back()" style="background:linear-gradient(135deg,#1A4FBF,#2563EB);color:#fff;border:none;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-right:8px">Retour</button><button onclick="window.location.href=\'optimum_trans_dashboard.html\'" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#E8EDF5;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer">Dashboard</button></div></div>';return false;}return true;}
+  async function refreshSession(){var s=getSession();if(!s||!s.id||s.id==='demo')return;try{var ctrl=new AbortController();var tid=setTimeout(function(){ctrl.abort();},4000);var cid=s.company_id||s.id;var r=await fetch(SB+'/rest/v1/sa_companies?id=eq.'+cid+'&select=plan,addon_route,addon_saisie,addon_monmarche,addon_dispatch,addon_tracking,addon_etat_vehicule,status,max_users,name',{headers:authHeaders(),signal:ctrl.signal});clearTimeout(tid);if(!r.ok)return;var data=await r.json();if(Array.isArray(data)&&data[0]){var co=data[0];var updated=Object.assign({},s,{plan:co.plan||s.plan,addon_route:co.addon_route===true,addon_saisie:co.addon_saisie===true,addon_monmarche:co.addon_monmarche===true,addon_dispatch:co.addon_dispatch===true,addon_tracking:co.addon_tracking===true,addon_etat_vehicule:co.addon_etat_vehicule===true,status:co.status||s.status,max_users:co.max_users||s.max_users,name:co.name||s.name});(localStorage.getItem('ot_session')?localStorage:sessionStorage).setItem('ot_session',JSON.stringify(updated));}}catch(e){console.warn('[OT]',e.name);}}
+  async function logout(){if(!confirm('Se deconnecter ?'))return;var s=getSession();if(s&&s.token){try{await fetch(SB+'/auth/v1/logout',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+s.token}});}catch(e){}}['ot_session','ot_logged','ot_email'].forEach(function(k){localStorage.removeItem(k);sessionStorage.removeItem(k);});window.location.href=window.location.origin+'/index.html';}
+  function companyFilter(){var s=getSession();if(!s||s.id==='demo')return '';return 'company_id=eq.'+(s.company_id||s.id);}
+  function getCompanyId(){var s=getSession();if(!s)return null;return s.company_id||s.id;}
+  document.addEventListener('DOMContentLoaded',async function(){var currentPage=window.location.pathname.split('/').pop()||'index.html';if(PUBLIC_PAGES.some(function(p){return currentPage.indexOf(p)>=0;}))return;if(!requireLogin())return;applyPlanRestrictions();refreshSession().then(function(){applyPlanRestrictions();}).catch(function(){});startSessionSync();});
+  return{getSession,authHeaders,anonHeaders,can,logout,requireLogin,requireAddon,companyFilter,getCompanyId,refreshSession};
+})();
+function logout(){OT.logout();}
+async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?'⚠️ Compte supprimé.':'⚠️ Compte suspendu.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#1A4FBF;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
+if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionSync;}
+</script>
+<link rel="stylesheet" href="optimum_trans_mobile.css">
+</head>
+<body>
+<script data-cfasync="false">
+(function(){
+  const raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
+  if(!raw){window.location.href=window.location.origin+'/index.html';return;}
+  try{
+    const s=JSON.parse(raw);const plan=s.plan||'starter';
+    const MODULES={starter:{vehicules:true},pro:{vehicules:true},business:{vehicules:true}};
+    if(!(MODULES[plan]||MODULES.starter)['vehicules']){
+      alert('🔒 Accès refusé — cette fonctionnalité n\'est pas incluse dans votre forfait.');
+      window.location.href=window.location.origin+'/optimum_trans_dashboard.html';
+    }
+  }catch(e){window.location.href=window.location.origin+'/index.html';}
+})();
+</script>
+<aside class="sidebar">
+  <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+    <div class="logo-tag">Gestion Transport</div>
+    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine</a>
+    <a class="nav-item" id="nav-saisie-link" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <div class="nav-section-label">Gestion</div>
+    <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
+    <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients &amp; Facturation</a>
+    <a class="nav-item active" href="#"><span class="nav-icon">🚐</span> Parc Véhicules</a>
+    <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+    <div class="nav-section-label">Communication</div>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <div class="nav-section-label">Intelligence</div>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <div class="nav-section-label">Paramètres</div>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
+      <div class="user-avatar">T.S</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">🚐 PARC VÉHICULES</div>
+    <div class="topbar-right">
+      <span id="sync-info" style="font-size:11px;color:var(--gray)">✅ Connecté</span>
+      <button class="btn-sm btn-ghost" onclick="loadAll()">🔄 Actualiser</button>
+      <button class="btn-sm btn-ghost" onclick="exportParcExcel()" title="Télécharger un fichier Excel avec tout le parc">📥 Exporter Excel</button>
+      <button class="btn-sm btn-accent" onclick="showForm()">+ Ajouter véhicule</button>
+    </div>
+  </div>
+  <div class="content">
+    <div id="sql-banner" class="sql-banner" style="display:none">
+      <div style="font-weight:700;color:var(--white);margin-bottom:4px">⚠️ Table <code>vehicules</code> introuvable dans Supabase</div>
+      <div style="font-size:12px;color:var(--gray)">Copie ce SQL dans <strong>Supabase → SQL Editor</strong> puis exécute :</div>
+      <div class="sql-code">create table vehicules (
+  id uuid primary key default gen_random_uuid(),
+  immatriculation text not null,
+  marque text default '',
+  chauffeur_nom text default '',
+  statut text default 'disponible',
+  kilometrage integer default 0,
+  notes text default '',
+  ct_date date, ct_echeance date,
+  assurance_echeance date, assurance_compagnie text default '',
+  assurance_mensuel numeric default 0,
+  type_propriete text default 'propre',
+  tarif_location numeric default 0,
+  typologie text default '',
+  company_id uuid, created_at timestamp default now()
+);
+alter table vehicules enable row level security;
+create policy "public_all" on vehicules for all using (true) with check (true);</div>
+      <button class="btn-sm btn-ghost" style="margin-top:10px" onclick="loadAll()">✅ J'ai créé la table — Recharger</button>
+    </div>
+    <div id="sql-migrate-banner" class="sql-banner" style="display:none;border-color:rgba(255,165,0,0.3);background:rgba(255,165,0,0.07)">
+      <div style="font-weight:700;color:#FFA500;margin-bottom:4px">⚠️ Migration requise — colonne <code>assurance_mensuel</code> manquante</div>
+      <div style="font-size:12px;color:var(--gray)">Ta table vehicules existe mais n'a pas encore la colonne d'assurance mensuelle. Exécute ce SQL dans <strong>Supabase → SQL Editor</strong> :</div>
+      <div class="sql-code">alter table vehicules add column if not exists assurance_mensuel numeric default 0;</div>
+      <button class="btn-sm btn-ghost" style="margin-top:10px" onclick="loadAll()">✅ Colonne ajoutée — Recharger</button>
+    </div>
+    <div id="sql-migrate-location-banner" class="sql-banner" style="display:none;border-color:rgba(255,165,0,0.3);background:rgba(255,165,0,0.07)">
+      <div style="font-weight:700;color:#FFA500;margin-bottom:4px">⚠️ Migration requise — colonnes <code>type_propriete</code> / <code>tarif_location</code></div>
+      <div style="font-size:12px;color:var(--gray)">Exécute ce SQL dans <strong>Supabase → SQL Editor</strong> :</div>
+      <div class="sql-code">alter table vehicules add column if not exists type_propriete text default 'propre';
+alter table vehicules add column if not exists tarif_location numeric default 0;</div>
+      <button class="btn-sm btn-ghost" style="margin-top:10px" onclick="loadAll()">✅ Colonnes ajoutées — Recharger</button>
+    </div>
+    <div id="sql-migrate-typologie-banner" class="sql-banner" style="display:none;border-color:rgba(255,165,0,0.3);background:rgba(255,165,0,0.07)">
+      <div style="font-weight:700;color:#FFA500;margin-bottom:4px">⚠️ Migration requise — colonne <code>typologie</code></div>
+      <div style="font-size:12px;color:var(--gray)">Exécute ce SQL dans <strong>Supabase → SQL Editor</strong> :</div>
+      <div class="sql-code">alter table vehicules add column if not exists typologie text default '';</div>
+      <button class="btn-sm btn-ghost" style="margin-top:10px" onclick="loadAll()">✅ Colonne ajoutée — Recharger</button>
+    </div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(6,1fr)">
+      <div class="kpi blue"><div class="kpi-icon">🚐</div><div class="kpi-val" id="kpi-total">—</div><div class="kpi-label">Total véhicules</div></div>
+      <div class="kpi green"><div class="kpi-icon">✅</div><div class="kpi-val" id="kpi-dispo">—</div><div class="kpi-label">Disponibles</div></div>
+      <div class="kpi orange" style="cursor:pointer" onclick="filterStatut('maintenance');document.querySelector('.filter-select').value='maintenance'" title="Filtrer Maintenance"><div class="kpi-icon">🔧</div><div class="kpi-val" id="kpi-maint">—</div><div class="kpi-label">Maintenance</div></div>
+      <div class="kpi red" style="cursor:pointer" onclick="filterStatut('hors service');document.querySelector('.filter-select').value='hors service'" title="Filtrer Hors service"><div class="kpi-icon">❌</div><div class="kpi-val" id="kpi-hs">—</div><div class="kpi-label">Hors service</div></div>
+      <div class="kpi red"><div class="kpi-icon">⚠️</div><div class="kpi-val" id="kpi-alerts">—</div><div class="kpi-label">CT/Assurance urgents</div></div>
+      <div class="kpi orange"><div class="kpi-icon">📊</div><div class="kpi-val" id="kpi-usage">—</div><div class="kpi-label">Tournées ce mois</div></div>
+    </div>
+
+    <!-- ═══ ONGLETS ═══ -->
+    <div class="page-tabs">
+      <button id="tab-parc" class="page-tab active" onclick="switchTab('parc')">🚐 Parc Véhicules</button>
+      <button id="tab-maint" class="page-tab" onclick="switchTab('maint')">🔧 Maintenance</button>
+    </div>
+
+    <!-- ═══ SECTION PARC (existant) ═══ -->
+    <div id="section-parc">
+    <div id="form-vehicule" class="inline-form">
+      <div class="form-title" id="form-v-title">🚐 Nouveau véhicule</div>
+      <div class="form-grid fg-4" style="margin-bottom:12px">
+        <div><label class="lbl">Immatriculation *</label><input type="text" id="v-immat" class="ii" placeholder="AA-123-BB"></div>
+        <div><label class="lbl">Marque &amp; Modèle</label><input type="text" id="v-marque" class="ii" placeholder="Renault Master"></div>
+        <div><label class="lbl">Chauffeur attitré</label><select id="v-chauffeur" class="is"><option value="">— Aucun —</option></select></div>
+        <div><label class="lbl">Statut</label><select id="v-statut" class="is"><option value="disponible">✅ Disponible</option><option value="en mission">🚐 En mission</option><option value="maintenance">🔧 Maintenance</option><option value="hors service">❌ Hors service</option></select></div>
+      </div>
+      <div class="form-grid fg-4" style="margin-bottom:12px">
+        <div><label class="lbl">Typologie</label><select id="v-typologie" class="is"><option value="">— Non spécifié —</option><option value="VL">VL</option><option value="VL HAYON">VL Hayon</option><option value="VUL">VUL</option><option value="VUL HAYON">VUL Hayon</option><option value="PORTEUR">Porteur</option><option value="PORTEUR HAYON">Porteur Hayon</option><option value="BI-TEMPERATURE">Bi-Température</option><option value="FRIGO">Frigorifique</option><option value="POIDS LOURD">Poids Lourd</option><option value="PL HAYON">PL Hayon</option><option value="SEMI">Semi-Remorque</option><option value="SEMI FRIGO">Semi Frigo</option><option value="SEMI BACHE">Semi Bâchée</option><option value="SEMI PLATEAU">Semi Plateau</option><option value="FOURGON">Fourgon</option><option value="FOURGON HAYON">Fourgon Hayon</option><option value="CAMION BRAS">Camion Bras</option><option value="CAMION GRUE">Camion Grue</option><option value="BENNE">Benne</option><option value="CITERNE">Citerne</option><option value="PORTE-CHAR">Porte-Char</option><option value="DOUBLE PLANCHER">Double Plancher</option></select></div>
+        <div><label class="lbl">Kilométrage</label><input type="number" id="v-km" class="ii" value="0" min="0"></div>
+        <div><label class="lbl">Notes</label><input type="text" id="v-notes" class="ii" placeholder="Remarques..."></div>
+        <div></div>
+      </div>
+      <div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin:8px 0 10px;padding-top:10px;border-top:1px solid var(--border)">🏷️ Type de véhicule</div>
+      <div class="form-grid fg-4" style="margin-bottom:12px">
+        <div>
+          <label class="lbl">Propriété</label>
+          <select id="v-type-propriete" class="is" onchange="toggleLocationTarif(this.value)">
+            <option value="propre">🏠 Moyen propre</option>
+            <option value="location">🔑 Location</option>
+          </select>
+        </div>
+        <div id="v-tarif-location-block" style="display:none">
+          <label class="lbl">Tarif mensuel location (€)</label>
+          <input type="number" id="v-tarif-location" class="ii" value="0" min="0" step="0.01" placeholder="0.00">
+        </div>
+        <div></div><div></div>
+      </div>
+      <div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin:8px 0 10px;padding-top:10px;border-top:1px solid var(--border)">🔧 Contrôle Technique &amp; Assurance</div>
+      <div class="form-grid fg-4">
+        <div><label class="lbl">CT — Dernier passage</label><input type="date" id="v-ct-date" class="ii"></div>
+        <div><label class="lbl">CT — Échéance</label><input type="date" id="v-ct-ech" class="ii"></div>
+        <div><label class="lbl">Assurance — Échéance</label><input type="date" id="v-ass-ech" class="ii"></div>
+        <div><label class="lbl">Compagnie d'assurance</label><input type="text" id="v-ass-comp" class="ii" placeholder="AXA, Groupama..."></div>
+      </div>
+      <div class="form-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;margin-top:10px">
+        <div>
+          <label class="lbl">💰 Tarif mensuel assurance (€)</label>
+          <input type="number" id="v-ass-mensuel" class="ii" value="0" min="0" step="0.01" placeholder="0.00">
+          <div style="font-size:10px;color:var(--gray);margin-top:4px">Intégré dans le calcul de marge</div>
+        </div>
+        <div></div><div></div><div></div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+        <button class="btn-cancel-f" onclick="hideForm()">Annuler</button>
+        <button class="btn-save" id="btn-v" onclick="saveVehicule()">✅ Ajouter le véhicule</button>
+      </div>
+      <input type="hidden" id="v-id">
+    </div>
+    <div class="filters-bar">
+      <input type="text" class="search-input" placeholder="🔍 Immatriculation, chauffeur, typologie..." oninput="filterV(this.value)">
+      <select class="filter-select" onchange="filterStatut(this.value)">
+        <option value="tous">Tous les statuts</option>
+        <option value="disponible">✅ Disponibles</option>
+        <option value="en mission">🚐 En mission</option>
+        <option value="maintenance">🔧 Maintenance</option>
+        <option value="hors service">❌ Hors service</option>
+      </select>
+      <div style="margin-left:auto;font-size:12px;color:var(--gray)" id="v-info"></div>
+    </div>
+    <div id="v-grid" class="v-grid">
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:12px;justify-content:center;padding:50px">
+        <div class="spinner"></div><span style="color:var(--gray);font-size:12px">Chargement...</span>
+      </div>
+    </div>
+    </div><!-- /section-parc -->
+
+    <!-- ═══ SECTION MAINTENANCE ═══ -->
+    <div id="section-maint" style="display:none">
+
+      <!-- Banner SQL si table absente -->
+      <div id="sql-maint-banner" class="sql-banner" style="display:none;border-color:rgba(255,165,0,0.3);background:rgba(255,165,0,0.07)">
+        <div style="font-weight:700;color:#FFA500;margin-bottom:4px">⚠️ Table <code>maintenance_vehicules</code> introuvable</div>
+        <div style="font-size:12px;color:var(--gray)">Copie ce SQL dans <strong>Supabase → SQL Editor</strong> puis exécute :</div>
+        <div class="sql-code">create table if not exists maintenance_vehicules (
+  id uuid primary key default gen_random_uuid(),
+  company_id uuid,
+  vehicule_immat text not null,
+  date_maintenance date not null,
+  type_maintenance text not null,
+  description text default '',
+  cout numeric default 0,
+  created_at timestamptz default now()
+);
+alter table maintenance_vehicules enable row level security;
+create policy "company_iso" on maintenance_vehicules for all
+  using (company_id = auth.uid());</div>
+        <button class="btn-sm btn-ghost" style="margin-top:10px" onclick="loadMaintenance()">✅ Table créée — Recharger</button>
+      </div>
+
+      <!-- KPIs maintenance -->
+      <div class="maint-kpi-grid" id="maint-kpis">
+        <div class="kpi blue"><div class="kpi-icon">💰</div><div class="kpi-val" id="mk-total">—</div><div class="kpi-label">Coût total (mois)</div></div>
+        <div class="kpi orange"><div class="kpi-icon">🔧</div><div class="kpi-val" id="mk-nb">—</div><div class="kpi-label">Interventions (mois)</div></div>
+        <div class="kpi red"><div class="kpi-icon">🚐</div><div class="kpi-val" id="mk-top-v" style="font-size:14px">—</div><div class="kpi-label">Véhicule + coûteux</div></div>
+        <div class="kpi green"><div class="kpi-icon">📊</div><div class="kpi-val" id="mk-total-all" style="font-size:18px">—</div><div class="kpi-label">Coût total (toutes périodes)</div></div>
+      </div>
+
+      <!-- Bouton + formulaire ajout -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:12px;color:var(--gray)" id="maint-info"></div>
+        <button class="btn-sm btn-accent" onclick="showMaintForm()">+ Ajouter une intervention</button>
+      </div>
+
+      <div id="form-maint" class="inline-form">
+        <div class="form-title">🔧 Nouvelle intervention</div>
+        <div class="form-grid fg-4" style="margin-bottom:12px">
+          <div>
+            <label class="lbl">Véhicule *</label>
+            <select id="m-vehicule" class="is"><option value="">— Sélectionner —</option></select>
+          </div>
+          <div>
+            <label class="lbl">Type d'intervention *</label>
+            <select id="m-type" class="is" onchange="toggleMaintDesc(this.value)">
+              <option value="">— Sélectionner —</option>
+              <option value="Vidange + filtres">🔧 Vidange + filtres</option>
+              <option value="Changement de pneu(s)">🛞 Changement de pneu(s)</option>
+              <option value="Freins (plaquettes / disques)">🛑 Freins (plaquettes / disques)</option>
+              <option value="Batterie">⚡ Batterie</option>
+              <option value="Climatisation">❄️ Climatisation (recharge / réparation)</option>
+              <option value="Amortisseurs / Suspension">🔩 Amortisseurs / Suspension</option>
+              <option value="Courroie de distribution">⚙️ Courroie de distribution</option>
+              <option value="Pare-brise / Vitre">🪟 Pare-brise / Vitre</option>
+              <option value="Carrosserie">🚗 Carrosserie (choc / rayure)</option>
+              <option value="Alternateur / Démarreur">🔌 Alternateur / Démarreur</option>
+              <option value="Boîte de vitesses">⚙️ Boîte de vitesses</option>
+              <option value="Éclairage">💡 Éclairage (phares, feux)</option>
+              <option value="Préparation Contrôle Technique">📋 Préparation Contrôle Technique</option>
+              <option value="Remorquage urgence">🚛 Remorquage urgence</option>
+              <option value="Nettoyage professionnel">🧹 Nettoyage professionnel</option>
+              <option value="Autre">✏️ Autre (préciser)</option>
+            </select>
+          </div>
+          <div>
+            <label class="lbl">Date *</label>
+            <input type="date" id="m-date" class="ii">
+          </div>
+          <div>
+            <label class="lbl">Coût (€) *</label>
+            <input type="number" id="m-cout" class="ii" value="0" min="0" step="0.01" placeholder="0.00">
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <label class="lbl">Description <span id="m-desc-req" style="color:var(--accent);display:none">*</span></label>
+          <input type="text" id="m-desc" class="ii" placeholder="Précisions, prestataire, numéro de facture…">
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border)">
+          <button class="btn-cancel-f" onclick="hideMaintForm()">Annuler</button>
+          <button class="btn-save" id="btn-maint" onclick="saveMaintenance()">✅ Enregistrer l'intervention</button>
+        </div>
+        <input type="hidden" id="m-id">
+      </div>
+
+      <!-- Table des interventions -->
+      <div style="overflow-x:auto">
+        <table class="maint-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Véhicule</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th style="text-align:right">Coût</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="maint-tbody">
+            <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--gray)">
+              <div style="font-size:32px;margin-bottom:8px">🔧</div>
+              Aucune intervention enregistrée
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div><!-- /section-maint -->
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+function getH(extra={}){return{...OT.authHeaders(),...extra};}
+const H=()=>getH();
+const H_MINIMAL=()=>getH({'Prefer':'return=minimal'});
+const COLORS=['#1A4FBF','#27AE60','#7C3AED','#F5A623','#E74C3C','#0891B2'];
+const STATUTS={'disponible':{badge:'badge-green',lbl:'✅ Disponible'},'en mission':{badge:'badge-orange',lbl:'🚐 En mission'},'maintenance':{badge:'badge-orange',lbl:'🔧 Maintenance'},'hors service':{badge:'badge-red',lbl:'❌ Hors service'}};
+let allV=[],filteredV=[],allChauffeurs=[],tourneesMonth=[];
+let lastQ='',lastS='tous';
+document.addEventListener('DOMContentLoaded',()=>{if(!OT.requireAddon('vehicules'))return;loadAll();});
+async function loadAll(){
+  document.getElementById('sql-banner').style.display='none';
+  document.getElementById('sql-migrate-banner').style.display='none';
+  document.getElementById('sql-migrate-typologie-banner').style.display='none';
+  setSyncInfo('✅ Connecté','var(--gray)');
+  try{
+    const rc=await fetch(`${SB}/rest/v1/chauffeurs?${OT.companyFilter()}&order=nom`,{headers:H()});
+    if(!rc.ok)throw new Error('Erreur chauffeurs');allChauffeurs=await rc.json();
+    const sel=document.getElementById('v-chauffeur');sel.innerHTML='<option value="">— Aucun —</option>';
+    allChauffeurs.forEach(c=>{const o=document.createElement('option');o.value=c.nom;o.textContent=c.nom;sel.appendChild(o);});
+    const now=new Date();const ms=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;const _meD=new Date(now.getFullYear(),now.getMonth()+1,0);const me=`${_meD.getFullYear()}-${String(_meD.getMonth()+1).padStart(2,'0')}-${String(_meD.getDate()).padStart(2,'0')}`;
+    const rt=await fetch(`${SB}/rest/v1/tournees?${OT.companyFilter()}&date=gte.${ms}&date=lte.${me}`,{headers:H()});
+    tourneesMonth=rt.ok?await rt.json():[];
+    const rv=await fetch(`${SB}/rest/v1/vehicules?${OT.companyFilter()}&order=immatriculation&select=*,assurance_mensuel`,{headers:H()});
+    if(!rv.ok){const txt=await rv.text();if(txt.includes('42P01')||txt.includes('does not exist')){if(txt.includes('typologie')){document.getElementById('sql-migrate-typologie-banner').style.display='block';setSyncInfo('⚠️ Migration requise','#F5A623');}else if(txt.includes('type_propriete')||txt.includes('tarif_location')){document.getElementById('sql-migrate-location-banner').style.display='block';setSyncInfo('⚠️ Migration requise','#F5A623');}else if(txt.includes('assurance_mensuel')){document.getElementById('sql-migrate-banner').style.display='block';setSyncInfo('⚠️ Migration requise','#F5A623');}else{document.getElementById('sql-banner').style.display='block';renderEmpty('Créez la table Supabase');setSyncInfo('⚠️ Table manquante','#F5A623');}return;}throw new Error(`Erreur ${rv.status}`);}
+    allV=await rv.json();filteredV=[...allV];renderAll();setSyncInfo(`✅ ${allV.length} véhicule${allV.length>1?'s':''}chargé`,'#2ECC71');
+  }catch(e){setSyncInfo('❌ '+e.message,'#FC8181');renderEmpty('Erreur : '+e.message);}
+}
+function renderAll(){updateKPIs();renderGrid(filteredV);}
+function updateKPIs(){document.getElementById('kpi-total').textContent=allV.length;document.getElementById('kpi-dispo').textContent=allV.filter(v=>v.statut==='disponible').length;document.getElementById('kpi-maint').textContent=allV.filter(v=>v.statut==='maintenance').length;document.getElementById('kpi-hs').textContent=allV.filter(v=>v.statut==='hors service').length;document.getElementById('kpi-usage').textContent=tourneesMonth.filter(t=>t.vehicule&&t.vehicule.trim().length>2).length;const today=new Date();today.setHours(0,0,0,0);let alertCount=0;allV.forEach(v=>{[v.ct_echeance,v.assurance_echeance].forEach(d=>{if(!d)return;const diff=Math.round((new Date(d)-today)/(1000*60*60*24));if(diff<=30)alertCount++;});});const kpiAlert=document.getElementById('kpi-alerts');kpiAlert.textContent=alertCount;kpiAlert.style.color=alertCount>0?'#FC8181':'#2ECC71';}
+function renderGrid(data){const grid=document.getElementById('v-grid');if(!data.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--gray)"><div style="font-size:40px;margin-bottom:10px">🚐</div><div>Aucun véhicule — cliquez "+ Ajouter"</div></div>`;document.getElementById('v-info').textContent='';return;}grid.innerHTML='';data.forEach((v,i)=>{const col=COLORS[i%COLORS.length];const stat=STATUTS[v.statut]||STATUTS['disponible'];const vT=tourneesMonth.filter(t=>t.vehicule&&t.vehicule.includes(v.immatriculation)).length;const today=new Date();today.setHours(0,0,0,0);function alerteDate(dateStr,label){if(!dateStr)return{txt:label+' : non renseigné',cls:'badge-gray',urgent:false};const d=new Date(dateStr);d.setHours(0,0,0,0);const diff=Math.round((d-today)/(1000*60*60*24));if(diff<0)return{txt:label+' : EXPIRÉ ('+Math.abs(diff)+'j)',cls:'badge-red',urgent:true};if(diff<=30)return{txt:label+' : dans '+diff+'j ⚠️',cls:'badge-orange',urgent:true};if(diff<=90)return{txt:label+' : dans '+diff+'j',cls:'badge-blue',urgent:false};return{txt:label+' : OK ('+d.toLocaleDateString('fr-FR')+')',cls:'badge-green',urgent:false};}const ctAlert=alerteDate(v.ct_echeance,'CT');const assAlert=alerteDate(v.assurance_echeance,'Assurance');const urgent=ctAlert.urgent||assAlert.urgent;const div=document.createElement('div');div.className='v-card';if(urgent)div.style.borderColor='rgba(231,76,60,0.4)';const isLoc=v.type_propriete==='location';const typoLabel=v.typologie?` <span style="font-size:9px;background:rgba(96,165,250,0.15);color:#60A5FA;border:1px solid rgba(96,165,250,0.3);border-radius:4px;padding:1px 5px;font-weight:700;vertical-align:middle">${v.typologie}</span>`:'';div.innerHTML=`<div class="v-header"><div class="v-ico" style="background:${col}20;border:2px solid ${col}40">🚐</div><div style="flex:1"><div class="v-immat">${v.immatriculation}${typoLabel}${isLoc?` <span style="font-size:9px;background:rgba(245,166,35,0.15);color:#F5A623;border:1px solid rgba(245,166,35,0.3);border-radius:4px;padding:1px 5px;font-weight:700;vertical-align:middle">🔑 LOC.</span>`:''}</div><div class="v-model">${v.marque||'—'}${isLoc&&v.tarif_location?` <span style="color:var(--gray);font-size:10px">· ${Number(v.tarif_location).toLocaleString('fr-FR')}€/mois</span>`:''}</div></div><span class="badge ${stat.badge}">${stat.lbl}</span></div><div class="v-stats"><div class="v-stat"><div class="v-stat-val" style="color:var(--accent)">${vT}</div><div class="v-stat-lbl">Tournées/mois</div></div><div class="v-stat"><div class="v-stat-val" style="color:#60A5FA;font-size:${(v.kilometrage||0)>99999?'13px':'18px'}">${v.kilometrage?v.kilometrage.toLocaleString('fr-FR'):'—'}</div><div class="v-stat-lbl">Km</div></div><div class="v-stat"><div class="v-stat-val" style="color:#2ECC71;font-size:12px;padding-top:2px">${v.chauffeur_nom?v.chauffeur_nom.split(' ')[0]:'—'}</div><div class="v-stat-lbl">Chauffeur</div></div></div><div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px"><span class="badge ${ctAlert.cls}" style="font-size:10px;width:fit-content">🔧 ${ctAlert.txt}</span><div style="display:flex;align-items:center;justify-content:space-between"><span class="badge ${assAlert.cls}" style="font-size:10px">🛡 ${assAlert.txt}</span>${v.assurance_compagnie?`<span style="font-size:10px;color:var(--gray)">${v.assurance_compagnie}</span>`:''}</div></div>${urgent?`<div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.25);border-radius:6px;padding:6px 10px;margin-bottom:8px;font-size:11px;color:#FC8181">⚠️ Action requise</div>`:''} ${v.notes?`<div style="font-size:11px;color:var(--gray);background:rgba(255,255,255,0.03);border-radius:6px;padding:6px 10px;margin-bottom:10px">📝 ${v.notes}</div>`:''}<div class="v-footer"><div style="font-size:11px;color:var(--gray)">${v.chauffeur_nom?'👷 '+v.chauffeur_nom:'👤 Non assigné'}</div><div style="display:flex;gap:4px"><button class="icon-btn" onclick="editV('${v.id}')" title="Modifier">✏️</button><button class="icon-btn" onclick="cycleStatut('${v.id}','${v.statut}')" title="Changer statut">🔄</button><button class="icon-btn" onclick="delV('${v.id}','${v.immatriculation}')" title="Supprimer" style="color:rgba(231,76,60,0.6)">🗑</button></div></div>`;grid.appendChild(div);});document.getElementById('v-info').textContent=`${data.length} véhicule${data.length>1?'s':''}`;}
+function renderEmpty(msg){document.getElementById('v-grid').innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--gray)"><div style="font-size:36px;margin-bottom:10px">🔧</div><div>${msg}</div></div>`;['kpi-total','kpi-dispo','kpi-maint','kpi-hs','kpi-usage'].forEach(k=>document.getElementById(k).textContent='0');}
+function toggleLocationTarif(val){document.getElementById('v-tarif-location-block').style.display=val==='location'?'block':'none';}
+function showForm(){const f=document.getElementById('form-vehicule');f.classList.add('show');['v-id','v-immat','v-marque','v-notes','v-ct-date','v-ct-ech','v-ass-ech','v-ass-comp'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('v-ass-mensuel').value='0';document.getElementById('v-chauffeur').value='';document.getElementById('v-statut').value='disponible';document.getElementById('v-km').value='0';document.getElementById('v-type-propriete').value='propre';document.getElementById('v-tarif-location').value='0';document.getElementById('v-typologie').value='';toggleLocationTarif('propre');document.getElementById('form-v-title').textContent='🚐 Nouveau véhicule';document.getElementById('btn-v').textContent='✅ Ajouter le véhicule';f.scrollIntoView({behavior:'smooth'});setTimeout(()=>document.getElementById('v-immat').focus(),300);}
+function hideForm(){document.getElementById('form-vehicule').classList.remove('show');}
+function editV(id){const v=allV.find(x=>x.id===id);if(!v)return;showForm();document.getElementById('v-id').value=id;document.getElementById('v-immat').value=v.immatriculation;document.getElementById('v-marque').value=v.marque||'';document.getElementById('v-chauffeur').value=v.chauffeur_nom||'';document.getElementById('v-statut').value=v.statut||'disponible';document.getElementById('v-km').value=v.kilometrage||0;document.getElementById('v-notes').value=v.notes||'';document.getElementById('v-ct-date').value=v.ct_date||'';document.getElementById('v-ct-ech').value=v.ct_echeance||'';document.getElementById('v-ass-ech').value=v.assurance_echeance||'';document.getElementById('v-ass-comp').value=v.assurance_compagnie||'';document.getElementById('v-ass-mensuel').value=v.assurance_mensuel||0;document.getElementById('v-typologie').value=v.typologie||'';const tp=v.type_propriete||'propre';document.getElementById('v-type-propriete').value=tp;document.getElementById('v-tarif-location').value=v.tarif_location||0;toggleLocationTarif(tp);document.getElementById('form-v-title').textContent='✏️ Modifier — '+v.immatriculation;document.getElementById('btn-v').textContent='💾 Enregistrer';}
+async function saveVehicule(){const immat=document.getElementById('v-immat').value.trim().toUpperCase().replace(/\s/g,'-');if(!immat){toast('Saisir une immatriculation','error');return;}const tp=document.getElementById('v-type-propriete').value;const typo=document.getElementById('v-typologie').value;const payload={immatriculation:immat,typologie:typo,marque:document.getElementById('v-marque').value.trim(),chauffeur_nom:document.getElementById('v-chauffeur').value,statut:document.getElementById('v-statut').value,kilometrage:parseInt(document.getElementById('v-km').value)||0,notes:document.getElementById('v-notes').value.trim(),ct_date:document.getElementById('v-ct-date').value||null,ct_echeance:document.getElementById('v-ct-ech').value||null,assurance_echeance:document.getElementById('v-ass-ech').value||null,assurance_compagnie:document.getElementById('v-ass-comp').value.trim(),assurance_mensuel:parseFloat(document.getElementById('v-ass-mensuel').value)||0,type_propriete:tp,tarif_location:tp==='location'?parseFloat(document.getElementById('v-tarif-location').value)||0:0};const id=document.getElementById('v-id').value;const btn=document.getElementById('btn-v');btn.textContent='⏳...';btn.disabled=true;try{let resp;if(id){resp=await fetch(`${SB}/rest/v1/vehicules?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H_MINIMAL(),body:JSON.stringify(payload)});}else{resp=await fetch(`${SB}/rest/v1/vehicules`,{method:'POST',headers:H_MINIMAL(),body:JSON.stringify({...payload,company_id:OT.getCompanyId()})});}if(!resp.ok){throw new Error(`HTTP ${resp.status}: ${await resp.text()}`);}toast(`✅ ${immat} ${id?'modifié':'ajouté'}`);hideForm();await loadAll();}catch(e){toast('❌ '+e.message,'error');}finally{btn.disabled=false;btn.textContent=document.getElementById('v-id').value?'💾 Enregistrer':'✅ Ajouter le véhicule';}}
+async function cycleStatut(id,current){const cycle={'disponible':'en mission','en mission':'maintenance','maintenance':'hors service','hors service':'disponible'};const next=cycle[current]||'disponible';try{const r=await fetch(`${SB}/rest/v1/vehicules?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H_MINIMAL(),body:JSON.stringify({statut:next})});if(!r.ok)throw new Error(await r.text());toast(`🔄 → ${next}`);await loadAll();}catch(e){toast('❌ '+e.message,'error');}}
+async function delV(id,immat){if(!confirm(`Supprimer le véhicule ${immat} ?`))return;try{const r=await fetch(`${SB}/rest/v1/vehicules?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'DELETE',headers:H()});if(!r.ok)throw new Error(await r.text());toast(`🗑 ${immat} supprimé`);await loadAll();}catch(e){toast('❌ '+e.message,'error');}}
+function filterV(q){lastQ=q;applyFilters();}
+function filterStatut(s){lastS=s;applyFilters();}
+function applyFilters(){filteredV=allV.filter(v=>{const q=lastQ.toLowerCase();const mQ=!lastQ||v.immatriculation.toLowerCase().includes(q)||(v.chauffeur_nom||'').toLowerCase().includes(q)||(v.typologie||'').toLowerCase().includes(q)||(v.marque||'').toLowerCase().includes(q);const mS=lastS==='tous'||v.statut===lastS;return mQ&&mS;});renderGrid(filteredV);}
+function setSyncInfo(msg,color){const el=document.getElementById('sync-info');el.textContent=msg;el.style.color=color;}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'❌':'✅'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4000);}
+
+// ═══ ONGLETS ═══
+function switchTab(tab){
+  document.getElementById('section-parc').style.display=tab==='parc'?'':'none';
+  document.getElementById('section-maint').style.display=tab==='maint'?'':'none';
+  document.getElementById('tab-parc').classList.toggle('active',tab==='parc');
+  document.getElementById('tab-maint').classList.toggle('active',tab==='maint');
+  if(tab==='maint')loadMaintenance();
+}
+
+// ═══ MAINTENANCE ═══
+let allMaint=[];
+
+async function loadMaintenance(){
+  document.getElementById('sql-maint-banner').style.display='none';
+  const cid=OT.getCompanyId();
+  try{
+    const r=await fetch(`${SB}/rest/v1/maintenance_vehicules?company_id=eq.${cid}&order=date_maintenance.desc`,{headers:H()});
+    if(!r.ok){
+      const txt=await r.text();
+      if(txt.includes('42P01')||txt.includes('does not exist')){document.getElementById('sql-maint-banner').style.display='block';return;}
+      throw new Error(`HTTP ${r.status}`);
+    }
+    allMaint=await r.json();
+    // Peupler le select véhicule dans le formulaire
+    const sel=document.getElementById('m-vehicule');
+    const prev=sel.value;
+    sel.innerHTML='<option value="">— Sélectionner —</option>';
+    allV.forEach(v=>{const o=document.createElement('option');o.value=v.immatriculation;o.textContent=v.immatriculation+(v.marque?' — '+v.marque:'');sel.appendChild(o);});
+    if(prev)sel.value=prev;
+    renderMaintenance();
+  }catch(e){toast('❌ Maintenance : '+e.message,'error');}
+}
+
+function renderMaintenance(){
+  const tbody=document.getElementById('maint-tbody');
+  if(!allMaint.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px">🔧</div>Aucune intervention enregistrée</td></tr>';
+    document.getElementById('maint-info').textContent='';
+    ['mk-total','mk-nb','mk-top-v','mk-total-all'].forEach(id=>document.getElementById(id).textContent='—');
+    return;
+  }
+  // KPIs
+  const now=new Date();const ms=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+  const moisActuel=allMaint.filter(m=>m.date_maintenance>=ms);
+  const totalMois=moisActuel.reduce((s,m)=>s+(parseFloat(m.cout)||0),0);
+  const totalAll=allMaint.reduce((s,m)=>s+(parseFloat(m.cout)||0),0);
+  const byV={};allMaint.forEach(m=>{byV[m.vehicule_immat]=(byV[m.vehicule_immat]||0)+(parseFloat(m.cout)||0);});
+  const topV=Object.entries(byV).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('mk-total').textContent=totalMois.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:0})+'€';
+  document.getElementById('mk-nb').textContent=moisActuel.length;
+  document.getElementById('mk-top-v').textContent=topV?topV[0]:'—';
+  document.getElementById('mk-total-all').textContent=totalAll.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:0})+'€';
+  document.getElementById('maint-info').textContent=`${allMaint.length} intervention${allMaint.length>1?'s':''}`;
+  // Table
+  tbody.innerHTML='';
+  allMaint.forEach(m=>{
+    const tr=document.createElement('tr');
+    const d=m.date_maintenance?new Date(m.date_maintenance+'T12:00:00').toLocaleDateString('fr-FR'):'—';
+    tr.innerHTML=`<td style="color:var(--gray);font-size:12px">${d}</td>
+<td style="font-weight:600">${m.vehicule_immat||'—'}</td>
+<td><span class="maint-type-badge">${m.type_maintenance||'—'}</span></td>
+<td style="color:var(--gray);font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.description||'—'}</td>
+<td style="text-align:right"><span class="maint-cout">${(parseFloat(m.cout)||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})} €</span></td>
+<td style="text-align:center"><button class="icon-btn" onclick="deleteMaintenance('${m.id}')" style="color:rgba(231,76,60,0.6)">🗑</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function showMaintForm(){
+  const f=document.getElementById('form-maint');
+  f.classList.add('show');
+  document.getElementById('m-id').value='';
+  document.getElementById('m-vehicule').value='';
+  document.getElementById('m-type').value='';
+  {const _d=new Date();document.getElementById('m-date').value=`${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`;}
+  document.getElementById('m-cout').value='0';
+  document.getElementById('m-desc').value='';
+  document.getElementById('m-desc-req').style.display='none';
+  document.getElementById('btn-maint').textContent='✅ Enregistrer l\'intervention';
+  f.scrollIntoView({behavior:'smooth'});
+}
+function hideMaintForm(){document.getElementById('form-maint').classList.remove('show');}
+function toggleMaintDesc(val){document.getElementById('m-desc-req').style.display=val==='Autre'?'inline':'none';}
+
+async function saveMaintenance(){
+  const vehicule=document.getElementById('m-vehicule').value.trim();
+  const type=document.getElementById('m-type').value;
+  const date=document.getElementById('m-date').value;
+  const cout=parseFloat(document.getElementById('m-cout').value)||0;
+  const desc=document.getElementById('m-desc').value.trim();
+  if(!vehicule){toast('Sélectionner un véhicule','error');return;}
+  if(!type){toast('Sélectionner un type d\'intervention','error');return;}
+  if(!date){toast('Saisir une date','error');return;}
+  if(type==='Autre'&&!desc){toast('Préciser la description pour "Autre"','error');return;}
+  const payload={vehicule_immat:vehicule,type_maintenance:type,date_maintenance:date,cout,description:desc,company_id:OT.getCompanyId()};
+  const btn=document.getElementById('btn-maint');btn.textContent='⏳...';btn.disabled=true;
+  try{
+    const r=await fetch(`${SB}/rest/v1/maintenance_vehicules`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(payload)});
+    if(!r.ok)throw new Error(`HTTP ${r.status}: ${await r.text()}`);
+    toast('✅ Intervention enregistrée');
+    hideMaintForm();
+    await loadMaintenance();
+  }catch(e){toast('❌ '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent='✅ Enregistrer l\'intervention';}
+}
+
+async function deleteMaintenance(id){
+  if(!confirm('Supprimer cette intervention ?'))return;
+  try{
+    const r=await fetch(`${SB}/rest/v1/maintenance_vehicules?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'DELETE',headers:H()});
+    if(!r.ok)throw new Error(await r.text());
+    toast('🗑 Intervention supprimée');
+    await loadMaintenance();
+  }catch(e){toast('❌ '+e.message,'error');}
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// EXPORT EXCEL — Parc véhicules avec mise en forme
+// ═══════════════════════════════════════════════════════════════════════
+const _PX={
+  TITLE:{font:{name:'Calibri',bold:true,sz:18,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'0A1628'}},alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'medium',color:{rgb:'0A1628'}},bottom:{style:'medium',color:{rgb:'0A1628'}},left:{style:'medium',color:{rgb:'0A1628'}},right:{style:'medium',color:{rgb:'0A1628'}}}},
+  SUBTITLE:{font:{name:'Calibri',bold:true,sz:12,color:{rgb:'0A1628'}},fill:{fgColor:{rgb:'F5A623'}},alignment:{horizontal:'center',vertical:'center'}},
+  INFO:{font:{name:'Calibri',italic:true,sz:10,color:{rgb:'4A5568'}},alignment:{horizontal:'center',vertical:'center'}},
+  SECTION:{font:{name:'Calibri',bold:true,sz:11,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'142952'}},alignment:{horizontal:'left',vertical:'center'}},
+  TH:{font:{name:'Calibri',bold:true,sz:11,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'1A4FBF'}},alignment:{horizontal:'center',vertical:'center',wrapText:true},border:{top:{style:'thin',color:{rgb:'0A1628'}},bottom:{style:'medium',color:{rgb:'0A1628'}},left:{style:'thin',color:{rgb:'FFFFFF'}},right:{style:'thin',color:{rgb:'FFFFFF'}}}},
+  CELL:{font:{name:'Calibri',sz:10,color:{rgb:'1A202C'}},alignment:{vertical:'center'},border:{top:{style:'thin',color:{rgb:'E2E8F0'}},bottom:{style:'thin',color:{rgb:'E2E8F0'}},left:{style:'thin',color:{rgb:'E2E8F0'}},right:{style:'thin',color:{rgb:'E2E8F0'}}}},
+  CELL_C:{font:{name:'Calibri',sz:10,color:{rgb:'1A202C'}},alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'E2E8F0'}},bottom:{style:'thin',color:{rgb:'E2E8F0'}},left:{style:'thin',color:{rgb:'E2E8F0'}},right:{style:'thin',color:{rgb:'E2E8F0'}}}},
+  CELL_B:{font:{name:'Calibri',bold:true,sz:10,color:{rgb:'0A1628'}},alignment:{vertical:'center'},border:{top:{style:'thin',color:{rgb:'E2E8F0'}},bottom:{style:'thin',color:{rgb:'E2E8F0'}},left:{style:'thin',color:{rgb:'E2E8F0'}},right:{style:'thin',color:{rgb:'E2E8F0'}}}},
+  CELL_NUM:{font:{name:'Calibri',sz:10,color:{rgb:'1A202C'}},alignment:{horizontal:'right',vertical:'center'},border:{top:{style:'thin',color:{rgb:'E2E8F0'}},bottom:{style:'thin',color:{rgb:'E2E8F0'}},left:{style:'thin',color:{rgb:'E2E8F0'}},right:{style:'thin',color:{rgb:'E2E8F0'}}},numFmt:'#,##0'},
+  CELL_EUR:{font:{name:'Calibri',sz:10,color:{rgb:'1A202C'}},alignment:{horizontal:'right',vertical:'center'},border:{top:{style:'thin',color:{rgb:'E2E8F0'}},bottom:{style:'thin',color:{rgb:'E2E8F0'}},left:{style:'thin',color:{rgb:'E2E8F0'}},right:{style:'thin',color:{rgb:'E2E8F0'}}},numFmt:'#,##0.00\\ "€"'},
+  CELL_DATE:{font:{name:'Calibri',sz:10,color:{rgb:'1A202C'}},alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'E2E8F0'}},bottom:{style:'thin',color:{rgb:'E2E8F0'}},left:{style:'thin',color:{rgb:'E2E8F0'}},right:{style:'thin',color:{rgb:'E2E8F0'}}}},
+  BADGE_OK:{font:{name:'Calibri',bold:true,sz:10,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'27AE60'}},alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'E2E8F0'}},bottom:{style:'thin',color:{rgb:'E2E8F0'}},left:{style:'thin',color:{rgb:'E2E8F0'}},right:{style:'thin',color:{rgb:'E2E8F0'}}}},
+  BADGE_WARN:{font:{name:'Calibri',bold:true,sz:10,color:{rgb:'0A1628'}},fill:{fgColor:{rgb:'F5A623'}},alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'E2E8F0'}},bottom:{style:'thin',color:{rgb:'E2E8F0'}},left:{style:'thin',color:{rgb:'E2E8F0'}},right:{style:'thin',color:{rgb:'E2E8F0'}}}},
+  BADGE_ERR:{font:{name:'Calibri',bold:true,sz:10,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'E74C3C'}},alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'E2E8F0'}},bottom:{style:'thin',color:{rgb:'E2E8F0'}},left:{style:'thin',color:{rgb:'E2E8F0'}},right:{style:'thin',color:{rgb:'E2E8F0'}}}},
+  BADGE_GRAY:{font:{name:'Calibri',sz:10,color:{rgb:'4A5568'}},fill:{fgColor:{rgb:'E2E8F0'}},alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'CBD5E0'}},bottom:{style:'thin',color:{rgb:'CBD5E0'}},left:{style:'thin',color:{rgb:'CBD5E0'}},right:{style:'thin',color:{rgb:'CBD5E0'}}}},
+  TOTAL_LBL:{font:{name:'Calibri',bold:true,sz:12,color:{rgb:'F5A623'}},fill:{fgColor:{rgb:'0A1628'}},alignment:{horizontal:'right',vertical:'center'},border:{top:{style:'medium',color:{rgb:'F5A623'}},bottom:{style:'medium',color:{rgb:'F5A623'}},left:{style:'medium',color:{rgb:'F5A623'}},right:{style:'thin',color:{rgb:'F5A623'}}}},
+  TOTAL:{font:{name:'Calibri',bold:true,sz:12,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'0A1628'}},alignment:{horizontal:'right',vertical:'center'},border:{top:{style:'medium',color:{rgb:'F5A623'}},bottom:{style:'medium',color:{rgb:'F5A623'}},left:{style:'thin',color:{rgb:'F5A623'}},right:{style:'medium',color:{rgb:'F5A623'}}},numFmt:'#,##0'},
+  TOTAL_EUR:{font:{name:'Calibri',bold:true,sz:12,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'0A1628'}},alignment:{horizontal:'right',vertical:'center'},border:{top:{style:'medium',color:{rgb:'F5A623'}},bottom:{style:'medium',color:{rgb:'F5A623'}},left:{style:'thin',color:{rgb:'F5A623'}},right:{style:'medium',color:{rgb:'F5A623'}}},numFmt:'#,##0.00\\ "€"'}
+};
+
+function _pxFmtDate(s){if(!s)return'—';try{const d=new Date(s+'T12:00:00');return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;}catch(e){return'—';}}
+function _pxFmtDateOnly(s){if(!s)return'—';try{const d=new Date(s);return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;}catch(e){return'—';}}
+function _pxStatutBadge(s){if(s==='disponible')return _PX.BADGE_OK;if(s==='maintenance'||s==='en mission')return _PX.BADGE_WARN;if(s==='hors service')return _PX.BADGE_ERR;return _PX.BADGE_GRAY;}
+function _pxStatutLabel(s){return({'disponible':'Disponible','en mission':'En mission','maintenance':'Maintenance','hors service':'Hors service'}[s]||s||'—');}
+function _pxEcheanceCell(dateStr){
+  if(!dateStr)return{v:'Non renseigné',s:_PX.BADGE_GRAY};
+  const today=new Date();today.setHours(0,0,0,0);
+  const d=new Date(dateStr);d.setHours(0,0,0,0);
+  const diff=Math.round((d-today)/(1000*60*60*24));
+  const txt=_pxFmtDate(dateStr);
+  if(diff<0)return{v:`${txt} (expiré ${Math.abs(diff)}j)`,s:_PX.BADGE_ERR};
+  if(diff<=30)return{v:`${txt} (dans ${diff}j)`,s:_PX.BADGE_WARN};
+  return{v:txt,s:_PX.BADGE_OK};
+}
+
+async function _pxLoadMaintenanceIfNeeded(){
+  if(allMaint&&allMaint.length)return allMaint;
+  try{
+    const r=await fetch(`${SB}/rest/v1/maintenance_vehicules?company_id=eq.${OT.getCompanyId()}&order=date_maintenance.desc`,{headers:H()});
+    if(!r.ok)return[];
+    return await r.json();
+  }catch(e){return[];}
+}
+
+async function exportParcExcel(){
+  if(typeof XLSX==='undefined'){toast('⏳ Chargement de la bibliothèque Excel…','error');return;}
+  if(!allV||!allV.length){toast('Aucun véhicule à exporter','error');return;}
+  try{
+    toast('📥 Génération du fichier Excel…');
+    const sess=OT.getSession()||{};
+    const companyName=(sess.name||'T SERVICE & CO').toUpperCase();
+    const now=new Date();
+    const exportDate=`${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    const maintData=await _pxLoadMaintenanceIfNeeded();
+    const wb=XLSX.utils.book_new();
+
+    // ════════════════ FEUILLE 1 — Synthèse ════════════════
+    const synNCOLS=4;
+    const syn=[];const synMerges=[];
+    const synBlank=()=>Array(synNCOLS).fill({v:''});
+    syn.push([{v:companyName,s:_PX.TITLE},...Array(synNCOLS-1).fill({v:'',s:_PX.TITLE})]);
+    synMerges.push({s:{r:0,c:0},e:{r:0,c:synNCOLS-1}});
+    syn.push([{v:'PARC VÉHICULES — SYNTHÈSE',s:_PX.SUBTITLE},...Array(synNCOLS-1).fill({v:'',s:_PX.SUBTITLE})]);
+    synMerges.push({s:{r:1,c:0},e:{r:1,c:synNCOLS-1}});
+    syn.push([{v:`Édité le ${exportDate}`,s:_PX.INFO},...Array(synNCOLS-1).fill({v:'',s:_PX.INFO})]);
+    synMerges.push({s:{r:2,c:0},e:{r:2,c:synNCOLS-1}});
+    syn.push(synBlank());
+
+    // KPIs globaux
+    const total=allV.length;
+    const dispo=allV.filter(v=>v.statut==='disponible').length;
+    const mission=allV.filter(v=>v.statut==='en mission').length;
+    const maint=allV.filter(v=>v.statut==='maintenance').length;
+    const hs=allV.filter(v=>v.statut==='hors service').length;
+    const nbLoc=allV.filter(v=>v.type_propriete==='location').length;
+    const nbPropres=total-nbLoc;
+    const kmTotal=allV.reduce((s,v)=>s+(parseInt(v.kilometrage)||0),0);
+    const kmMoy=total>0?Math.round(kmTotal/total):0;
+    const coutAssMens=allV.reduce((s,v)=>s+(parseFloat(v.assurance_mensuel)||0),0);
+    const coutLocMens=allV.filter(v=>v.type_propriete==='location').reduce((s,v)=>s+(parseFloat(v.tarif_location)||0),0);
+    const today=new Date();today.setHours(0,0,0,0);
+    let ctExpire=0,ctBientot=0,assExpire=0,assBientot=0;
+    allV.forEach(v=>{
+      if(v.ct_echeance){const d=new Date(v.ct_echeance);d.setHours(0,0,0,0);const diff=Math.round((d-today)/(1000*60*60*24));if(diff<0)ctExpire++;else if(diff<=30)ctBientot++;}
+      if(v.assurance_echeance){const d=new Date(v.assurance_echeance);d.setHours(0,0,0,0);const diff=Math.round((d-today)/(1000*60*60*24));if(diff<0)assExpire++;else if(diff<=30)assBientot++;}
+    });
+    const coutMaintMois=(maintData||[]).filter(m=>{const ms=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;return m.date_maintenance>=ms;}).reduce((s,m)=>s+(parseFloat(m.cout)||0),0);
+    const coutMaintTotal=(maintData||[]).reduce((s,m)=>s+(parseFloat(m.cout)||0),0);
+
+    syn.push([{v:'STATISTIQUES GÉNÉRALES',s:_PX.SECTION},...Array(synNCOLS-1).fill({v:'',s:_PX.SECTION})]);
+    synMerges.push({s:{r:syn.length-1,c:0},e:{r:syn.length-1,c:synNCOLS-1}});
+    syn.push([{v:'Indicateur',s:_PX.TH},{v:'Valeur',s:_PX.TH},{v:'Indicateur',s:_PX.TH},{v:'Valeur',s:_PX.TH}]);
+    syn.push([{v:'Total véhicules',s:_PX.CELL_B},{v:total,t:'n',s:_PX.CELL_NUM},{v:'Kilométrage total',s:_PX.CELL_B},{v:kmTotal,t:'n',s:_PX.CELL_NUM}]);
+    syn.push([{v:'Disponibles',s:_PX.CELL_B},{v:dispo,t:'n',s:_PX.CELL_NUM},{v:'Kilométrage moyen',s:_PX.CELL_B},{v:kmMoy,t:'n',s:_PX.CELL_NUM}]);
+    syn.push([{v:'En mission',s:_PX.CELL_B},{v:mission,t:'n',s:_PX.CELL_NUM},{v:'Véhicules en propre',s:_PX.CELL_B},{v:nbPropres,t:'n',s:_PX.CELL_NUM}]);
+    syn.push([{v:'En maintenance',s:_PX.CELL_B},{v:maint,t:'n',s:_PX.CELL_NUM},{v:'Véhicules en location',s:_PX.CELL_B},{v:nbLoc,t:'n',s:_PX.CELL_NUM}]);
+    syn.push([{v:'Hors service',s:_PX.CELL_B},{v:hs,t:'n',s:_PX.CELL_NUM},{v:'Coût assurance / mois',s:_PX.CELL_B},{v:coutAssMens,t:'n',s:_PX.CELL_EUR}]);
+    syn.push([{v:'CT à renouveler (≤30j)',s:_PX.CELL_B},{v:ctBientot,t:'n',s:_PX.CELL_NUM},{v:'Coût location / mois',s:_PX.CELL_B},{v:coutLocMens,t:'n',s:_PX.CELL_EUR}]);
+    syn.push([{v:'CT expirés',s:_PX.CELL_B},{v:ctExpire,t:'n',s:_PX.CELL_NUM},{v:'Maintenance ce mois',s:_PX.CELL_B},{v:coutMaintMois,t:'n',s:_PX.CELL_EUR}]);
+    syn.push([{v:'Assurance à renouveler (≤30j)',s:_PX.CELL_B},{v:assBientot,t:'n',s:_PX.CELL_NUM},{v:'Maintenance (cumul total)',s:_PX.CELL_B},{v:coutMaintTotal,t:'n',s:_PX.CELL_EUR}]);
+    syn.push([{v:'Assurance expirée',s:_PX.CELL_B},{v:assExpire,t:'n',s:_PX.CELL_NUM},{v:'',s:_PX.CELL},{v:'',s:_PX.CELL}]);
+    syn.push(synBlank());
+
+    // Répartition par statut
+    syn.push([{v:'RÉPARTITION PAR STATUT',s:_PX.SECTION},...Array(synNCOLS-1).fill({v:'',s:_PX.SECTION})]);
+    synMerges.push({s:{r:syn.length-1,c:0},e:{r:syn.length-1,c:synNCOLS-1}});
+    syn.push([{v:'Statut',s:_PX.TH},{v:'Nombre',s:_PX.TH},{v:'Part',s:_PX.TH},{v:'',s:_PX.TH}]);
+    [['Disponible',dispo],['En mission',mission],['Maintenance',maint],['Hors service',hs]].forEach(([lbl,n])=>{
+      const pct=total>0?Math.round(n/total*100)+'%':'—';
+      syn.push([{v:lbl,s:_PX.CELL_B},{v:n,t:'n',s:_PX.CELL_NUM},{v:pct,s:_PX.CELL_C},{v:'',s:_PX.CELL}]);
+    });
+    syn.push(synBlank());
+
+    // Répartition par typologie
+    const byTypo={};allV.forEach(v=>{const k=v.typologie||'Non renseigné';byTypo[k]=(byTypo[k]||0)+1;});
+    const typoEntries=Object.entries(byTypo).sort((a,b)=>b[1]-a[1]);
+    if(typoEntries.length){
+      syn.push([{v:'RÉPARTITION PAR TYPOLOGIE',s:_PX.SECTION},...Array(synNCOLS-1).fill({v:'',s:_PX.SECTION})]);
+      synMerges.push({s:{r:syn.length-1,c:0},e:{r:syn.length-1,c:synNCOLS-1}});
+      syn.push([{v:'Typologie',s:_PX.TH},{v:'Nombre',s:_PX.TH},{v:'Part',s:_PX.TH},{v:'',s:_PX.TH}]);
+      typoEntries.forEach(([lbl,n])=>{
+        const pct=total>0?Math.round(n/total*100)+'%':'—';
+        syn.push([{v:lbl,s:_PX.CELL_B},{v:n,t:'n',s:_PX.CELL_NUM},{v:pct,s:_PX.CELL_C},{v:'',s:_PX.CELL}]);
+      });
+    }
+
+    const wsSyn={};const synRange={s:{r:0,c:0},e:{r:syn.length-1,c:synNCOLS-1}};
+    syn.forEach((row,r)=>row.forEach((cell,col)=>{
+      const addr=XLSX.utils.encode_cell({r,c:col});
+      const isNum=cell.t==='n'&&typeof cell.v==='number';
+      wsSyn[addr]={v:cell.v,t:isNum?'n':'s'};
+      if(cell.s)wsSyn[addr].s=cell.s;
+    }));
+    wsSyn['!ref']=XLSX.utils.encode_range(synRange);
+    wsSyn['!cols']=[{wch:32},{wch:18},{wch:32},{wch:18}];
+    wsSyn['!merges']=synMerges;
+    wsSyn['!rows']=[{hpt:32},{hpt:24},{hpt:18}];
+    XLSX.utils.book_append_sheet(wb,wsSyn,'Synthèse');
+
+    // ════════════════ FEUILLE 2 — Détail véhicules ════════════════
+    const NCOLS=14;
+    const rows=[];const merges=[];
+    const blank=()=>Array(NCOLS).fill({v:''});
+    rows.push([{v:companyName,s:_PX.TITLE},...Array(NCOLS-1).fill({v:'',s:_PX.TITLE})]);
+    merges.push({s:{r:0,c:0},e:{r:0,c:NCOLS-1}});
+    rows.push([{v:'PARC VÉHICULES — DÉTAIL COMPLET',s:_PX.SUBTITLE},...Array(NCOLS-1).fill({v:'',s:_PX.SUBTITLE})]);
+    merges.push({s:{r:1,c:0},e:{r:1,c:NCOLS-1}});
+    rows.push([{v:`Édité le ${exportDate} — ${total} véhicule${total>1?'s':''}`,s:_PX.INFO},...Array(NCOLS-1).fill({v:'',s:_PX.INFO})]);
+    merges.push({s:{r:2,c:0},e:{r:2,c:NCOLS-1}});
+    rows.push(blank());
+
+    rows.push([
+      {v:'Immatriculation',s:_PX.TH},
+      {v:'Marque & Modèle',s:_PX.TH},
+      {v:'Typologie',s:_PX.TH},
+      {v:'Statut',s:_PX.TH},
+      {v:'Chauffeur attitré',s:_PX.TH},
+      {v:'Kilométrage',s:_PX.TH},
+      {v:'Propriété',s:_PX.TH},
+      {v:'Loyer mensuel',s:_PX.TH},
+      {v:'CT — Dernier',s:_PX.TH},
+      {v:'CT — Échéance',s:_PX.TH},
+      {v:'Assurance — Échéance',s:_PX.TH},
+      {v:'Compagnie d\'assurance',s:_PX.TH},
+      {v:'Assurance / mois',s:_PX.TH},
+      {v:'Notes',s:_PX.TH}
+    ]);
+
+    const sorted=allV.slice().sort((a,b)=>(a.immatriculation||'').localeCompare(b.immatriculation||''));
+    sorted.forEach(v=>{
+      const isLoc=v.type_propriete==='location';
+      rows.push([
+        {v:v.immatriculation||'—',s:_PX.CELL_B},
+        {v:v.marque||'—',s:_PX.CELL},
+        {v:v.typologie||'—',s:_PX.CELL_C},
+        {v:_pxStatutLabel(v.statut),s:_pxStatutBadge(v.statut)},
+        {v:v.chauffeur_nom||'—',s:_PX.CELL},
+        {v:parseInt(v.kilometrage)||0,t:'n',s:_PX.CELL_NUM},
+        {v:isLoc?'Location':'Propre',s:_PX.CELL_C},
+        isLoc?{v:parseFloat(v.tarif_location)||0,t:'n',s:_PX.CELL_EUR}:{v:'—',s:_PX.CELL_C},
+        {v:_pxFmtDate(v.ct_date),s:_PX.CELL_DATE},
+        _pxEcheanceCell(v.ct_echeance),
+        _pxEcheanceCell(v.assurance_echeance),
+        {v:v.assurance_compagnie||'—',s:_PX.CELL},
+        {v:parseFloat(v.assurance_mensuel)||0,t:'n',s:_PX.CELL_EUR},
+        {v:v.notes||'',s:_PX.CELL}
+      ]);
+    });
+
+    // Ligne de totaux
+    rows.push([
+      {v:'TOTAUX',s:_PX.TOTAL_LBL},
+      {v:'',s:_PX.TOTAL_LBL},
+      {v:'',s:_PX.TOTAL_LBL},
+      {v:'',s:_PX.TOTAL_LBL},
+      {v:`${total} véh.`,s:{..._PX.TOTAL,alignment:{horizontal:'center',vertical:'center'}}},
+      {v:kmTotal,t:'n',s:_PX.TOTAL},
+      {v:`${nbPropres}P / ${nbLoc}L`,s:{..._PX.TOTAL,alignment:{horizontal:'center',vertical:'center'}}},
+      {v:coutLocMens,t:'n',s:_PX.TOTAL_EUR},
+      {v:'',s:_PX.TOTAL_LBL},
+      {v:'',s:_PX.TOTAL_LBL},
+      {v:'',s:_PX.TOTAL_LBL},
+      {v:'',s:_PX.TOTAL_LBL},
+      {v:coutAssMens,t:'n',s:_PX.TOTAL_EUR},
+      {v:'',s:_PX.TOTAL_LBL}
+    ]);
+
+    const ws={};const range={s:{r:0,c:0},e:{r:rows.length-1,c:NCOLS-1}};
+    rows.forEach((row,r)=>row.forEach((cell,col)=>{
+      const addr=XLSX.utils.encode_cell({r,c:col});
+      const isNum=cell.t==='n'&&typeof cell.v==='number';
+      ws[addr]={v:cell.v,t:isNum?'n':'s'};
+      if(cell.s)ws[addr].s=cell.s;
+    }));
+    ws['!ref']=XLSX.utils.encode_range(range);
+    ws['!cols']=[{wch:16},{wch:22},{wch:14},{wch:14},{wch:20},{wch:13},{wch:11},{wch:14},{wch:13},{wch:20},{wch:20},{wch:18},{wch:14},{wch:32}];
+    ws['!merges']=merges;
+    ws['!rows']=[{hpt:32},{hpt:24},{hpt:18},{hpt:8},{hpt:32}];
+    ws['!freeze']={xSplit:0,ySplit:5};
+    ws['!autofilter']={ref:XLSX.utils.encode_range({s:{r:4,c:0},e:{r:4+sorted.length,c:NCOLS-1}})};
+    XLSX.utils.book_append_sheet(wb,ws,'Parc Véhicules');
+
+    // ════════════════ FEUILLE 3 — Maintenance ════════════════
+    if(maintData&&maintData.length){
+      const MCOLS=5;
+      const mrows=[];const mmerges=[];
+      mrows.push([{v:companyName,s:_PX.TITLE},...Array(MCOLS-1).fill({v:'',s:_PX.TITLE})]);
+      mmerges.push({s:{r:0,c:0},e:{r:0,c:MCOLS-1}});
+      mrows.push([{v:'HISTORIQUE MAINTENANCE',s:_PX.SUBTITLE},...Array(MCOLS-1).fill({v:'',s:_PX.SUBTITLE})]);
+      mmerges.push({s:{r:1,c:0},e:{r:1,c:MCOLS-1}});
+      mrows.push([{v:`Édité le ${exportDate} — ${maintData.length} intervention${maintData.length>1?'s':''}`,s:_PX.INFO},...Array(MCOLS-1).fill({v:'',s:_PX.INFO})]);
+      mmerges.push({s:{r:2,c:0},e:{r:2,c:MCOLS-1}});
+      mrows.push(Array(MCOLS).fill({v:''}));
+      mrows.push([
+        {v:'Date',s:_PX.TH},
+        {v:'Véhicule',s:_PX.TH},
+        {v:'Type d\'intervention',s:_PX.TH},
+        {v:'Description',s:_PX.TH},
+        {v:'Coût',s:_PX.TH}
+      ]);
+      const mSorted=maintData.slice().sort((a,b)=>(b.date_maintenance||'').localeCompare(a.date_maintenance||''));
+      let totalCout=0;
+      mSorted.forEach(m=>{
+        const c=parseFloat(m.cout)||0;totalCout+=c;
+        mrows.push([
+          {v:_pxFmtDate(m.date_maintenance),s:_PX.CELL_DATE},
+          {v:m.vehicule_immat||'—',s:_PX.CELL_B},
+          {v:m.type_maintenance||'—',s:_PX.CELL},
+          {v:m.description||'',s:_PX.CELL},
+          {v:c,t:'n',s:_PX.CELL_EUR}
+        ]);
+      });
+      mrows.push([
+        {v:'TOTAL',s:_PX.TOTAL_LBL},{v:'',s:_PX.TOTAL_LBL},{v:'',s:_PX.TOTAL_LBL},
+        {v:`${mSorted.length} intervention${mSorted.length>1?'s':''}`,s:{..._PX.TOTAL,alignment:{horizontal:'center',vertical:'center'}}},
+        {v:totalCout,t:'n',s:_PX.TOTAL_EUR}
+      ]);
+
+      const wsM={};const mRange={s:{r:0,c:0},e:{r:mrows.length-1,c:MCOLS-1}};
+      mrows.forEach((row,r)=>row.forEach((cell,col)=>{
+        const addr=XLSX.utils.encode_cell({r,c:col});
+        const isNum=cell.t==='n'&&typeof cell.v==='number';
+        wsM[addr]={v:cell.v,t:isNum?'n':'s'};
+        if(cell.s)wsM[addr].s=cell.s;
+      }));
+      wsM['!ref']=XLSX.utils.encode_range(mRange);
+      wsM['!cols']=[{wch:13},{wch:16},{wch:30},{wch:42},{wch:14}];
+      wsM['!merges']=mmerges;
+      wsM['!rows']=[{hpt:32},{hpt:24},{hpt:18},{hpt:8},{hpt:30}];
+      wsM['!autofilter']={ref:XLSX.utils.encode_range({s:{r:4,c:0},e:{r:4+mSorted.length,c:MCOLS-1}})};
+      XLSX.utils.book_append_sheet(wb,wsM,'Maintenance');
+    }
+
+    const safe=(sess.name||'parc').replace(/[\\\/\?\*\[\]:]/g,'_').replace(/\s+/g,'_');
+    const dStr=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+    const fname=`Parc_Vehicules_${safe}_${dStr}.xlsx`;
+    XLSX.writeFile(wb,fname);
+    toast(`📥 Export généré : ${fname}`);
+  }catch(e){
+    console.error('[exportParcExcel]',e);
+    toast('❌ Erreur export : '+e.message,'error');
+  }
+}
+</script>
+<script>document.addEventListener('keydown',function(e){if(e.ctrlKey&&e.shiftKey&&e.key==='A'){window.location.href='optimum_trans_superadmin.html';}});</script>
+<div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+  <div style="flex:1;min-width:200px"><div style="font-size:13px;font-weight:600;color:#F0F4FF;margin-bottom:3px">🍪 Cookies</div><div style="font-size:11px;color:#8899AA">Nous utilisons uniquement des cookies fonctionnels. <a href="optimum_trans_legal.html#cookies" style="color:#F5A623;text-decoration:none">En savoir plus</a></div></div>
+  <div style="display:flex;gap:10px;flex-shrink:0">
+    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8899AA;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
+    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;color:#0A1628;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
+  </div>
+</div>
+<script data-cfasync="false">
+(function(){if(!localStorage.getItem('cookie_consent')){var b=document.getElementById('ot-cookie-banner');if(b){b.style.display='flex';}}window.otCookieChoice=function(v){localStorage.setItem('cookie_consent',v);var b=document.getElementById('ot-cookie-banner');if(b){b.style.transition='transform 0.3s';b.style.transform='translateY(100%)';setTimeout(function(){b.style.display='none';},300);}};})();
+</script>
+
+
+<!-- ═══ MOBILE NAVBAR ═══ -->
+
+<script src="optimum_trans_demo_data.js"></script> 
+<script src="/pwa-register.js"></script>
+<script src="ot_mobile_nav.js"></script>
+<script src="/ot_finance.js"></script>
+<script src="/ot_infoscroll.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  setTimeout(function() {
+    var raw = localStorage.getItem("ot_session") || sessionStorage.getItem("ot_session");
+    var s = null; try { s = JSON.parse(raw || ""); } catch(e) {}
+    if (!s) return;
+    var role = s.role || "admin";
+    var hasTracking = s.addon_tracking === true;
+    document.querySelectorAll('a[href="optimum_trans_suivi_chauffeurs.html"]').forEach(function(el) {
+      el.style.display = (hasTracking && role !== "chauffeur") ? "" : "none";
+    });
+    document.querySelectorAll('a[href="optimum_trans_gps_chauffeur.html"]').forEach(function(el) {
+      el.style.display = (hasTracking && role === "chauffeur") ? "" : "none";
+    });
+  }, 300);
+});
+</script>
+<script src="/ot_visibility_pause.js"></script>
+<script src="/ot_messaging.js"></script>
+<script src="ot_decompte_guard.js" defer></script>
+</body>
+</html>

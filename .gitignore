@@ -1,0 +1,29 @@
+# ── Secrets / clés API ────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+service_role*.txt
+secrets.json
+credentials.json
+
+# ── Dépendances ───────────────────────────────────────────────
+node_modules/
+**/node_modules/
+
+# ── Build / cache ─────────────────────────────────────────────
+.vercel/
+.next/
+dist/
+build/
+.cache/
+*.log
+
+# ── OS / éditeur ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~

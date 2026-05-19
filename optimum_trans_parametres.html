@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>
+// SAISIE GUARD — visibilité basée sur la session en cache (immédiat).
+// refreshSession() en arrière-plan met à jour la session pour les visites suivantes.
+(function() {
+  try {
+    var raw = localStorage.getItem('ot_session') || sessionStorage.getItem('ot_session');
+    if (!raw) return;
+    var sess = JSON.parse(raw);
+    if (sess && sess.addon_saisie !== true) {
+      var style = document.createElement('style');
+      style.id = 'saisie-guard-style';
+      style.textContent = 'a[href="optimum_trans_saisie.html"] { display: none !important; }';
+      document.head.appendChild(style);
+    }
+  } catch(e) {}
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>T SERVICE & CO — Paramètres</title>
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
+.sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:18px 20px;border-bottom:1px solid var(--border);}
+.logo-tag{font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);line-height:1;margin-top:4px;}
+.logo-name span{color:var(--accent);}
+.sidebar-nav{flex:1;padding:10px 12px;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);padding:5px 8px 2px;margin-top:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:1px;font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;}
+.nav-item:hover{background:var(--card);color:var(--light);}
+.nav-item.active{background:linear-gradient(135deg,rgba(26,79,191,0.4),rgba(26,79,191,0.2));color:var(--white);border:1px solid rgba(26,79,191,0.3);}
+.nav-icon{font-size:16px;width:20px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--accent);color:var(--navy);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.sidebar-footer{padding:12px 12px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:10px;border:1px solid var(--border);cursor:pointer;}
+.user-card:hover{border-color:var(--blue);}
+.user-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;}
+.topbar{height:60px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;}
+.content{padding:28px;}
+.btn-sm{padding:7px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+.btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-weight:700;}
+.btn-accent:hover{transform:translateY(-1px);}
+.btn-primary{background:linear-gradient(135deg,var(--blue),#0D3A9E);color:var(--white);}
+.btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--gray);}
+.btn-ghost:hover{color:var(--white);}
+.tabs{display:flex;gap:4px;margin-bottom:22px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content;}
+.tab{padding:9px 20px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;color:var(--gray);transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+.tab.active{background:var(--blue);color:var(--white);}
+.tab-count{background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:10px;font-size:10px;font-weight:700;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:18px;}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;margin-bottom:4px;}
+.card-sub{font-size:12px;color:var(--gray);margin-bottom:16px;}
+.form-section{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin:14px 0 8px;padding-bottom:4px;border-bottom:1px solid rgba(26,79,191,0.2);}
+.fg{display:grid;gap:12px;margin-bottom:10px;}
+.fg-2{grid-template-columns:1fr 1fr;}
+.fg-3{grid-template-columns:1fr 1fr 1fr;}
+.fg-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:4px;display:block;}
+.ii{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;width:100%;transition:border-color 0.2s;color-scheme:dark;}
+.ii::placeholder{color:var(--gray2);}
+.ii:focus{border-color:var(--blue);}
+.ii option{background:#0F2040;color:var(--white);}
+.is{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--light);outline:none;cursor:pointer;width:100%;color-scheme:dark;}
+.is option{background:#0F2040;color:var(--white);}
+.btn-save{background:linear-gradient(135deg,var(--blue),#0D3A9E);color:var(--white);border:none;border-radius:8px;padding:10px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.btn-save:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-save:hover:not(:disabled){transform:translateY(-1px);}
+.btn-cancel-f{background:var(--card);border:1px solid var(--border);color:var(--gray);border-radius:8px;padding:10px 14px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;}
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:14px;}
+.ch-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:all 0.2s;}
+.ch-card:hover{border-color:var(--blue);}
+.ch-av{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);flex-shrink:0;font-family:'Bebas Neue',sans-serif;}
+.ch-name{font-weight:700;color:var(--white);font-size:13px;}
+.ch-meta{font-size:11px;color:var(--gray);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;}
+.params-table{width:100%;border-collapse:collapse;}
+.params-table th{padding:10px 14px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);text-align:left;border-bottom:1px solid var(--border);background:var(--navy3);}
+.params-table td{padding:11px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
+.params-table tr:hover td{background:rgba(255,255,255,0.02);}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-green{background:rgba(39,174,96,0.15);color:#2ECC71;}
+.badge-orange{background:rgba(245,166,35,0.15);color:var(--accent);}
+.icon-btn{background:none;border:none;cursor:pointer;padding:5px 8px;border-radius:6px;font-size:13px;color:var(--gray);transition:all 0.2s;}
+.icon-btn:hover{background:rgba(255,255,255,0.06);color:var(--white);}
+.search-input{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;width:200px;}
+.search-input:focus{border-color:var(--blue);}
+.search-input::placeholder{color:var(--gray);}
+.st-block{display:none;}
+.db-status{display:flex;align-items:center;gap:10px;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2);border-radius:10px;padding:10px 16px;margin-bottom:18px;font-size:12px;}
+.db-dot{width:8px;height:8px;border-radius:50%;background:#2ECC71;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.spinner{width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:28px;right:28px;background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:14px 20px;font-size:13px;color:var(--white);z-index:300;transform:translateY(20px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.toast.show{transform:translateY(0);opacity:1;}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--navy2)}::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:3px}
+
+/* ═══════════════════════════════════════════
+   T SERVICE & CO — RESPONSIVE MOBILE
+   Barre de navigation en bas (≤ 768px)
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Sidebar cachée */
+  .sidebar { display: none !important; }
+
+  /* Main plein écran */
+  .main { margin-left: 0 !important; }
+
+  /* Contenu plein écran */
+  .content {
+    margin-left: 0 !important;
+    padding: 10px 12px 90px 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Topbar mobile */
+  .topbar, .page-header {
+    padding: 0 14px !important;
+    height: 52px !important;
+  }
+  .topbar-title { font-size: 16px !important; }
+
+  /* Tabs → scrollable pills horizontaux */
+  .tabs {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    width: 100% !important;
+    padding: 4px 0 8px !important;
+    gap: 6px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    font-size: 12px !important;
+    padding: 8px 14px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    background: rgba(255,255,255,0.04) !important;
+  }
+  .tab.active {
+    background: #1A4FBF !important;
+    border-color: #1A4FBF !important;
+  }
+
+  /* Cartes KPI en 2 colonnes */
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* Tables scrollables horizontalement */
+  table { min-width: 600px; }
+  .table-wrap, [style*="overflow-x:auto"], [style*="overflow-x: auto"] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Cards plein largeur */
+  .card { padding: 14px !important; margin-bottom: 12px !important; }
+
+  /* Modals plein écran */
+  .modal, .modal-overlay .modal {
+    width: 96vw !important;
+    max-width: 96vw !important;
+    max-height: 92vh !important;
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Formulaires grille → 1 colonne */
+  .fg-2, .fg-3, .fg-4 { grid-template-columns: 1fr !important; }
+  .fg { grid-template-columns: 1fr !important; }
+
+  /* Drawers plein écran */
+  [id*="drawer"] {
+    width: 100vw !important;
+    right: -100vw !important;
+  }
+  [id*="drawer"][style*="right: 0"] {
+    right: 0 !important;
+  }
+
+  /* Boutons plus grands (zone tactile) */
+  .btn, .btn-sm, .btn-accent, .btn-ghost, button[class*="btn"] {
+    min-height: 40px !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+
+  /* Inputs plus grands */
+  .ii, input[class*="ii"], select[class*="ii"] {
+    height: 44px !important;
+    font-size: 14px !important;
+  }
+
+  /* Plan cards en colonne */
+  #plan-selector { flex-direction: column !important; }
+  .plan-card { width: 100% !important; min-width: unset !important; }
+
+  /* Week nav planning */
+  .week-nav { flex-wrap: wrap !important; gap: 6px !important; }
+  .week-grid { overflow-x: auto !important; min-width: 700px; }
+
+  /* Cacher certains labels sur mobile */
+  .nav-section-label { display: none; }
+}
+
+/* ═══════════════════════════════════
+   BARRE DE NAVIGATION EN BAS
+═══════════════════════════════════ */
+.mobile-navbar {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 62px;
+  background: var(--navy2, #0F1E3C);
+  border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+  z-index: 200;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
+}
+.mobile-navbar-inner {
+  display: flex; align-items: center; height: 100%;
+  overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 2px;
+}
+.mobile-navbar-inner::-webkit-scrollbar { display: none; }
+.mob-nav-item {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px; flex: 0 0 62px; height: 100%;
+  cursor: pointer; text-decoration: none;
+  color: var(--gray, #8A9BB5); transition: color 0.2s;
+  border-radius: 10px; padding: 4px 2px;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.mob-nav-item.active { color: var(--blue, #1A4FBF); background: rgba(26,79,191,0.12); }
+.mob-nav-item.mob-nav-logout { color: #FC8181; }
+.mob-nav-item .mob-icon { font-size: 20px; line-height: 1; }
+.mob-nav-item .mob-label { font-size: 9px; font-weight: 600; text-transform: uppercase; white-space: nowrap; text-align: center; }
+
+@media (max-width: 768px) {
+  .mobile-navbar { display: flex !important; }
+}
+
+</style>
+<script src="ot_401_guard.js"></script>
+<script>
+const OT = (() => {
+  const SB  = 'https://kfdyqcbclueppmvkccdz.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+  const PUBLIC_PAGES = ['index.html', 'optimum_trans_legal.html'];
+  const SUPERADMIN_PAGE = 'optimum_trans_superadmin.html';
+  function getSession() {
+    const raw = localStorage.getItem('ot_session') || sessionStorage.getItem('ot_session');
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch(e) { return null; }
+  }
+  function authHeaders() {
+    const s = getSession();
+    const token = (s && s.token) ? s.token : KEY;
+    return { 'Content-Type':'application/json', 'apikey':KEY, 'Authorization':'Bearer '+token };
+  }
+  function anonHeaders() {
+    return { 'Content-Type':'application/json', 'apikey':KEY, 'Authorization':'Bearer '+KEY };
+  }
+  const PLAN_MODULES = {
+    starter: {planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,whatsapp:false,vehicules:true,facturation:false,chauffeurs:false,gazole:false,feuille_route:false},
+    pro: {planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,whatsapp:true,vehicules:true,facturation:true,chauffeurs:true,gazole:false,feuille_route:false},
+    business: {planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,whatsapp:true,vehicules:true,facturation:true,chauffeurs:true,gazole:true,feuille_route:false}
+  };
+  function can(feature) {
+    const s = getSession();
+    if (!s) return false;
+    if (s.id === 'demo') { if (feature === 'monmarche') return false; return true; }
+    if (feature === 'feuille_route') return s.addon_route === true;
+    if (feature === 'saisie') return s.addon_saisie === true;
+    if (feature === 'monmarche') return s.addon_monmarche === true;
+    if (feature === 'dispatch') return s.addon_dispatch === true;
+    if (feature === 'tracking') return s.addon_tracking === true;
+    if (feature === 'etat_vehicule') return s.addon_etat_vehicule === true;
+    if (feature === 'zone_billing') return s.addon_zone === true;
+    if (feature === 'decompte_st') return s.addon_decompte_st === true;
+    return (PLAN_MODULES[s.plan] || PLAN_MODULES.starter)[feature] === true;
+  }
+  function applyPlanRestrictions() {
+    const s = getSession();
+    if (!s) return;
+    document.querySelectorAll('a[href="' + SUPERADMIN_PAGE + '"]').forEach(function(el) { el.style.display = 'none'; });
+    var rules = [
+      { href: 'optimum_trans_feuille_route.html', feature: 'feuille_route' },
+      { href: 'optimum_trans_vehicules.html',     feature: 'vehicules'     },
+      { href: 'optimum_trans_chauffeurs.html',    feature: 'chauffeurs'    },
+      { href: 'optimum_trans_gazole.html',        feature: 'gazole'        },
+      { href: 'optimum_trans_saisie.html',        feature: 'saisie'        },
+      { href: 'monmarche.html',                   feature: 'monmarche'     },
+      { href: 'optimum_trans_dispatch.html',      feature: 'dispatch'      },
+      { href: 'optimum_trans_suivi_chauffeurs.html', feature: 'tracking'      },
+      { href: 'optimum_trans_gps_chauffeur.html',    feature: 'tracking'      },
+      { href: 'optimum_trans_etat_vehicule.html',    feature: 'etat_vehicule' },
+    ];
+    rules.forEach(function(rule) {
+      document.querySelectorAll('a[href="' + rule.href + '"]').forEach(function(el) {
+        el.style.display = can(rule.feature) ? '' : 'none';
+      });
+    });
+
+    // Suivi/GPS : visibilité selon le rôle
+    var _trackRole = (getSession() && (getSession().role || 'admin')) || 'admin';
+    document.querySelectorAll('a[href="optimum_trans_suivi_chauffeurs.html"]').forEach(function(el) {
+      el.style.display = (can('tracking') && _trackRole !== 'chauffeur') ? '' : 'none';
+    });
+    document.querySelectorAll('a[href="optimum_trans_gps_chauffeur.html"]').forEach(function(el) {
+      el.style.display = (can('tracking') && _trackRole === 'chauffeur') ? '' : 'none';
+    });
+    // Saisie : affichage explicite via addon_saisie
+    document.querySelectorAll('a[href="optimum_trans_saisie.html"]').forEach(function(el) {
+      el.style.display = can('saisie') ? '' : 'none';
+    });
+    if (!can('whatsapp')) {
+      document.querySelectorAll('.btn-wa').forEach(function(el) { el.style.display = 'none'; });
+      document.querySelectorAll('button, a').forEach(function(el) {
+        var txt = (el.textContent || '').toLowerCase();
+        var oc  = (el.getAttribute('onclick') || '').toLowerCase();
+        if (txt.indexOf('whatsapp') >= 0 || oc.indexOf('whatsapp') >= 0) { el.style.display = 'none'; }
+      });
+    }
+    var avatarEl = document.querySelector('.user-avatar');
+    var nameEl   = document.querySelector('.user-card > div > div:first-child');
+    var planEl   = document.querySelector('.user-card > div > div:last-child');
+    if (avatarEl && s.name) avatarEl.textContent = s.name.substring(0, 2).toUpperCase();
+    if (nameEl && s.name) nameEl.textContent = s.name.length > 18 ? s.name.substring(0, 16) + '...' : s.name;
+    if (planEl && s.plan) {
+      var labels = { starter:'Essentiel', pro:'Pro', business:'Business' };
+      var colors = { starter:'var(--gray)', pro:'#60A5FA', business:'#F5A623' };
+      planEl.textContent = labels[s.plan] || s.plan;
+      planEl.style.color = colors[s.plan] || 'var(--gray)';
+    }
+    if (s.status === 'suspended') _showSuspendedBanner();
+  }
+  function _showSuspendedBanner() {
+    if (document.getElementById('ot-suspended-banner')) return;
+    var banner = document.createElement('div');
+    banner.id = 'ot-suspended-banner';
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fecaca;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;border-bottom:2px solid #ef4444;';
+    banner.innerHTML = '<div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">&#9940;</span><div><div style="font-size:14px;font-weight:700;color:#fff">Compte suspendu</div></div></div><button onclick="OT.logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>';
+    document.body.prepend(banner);
+    var main = document.querySelector('.main');
+    if (main) main.style.marginTop = '52px';
+  }
+  function requireLogin() {
+    var logged = localStorage.getItem('ot_logged') || sessionStorage.getItem('ot_logged');
+    var session = getSession();
+    if (!logged || !session) {
+      var currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      var isPublic = PUBLIC_PAGES.some(function(p) { return currentPage.indexOf(p) >= 0; });
+      if (!isPublic) {
+        var hash = window.location.hash;
+        if (hash && hash.indexOf('access_token') >= 0) return true;
+        window.location.href = window.location.origin + '/index.html';
+      }
+      return false;
+    }
+    return true;
+  }
+  function requireAddon(feature) {
+    if (!can(feature)) {
+      _showAccessDenied(feature);
+      return false;
+    }
+    return true;
+  }
+  function _showAccessDenied(featureLabel) {
+    document.body.innerHTML = '<div style="font-family:Outfit,sans-serif;background:#0A1628;color:#E8EDF5;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;"><div style="max-width:440px"><div style="font-size:64px;margin-bottom:20px">&#128274;</div><div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;margin-bottom:10px">ACCES RESTREINT</div><button onclick="window.history.back()" style="background:linear-gradient(135deg,#1A4FBF,#2563EB);color:#fff;border:none;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-right:8px">Retour</button><button onclick="window.location.href=\'optimum_trans_dashboard.html\'" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#E8EDF5;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer">Dashboard</button></div></div>';
+  }
+  async function refreshSession() {
+    var s = getSession();
+    if (!s || !s.id || s.id === 'demo') return;
+    try {
+      var controller = new AbortController();
+      var timeout = setTimeout(function() { controller.abort(); }, 4000);
+      var cid = s.company_id || s.id;
+      var r = await fetch(SB + '/rest/v1/sa_companies?id=eq.' + cid + '&select=plan,addon_route,addon_saisie,addon_monmarche,addon_dispatch,addon_etat_vehicule,addon_zone,addon_decompte_st,status,max_users,name', { headers: authHeaders(), signal: controller.signal });
+      clearTimeout(timeout);
+      if (!r.ok) return;
+      var data = await r.json();
+      if (Array.isArray(data) && data[0]) {
+        var co = data[0];
+        var updated = Object.assign({}, s, { plan:co.plan||s.plan, addon_route:co.addon_route===true, addon_saisie:co.addon_saisie===true, addon_monmarche:co.addon_monmarche===true, addon_dispatch:co.addon_dispatch===true, addon_etat_vehicule:co.addon_etat_vehicule===true, addon_zone:co.addon_zone===true, addon_decompte_st:co.addon_decompte_st===true, status:co.status||s.status, max_users:co.max_users||s.max_users, name:co.name||s.name });
+        var store = localStorage.getItem('ot_session') ? localStorage : sessionStorage;
+        store.setItem('ot_session', JSON.stringify(updated));
+
+      }
+    } catch(e) { console.warn('[OT Session] Refresh skipped:', e.name); }
+  }
+  async function logout() {
+    if (!confirm('Se deconnecter ?')) return;
+    var s = getSession();
+    if (s && s.token) {
+      try { await fetch(SB + '/auth/v1/logout', { method:'POST', headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+s.token} }); } catch(e) {}
+    }
+    ['ot_session','ot_logged','ot_email'].forEach(function(k) { localStorage.removeItem(k); sessionStorage.removeItem(k); });
+    window.location.href = window.location.origin + '/index.html';
+  }
+  function companyFilter() {
+    var s = getSession();
+    if (!s || s.id === 'demo') return '';
+    var cid = s.company_id || s.id;
+    return 'company_id=eq.' + cid;
+  }
+  function getCompanyId() {
+    var s = getSession();
+    if (!s) return null;
+    return s.company_id || s.id;
+  }
+  document.addEventListener('DOMContentLoaded', async function() {
+    var currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    var isPublic = PUBLIC_PAGES.some(function(p) { return currentPage.indexOf(p) >= 0; });
+    if (isPublic) return;
+    if (!requireLogin()) return;
+    // Affichage immédiat avec session en cache ; refresh en arrière-plan.
+    applyPlanRestrictions();
+    refreshSession().then(function(){ applyPlanRestrictions(); }).catch(function(){});
+    startSessionSync();
+  });
+  return { getSession, authHeaders, anonHeaders, can, logout, requireLogin, requireAddon, companyFilter, getCompanyId, refreshSession };
+})();
+function logout() { OT.logout(); }
+
+// Synchronisation session en temps réel (polling toutes les 30s)
+// Détecte les changements de plan/statut/quotas faits par le superadmin
+async function _startSessionSync() {
+  var s = OT.getSession();
+  if (!s || !s.id || s.id === 'demo') return;
+  var cid = s.company_id || s.id;
+  var lastCheck = sessionStorage.getItem('ot_sync_last') || '1970-01-01';
+
+  async function checkInvalidations() {
+    try {
+      var s2 = OT.getSession();
+      if (!s2) return;
+      var cid2 = s2.company_id || s2.id;
+      var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+      var r = await fetch(
+        'https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations'
+        + '?company_id=eq.' + cid2
+        + '&created_at=gt.' + encodeURIComponent(lastCheck)
+        + '&order=created_at.desc&limit=1',
+        { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }
+      );
+      if (!r.ok) return;
+      var data = await r.json();
+      if (!data.length) return;
+
+      var inv = data[0];
+      lastCheck = inv.created_at;
+      sessionStorage.setItem('ot_sync_last', lastCheck);
+
+      console.log('[OT Sync] Invalidation reçue:', inv.reason);
+
+      if (inv.reason === 'deleted') {
+        // Compte supprimé → déconnexion forcée
+        alert('⚠️ Votre compte a été supprimé. Vous allez être déconnecté.');
+        OT.logout();
+        return;
+      }
+
+      if (inv.reason === 'suspended') {
+        // Compte suspendu → déconnexion forcée
+        alert('⚠️ Votre compte a été suspendu. Contactez votre administrateur.');
+        OT.logout();
+        return;
+      }
+
+      // Plan/quota/addon changé → refresh silencieux + rechargement page
+      var store = localStorage.getItem('ot_session') ? localStorage : sessionStorage;
+      var sess = JSON.parse(store.getItem('ot_session') || '{}');
+      if (inv.new_plan) sess.plan = inv.new_plan;
+      if (inv.new_status) sess.status = inv.new_status;
+      if (inv.new_quotas) {
+        sess.addon_route  = inv.new_quotas.addon_route === true;
+        sess.addon_saisie = inv.new_quotas.addon_saisie === true;
+        sess.max_admins   = inv.new_quotas.max_admins;
+        sess.max_chefs    = inv.new_quotas.max_chefs;
+        sess.max_chauffeurs = inv.new_quotas.max_chauffeurs;
+      }
+      store.setItem('ot_session', JSON.stringify(sess));
+
+      // Notifier l'utilisateur et recharger
+      var msg = inv.reason === 'plan_changed'
+        ? '📦 Votre plan a été mis à jour. La page va se recharger.'
+        : inv.reason === 'addon_changed'
+        ? '🔄 Vos modules ont été mis à jour. La page va se recharger.'
+        : '🔄 Votre compte a été mis à jour. La page va se recharger.';
+
+      // Toast discret sans alert
+      var t = document.createElement('div');
+      t.style.cssText = 'position:fixed;bottom:80px;right:28px;background:#1A4FBF;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4);animation:fadeUp 0.3s ease';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(function() { window.location.reload(); }, 2500);
+
+    } catch(e) {
+      // Erreur réseau — on réessaie au prochain cycle
+    }
+  }
+
+  // Vérifier immédiatement puis toutes les 30 secondes
+  sessionStorage.setItem('ot_sync_last', new Date().toISOString());
+  setInterval(checkInvalidations, 30000);
+}
+if (typeof startSessionSync === 'undefined') {
+  window.startSessionSync = _startSessionSync;
+}
+
+</script>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+    <div class="logo-tag">Gestion Transport</div>
+    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_saisie.html" id="nav-saisie-link"><span class="nav-icon">📝</span> Saisie Tournées</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <div class="nav-section-label">Gestion</div>
+    <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
+    <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH & Contrats</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
+    <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+    <div class="nav-section-label">Communication</div>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <div class="nav-section-label">Intelligence</div>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <div class="nav-section-label">Paramètres</div>
+    <a class="nav-item active" href="#"><span class="nav-icon">⚙️</span> Paramètres</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
+      <div class="user-avatar">T.S</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">⚙️ PARAMÈTRES</div>
+    <div><span id="sync-info" style="font-size:11px;color:#2ECC71">✅ Connecté</span></div>
+  </div>
+  <div class="content">
+
+    <div class="db-status">
+      <div class="db-dot"></div>
+      <strong style="color:var(--white)">Supabase connecté</strong>
+      <span id="db-msg" style="color:#2ECC71;margin-left:8px">✅ Prêt</span>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('entreprise',this)">🏢 Mon Entreprise</div>
+      <div class="tab" onclick="switchTab('chauffeurs',this)">👷 Chauffeurs <span class="tab-count" id="tc-c">0</span></div>
+      <div class="tab" onclick="switchTab('commissionnaires',this)">🤝 Commissionnaires <span class="tab-count" id="tc-com">0</span></div>
+      <div class="tab" onclick="switchTab('clients',this)">🏢 Prestations <span class="tab-count" id="tc-cl">0</span></div>
+      <div class="tab" onclick="switchTab('penalites',this)">⚠️ Pénalités</div>
+      <div class="tab" id="tab-btn-zones" style="display:none" onclick="switchTab('zones',this)">📍 Zones <span class="tab-count" id="tc-z">0</span></div>
+    </div>
+
+    <!-- ══ MON ENTREPRISE ══ -->
+    <div id="tab-entreprise">
+      <div class="card">
+        <div class="card-title">🏢 MON ENTREPRISE</div>
+        <div class="card-sub">Ces informations apparaîtront sur toutes vos factures</div>
+        <div class="form-section">Informations générales</div>
+        <div class="fg fg-2">
+          <div><label class="lbl">Nom de l'entreprise *</label><input type="text" id="e-nom" class="ii" placeholder="T SERVICE & CO"></div>
+          <div><label class="lbl">SIRET *</label><input type="text" id="e-siret" class="ii" placeholder="000 000 000 00000"></div>
+        </div>
+        <div class="fg fg-3">
+          <div><label class="lbl">Téléphone</label><input type="text" id="e-tel" class="ii" placeholder="+33 6 00 00 00 00"></div>
+          <div><label class="lbl">Email</label><input type="email" id="e-email" class="ii" placeholder="contact@entreprise.fr"></div>
+          <div><label class="lbl">Site web</label><input type="text" id="e-site" class="ii" placeholder="N° TVA : FR000000000"></div>
+        </div>
+        <div class="form-section">Adresse</div>
+        <div class="fg fg-3">
+          <div style="grid-column:1/-1"><label class="lbl">Adresse</label><input type="text" id="e-adresse" class="ii" placeholder="12 rue de la République"></div>
+        </div>
+        <div class="fg fg-3">
+          <div><label class="lbl">Code postal</label><input type="text" id="e-cp" class="ii" placeholder="75001"></div>
+          <div><label class="lbl">Ville</label><input type="text" id="e-ville" class="ii" placeholder="Paris"></div>
+          <div><label class="lbl">Pays</label><input type="text" id="e-pays" class="ii" value="France"></div>
+        </div>
+        <div class="form-section">Informations bancaires (pour factures)</div>
+        <div class="fg fg-2">
+          <div><label class="lbl">IBAN</label><input type="text" id="e-iban" class="ii" placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX"></div>
+          <div><label class="lbl">BIC / SWIFT</label><input type="text" id="e-bic" class="ii" placeholder="BNPAFRPP"></div>
+        </div>
+        <div class="fg fg-2">
+          <div><label class="lbl">Taux TVA par défaut (%)</label><input type="number" id="e-tva" class="ii" value="20" min="0" max="100"></div>
+          <div><label class="lbl">Mentions légales facture</label><input type="text" id="e-mentions" class="ii" placeholder="Pénalités de retard : 3× taux légal"></div>
+        </div>
+        <div class="form-section">📊 Paramètres de rentabilité</div>
+        <div class="fg fg-2">
+          <div>
+            <label class="lbl">Taux de charges patronales (%)</label>
+            <input type="number" id="e-coef-salarie" class="ii" value="82" min="0" max="200" step="1" placeholder="82">
+            <div style="font-size:10px;color:var(--gray);margin-top:4px">💡 S'applique uniquement aux chauffeurs <strong style="color:var(--white)">salariés</strong>. Le salaire net est <strong style="color:var(--white)">toujours compté</strong> comme coût, et ce taux ajoute les charges patronales par-dessus.<br>Exemple : 82% → coût réel = salaire net + 82% de charges = net × 1.82<br>0% → coût = salaire net uniquement (pas de charges).</div>
+          </div>
+          <div>
+            <label class="lbl">Charges fixes mensuelles (€)</label>
+            <input type="number" id="e-charges-fixes" class="ii" value="0" min="0" step="10" placeholder="0">
+            <div style="font-size:10px;color:var(--gray);margin-top:4px">💡 Loyer, eau, électricité, expert-comptable… Amorties sur toutes les prestations du mois <strong style="color:var(--white)">au prorata de leur CA</strong>. Utilisé pour la marge uniquement.</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+          <button class="btn-save" id="btn-e" onclick="saveEntreprise()">💾 Sauvegarder mon entreprise</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CHAUFFEURS ══ -->
+    <div id="tab-chauffeurs" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div>
+            <div class="card-title">👷 CHAUFFEURS</div>
+            <div class="card-sub">Tout chauffeur ajouté apparaît dans le planning, les salaires et la saisie</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <input type="text" class="search-input" placeholder="🔍 Rechercher..." oninput="filterC(this.value)">
+            <button class="btn-sm btn-accent" onclick="showCForm()">+ Ajouter</button>
+          </div>
+        </div>
+        <div id="form-c" style="display:none;background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.2);border-radius:12px;padding:18px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-c-title">➕ Nouveau chauffeur</div>
+          <div class="form-section">Informations personnelles</div>
+          <div class="fg fg-2">
+            <div><label class="lbl">Nom complet *</label><input type="text" id="c-nom" class="ii" placeholder="NOM Prénom"></div>
+            <div><label class="lbl">Type *</label><select id="c-type" class="is" onchange="toggleSTFields()"><option value="salarié">Salarié</option><option value="sous-traitant">Sous-traitant</option></select></div>
+          </div>
+          <div class="fg fg-3">
+            <div><label class="lbl">Téléphone WhatsApp</label><input type="text" id="c-tel" class="ii" placeholder="+33612345678"></div>
+            <div><label class="lbl">Email</label><input type="email" id="c-email" class="ii" placeholder="chauffeur@mail.fr"></div>
+            <div><label class="lbl">Date de naissance</label><input type="date" id="c-naissance" class="ii"></div>
+          </div>
+          <div class="fg fg-2">
+            <div><label class="lbl">Adresse</label><input type="text" id="c-adresse" class="ii" placeholder="12 rue..."></div>
+            <div><label class="lbl">N° Permis de conduire</label><input type="text" id="c-permis" class="ii" placeholder="XX-000000-00"></div>
+          </div>
+          <div class="fg fg-1" style="margin-top:6px">
+            <div>
+              <label class="lbl">Statut</label>
+              <select id="c-actif" class="is">
+                <option value="true">✅ Actif — visible dans le planning</option>
+                <option value="false">⚠️ Inactif — masqué du planning (historique conservé)</option>
+              </select>
+              <div style="font-size:10px;color:var(--gray);margin-top:4px">💡 Marquez un chauffeur comme inactif pour le masquer du planning sans perdre son historique (tournées passées, salaires).</div>
+            </div>
+          </div>
+          <div id="st-block" class="st-block">
+            <div class="form-section">🏢 Informations entreprise (sous-traitant)</div>
+            <div class="fg fg-3">
+              <div><label class="lbl">Nom de l'entreprise</label><input type="text" id="c-st-nom" class="ii" placeholder="TRANSPORT XYZ"></div>
+              <div><label class="lbl">SIRET</label><input type="text" id="c-st-siret" class="ii" placeholder="000 000 000 00000"></div>
+              <div><label class="lbl">Adresse entreprise</label><input type="text" id="c-st-adresse" class="ii" placeholder="12 rue..."></div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+            <button class="btn-cancel-f" onclick="hideCForm()">Annuler</button>
+            <button class="btn-save" id="btn-c" onclick="saveChauffeur()">✅ Ajouter le chauffeur</button>
+          </div>
+          <input type="hidden" id="c-id">
+        </div>
+        <div id="ch-grid" class="ch-grid">
+          <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--gray);font-size:12px">Aucun chauffeur — cliquez "+ Ajouter"</div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:10px;text-align:center;font-size:12px;color:var(--gray);margin-top:10px" id="c-info"></div>
+      </div>
+    </div>
+
+    <!-- ══ CLIENTS ══ -->
+    <div id="tab-clients" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div>
+            <div class="card-title">🏢 CLIENTS</div>
+            <div class="card-sub">Tout client ajouté apparaît dans la saisie et la facturation</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <input type="text" class="search-input" placeholder="🔍 Rechercher..." oninput="filterCl(this.value)">
+            <button class="btn-sm btn-accent" onclick="showClForm()">+ Ajouter</button>
+            <button class="btn-sm btn-ghost" onclick="geocodeAllClients()" id="btn-geocode" title="Géocoder automatiquement les adresses des clients (pour le trafic IDF)">📍 Géolocaliser</button>
+          </div>
+        </div>
+        <div id="form-cl" style="display:none;background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.2);border-radius:12px;padding:18px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-cl-title">➕ Nouvelle prestation</div>
+          <div class="form-section">Commissionnaire (optionnel)</div>
+          <div class="fg fg-1" style="margin-bottom:4px">
+            <div>
+              <label class="lbl">Rattacher à un commissionnaire</label>
+              <select id="cl-commissionnaire" class="is" style="color-scheme:dark">
+                <option value="">— Client propre (sans commissionnaire) —</option>
+              </select>
+              <div style="font-size:10px;color:var(--gray);margin-top:4px">💡 Si cette prestation est mandatée par un commissionnaire (COGEPART, ID LOGISTICS…), sélectionnez-le ici pour regrouper la facturation.</div>
+            </div>
+          </div>
+          <div class="form-section">Informations générales</div>
+          <div class="fg fg-3">
+            <div><label class="lbl">Nom du client *</label><input type="text" id="cl-nom" class="ii" placeholder="NOM CLIENT"></div>
+            <div><label class="lbl">SIRET</label><input type="text" id="cl-siret" class="ii" placeholder="000 000 000 00000"></div>
+            <div><label class="lbl">Contact (nom)</label><input type="text" id="cl-contact" class="ii" placeholder="M. Dupont"></div>
+          </div>
+          <div class="fg fg-3">
+            <div><label class="lbl">Téléphone</label><input type="text" id="cl-tel" class="ii" placeholder="+33 1 00 00 00 00"></div>
+            <div><label class="lbl">Email</label><input type="email" id="cl-email" class="ii" placeholder="contact@client.fr"></div>
+            <div><label class="lbl">Site web</label><input type="text" id="cl-site" class="ii" placeholder="www.client.fr"></div>
+          </div>
+          <div class="form-section">Adresse de facturation</div>
+          <div class="fg fg-3">
+            <div style="grid-column:1/3"><label class="lbl">Adresse</label><input type="text" id="cl-adresse" class="ii" placeholder="12 rue de la République"></div>
+            <div><label class="lbl">Code postal</label><input type="text" id="cl-cp" class="ii" placeholder="75001"></div>
+          </div>
+          <div class="fg fg-2">
+            <div><label class="lbl">Ville</label><input type="text" id="cl-ville" class="ii" placeholder="Paris"></div>
+            <div><label class="lbl">Pays</label><input type="text" id="cl-pays" class="ii" value="France"></div>
+          </div>
+          <div class="form-section">💰 Tarification client (facturé au client)</div>
+          <div class="fg fg-1" style="margin-bottom:12px">
+            <div>
+              <label class="lbl">Mode de facturation</label>
+              <select id="cl-type-paiement" class="ii" onchange="onTypePaiementChange()">
+                <option value="fixe">Fixe / tournée</option>
+                <option value="point">Au point de livraison</option>
+                <option value="heure">À l'heure</option>
+                <option value="forfait_heures">Forfait + dépassement à la minute</option>
+                <option value="zone" id="cl-type-zone-opt" style="display:none">À la zone</option>
+              </select>
+            </div>
+          </div>
+          <div id="tarif-fixe-group" class="fg fg-3">
+            <div><label class="lbl">Tarif semaine / tournée (€) *</label><input type="number" id="cl-tarif" class="ii" value="150" min="0"></div>
+            <div><label class="lbl">Tarif dimanche / tournée (€)</label><input type="number" id="cl-dim" class="ii" value="200" min="0"></div>
+            <div><label class="lbl">Tarif jour férié / tournée (€)</label><input type="number" id="cl-ferie" class="ii" value="220" min="0"></div>
+          </div>
+          <div id="tarif-point-group" style="display:none">
+            <div class="fg fg-2">
+              <div><label class="lbl">🌅 Tarif AM semaine / point (€)</label><input type="number" id="cl-tarif-point-am" class="ii" value="0" min="0" step="0.01" placeholder="Ex: 1.50"></div>
+              <div><label class="lbl">🌆 Tarif PM semaine / point (€)</label><input type="number" id="cl-tarif-point-pm" class="ii" value="0" min="0" step="0.01" placeholder="Ex: 2.00"></div>
+            </div>
+            <div class="fg fg-2" style="margin-top:8px">
+              <div><label class="lbl">🎉 Tarif AM férié / point (€)</label><input type="number" id="cl-tarif-point-am-ferie" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser tarif semaine"></div>
+              <div><label class="lbl">🎉 Tarif PM férié / point (€)</label><input type="number" id="cl-tarif-point-pm-ferie" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser tarif semaine"></div>
+            </div>
+          </div>
+          <div id="tarif-heure-group" style="display:none">
+            <div class="fg fg-2">
+              <div><label class="lbl">🌅 Tarif AM semaine / heure (€)</label><input type="number" id="cl-tarif-heure-am" class="ii" value="0" min="0" step="0.01" placeholder="Ex: 20.00"></div>
+              <div><label class="lbl">🌆 Tarif PM semaine / heure (€)</label><input type="number" id="cl-tarif-heure-pm" class="ii" value="0" min="0" step="0.01" placeholder="Ex: 25.00"></div>
+            </div>
+            <div class="fg fg-2" style="margin-top:8px">
+              <div><label class="lbl">🎉 Tarif AM férié / heure (€)</label><input type="number" id="cl-tarif-heure-am-ferie" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser tarif semaine"></div>
+              <div><label class="lbl">🎉 Tarif PM férié / heure (€)</label><input type="number" id="cl-tarif-heure-pm-ferie" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser tarif semaine"></div>
+            </div>
+          </div>
+          <div id="tarif-forfait-group" style="display:none">
+            <div style="background:rgba(245,166,35,0.06);border:1px solid rgba(245,166,35,0.25);border-radius:10px;padding:12px;margin-bottom:8px;font-size:11px;color:#F5A623;line-height:1.5">
+              💡 <strong>Forfait + dépassement</strong> : la tournée est facturée à un montant fixe pour une durée incluse. Au-delà, chaque minute supplémentaire est facturée au tarif/minute. Si la tournée se termine avant la durée incluse, le forfait reste dû en intégralité.
+            </div>
+            <div style="font-size:11px;font-weight:700;color:#F5A623;letter-spacing:1px;margin:10px 0 6px">📅 SEMAINE</div>
+            <div class="fg fg-3">
+              <div><label class="lbl">🌅 Forfait AM (€)</label><input type="number" id="cl-forfait-am" class="ii" value="0" min="0" step="0.01" placeholder="Ex: 240.00"></div>
+              <div><label class="lbl">🌅 Heures incluses AM</label><div style="display:flex;align-items:center;gap:6px"><input type="number" id="cl-forfait-h-am" class="ii" min="0" max="23" step="1" value="6" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">h</span><input type="number" id="cl-forfait-m-am" class="ii" min="0" max="59" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">min</span></div></div>
+              <div><label class="lbl">🌅 € / min dépassement AM</label><input type="number" id="cl-tarif-min-am" class="ii" value="0" min="0" step="0.01" placeholder="Ex: 0.80"></div>
+            </div>
+            <div class="fg fg-3" style="margin-top:8px">
+              <div><label class="lbl">🌆 Forfait PM (€)</label><input type="number" id="cl-forfait-pm" class="ii" value="0" min="0" step="0.01" placeholder="Ex: 240.00"></div>
+              <div><label class="lbl">🌆 Heures incluses PM</label><div style="display:flex;align-items:center;gap:6px"><input type="number" id="cl-forfait-h-pm" class="ii" min="0" max="23" step="1" value="6" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">h</span><input type="number" id="cl-forfait-m-pm" class="ii" min="0" max="59" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">min</span></div></div>
+              <div><label class="lbl">🌆 € / min dépassement PM</label><input type="number" id="cl-tarif-min-pm" class="ii" value="0" min="0" step="0.01" placeholder="Ex: 0.80"></div>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:#F5A623;letter-spacing:1px;margin:14px 0 6px">🌙 DIMANCHE</div>
+            <div class="fg fg-3">
+              <div><label class="lbl">🌅 Forfait AM dimanche (€)</label><input type="number" id="cl-forfait-dim-am" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser semaine"></div>
+              <div><label class="lbl">🌅 Heures incluses AM dim</label><div style="display:flex;align-items:center;gap:6px"><input type="number" id="cl-forfait-h-dim-am" class="ii" min="0" max="23" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">h</span><input type="number" id="cl-forfait-m-dim-am" class="ii" min="0" max="59" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">min</span></div></div>
+              <div><label class="lbl">🌅 € / min dim AM</label><input type="number" id="cl-tarif-min-dim-am" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser semaine"></div>
+            </div>
+            <div class="fg fg-3" style="margin-top:8px">
+              <div><label class="lbl">🌆 Forfait PM dimanche (€)</label><input type="number" id="cl-forfait-dim-pm" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser semaine"></div>
+              <div><label class="lbl">🌆 Heures incluses PM dim</label><div style="display:flex;align-items:center;gap:6px"><input type="number" id="cl-forfait-h-dim-pm" class="ii" min="0" max="23" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">h</span><input type="number" id="cl-forfait-m-dim-pm" class="ii" min="0" max="59" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">min</span></div></div>
+              <div><label class="lbl">🌆 € / min dim PM</label><input type="number" id="cl-tarif-min-dim-pm" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser semaine"></div>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:#F5A623;letter-spacing:1px;margin:14px 0 6px">🎉 JOUR FÉRIÉ</div>
+            <div class="fg fg-3">
+              <div><label class="lbl">🌅 Forfait AM férié (€)</label><input type="number" id="cl-forfait-ferie-am" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser semaine"></div>
+              <div><label class="lbl">🌅 Heures incluses AM férié</label><div style="display:flex;align-items:center;gap:6px"><input type="number" id="cl-forfait-h-ferie-am" class="ii" min="0" max="23" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">h</span><input type="number" id="cl-forfait-m-ferie-am" class="ii" min="0" max="59" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">min</span></div></div>
+              <div><label class="lbl">🌅 € / min férié AM</label><input type="number" id="cl-tarif-min-ferie-am" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser semaine"></div>
+            </div>
+            <div class="fg fg-3" style="margin-top:8px">
+              <div><label class="lbl">🌆 Forfait PM férié (€)</label><input type="number" id="cl-forfait-ferie-pm" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser semaine"></div>
+              <div><label class="lbl">🌆 Heures incluses PM férié</label><div style="display:flex;align-items:center;gap:6px"><input type="number" id="cl-forfait-h-ferie-pm" class="ii" min="0" max="23" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">h</span><input type="number" id="cl-forfait-m-ferie-pm" class="ii" min="0" max="59" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">min</span></div></div>
+              <div><label class="lbl">🌆 € / min férié PM</label><input type="number" id="cl-tarif-min-ferie-pm" class="ii" value="0" min="0" step="0.01" placeholder="Laisser 0 = utiliser semaine"></div>
+            </div>
+          </div>
+          <div id="tarif-zone-group" style="display:none">
+            <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:12px;margin-bottom:8px;font-size:12px;color:#93C5FD;line-height:1.6">
+              📍 <strong>Mode "À la zone"</strong> : aucun tarif client à saisir ici. Le CA est calculé pour chaque tournée comme <code>nb_points × tarif/point</code> selon la zone du <strong>code postal de livraison</strong> saisi sur la tournée. Les tarifs et le mapping ville/CP → zone se gèrent dans l'onglet <strong>📍 Zones</strong>.
+            </div>
+            <div id="cl-zone-recap" style="background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.1);border-radius:8px;padding:10px;font-size:11px;color:var(--gray)">Chargement de la grille tarifaire…</div>
+          </div>
+          <div class="form-section">👷 Salaire net chauffeur salarié / tournée</div>
+          <div class="fg fg-3">
+            <div><label class="lbl">Semaine net (€)</label><input type="number" id="cl-ch-sem" class="ii" value="70" min="0"></div>
+            <div><label class="lbl">Dimanche net (€)</label><input type="number" id="cl-ch-dim" class="ii" value="90" min="0"></div>
+            <div><label class="lbl">Jour férié net (€)</label><input type="number" id="cl-ch-ferie" class="ii" value="100" min="0"></div>
+          </div>
+          <div class="form-section">🚐 Salaire sous-traitant (payé au sous-traitant pour ce client)</div>
+          <div class="fg fg-3">
+            <div><label class="lbl">Semaine (€)</label><input type="number" id="cl-st-sem" class="ii" value="110" min="0"></div>
+            <div><label class="lbl">Dimanche (€)</label><input type="number" id="cl-st-dim" class="ii" value="140" min="0"></div>
+            <div><label class="lbl">Jour férié (€)</label><input type="number" id="cl-st-ferie" class="ii" value="160" min="0"></div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+            <button class="btn-cancel-f" onclick="hideClForm()">Annuler</button>
+            <button class="btn-save" id="btn-cl" onclick="saveClient()">✅ Ajouter le client</button>
+          </div>
+          <input type="hidden" id="cl-id">
+        </div>
+        <div style="overflow-x:auto">
+          <table class="params-table">
+            <thead><tr><th>#</th><th>Client</th><th>Ville</th><th>Téléphone</th><th>Email</th><th>SIRET</th><th>Tarif</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="cl-tbody"><tr><td colspan="9" style="text-align:center;padding:30px"><div class="spinner" style="margin:0 auto"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ COMMISSIONNAIRES ══ -->
+    <div id="tab-commissionnaires" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div>
+            <div class="card-title">🤝 COMMISSIONNAIRES</div>
+            <div class="card-sub">COGEPART, ID LOGISTICS… Associez vos prestations à leurs commissionnaires pour regrouper la facturation</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <input type="text" class="search-input" placeholder="🔍 Rechercher..." oninput="filterCom(this.value)">
+            <button class="btn-sm btn-accent" onclick="showComForm()">+ Ajouter</button>
+          </div>
+        </div>
+        <div id="form-com" style="display:none;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:12px;padding:18px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:#A78BFA;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-com-title">➕ Nouveau commissionnaire</div>
+          <div class="form-section">Informations générales</div>
+          <div class="fg fg-3">
+            <div><label class="lbl">Nom du commissionnaire *</label><input type="text" id="com-nom" class="ii" placeholder="COGEPART"></div>
+            <div><label class="lbl">SIRET</label><input type="text" id="com-siret" class="ii" placeholder="000 000 000 00000"></div>
+            <div><label class="lbl">Contact (nom)</label><input type="text" id="com-contact" class="ii" placeholder="M. Dupont"></div>
+          </div>
+          <div class="fg fg-3">
+            <div><label class="lbl">Téléphone</label><input type="text" id="com-tel" class="ii" placeholder="+33 1 00 00 00 00"></div>
+            <div><label class="lbl">Email</label><input type="email" id="com-email" class="ii" placeholder="contact@commissionnaire.fr"></div>
+            <div><label class="lbl">Site web</label><input type="text" id="com-site" class="ii" placeholder="www.commissionnaire.fr"></div>
+          </div>
+          <div class="form-section">Adresse</div>
+          <div class="fg fg-3">
+            <div style="grid-column:1/3"><label class="lbl">Adresse</label><input type="text" id="com-adresse" class="ii" placeholder="12 rue de la République"></div>
+            <div><label class="lbl">Code postal</label><input type="text" id="com-cp" class="ii" placeholder="75001"></div>
+          </div>
+          <div class="fg fg-2">
+            <div><label class="lbl">Ville</label><input type="text" id="com-ville" class="ii" placeholder="Paris"></div>
+            <div></div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+            <button class="btn-cancel-f" onclick="hideComForm()">Annuler</button>
+            <button class="btn-save" id="btn-com" onclick="saveCommissionnaire()">✅ Ajouter</button>
+          </div>
+          <input type="hidden" id="com-id">
+        </div>
+        <div style="overflow-x:auto">
+          <table class="params-table">
+            <thead><tr><th>#</th><th>Commissionnaire</th><th>Ville</th><th>Téléphone</th><th>Email</th><th>SIRET</th><th>Prestations liées</th><th>Actions</th></tr></thead>
+            <tbody id="com-tbody"><tr><td colspan="8" style="text-align:center;padding:30px"><div class="spinner" style="margin:0 auto"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PÉNALITÉS ══ -->
+    <div id="tab-penalites" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div>
+            <div class="card-title">⚠️ PÉNALITÉS</div>
+            <div class="card-sub">Définissez les motifs de pénalité utilisés lors de la validation des tournées dans le Planning.</div>
+          </div>
+          <button class="btn-sm btn-accent" onclick="showPenForm()">+ Ajouter un motif</button>
+        </div>
+        <div id="form-pen" style="display:none;background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:12px;padding:18px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:#FC8181;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-pen-title">➕ Nouveau motif de pénalité</div>
+          <div class="fg fg-4" style="align-items:end">
+            <div><label class="lbl">Icône (emoji)</label><input type="text" id="pen-icon" class="ii" placeholder="⏰" maxlength="2" value="⚠️"></div>
+            <div><label class="lbl">Libellé du motif *</label><input type="text" id="pen-label" class="ii" placeholder="Ex: Retard, Absence..."></div>
+            <div><label class="lbl">Montant déduction (€)</label><input type="number" id="pen-montant" class="ii" value="0" min="0" placeholder="0 = saisie libre"></div>
+            <div><button class="btn-save" id="btn-pen" onclick="savePenalite()" style="width:100%">✅ Enregistrer</button></div>
+          </div>
+          <div style="font-size:11px;color:var(--gray);margin-top:8px">💡 Si le montant est <strong style="color:var(--white)">0€</strong>, l'utilisateur pourra saisir librement le montant.</div>
+          <input type="hidden" id="pen-edit-id">
+          <div style="margin-top:10px;text-align:right"><button class="btn-cancel-f" onclick="hidePenForm()">Annuler</button></div>
+        </div>
+        <div id="pen-grid" style="margin-top:8px"></div>
+        <div style="margin-top:16px;padding:12px 14px;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.08);border-radius:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Pénalités par défaut (si aucune configurée)</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div style="font-size:12px;color:var(--light)">⏰ Retard — <strong style="color:#FC8181">20€</strong></div>
+            <div style="font-size:12px;color:var(--light)">🚫 Absence non justifiée — <strong style="color:#FC8181">50€</strong></div>
+            <div style="font-size:12px;color:var(--light)">📋 Absence — <strong style="color:var(--gray)">Saisie libre</strong></div>
+          </div>
+          <button onclick="resetPenalites()" style="margin-top:10px;background:none;border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:6px 14px;font-size:11px;color:var(--gray);cursor:pointer;font-family:inherit">↩ Restaurer les pénalités par défaut</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ZONES (addon_zone) ══ -->
+    <div id="tab-zones" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div>
+            <div class="card-title">📍 ZONES DE FACTURATION</div>
+            <div class="card-sub">Définissez vos zones (€/point) et le mapping villes/CP. Données partagées avec l'addon Décompte ST.</div>
+          </div>
+        </div>
+        <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#93C5FD;line-height:1.6">
+          💡 <strong>Comment ça marche</strong> : 1) Définissez vos zones avec un tarif € par point. 2) Mappez vos villes/codes postaux à une zone. 3) Lors de la création d'un client, choisissez le mode <strong>"À la zone"</strong> ; à chaque tournée le système calculera <code>nb_points × tarif/zone</code> à partir du code postal de livraison saisi.
+        </div>
+
+        <!-- Section Tarifs -->
+        <div style="margin-bottom:18px">
+          <div style="font-size:11px;font-weight:700;color:#60A5FA;letter-spacing:1px;margin:6px 0 10px">⚙️ TARIFS € / POINT PAR ZONE</div>
+          <div style="overflow-x:auto">
+            <table class="params-table" id="zones-rates-table">
+              <thead><tr><th style="width:120px">Zone</th><th style="width:200px">Tarif € / point</th><th>Actions</th></tr></thead>
+              <tbody id="zones-rates-tbody"><tr><td colspan="3" style="text-align:center;padding:20px;color:var(--gray)">Aucune zone — cliquez "+ Ajouter"</td></tr></tbody>
+            </table>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+            <button class="btn-sm btn-accent" onclick="zoneAddRate()">+ Ajouter une zone</button>
+            <button class="btn-save" onclick="zoneSaveRates()" style="padding:8px 16px;font-size:12px">💾 Enregistrer les tarifs</button>
+            <span id="zones-rates-status" style="font-size:11px;color:#10B981"></span>
+          </div>
+        </div>
+
+        <!-- Section Mapping -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px">
+            <div style="font-size:11px;font-weight:700;color:#60A5FA;letter-spacing:1px">🏘️ MAPPING VILLES / CP → ZONES</div>
+            <input type="text" id="zones-city-search" class="ii" placeholder="🔍 Rechercher..." oninput="zoneFilterCities(this.value)" style="width:200px;font-size:12px;padding:6px 10px">
+          </div>
+          <div id="zones-city-form" style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:12px;margin-bottom:12px">
+            <div class="fg fg-4" style="align-items:end">
+              <div><label class="lbl">Ville *</label><input type="text" id="zc-ville" class="ii" placeholder="Ex: LYON"></div>
+              <div><label class="lbl">CP préfixe (optionnel)</label><input type="text" id="zc-cp" class="ii" placeholder="Ex: 69" maxlength="5"></div>
+              <div><label class="lbl">Zone *</label><input type="number" id="zc-zone" class="ii" placeholder="Ex: 1" min="1" step="1"></div>
+              <div><button class="btn-save" onclick="zoneAddCity()" style="width:100%;padding:8px">✅ Ajouter</button></div>
+            </div>
+            <div style="font-size:11px;color:var(--gray);margin-top:6px">💡 La ville est obligatoire. Le préfixe CP (2 premiers chiffres, ex: 69 pour le Rhône) sert de fallback si la ville n'est pas trouvée. La zone est un nombre entier (1, 2, 3…).</div>
+          </div>
+          <div id="zones-city-info" style="font-size:11px;color:var(--gray);margin-bottom:6px"></div>
+          <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+            <table class="params-table" id="zones-city-table">
+              <thead><tr><th>Ville</th><th style="width:100px">CP préfixe</th><th style="width:120px">Zone</th><th style="width:120px">Actions</th></tr></thead>
+              <tbody id="zones-city-tbody"><tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray)">Aucun mapping</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+function getH(extra={}){ return {...OT.authHeaders(),...extra}; }
+const H = ()=>getH({'Prefer':'return=representation'});
+const COLORS=['#1A4FBF','#27AE60','#7C3AED','#F5A623','#E74C3C','#0891B2','#D97706'];
+
+let allC=[],allCl=[],allCom=[],lastQC='',lastQCl='',lastQCom='';
+
+async function fetchSB(url, opts={}){
+  const ctrl = new AbortController();
+  const tid = setTimeout(()=>ctrl.abort(), 5000);
+  try{
+    const r = await fetch(url, {...opts, signal:ctrl.signal});
+    clearTimeout(tid);
+    return r;
+  }catch(e){ clearTimeout(tid); throw e; }
+}
+
+async function api(method,table,body=null,filter=''){
+  const cid=OT.getCompanyId();
+  const cf=cid?`&company_id=eq.${cid}`:'';
+  const url=`${SB}/rest/v1/${table}?order=nom${cf}${filter}`;
+  const r=await fetchSB(url,{method,headers:H(),...(body?{body:JSON.stringify(body)}:{})});
+  if(!r.ok){ const txt=await r.text(); throw new Error(txt); }
+  return method==='DELETE'?null:r.json();
+}
+
+document.addEventListener('DOMContentLoaded',async ()=>{
+  document.getElementById('sync-info').textContent='✅ Connecté';
+  loadEntreprise().catch(()=>{});
+  loadChauffeurs().catch(()=>{});
+  Promise.all([loadCommissionnaires(),loadClients()]).then(()=>renderCom(allCom)).catch(()=>{});
+  // Addon zone : afficher l'option "À la zone" et l'onglet Zones si addon actif.
+  // On applique d'abord avec la session locale (pour éviter un flash si déjà true),
+  // puis on attend refreshSession() pour réappliquer avec les flags à jour de la DB.
+  applyZoneAddonVisibility();
+  // Refresh en arrière-plan : on n'attend pas, l'UI réagit quand la promesse résout.
+  if(typeof OT !== 'undefined' && typeof OT.refreshSession === 'function'){
+    OT.refreshSession().then(function(){
+      applyZoneAddonVisibility();
+      if(typeof OT.can === 'function' && OT.can('zone_billing')){
+        const cid=OT.getCompanyId();
+        if(window.OT_ZONE) OT_ZONE.load(cid).then(()=>{ if(typeof renderCl==='function' && allCl) renderCl(allCl); });
+      }
+    }).catch(function(){});
+  }
+  // Charger les zones tout de suite si le flag cache dit que l'addon est actif
+  if(typeof OT !== 'undefined' && typeof OT.can === 'function' && OT.can('zone_billing')){
+    const cid=OT.getCompanyId();
+    if(window.OT_ZONE) OT_ZONE.load(cid).then(()=>{ if(typeof renderCl==='function' && allCl) renderCl(allCl); });
+  }
+});
+function applyZoneAddonVisibility(){
+  // OT est déclaré avec const → n'est PAS attaché à window. On vérifie via typeof.
+  const enabled = typeof OT !== 'undefined' && typeof OT.can === 'function' && OT.can('zone_billing');
+  const opt = document.getElementById('cl-type-zone-opt');
+  if(opt) opt.style.display = enabled ? '' : 'none';
+  const tabBtn = document.getElementById('tab-btn-zones');
+  if(tabBtn) tabBtn.style.display = enabled ? '' : 'none';
+}
+
+async function loadEntreprise(){
+  try{
+    const cid=OT.getCompanyId();
+    const r=await fetchSB(`${SB}/rest/v1/entreprise?company_id=eq.${cid}&limit=1`,{headers:H()});
+    if(!r.ok) return;
+    const data=await r.json();
+    if(Array.isArray(data) && data.length){
+      const e=data[0];
+      ['nom','siret','tel','email','adresse','ville','pays','iban','tva','mentions'].forEach(f=>{
+        const el=document.getElementById('e-'+f);
+        if(el&&e[f]!==undefined) el.value=e[f];
+      });
+      if(e.bic) document.getElementById('e-bic').value=e.bic;
+      if(e.site) document.getElementById('e-site').value=e.site;
+      if(e.code_postal) document.getElementById('e-cp').value=e.code_postal;
+      if(e.coefficient_salarie!=null) document.getElementById('e-coef-salarie').value=Math.round((e.coefficient_salarie-1)*100);
+      if(e.charges_fixes_mensuelles!=null) document.getElementById('e-charges-fixes').value=e.charges_fixes_mensuelles;
+    }
+  }catch(e){ console.warn('loadEntreprise:',e.name); }
+}
+
+async function saveEntreprise(){
+  const payload={
+    nom:document.getElementById('e-nom').value.trim(),
+    siret:document.getElementById('e-siret').value.trim(),
+    telephone:document.getElementById('e-tel').value.trim(),
+    email:document.getElementById('e-email').value.trim(),
+    site:document.getElementById('e-site').value.trim(),
+    adresse:document.getElementById('e-adresse').value.trim(),
+    code_postal:document.getElementById('e-cp').value.trim(),
+    ville:document.getElementById('e-ville').value.trim(),
+    pays:document.getElementById('e-pays').value.trim(),
+    iban:document.getElementById('e-iban').value.trim(),
+    bic:document.getElementById('e-bic').value.trim(),
+    tva:parseFloat(document.getElementById('e-tva').value)||20,
+    coefficient_salarie:(v=>{const t=parseFloat(v);return isNaN(t)?1.82:Math.max(1,1+t/100);})(document.getElementById('e-coef-salarie').value),
+    charges_fixes_mensuelles:parseFloat(document.getElementById('e-charges-fixes').value)||0,
+    mentions:document.getElementById('e-mentions').value.trim(),
+    updated_at:new Date().toISOString()
+  };
+  const btn=document.getElementById('btn-e');
+  btn.textContent='⏳ Sauvegarde...';btn.disabled=true;
+  try{
+    const cid=OT.getCompanyId();
+    const check=await fetch(`${SB}/rest/v1/entreprise?company_id=eq.${cid}&limit=1`,{headers:H()});
+    if(!check.ok) throw new Error('Erreur HTTP '+check.status);
+    const existing=await check.json();
+    if(existing.length){
+      await fetch(`${SB}/rest/v1/entreprise?id=eq.${existing[0].id}`,{method:'PATCH',headers:H(),body:JSON.stringify(payload)});
+    } else {
+      await fetch(`${SB}/rest/v1/entreprise`,{method:'POST',headers:H(),body:JSON.stringify({...payload,company_id:cid})});
+    }
+    toast('✅ Informations entreprise sauvegardées');
+  }catch(e){toast('❌ '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent='💾 Sauvegarder mon entreprise';}
+}
+
+async function loadChauffeurs(){
+  allC=await api('GET','chauffeurs');
+  renderC(allC);
+  document.getElementById('tc-c').textContent=allC.length;
+}
+
+function renderC(data){
+  const grid=document.getElementById('ch-grid');
+  if(!data.length){
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px">👷</div>Aucun chauffeur — cliquez "+ Ajouter"</div>`;
+    document.getElementById('c-info').textContent='';return;
+  }
+  grid.innerHTML='';
+  data.forEach((c,i)=>{
+    const col=COLORS[i%COLORS.length];
+    const ini=c.nom.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+    const div=document.createElement('div');
+    div.className='ch-card';
+    const inactif=c.actif===false;
+    if(inactif) div.style.opacity='0.55';
+    const inactifBadge=inactif?'<span class="badge badge-orange" style="font-size:9px">⚠️ Inactif</span>':'';
+    div.innerHTML=`<div class="ch-av" style="background:${col}">${ini}</div><div style="flex:1;min-width:0"><div class="ch-name">${c.nom}</div><div class="ch-meta"><span class="badge ${c.type==='salarié'?'badge-green':'badge-orange'}" style="font-size:9px">${c.type==='salarié'?'Salarié':'S/T'}</span>${inactifBadge}${c.tel?`<span style="color:#25D366">💬 ${c.tel}</span>`:''}</div></div><div style="display:flex;gap:4px"><button class="icon-btn" onclick="editC('${c.id}')">✏️</button><button class="icon-btn" onclick="delC('${c.id}','${c.nom.replace(/'/g,"\\'")}')" style="color:rgba(231,76,60,0.7)">🗑</button></div>`;
+    grid.appendChild(div);
+  });
+  const nbInactifs=data.filter(c=>c.actif===false).length;
+  document.getElementById('c-info').textContent=`${data.length} chauffeur${data.length>1?'s':''} · ${data.filter(c=>c.tel).length} avec WhatsApp${nbInactifs>0?` · ${nbInactifs} inactif${nbInactifs>1?'s':''}`:''}`;
+}
+
+function filterC(q){lastQC=q;renderC(!q?allC:allC.filter(c=>c.nom.toLowerCase().includes(q.toLowerCase())));}
+function toggleSTFields(){ const t=document.getElementById('c-type').value; document.getElementById('st-block').style.display=t==='sous-traitant'?'block':'none'; }
+function showCForm(){
+  document.getElementById('form-c').style.display='block';
+  document.getElementById('c-id').value='';
+  document.getElementById('form-c-title').textContent='➕ Nouveau chauffeur';
+  document.getElementById('btn-c').textContent='✅ Ajouter le chauffeur';
+  ['c-nom','c-email','c-tel','c-adresse','c-permis','c-st-nom','c-st-siret','c-st-adresse'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('c-type').value='salarié';
+  document.getElementById('c-naissance').value='';
+  document.getElementById('c-actif').value='true';
+  document.getElementById('st-block').style.display='none';
+  document.getElementById('form-c').scrollIntoView({behavior:'smooth'});
+  document.getElementById('c-nom').focus();
+}
+function hideCForm(){document.getElementById('form-c').style.display='none';}
+function editC(id){
+  const c=allC.find(x=>x.id===id);if(!c)return;
+  showCForm();
+  document.getElementById('c-id').value=id;
+  document.getElementById('c-nom').value=c.nom;
+  document.getElementById('c-type').value=c.type;
+  document.getElementById('c-tel').value=c.tel||'';
+  document.getElementById('c-email').value=c.email||'';
+  document.getElementById('c-adresse').value=c.adresse||'';
+  document.getElementById('c-permis').value=c.permis||'';
+  document.getElementById('c-naissance').value=c.date_naissance||'';
+  document.getElementById('c-st-nom').value=c.entreprise_nom||'';
+  document.getElementById('c-st-siret').value=c.entreprise_siret||'';
+  document.getElementById('c-st-adresse').value=c.entreprise_adresse||'';
+  document.getElementById('c-actif').value=c.actif===false?'false':'true';
+  document.getElementById('form-c-title').textContent='✏️ Modifier chauffeur';
+  document.getElementById('btn-c').textContent='💾 Enregistrer';
+  if(c.type==='sous-traitant') document.getElementById('st-block').style.display='block';
+}
+async function saveChauffeur(){
+  const nom=document.getElementById('c-nom').value.trim().toUpperCase();
+  if(!nom){toast('Saisir un nom','error');return;}
+  const type=document.getElementById('c-type').value;
+  const actif=document.getElementById('c-actif').value!=='false';
+  const payload={nom,type,actif,tel:document.getElementById('c-tel').value.trim(),email:document.getElementById('c-email').value.trim(),adresse:document.getElementById('c-adresse').value.trim(),permis:document.getElementById('c-permis').value.trim(),date_naissance:document.getElementById('c-naissance').value||null,entreprise_nom:document.getElementById('c-st-nom').value.trim(),entreprise_siret:document.getElementById('c-st-siret').value.trim(),entreprise_adresse:document.getElementById('c-st-adresse').value.trim()};
+  const id=document.getElementById('c-id').value;
+  const btn=document.getElementById('btn-c');btn.textContent='⏳...';btn.disabled=true;
+  try{
+    if(id){
+      const r=await fetch(`${SB}/rest/v1/chauffeurs?id=eq.${id}`,{method:'PATCH',headers:H(),body:JSON.stringify(payload)});
+      if(!r.ok)throw new Error(await r.text());
+    } else {
+      const r=await fetch(`${SB}/rest/v1/chauffeurs`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,company_id:OT.getCompanyId()})});
+      if(!r.ok)throw new Error(await r.text());
+    }
+    toast(`✅ ${nom} ${id?'modifié':'ajouté'}`);
+    hideCForm();
+    allC=await api('GET','chauffeurs');
+    renderC(allC);
+    document.getElementById('tc-c').textContent=allC.length;
+  }catch(e){toast('❌ '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=document.getElementById('c-id').value?'💾 Enregistrer':'✅ Ajouter le chauffeur';}
+}
+async function delC(id,nom){
+  if(!confirm(`Supprimer ${nom} ?`))return;
+  try{
+    await fetch(`${SB}/rest/v1/chauffeurs?id=eq.${id}`,{method:'DELETE',headers:H()});
+    toast(`🗑 ${nom} supprimé`);
+    allC=await api('GET','chauffeurs');
+    renderC(allC);
+    document.getElementById('tc-c').textContent=allC.length;
+  }catch(e){toast('❌ '+e.message,'error');}
+}
+
+async function loadClients(){
+  allCl=await api('GET','clients');
+  renderCl(allCl);
+  document.getElementById('tc-cl').textContent=allCl.length;
+  // Mettre à jour le select commissionnaire dans le form prestation
+  populateComSelect();
+}
+function renderCl(data){
+  const tbody=document.getElementById('cl-tbody');
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--gray)"><div style="font-size:28px;margin-bottom:8px">🏢</div>Aucune prestation</td></tr>`;return;}
+  tbody.innerHTML='';
+  data.forEach((c,i)=>{
+    const comBadge=c.commissionnaire_nom?`<span class="badge" style="background:rgba(124,58,237,0.2);color:#A78BFA;font-size:9px">🤝 ${c.commissionnaire_nom}</span>`:`<span class="badge badge-orange" style="font-size:9px">Propre</span>`;
+    const tr=document.createElement('tr');
+    const tp=c.type_paiement||'fixe';
+    let tarifHtml;
+    if(tp==='point'){
+      tarifHtml=`<div style="font-weight:700;color:#60A5FA">${(c.tarif_point_am||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€<span style="font-size:10px;color:var(--gray)">/pt AM</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(96,165,250,0.15);color:#60A5FA;padding:1px 6px;border-radius:4px;font-weight:600">📦 Au point</span></div>`;
+    } else if(tp==='heure'){
+      tarifHtml=`<div style="font-weight:700;color:#A78BFA">${(c.tarif_heure_am||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€<span style="font-size:10px;color:var(--gray)">/h AM</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(167,139,250,0.15);color:#A78BFA;padding:1px 6px;border-radius:4px;font-weight:600">⏱ À l'heure</span></div>`;
+    } else if(tp==='forfait_heures'){
+      const hAM=Math.floor((c.forfait_minutes_am||0)/60),mAM=(c.forfait_minutes_am||0)%60;
+      const hLbl=`${hAM}h${mAM>0?String(mAM).padStart(2,'0'):''}`;
+      tarifHtml=`<div style="font-weight:700;color:#F5A623">${(c.forfait_montant_am||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€<span style="font-size:10px;color:var(--gray)">/${hLbl} AM</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(245,166,35,0.15);color:#F5A623;padding:1px 6px;border-radius:4px;font-weight:600">⏰ Forfait+dép</span></div>`;
+    } else if(tp==='zone'){
+      const nbZones=window.OT_ZONE?Object.keys(OT_ZONE.rates||{}).length:0;
+      tarifHtml=`<div style="font-weight:700;color:#60A5FA">${nbZones} zone${nbZones>1?'s':''}<span style="font-size:10px;color:var(--gray)"> €/pt</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(59,130,246,0.15);color:#60A5FA;padding:1px 6px;border-radius:4px;font-weight:600">📍 À la zone</span></div>`;
+    } else {
+      tarifHtml=`<div style="font-weight:700;color:#2ECC71">${c.tarif||0}€<span style="font-size:10px;color:var(--gray)">/tournée</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(39,174,96,0.15);color:#2ECC71;padding:1px 6px;border-radius:4px;font-weight:600">🔒 Fixe</span></div>`;
+    }
+    const nbZ=window.OT_ZONE?Object.keys(OT_ZONE.rates||{}).length:0;
+    const actif=(tp==='point'&&(c.tarif_point_am||0)>0)||(tp==='heure'&&(c.tarif_heure_am||0)>0)||(tp==='forfait_heures'&&(c.forfait_montant_am||0)>0)||(tp==='fixe'&&(c.tarif||0)>0)||(tp==='zone'&&nbZ>0);
+    tr.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td style="font-weight:700;color:var(--white)">${c.nom}<br>${comBadge}</td><td style="color:var(--gray);font-size:12px">${c.ville||'—'}</td><td style="font-size:12px">${c.telephone||'—'}</td><td style="font-size:12px;color:var(--gray)">${c.email||'—'}</td><td style="font-size:11px;color:var(--gray2)">${c.siret||'—'}</td><td>${tarifHtml}</td><td><span class="badge ${actif?'badge-green':'badge-orange'}">${actif?'✅ Actif':'⚠️'}</span></td><td><button class="icon-btn" onclick="editCl('${c.id}')">✏️</button><button class="icon-btn" onclick="delCl('${c.id}','${c.nom.replace(/'/g,"\\'")}')" style="color:rgba(231,76,60,0.7)">🗑</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function filterCl(q){renderCl(!q?allCl:allCl.filter(c=>c.nom.toLowerCase().includes(q.toLowerCase())));}
+function populateComSelect(){
+  const sel=document.getElementById('cl-commissionnaire');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Client propre (sans commissionnaire) —</option>';
+  allCom.forEach(c=>{sel.innerHTML+=`<option value="${c.id}">${c.nom}</option>`;});
+  sel.value=cur;
+}
+function showClForm(){
+  document.getElementById('form-cl').style.display='block';
+  document.getElementById('cl-id').value='';
+  document.getElementById('form-cl-title').textContent='➕ Nouvelle prestation';
+  document.getElementById('btn-cl').textContent='✅ Ajouter la prestation';
+  document.getElementById('cl-commissionnaire').value='';
+  ['cl-nom','cl-siret','cl-contact','cl-tel','cl-email','cl-site','cl-adresse','cl-cp','cl-ville'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('cl-type-paiement').value='fixe';
+  onTypePaiementChange();
+  document.getElementById('cl-tarif').value=150;
+  document.getElementById('cl-dim').value=200;
+  document.getElementById('cl-ferie').value=220;
+  document.getElementById('cl-tarif-point-am').value=0;
+  document.getElementById('cl-tarif-point-pm').value=0;
+  document.getElementById('cl-tarif-point-am-ferie').value=0;
+  document.getElementById('cl-tarif-point-pm-ferie').value=0;
+  document.getElementById('cl-tarif-heure-am').value=0;
+  document.getElementById('cl-tarif-heure-pm').value=0;
+  document.getElementById('cl-tarif-heure-am-ferie').value=0;
+  document.getElementById('cl-tarif-heure-pm-ferie').value=0;
+  ['cl-forfait-am','cl-forfait-pm','cl-forfait-dim-am','cl-forfait-dim-pm','cl-forfait-ferie-am','cl-forfait-ferie-pm','cl-tarif-min-am','cl-tarif-min-pm','cl-tarif-min-dim-am','cl-tarif-min-dim-pm','cl-tarif-min-ferie-am','cl-tarif-min-ferie-pm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=0;});
+  // Heures incluses : semaine = 6h00 par défaut, dim/férié = 0 (= fallback semaine)
+  document.getElementById('cl-forfait-h-am').value=6;document.getElementById('cl-forfait-m-am').value=0;
+  document.getElementById('cl-forfait-h-pm').value=6;document.getElementById('cl-forfait-m-pm').value=0;
+  ['cl-forfait-h-dim-am','cl-forfait-m-dim-am','cl-forfait-h-dim-pm','cl-forfait-m-dim-pm','cl-forfait-h-ferie-am','cl-forfait-m-ferie-am','cl-forfait-h-ferie-pm','cl-forfait-m-ferie-pm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=0;});
+  document.getElementById('cl-ch-sem').value=70;
+  document.getElementById('cl-ch-dim').value=90;
+  document.getElementById('cl-ch-ferie').value=100;
+  document.getElementById('cl-st-sem').value=110;
+  document.getElementById('cl-st-dim').value=140;
+  document.getElementById('cl-st-ferie').value=160;
+  document.getElementById('cl-pays').value='France';
+  document.getElementById('form-cl').scrollIntoView({behavior:'smooth'});
+  document.getElementById('cl-nom').focus();
+}
+function onTypePaiementChange(){
+  const t=document.getElementById('cl-type-paiement').value;
+  document.getElementById('tarif-fixe-group').style.display=t==='fixe'?'':'none';
+  document.getElementById('tarif-point-group').style.display=t==='point'?'':'none';
+  document.getElementById('tarif-heure-group').style.display=t==='heure'?'':'none';
+  const fg=document.getElementById('tarif-forfait-group');
+  if(fg) fg.style.display=t==='forfait_heures'?'':'none';
+  const zg=document.getElementById('tarif-zone-group');
+  if(zg){
+    zg.style.display=t==='zone'?'':'none';
+    if(t==='zone') renderClientZoneRecap();
+  }
+}
+function renderClientZoneRecap(){
+  const el=document.getElementById('cl-zone-recap');
+  if(!el||!window.OT_ZONE) return;
+  const rates=OT_ZONE.rates||{};
+  const zones=Object.keys(rates).sort();
+  if(!zones.length){
+    el.innerHTML='<span style="color:#FBBF24">⚠️ Aucune zone configurée. Allez dans l\'onglet "📍 Zones" pour les définir avant de créer un client en mode zone.</span>';
+    return;
+  }
+  el.innerHTML='<strong style="color:var(--white)">Grille actuelle :</strong> '+zones.map(z=>'Z'+z+' = <strong style="color:#60A5FA">'+(parseFloat(rates[z])||0).toFixed(2)+'€</strong>/pt').join(' · ');
+}
+// Conversions h+min (2 inputs) <-> minutes total pour le mode forfait
+function _readHM(suffix){
+  const h=parseInt(document.getElementById('cl-forfait-h-'+suffix)?.value,10)||0;
+  const m=parseInt(document.getElementById('cl-forfait-m-'+suffix)?.value,10)||0;
+  return Math.max(0,h)*60+Math.max(0,Math.min(59,m));
+}
+function _writeHM(suffix,totalMin){
+  const mm=Math.max(0,Math.round(totalMin||0));
+  const h=Math.floor(mm/60),m=mm%60;
+  const hEl=document.getElementById('cl-forfait-h-'+suffix);
+  const mEl=document.getElementById('cl-forfait-m-'+suffix);
+  if(hEl)hEl.value=h;
+  if(mEl)mEl.value=m;
+}
+function hideClForm(){document.getElementById('form-cl').style.display='none';}
+function editCl(id){
+  const c=allCl.find(x=>x.id===id);if(!c)return;
+  showClForm();
+  document.getElementById('cl-id').value=id;
+  document.getElementById('cl-nom').value=c.nom;
+  document.getElementById('cl-siret').value=c.siret||'';
+  document.getElementById('cl-contact').value=c.contact||'';
+  document.getElementById('cl-tel').value=c.telephone||'';
+  document.getElementById('cl-email').value=c.email||'';
+  document.getElementById('cl-adresse').value=c.adresse||'';
+  document.getElementById('cl-cp').value=c.code_postal||'';
+  document.getElementById('cl-ville').value=c.ville||'';
+  const tp=c.type_paiement||'fixe';
+  document.getElementById('cl-type-paiement').value=tp;
+  onTypePaiementChange();
+  document.getElementById('cl-tarif').value=c.tarif||0;
+  document.getElementById('cl-dim').value=c.tarif_dim||0;
+  document.getElementById('cl-ferie').value=c.tarif_ferie||0;
+  document.getElementById('cl-tarif-point-am').value=c.tarif_point_am||0;
+  document.getElementById('cl-tarif-point-pm').value=c.tarif_point_pm||0;
+  document.getElementById('cl-tarif-point-am-ferie').value=c.tarif_point_am_ferie||0;
+  document.getElementById('cl-tarif-point-pm-ferie').value=c.tarif_point_pm_ferie||0;
+  document.getElementById('cl-tarif-heure-am').value=c.tarif_heure_am||0;
+  document.getElementById('cl-tarif-heure-pm').value=c.tarif_heure_pm||0;
+  document.getElementById('cl-tarif-heure-am-ferie').value=c.tarif_heure_am_ferie||0;
+  document.getElementById('cl-tarif-heure-pm-ferie').value=c.tarif_heure_pm_ferie||0;
+  document.getElementById('cl-forfait-am').value=c.forfait_montant_am||0;
+  document.getElementById('cl-forfait-pm').value=c.forfait_montant_pm||0;
+  document.getElementById('cl-forfait-dim-am').value=c.forfait_montant_dim_am||0;
+  document.getElementById('cl-forfait-dim-pm').value=c.forfait_montant_dim_pm||0;
+  document.getElementById('cl-forfait-ferie-am').value=c.forfait_montant_ferie_am||0;
+  document.getElementById('cl-forfait-ferie-pm').value=c.forfait_montant_ferie_pm||0;
+  _writeHM('am',c.forfait_minutes_am||0);
+  _writeHM('pm',c.forfait_minutes_pm||0);
+  _writeHM('dim-am',c.forfait_minutes_dim_am||0);
+  _writeHM('dim-pm',c.forfait_minutes_dim_pm||0);
+  _writeHM('ferie-am',c.forfait_minutes_ferie_am||0);
+  _writeHM('ferie-pm',c.forfait_minutes_ferie_pm||0);
+  document.getElementById('cl-tarif-min-am').value=c.tarif_minute_depass_am||0;
+  document.getElementById('cl-tarif-min-pm').value=c.tarif_minute_depass_pm||0;
+  document.getElementById('cl-tarif-min-dim-am').value=c.tarif_minute_depass_dim_am||0;
+  document.getElementById('cl-tarif-min-dim-pm').value=c.tarif_minute_depass_dim_pm||0;
+  document.getElementById('cl-tarif-min-ferie-am').value=c.tarif_minute_depass_ferie_am||0;
+  document.getElementById('cl-tarif-min-ferie-pm').value=c.tarif_minute_depass_ferie_pm||0;
+  document.getElementById('cl-ch-sem').value=c.salaire_ch_sem||0;
+  document.getElementById('cl-ch-dim').value=c.salaire_ch_dim||0;
+  document.getElementById('cl-ch-ferie').value=c.salaire_ch_ferie||0;
+  document.getElementById('cl-st-sem').value=c.salaire_st_sem||0;
+  document.getElementById('cl-st-dim').value=c.salaire_st_dim||0;
+  document.getElementById('cl-st-ferie').value=c.salaire_st_ferie||0;
+  document.getElementById('cl-commissionnaire').value=c.commissionnaire_id||'';
+  document.getElementById('form-cl-title').textContent='✏️ Modifier la prestation';
+  document.getElementById('btn-cl').textContent='💾 Enregistrer';
+}
+// ── Géocodage adresse → lat/lng via Nominatim (OpenStreetMap) ──────────────
+async function geocodeAdresse(adresse,cp,ville){
+  if(!adresse&&!ville) return null;
+  try{
+    const q=encodeURIComponent([adresse,cp,ville,'France'].filter(Boolean).join(' '));
+    const r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${q}&limit=1&countrycodes=fr`,{headers:{'Accept-Language':'fr','User-Agent':'OptimumTrans/1.0'}});
+    if(!r.ok) return null;
+    const d=await r.json();
+    if(d&&d[0]) return {lat:parseFloat(d[0].lat),lng:parseFloat(d[0].lon)};
+  }catch(e){}
+  return null;
+}
+async function geocodeAllClients(){
+  const btn=document.getElementById('btn-geocode');
+  const toProcess=allCl.filter(c=>(!c.lat||!c.lng)&&(c.adresse||c.ville));
+  if(!toProcess.length){toast('✅ Tous les clients ont déjà des coordonnées GPS');return;}
+  btn.disabled=true;
+  let done=0;
+  for(const c of toProcess){
+    btn.textContent=`📍 ${done}/${toProcess.length}…`;
+    const coords=await geocodeAdresse(c.adresse,c.code_postal,c.ville);
+    if(coords){
+      await fetch(`${SB}/rest/v1/clients?id=eq.${c.id}`,{method:'PATCH',headers:H(),body:JSON.stringify(coords)});
+      done++;
+    }
+    await new Promise(r=>setTimeout(r,1100)); // Respect Nominatim 1 req/s
+  }
+  btn.disabled=false;btn.textContent='📍 Géolocaliser';
+  allCl=await api('GET','clients');
+  toast(`✅ ${done}/${toProcess.length} clients géolocalisés`);
+}
+
+async function saveClient(){
+  const nom=document.getElementById('cl-nom').value.trim().toUpperCase();
+  if(!nom){toast('Saisir un nom','error');return;}
+  const tp=document.getElementById('cl-type-paiement').value;
+  const comId=document.getElementById('cl-commissionnaire').value||null;
+  const comNom=comId?(allCom.find(x=>x.id===comId)?.nom||null):null;
+  const adresse=document.getElementById('cl-adresse').value.trim();
+  const cp=document.getElementById('cl-cp').value.trim();
+  const ville=document.getElementById('cl-ville').value.trim();
+  const payload={nom,siret:document.getElementById('cl-siret').value.trim(),contact:document.getElementById('cl-contact').value.trim(),telephone:document.getElementById('cl-tel').value.trim(),email:document.getElementById('cl-email').value.trim(),adresse,code_postal:cp,ville,type_paiement:tp,tarif:parseFloat(document.getElementById('cl-tarif').value)||0,tarif_dim:parseFloat(document.getElementById('cl-dim').value)||0,tarif_ferie:parseFloat(document.getElementById('cl-ferie').value)||0,tarif_point_am:parseFloat(document.getElementById('cl-tarif-point-am').value)||0,tarif_point_pm:parseFloat(document.getElementById('cl-tarif-point-pm').value)||0,tarif_point_am_ferie:parseFloat(document.getElementById('cl-tarif-point-am-ferie').value)||0,tarif_point_pm_ferie:parseFloat(document.getElementById('cl-tarif-point-pm-ferie').value)||0,tarif_heure_am:parseFloat(document.getElementById('cl-tarif-heure-am').value)||0,tarif_heure_pm:parseFloat(document.getElementById('cl-tarif-heure-pm').value)||0,tarif_heure_am_ferie:parseFloat(document.getElementById('cl-tarif-heure-am-ferie').value)||0,tarif_heure_pm_ferie:parseFloat(document.getElementById('cl-tarif-heure-pm-ferie').value)||0,forfait_montant_am:parseFloat(document.getElementById('cl-forfait-am').value)||0,forfait_montant_pm:parseFloat(document.getElementById('cl-forfait-pm').value)||0,forfait_montant_dim_am:parseFloat(document.getElementById('cl-forfait-dim-am').value)||0,forfait_montant_dim_pm:parseFloat(document.getElementById('cl-forfait-dim-pm').value)||0,forfait_montant_ferie_am:parseFloat(document.getElementById('cl-forfait-ferie-am').value)||0,forfait_montant_ferie_pm:parseFloat(document.getElementById('cl-forfait-ferie-pm').value)||0,forfait_minutes_am:_readHM('am'),forfait_minutes_pm:_readHM('pm'),forfait_minutes_dim_am:_readHM('dim-am'),forfait_minutes_dim_pm:_readHM('dim-pm'),forfait_minutes_ferie_am:_readHM('ferie-am'),forfait_minutes_ferie_pm:_readHM('ferie-pm'),tarif_minute_depass_am:parseFloat(document.getElementById('cl-tarif-min-am').value)||0,tarif_minute_depass_pm:parseFloat(document.getElementById('cl-tarif-min-pm').value)||0,tarif_minute_depass_dim_am:parseFloat(document.getElementById('cl-tarif-min-dim-am').value)||0,tarif_minute_depass_dim_pm:parseFloat(document.getElementById('cl-tarif-min-dim-pm').value)||0,tarif_minute_depass_ferie_am:parseFloat(document.getElementById('cl-tarif-min-ferie-am').value)||0,tarif_minute_depass_ferie_pm:parseFloat(document.getElementById('cl-tarif-min-ferie-pm').value)||0,salaire_ch_sem:parseFloat(document.getElementById('cl-ch-sem').value)||0,salaire_ch_dim:parseFloat(document.getElementById('cl-ch-dim').value)||0,salaire_ch_ferie:parseFloat(document.getElementById('cl-ch-ferie').value)||0,salaire_st_sem:parseFloat(document.getElementById('cl-st-sem').value)||0,salaire_st_dim:parseFloat(document.getElementById('cl-st-dim').value)||0,salaire_st_ferie:parseFloat(document.getElementById('cl-st-ferie').value)||0,commissionnaire_id:comId,commissionnaire_nom:comNom};
+  // Géocodage automatique si adresse présente
+  const id=document.getElementById('cl-id').value;
+  const existing=id?allCl.find(c=>c.id===id):null;
+  const adresseChanged=!existing||existing.adresse!==adresse||existing.code_postal!==cp||existing.ville!==ville;
+  if((adresse||ville)&&(adresseChanged||!existing?.lat)){
+    const coords=await geocodeAdresse(adresse,cp,ville);
+    if(coords){payload.lat=coords.lat;payload.lng=coords.lng;}
+  }
+  const btn=document.getElementById('btn-cl');btn.textContent='⏳...';btn.disabled=true;
+  try{
+    if(id){
+      const r=await fetch(`${SB}/rest/v1/clients?id=eq.${id}`,{method:'PATCH',headers:H(),body:JSON.stringify(payload)});
+      if(!r.ok)throw new Error(await r.text());
+    } else {
+      const r=await fetch(`${SB}/rest/v1/clients`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,company_id:OT.getCompanyId()})});
+      if(!r.ok)throw new Error(await r.text());
+    }
+    toast(`✅ ${nom} ${id?'modifié':'ajouté'}`);
+    hideClForm();
+    allCl=await api('GET','clients');
+    renderCl(allCl);
+    document.getElementById('tc-cl').textContent=allCl.length;
+  }catch(e){toast('❌ '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=document.getElementById('cl-id').value?'💾 Enregistrer':'✅ Ajouter la prestation';}
+}
+async function delCl(id,nom){
+  if(!confirm(`Supprimer ${nom} ?`))return;
+  try{
+    await fetch(`${SB}/rest/v1/clients?id=eq.${id}`,{method:'DELETE',headers:H()});
+    toast(`🗑 ${nom} supprimé`);
+    allCl=await api('GET','clients');
+    renderCl(allCl);
+    document.getElementById('tc-cl').textContent=allCl.length;
+  }catch(e){toast('❌ '+e.message,'error');}
+}
+
+// ── COMMISSIONNAIRES ────────────────────────────────────────────────────────
+async function loadCommissionnaires(){
+  try{
+    const cid=OT.getCompanyId();
+    const r=await fetchSB(`${SB}/rest/v1/commissionnaires?company_id=eq.${cid}&order=nom`,{headers:H()});
+    if(!r.ok) return;
+    allCom=await r.json();
+    document.getElementById('tc-com').textContent=allCom.length;
+    populateComSelect();
+  }catch(e){}
+}
+function renderCom(data){
+  const tbody=document.getElementById('com-tbody');
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--gray)"><div style="font-size:28px;margin-bottom:8px">🤝</div>Aucun commissionnaire — cliquez "+ Ajouter"</td></tr>`;return;}
+  tbody.innerHTML='';
+  data.forEach((c,i)=>{
+    const linked=allCl.filter(cl=>cl.commissionnaire_id===c.id).length;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td style="font-weight:700;color:var(--white)">${c.nom}</td><td style="color:var(--gray);font-size:12px">${c.ville||'—'}</td><td style="font-size:12px">${c.tel||'—'}</td><td style="font-size:12px;color:var(--gray)">${c.email||'—'}</td><td style="font-size:11px;color:var(--gray2)">${c.siret||'—'}</td><td style="text-align:center"><span class="badge ${linked>0?'badge-green':'badge-orange'}">${linked} prestation${linked>1?'s':''}</span></td><td><button class="icon-btn" onclick="editCom('${c.id}')">✏️</button><button class="icon-btn" onclick="delCom('${c.id}','${c.nom.replace(/'/g,"\\'")}')" style="color:rgba(231,76,60,0.7)">🗑</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function filterCom(q){lastQCom=q;renderCom(!q?allCom:allCom.filter(c=>c.nom.toLowerCase().includes(q.toLowerCase())));}
+function showComForm(){
+  document.getElementById('form-com').style.display='block';
+  document.getElementById('com-id').value='';
+  document.getElementById('form-com-title').textContent='➕ Nouveau commissionnaire';
+  document.getElementById('btn-com').textContent='✅ Ajouter';
+  ['com-nom','com-siret','com-contact','com-tel','com-email','com-site','com-adresse','com-cp','com-ville'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('form-com').scrollIntoView({behavior:'smooth'});
+  document.getElementById('com-nom').focus();
+}
+function hideComForm(){document.getElementById('form-com').style.display='none';}
+function editCom(id){
+  const c=allCom.find(x=>x.id===id);if(!c)return;
+  showComForm();
+  document.getElementById('com-id').value=id;
+  document.getElementById('com-nom').value=c.nom;
+  document.getElementById('com-siret').value=c.siret||'';
+  document.getElementById('com-contact').value=c.contact||'';
+  document.getElementById('com-tel').value=c.tel||'';
+  document.getElementById('com-email').value=c.email||'';
+  document.getElementById('com-site').value=c.site||'';
+  document.getElementById('com-adresse').value=c.adresse||'';
+  document.getElementById('com-cp').value=c.cp||'';
+  document.getElementById('com-ville').value=c.ville||'';
+  document.getElementById('form-com-title').textContent='✏️ Modifier commissionnaire';
+  document.getElementById('btn-com').textContent='💾 Enregistrer';
+}
+async function saveCommissionnaire(){
+  const nom=document.getElementById('com-nom').value.trim().toUpperCase();
+  if(!nom){toast('Saisir un nom','error');return;}
+  const cid=OT.getCompanyId();
+  const payload={nom,siret:document.getElementById('com-siret').value.trim(),contact:document.getElementById('com-contact').value.trim(),tel:document.getElementById('com-tel').value.trim(),email:document.getElementById('com-email').value.trim(),site:document.getElementById('com-site').value.trim(),adresse:document.getElementById('com-adresse').value.trim(),cp:document.getElementById('com-cp').value.trim(),ville:document.getElementById('com-ville').value.trim()};
+  const id=document.getElementById('com-id').value;
+  const btn=document.getElementById('btn-com');btn.textContent='⏳...';btn.disabled=true;
+  try{
+    if(id){
+      const r=await fetch(`${SB}/rest/v1/commissionnaires?id=eq.${id}&company_id=eq.${cid}`,{method:'PATCH',headers:H(),body:JSON.stringify(payload)});
+      if(!r.ok)throw new Error(await r.text());
+    }else{
+      const r=await fetch(`${SB}/rest/v1/commissionnaires`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,company_id:cid})});
+      if(!r.ok)throw new Error(await r.text());
+    }
+    toast(`✅ ${nom} ${id?'modifié':'ajouté'}`);
+    hideComForm();
+    await loadCommissionnaires();
+    renderCom(allCom);
+  }catch(e){toast('❌ '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=document.getElementById('com-id').value?'💾 Enregistrer':'✅ Ajouter';}
+}
+async function delCom(id,nom){
+  if(!confirm(`Supprimer ${nom} ?\nLes prestations liées deviendront des clients propres.`))return;
+  try{
+    const cid=OT.getCompanyId();
+    await fetch(`${SB}/rest/v1/commissionnaires?id=eq.${id}&company_id=eq.${cid}`,{method:'DELETE',headers:H()});
+    await fetch(`${SB}/rest/v1/clients?commissionnaire_id=eq.${id}&company_id=eq.${cid}`,{method:'PATCH',headers:H(),body:JSON.stringify({commissionnaire_id:null,commissionnaire_nom:null})});
+    toast(`🗑 ${nom} supprimé`);
+    allCl=await api('GET','clients');
+    renderCl(allCl);
+    await loadCommissionnaires();
+    renderCom(allCom);
+  }catch(e){toast('❌ '+e.message,'error');}
+}
+
+function switchTab(t,el){
+  ['entreprise','chauffeurs','commissionnaires','clients','penalites','zones'].forEach(x=>{
+    const node=document.getElementById('tab-'+x);
+    if(node) node.style.display=x===t?'block':'none';
+  });
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  if(t==='penalites') renderPenalites();
+  if(t==='zones') renderZones();
+}
+
+// PÉNALITÉS
+const PEN_KEY='ot_penalites';
+function getDefaultPenalites(){ return [{id:'retard',label:'Retard',icon:'⏰',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}]; }
+function getPenalites(){ const raw=localStorage.getItem(PEN_KEY); if(!raw) return getDefaultPenalites(); try{ return JSON.parse(raw); }catch(e){ return getDefaultPenalites(); } }
+function setPenalites(list){ localStorage.setItem(PEN_KEY,JSON.stringify(list)); }
+function renderPenalites(){
+  const list=getPenalites();
+  const grid=document.getElementById('pen-grid');
+  if(!list.length){grid.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray)">Aucun motif — cliquez "+ Ajouter"</div>';return;}
+  grid.innerHTML='';
+  const table=document.createElement('table');
+  table.className='params-table';
+  table.innerHTML=`<thead><tr><th>Icône</th><th>Motif</th><th>Montant</th><th>Actions</th></tr></thead>`;
+  const tbody=document.createElement('tbody');
+  list.forEach((p,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td style="font-size:20px;text-align:center">${p.icon}</td><td style="font-weight:600;color:var(--white)">${p.label}</td><td style="font-weight:700;color:${p.montant>0?'#FC8181':'var(--gray)'}}">${p.montant>0?'-'+p.montant+'€':'Saisie libre'}</td><td><button class="icon-btn" onclick="editPen(${i})">✏️</button><button class="icon-btn" onclick="delPen(${i})" style="color:rgba(231,76,60,0.7)">🗑</button>${i>0?`<button class="icon-btn" onclick="movePen(${i},-1)">▲</button>`:''}${i<list.length-1?`<button class="icon-btn" onclick="movePen(${i},1)">▼</button>`:''}</td>`;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  grid.appendChild(table);
+}
+function showPenForm(idx=null){
+  document.getElementById('form-pen').style.display='block';
+  document.getElementById('pen-edit-id').value=idx!==null?idx:'';
+  if(idx!==null){const list=getPenalites();const p=list[idx];document.getElementById('pen-icon').value=p.icon;document.getElementById('pen-label').value=p.label;document.getElementById('pen-montant').value=p.montant;document.getElementById('form-pen-title').textContent='✏️ Modifier le motif';document.getElementById('btn-pen').textContent='💾 Enregistrer';}
+  else{document.getElementById('pen-icon').value='⚠️';document.getElementById('pen-label').value='';document.getElementById('pen-montant').value='0';document.getElementById('form-pen-title').textContent='➕ Nouveau motif';document.getElementById('btn-pen').textContent='✅ Enregistrer';}
+  document.getElementById('pen-label').focus();
+}
+function hidePenForm(){document.getElementById('form-pen').style.display='none';}
+function savePenalite(){
+  const icon=document.getElementById('pen-icon').value.trim()||'⚠️';
+  const label=document.getElementById('pen-label').value.trim();
+  const montant=parseFloat(document.getElementById('pen-montant').value)||0;
+  const idxRaw=document.getElementById('pen-edit-id').value;
+  if(!label){toast('Saisir un libellé','error');return;}
+  const list=getPenalites();
+  const entry={id:label.toLowerCase().replace(/[^a-z0-9]/g,'_')+'_'+Date.now(),icon,label,montant};
+  if(idxRaw!==''){const idx=parseInt(idxRaw);entry.id=list[idx].id;list[idx]=entry;toast(`✅ Motif "${label}" modifié`);}
+  else{list.push(entry);toast(`✅ Motif "${label}" ajouté`);}
+  setPenalites(list);
+  hidePenForm();
+  renderPenalites();
+}
+function editPen(idx){showPenForm(idx);document.getElementById('form-pen').scrollIntoView({behavior:'smooth'});}
+function delPen(idx){const list=getPenalites();if(!confirm(`Supprimer "${list[idx].label}" ?`))return;list.splice(idx,1);setPenalites(list);renderPenalites();toast('🗑 Motif supprimé');}
+function movePen(idx,dir){const list=getPenalites();const newIdx=idx+dir;if(newIdx<0||newIdx>=list.length)return;[list[idx],list[newIdx]]=[list[newIdx],list[idx]];setPenalites(list);renderPenalites();}
+function resetPenalites(){if(!confirm('Restaurer les pénalités par défaut ?'))return;setPenalites(getDefaultPenalites());renderPenalites();toast('↩ Pénalités par défaut restaurées');}
+
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'❌':'✅'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
+</script>
+
+
+<!-- COOKIE BANNER -->
+<div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+  <div style="flex:1;min-width:200px"><div style="font-size:13px;font-weight:600;color:#F0F4FF;margin-bottom:3px">🍪 Cookies</div><div style="font-size:11px;color:#8899AA">Nous utilisons uniquement des cookies fonctionnels. <a href="optimum_trans_legal.html#cookies" style="color:#F5A623;text-decoration:none">En savoir plus</a></div></div>
+  <div style="display:flex;gap:10px;flex-shrink:0">
+    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8899AA;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
+    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;color:#0A1628;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
+  </div>
+</div>
+<!-- ════ ZONES CRUD (addon_zone) ════ -->
+<script>
+let zoneRatesLocal = {};   // { '1': 1.50, ... } — état local de la grille tarifaire
+let zoneCitiesLocal = [];  // [{id, ville, cp_prefix, zone}, ...]
+let zoneCityFilter = '';
+
+// Defaults alignés sur optimum_trans_decompte_st.html (ligne 307) pour que
+// les 2 UIs affichent les mêmes tarifs quand la DB est vide.
+const ZONE_DEFAULTS = {'1':6,'2':7.5,'3':9,'4':11.5};
+
+async function renderZones(){
+  if(!window.OT_ZONE) return;
+  const cid = OT.getCompanyId();
+  await OT_ZONE.load(cid);
+  // Force re-fetch raw rows pour récupérer les ids du city mapping (load() ne garde que la map)
+  try {
+    const [rRates, rCities] = await Promise.all([
+      fetch(SB+'/rest/v1/decompte_st_zones?company_id=eq.'+cid+'&order=zone',{headers:H()}),
+      fetch(SB+'/rest/v1/decompte_st_city_zones?company_id=eq.'+cid+'&order=ville&limit=5000',{headers:H()})
+    ]);
+    if(rRates.ok){
+      const data=await rRates.json();
+      zoneRatesLocal={};
+      (data||[]).forEach(d=>{zoneRatesLocal[String(d.zone)]=parseFloat(d.tarif)||0;});
+    }
+    if(rCities.ok){
+      zoneCitiesLocal = await rCities.json();
+    }
+  } catch(e){}
+  // Si aucun tarif en DB, injecter les defaults (idem Décompte ST) pour
+  // que les 2 UIs montrent la même chose. L'utilisateur peut éditer puis
+  // cliquer "Enregistrer les tarifs" pour les persister.
+  if(Object.keys(zoneRatesLocal).length === 0){
+    zoneRatesLocal = Object.assign({}, ZONE_DEFAULTS);
+  }
+  renderZoneRates();
+  renderZoneCities();
+  document.getElementById('tc-z').textContent=Object.keys(zoneRatesLocal).length;
+}
+
+function renderZoneRates(){
+  const tbody=document.getElementById('zones-rates-tbody');
+  const zones=Object.keys(zoneRatesLocal).sort();
+  if(!zones.length){
+    tbody.innerHTML='<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--gray)">Aucune zone — cliquez "+ Ajouter une zone"</td></tr>';
+    return;
+  }
+  tbody.innerHTML='';
+  zones.forEach(z=>{
+    const tr=document.createElement('tr');
+    const safeZ=z.replace(/'/g,"\\'");
+    tr.innerHTML='<td style="font-weight:700;color:#60A5FA">Z'+z+'</td>'+
+      '<td><input type="number" step="0.01" min="0" value="'+(parseFloat(zoneRatesLocal[z])||0).toFixed(2)+'" onchange="zoneRatesLocal[\''+safeZ+'\']=parseFloat(this.value)||0" style="background:var(--navy);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--light);font-family:inherit;width:140px"> €/pt</td>'+
+      '<td><button class="icon-btn" onclick="zoneRemoveRate(\''+safeZ+'\')" style="color:rgba(231,76,60,0.7)">🗑</button></td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function zoneAddRate(){
+  const z=prompt('Numéro de zone (ex: 1, 2, A, B…) :');
+  if(!z||!z.trim()) return;
+  const k=z.trim();
+  if(zoneRatesLocal[k]!==undefined){toast('Zone '+k+' existe déjà','error');return;}
+  zoneRatesLocal[k]=0;
+  renderZoneRates();
+}
+
+function zoneRemoveRate(z){
+  if(!confirm('Supprimer la zone Z'+z+' ? Les clients en mode zone livrant dans cette zone ne seront plus facturés.')) return;
+  delete zoneRatesLocal[z];
+  renderZoneRates();
+}
+
+async function zoneSaveRates(){
+  const cid=OT.getCompanyId();
+  const rows=Object.entries(zoneRatesLocal).map(([z,t])=>({company_id:cid,zone:z,tarif:parseFloat(t)||0}));
+  try {
+    // DELETE all puis bulk INSERT (cohérent avec la stratégie decompte_st)
+    const rDel=await fetch(SB+'/rest/v1/decompte_st_zones?company_id=eq.'+cid,{method:'DELETE',headers:H()});
+    if(!rDel.ok) throw new Error(await rDel.text());
+    if(rows.length>0){
+      const rIns=await fetch(SB+'/rest/v1/decompte_st_zones',{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(rows)});
+      if(!rIns.ok) throw new Error(await rIns.text());
+    }
+    if(window.OT_ZONE) OT_ZONE.invalidate();
+    document.getElementById('zones-rates-status').textContent='✅ Tarifs enregistrés';
+    setTimeout(()=>{document.getElementById('zones-rates-status').textContent='';},3000);
+    toast('Tarifs zone enregistrés');
+    if(window.OT_ZONE) await OT_ZONE.load(cid);
+    if(typeof renderCl==='function' && allCl) renderCl(allCl);
+  } catch(e){
+    toast('Erreur enregistrement : '+e.message,'error');
+  }
+}
+
+function renderZoneCities(){
+  const tbody=document.getElementById('zones-city-tbody');
+  const f=zoneCityFilter.toLowerCase().trim();
+  let list=zoneCitiesLocal;
+  if(f){
+    list=zoneCitiesLocal.filter(c=>(c.ville||'').toLowerCase().includes(f)||(c.cp_prefix||'').toLowerCase().includes(f));
+  }
+  document.getElementById('zones-city-info').textContent=list.length+' / '+zoneCitiesLocal.length+' mappings';
+  if(!list.length){
+    tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray)">'+(zoneCitiesLocal.length?'Aucun résultat pour ce filtre':'Aucun mapping — ajoutez ville ou CP ci-dessus')+'</td></tr>';
+    return;
+  }
+  tbody.innerHTML='';
+  const shown=list.slice(0,200);
+  const zones=Object.keys(zoneRatesLocal).sort();
+  shown.forEach(c=>{
+    const tr=document.createElement('tr');
+    const safeId=String(c.id).replace(/'/g,"\\'");
+    let opts=zones.map(z=>'<option value="'+z+'"'+(String(c.zone)===String(z)?' selected':'')+'>Z'+z+(zoneRatesLocal[z]!=null?' ('+(parseFloat(zoneRatesLocal[z])||0).toFixed(2)+'€)':'')+'</option>').join('');
+    if(!zones.includes(String(c.zone))) opts='<option value="'+c.zone+'" selected>Z'+c.zone+' (non définie)</option>'+opts;
+    tr.innerHTML='<td style="font-weight:600;color:var(--white)">'+(c.ville||'<span style="color:var(--gray2)">—</span>')+'</td>'+
+      '<td style="font-size:12px;color:var(--gray)">'+(c.cp_prefix||'—')+'</td>'+
+      '<td><select onchange="zoneUpdateCityZone(\''+safeId+'\',this.value)" style="background:var(--navy);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--light);font-size:12px;font-family:inherit">'+opts+'</select></td>'+
+      '<td><button class="icon-btn" onclick="zoneDeleteCity(\''+safeId+'\')" style="color:rgba(231,76,60,0.7)">🗑</button></td>';
+    tbody.appendChild(tr);
+  });
+  if(list.length>shown.length){
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td colspan="4" style="text-align:center;color:var(--gray);font-size:11px;padding:10px">… et '+(list.length-shown.length)+' autres. Utilisez la recherche pour filtrer.</td>';
+    tbody.appendChild(tr);
+  }
+}
+
+function zoneFilterCities(v){zoneCityFilter=v||'';renderZoneCities();}
+
+async function zoneAddCity(){
+  const ville=document.getElementById('zc-ville').value.trim();
+  const cp=document.getElementById('zc-cp').value.trim();
+  const zoneRaw=document.getElementById('zc-zone').value.trim();
+  if(!ville){toast('La ville est obligatoire','error');return;}
+  if(!zoneRaw){toast('Saisir une zone','error');return;}
+  const zoneInt=parseInt(zoneRaw,10);
+  if(isNaN(zoneInt)||zoneInt<1){toast('La zone doit être un nombre entier ≥ 1','error');return;}
+  const cid=OT.getCompanyId();
+  const payload={company_id:cid,ville,cp_prefix:cp||null,zone:zoneInt};
+  try {
+    const r=await fetch(SB+'/rest/v1/decompte_st_city_zones',{method:'POST',headers:{...H(),'Prefer':'return=representation'},body:JSON.stringify(payload)});
+    if(!r.ok) throw new Error(await r.text());
+    const data=await r.json();
+    if(Array.isArray(data) && data[0]) zoneCitiesLocal.push(data[0]);
+    zoneCitiesLocal.sort((a,b)=>(a.ville||'').localeCompare(b.ville||''));
+    document.getElementById('zc-ville').value='';
+    document.getElementById('zc-cp').value='';
+    document.getElementById('zc-zone').value='';
+    renderZoneCities();
+    if(window.OT_ZONE){OT_ZONE.invalidate();await OT_ZONE.load(cid);}
+    toast('Mapping ajouté');
+  } catch(e){
+    toast('Erreur ajout : '+e.message,'error');
+  }
+}
+
+async function zoneUpdateCityZone(id,newZone){
+  const cid=OT.getCompanyId();
+  const zoneInt=parseInt(newZone,10);
+  if(isNaN(zoneInt)){toast('Zone invalide','error');return;}
+  try {
+    const r=await fetch(SB+'/rest/v1/decompte_st_city_zones?id=eq.'+id+'&company_id=eq.'+cid,{method:'PATCH',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({zone:zoneInt})});
+    if(!r.ok) throw new Error(await r.text());
+    const c=zoneCitiesLocal.find(x=>x.id===id);
+    if(c) c.zone=zoneInt;
+    if(window.OT_ZONE){OT_ZONE.invalidate();await OT_ZONE.load(cid);}
+    toast('Zone mise à jour');
+  } catch(e){
+    toast('Erreur : '+e.message,'error');
+  }
+}
+
+async function zoneDeleteCity(id){
+  if(!confirm('Supprimer ce mapping ?')) return;
+  const cid=OT.getCompanyId();
+  try {
+    const r=await fetch(SB+'/rest/v1/decompte_st_city_zones?id=eq.'+id+'&company_id=eq.'+cid,{method:'DELETE',headers:H()});
+    if(!r.ok) throw new Error(await r.text());
+    zoneCitiesLocal=zoneCitiesLocal.filter(c=>c.id!==id);
+    renderZoneCities();
+    if(window.OT_ZONE){OT_ZONE.invalidate();await OT_ZONE.load(cid);}
+    toast('Mapping supprimé');
+  } catch(e){
+    toast('Erreur : '+e.message,'error');
+  }
+}
+</script>
+
+<script data-cfasync="false">
+(function(){if(!localStorage.getItem('cookie_consent')){var b=document.getElementById('ot-cookie-banner');if(b){b.style.display='flex';}}window.otCookieChoice=function(v){localStorage.setItem('cookie_consent',v);var b=document.getElementById('ot-cookie-banner');if(b){b.style.transition='transform 0.3s';b.style.transform='translateY(100%)';setTimeout(function(){b.style.display='none';},300);}};})();
+document.addEventListener('keydown',function(e){if(e.ctrlKey&&e.shiftKey&&e.key==='A'){var _r=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');var _s=null;try{_s=JSON.parse(_r||'');}catch(_){}if(_s&&_s.id==='d7fcfa25-33e5-45ea-8d15-67b828bcf4e0')window.location.href='optimum_trans_superadmin.html';}});
+</script>
+<script src="optimum_trans_demo_data.js"></script>
+<script src="/ot_sync.js"></script>
+<script src="ot_zone.js"></script>
+<script src="ot_mobile_nav.js"></script>
+<script src="/ot_finance.js"></script>
+<script src="/ot_infoscroll.js"></script>
+<script src="/ot_visibility_pause.js"></script>
+<script src="/ot_messaging.js"></script>
+<script src="ot_decompte_guard.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<!-- T SERVICE & CO SUPERADMIN v3.2 - 2026-03-16 -->
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>T SERVICE & CO — Super Admin</title>
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;}
+.topbar{height:56px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--white);letter-spacing:2px;}
+.content{padding:28px;max-width:1400px;margin:0 auto;}
+.btn-sm{padding:7px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+.btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-weight:700;}
+.btn-accent:hover{transform:translateY(-1px);}
+.btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--gray);}
+.btn-ghost:hover{color:var(--white);}
+.btn-red{background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.3);color:#FC8181;}
+.btn-red:hover{background:rgba(231,76,60,0.25);}
+.btn-green{background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#2ECC71;}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+.kpi-val{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);}
+.kpi-lbl{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:18px;}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;margin-bottom:4px;}
+.section-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin:14px 0 8px;padding-bottom:4px;border-bottom:1px solid rgba(26,79,191,0.2);}
+.fg{display:grid;gap:12px;margin-bottom:12px;}
+.fg-2{grid-template-columns:1fr 1fr;}
+.fg-3{grid-template-columns:1fr 1fr 1fr;}
+.fg-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:4px;display:block;}
+.ii{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;width:100%;}
+.ii:focus{border-color:var(--blue);}
+.is{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--light);outline:none;cursor:pointer;width:100%;}
+.is option{background:var(--navy2);}
+.params-table{width:100%;border-collapse:collapse;}
+.params-table th{padding:10px 14px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);text-align:left;border-bottom:1px solid var(--border);background:var(--navy3);}
+.params-table td{padding:11px 14px;font-size:12px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
+.params-table tr:hover td{background:rgba(255,255,255,0.02);}
+.badge{display:inline-flex;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-green{background:rgba(39,174,96,0.15);color:#2ECC71;}
+.badge-red{background:rgba(231,76,60,0.15);color:#FC8181;}
+.badge-orange{background:rgba(245,166,35,0.15);color:var(--accent);}
+.badge-blue{background:rgba(26,79,191,0.2);color:#60A5FA;}
+.badge-gray{background:rgba(255,255,255,0.06);color:var(--gray);}
+.icon-btn{background:none;border:none;cursor:pointer;padding:5px 8px;border-radius:6px;font-size:13px;color:var(--gray);transition:all 0.2s;}
+.icon-btn:hover{background:rgba(255,255,255,0.06);color:var(--white);}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.modal-overlay.show{opacity:1;pointer-events:all;}
+.modal{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:28px;width:600px;max-width:96vw;transform:translateY(20px);transition:transform 0.3s;max-height:90vh;overflow-y:auto;}
+.modal-overlay.show .modal{transform:translateY(0);}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;margin-bottom:4px;}
+.modal-sub{font-size:12px;color:var(--gray);margin-bottom:20px;}
+
+/* QUOTA ALERT */
+.quota-alert{background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.35);border-radius:10px;padding:12px 16px;margin:10px 0;display:none;align-items:center;gap:10px;}
+.quota-alert.show{display:flex;}
+.quota-bar-wrap{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-top:4px;}
+.quota-bar-fill{height:100%;border-radius:3px;transition:width 0.4s;}
+
+/* PLAN CARDS */
+.plan-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+.plan-card{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:20px;cursor:pointer;transition:all 0.2s;position:relative;}
+.plan-card:hover{transform:translateY(-2px);}
+.plan-card.selected{border-color:var(--blue);background:rgba(26,79,191,0.08);}
+.plan-card.popular{border-color:var(--accent);}
+.plan-card .plan-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:4px;}
+.plan-card .plan-price{font-size:28px;font-weight:900;color:var(--accent);margin-bottom:12px;}
+.plan-card .plan-price span{font-size:13px;font-weight:400;color:var(--gray);}
+.plan-card .plan-feat{font-size:11px;color:var(--gray);line-height:1.9;}
+.plan-card .plan-feat .ok{color:#2ECC71;}
+.plan-card .plan-feat .no{color:var(--gray2);}
+.plan-card .popular-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-size:10px;font-weight:700;padding:3px 14px;border-radius:20px;white-space:nowrap;}
+
+.spinner{width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:28px;right:28px;background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:14px 20px;font-size:13px;color:var(--white);z-index:300;transform:translateY(20px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.toast.show{transform:translateY(0);opacity:1;}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--navy2)}::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:3px}
+.sa-tab{padding:9px 20px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;color:var(--gray);transition:all 0.2s;}
+.sa-tab.active{background:var(--blue);color:var(--white);}
+
+/* ════════════════════════════════
+   SUPERADMIN — MOBILE ≤ 768px
+════════════════════════════════ */
+@media (max-width: 768px) {
+  body { overflow-x: hidden !important; }
+
+  /* Topbar compact */
+  .topbar {
+    padding: 0 14px !important;
+    height: 52px !important;
+    position: sticky !important;
+    top: 0 !important;
+  }
+  .topbar-title { font-size: 15px !important; }
+
+  /* Contenu */
+  .content {
+    padding: 14px 14px 40px 14px !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  /* KPI grid 2x2 */
+  .kpi-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .kpi { padding: 12px 14px !important; }
+  .kpi-val { font-size: 22px !important; }
+  .kpi-lbl { font-size: 9px !important; }
+
+  /* Grilles formulaires */
+  .fg-2, .fg-3, .fg-4, .fg { grid-template-columns: 1fr !important; gap: 10px !important; }
+
+  /* Cartes plans en colonne */
+  .plan-cards { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .plan-card { padding: 16px !important; }
+
+  /* Tableaux scrollables */
+  .card { overflow: visible !important; }
+  .card > .params-table,
+  table.params-table { min-width: 520px !important; font-size: 11px !important; }
+  .card { position: relative !important; }
+  .card:has(table), .card-wrap { overflow-x: auto !important; }
+
+  /* Tabs scrollables */
+  .tabs {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+  }
+  .sa-tab {
+    font-size: 11px !important;
+    padding: 8px 14px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Inputs touch-friendly */
+  .ii, .is { height: 44px !important; font-size: 15px !important; }
+
+  /* Boutons */
+  .btn-sm, .btn-accent, .btn-ghost, .btn-red, .btn-green {
+    min-height: 38px !important;
+    padding: 7px 12px !important;
+    font-size: 12px !important;
+  }
+  .icon-btn { font-size: 16px !important; padding: 6px 8px !important; }
+
+  /* Modal → bottom-sheet */
+  .modal-overlay { align-items: flex-end !important; padding: 0 !important; }
+  .modal, .modal-overlay .modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 92vh !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 20px 16px 28px !important;
+    margin: 0 !important;
+  }
+
+  /* Toast repositionné */
+  .toast { left: 12px !important; right: 12px !important; bottom: 24px !important; font-size: 12px !important; }
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // EmailJS Config T SERVICE & CO
+  (function(){
+    emailjs.init({ publicKey: 'NTkfjIuoLj_Qg-3i5' });
+  })();
+  
+  const EJS_SERVICE  = 'service_71zw1uf';
+  const EJS_WELCOME  = 'template_ve97hh1';
+  const EJS_NOTIF    = 'template_nc61p59';
+  
+  // Email de bienvenue nouveau client
+  async function sendWelcomeEmail(companyName, email, password, plan) {
+    try {
+      const planLabels = { starter:'Essentiel 🥉', pro:'Pro 🥈', business:'Business 🥇' };
+      await emailjs.send(EJS_SERVICE, EJS_WELCOME, {
+        company_name: companyName,
+        contact_name: companyName,
+        email:        email,
+        password:     password,
+        plan:         planLabels[plan] || plan,
+        login_url:    'https://t-service-co.vercel.app',
+      });
+      console.log('[EmailJS] Welcome email sent to', email);
+      return true;
+    } catch(e) {
+      console.warn('[EmailJS] Welcome email failed:', e);
+      return false;
+    }
+  }
+  
+  // Notification superadmin - générique (paiement, connexion, etc.)
+  async function sendAdminNotif(typeNotif, companyName, email, plan, montant, detailsUrl) {
+    try {
+      const now = new Date().toLocaleString('fr-FR');
+      await emailjs.send(EJS_SERVICE, EJS_NOTIF, {
+        type_notif:   typeNotif,
+        company_name: companyName,
+        email:        email,
+        plan:         plan || '—',
+        date:         now,
+        montant:      montant || '—',
+        details_url:  detailsUrl || 'https://t-service-co.vercel.app',
+        to_email:     'tserviceco5@gmail.com',
+      });
+      console.log('[EmailJS] Admin notif sent:', typeNotif);
+      return true;
+    } catch(e) {
+      console.warn('[EmailJS] Admin notif failed:', e);
+      return false;
+    }
+  }
+</script>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:16px">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);letter-spacing:2px">🔐 SUPER ADMIN</div>
+    <div class="topbar-title">T SERVICE & CO</div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="btn-sm btn-accent" onclick="openNewCompany()">+ Nouvelle entreprise</button>
+    <button class="btn-sm btn-ghost" onclick="openSAKeyModal()" id="btn-sakey" title="Configurer la clé service_role Supabase">⚙️ Clé API</button>
+    <button class="btn-sm btn-ghost" onclick="window.location.href='optimum_trans_dashboard.html'">← Dashboard</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ONGLETS SA -->
+  <div class="sa-tabs-bar" style="display:flex;gap:4px;margin-bottom:22px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content">
+    <div id="tab-btn-companies" class="sa-tab active" onclick="switchSATab('companies',this)">🏢 Entreprises</div>
+    <div id="tab-btn-billing"   class="sa-tab"        onclick="switchSATab('billing',this)">💳 Facturation SaaS</div>
+    <div id="tab-btn-plans"     class="sa-tab"        onclick="switchSATab('plans',this)">📋 Plans & Tarifs</div>
+    <div id="tab-btn-stt"       class="sa-tab"        onclick="switchSATab('stt',this);loadSTTRelations()">🔗 Relations STT</div>
+  </div>
+
+  <!-- ═══ VUE ENTREPRISES ═══ -->
+  <div id="view-companies">
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val" id="k-total">—</div><div class="kpi-lbl">Entreprises actives</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-mrr">—</div><div class="kpi-lbl">MRR (€/mois)</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-plans" style="font-size:13px;line-height:1.8;margin-top:4px">—</div><div class="kpi-lbl">Distribution plans</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-addon">—</div><div class="kpi-lbl">Addons actifs</div></div>
+  </div>
+
+  <!-- ENTREPRISES -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div><div class="card-title">🏢 ENTREPRISES CLIENTES</div><div style="font-size:12px;color:var(--gray)">Gérez les accès, plans et quotas de chaque client</div></div>
+      <input type="text" id="search-co" class="ii" style="width:200px" placeholder="🔍 Rechercher..." oninput="filterCompanies(this.value)">
+    </div>
+    <div style="overflow-x:auto">
+      <table class="params-table">
+        <thead><tr>
+          <th>Entreprise</th><th>Plan</th><th>Utilisateurs</th><th>Prix/mois</th>
+          <th>Expiration</th><th>Addons</th><th>Statut</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="companies-tbody">
+          <tr><td colspan="8"><div style="padding:40px;text-align:center;display:flex;gap:10px;justify-content:center;align-items:center"><div class="spinner"></div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  </div><!-- /view-companies -->
+
+  <!-- ═══ VUE FACTURATION SAAS ═══ -->
+  <div id="view-billing" style="display:none">
+
+    <!-- KPIs Billing -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:22px">
+      <div class="kpi"><div class="kpi-val" id="b-total-encaisse" style="color:#2ECC71">—</div><div class="kpi-lbl">Total encaissé</div></div>
+      <div class="kpi"><div class="kpi-val" id="b-en-attente" style="color:var(--accent)">—</div><div class="kpi-lbl">En attente</div></div>
+      <div class="kpi"><div class="kpi-val" id="b-nb-factures">—</div><div class="kpi-lbl">Factures ce mois</div></div>
+      <div class="kpi"><div class="kpi-val" id="b-taux-paiement">—</div><div class="kpi-lbl">Taux de paiement</div></div>
+    </div>
+
+    <!-- Liste entreprises à facturer -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div>
+          <div class="card-title">💳 FACTURATION ABONNEMENTS</div>
+          <div style="font-size:12px;color:var(--gray)">Créez et envoyez les factures mensuelles à chaque client via Stripe</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-sm btn-ghost" onclick="loadBillingData()">🔄 Actualiser</button>
+          <button class="btn-sm btn-accent" onclick="generateAllInvoices()">⚡ Tout facturer ce mois</button>
+        </div>
+      </div>
+
+      <!-- Stripe connecté -->
+      <div style="background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.25);border-radius:10px;padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:12px">
+        <span style="font-size:18px">✅</span>
+        <div><span style="font-weight:700;color:#2ECC71">Stripe connecté</span> <span style="color:var(--gray)">— Mode TEST · Clé sécurisée côté serveur</span></div>
+        <a href="https://dashboard.stripe.com/test/invoices" target="_blank" style="margin-left:auto;color:#60A5FA;font-size:11px;text-decoration:none">Voir sur Stripe →</a>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="params-table">
+          <thead><tr>
+            <th>Entreprise</th><th>Plan</th><th>Montant TTC</th><th>Email facturation</th>
+            <th>Dernière facture</th><th>Statut paiement</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="billing-tbody">
+            <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--gray)">Cliquez "Actualiser" pour charger</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Historique factures -->
+    <div class="card" style="margin-top:18px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="card-title">📋 HISTORIQUE DES FACTURES</div>
+        <select id="billing-filter-statut" class="ii" style="width:160px;font-size:12px" onchange="loadInvoiceHistory()">
+          <option value="">Tous statuts</option>
+          <option value="en_attente">En attente</option>
+          <option value="envoyee">Envoyées</option>
+          <option value="payee">Payées</option>
+          <option value="echouee">Échouées</option>
+        </select>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="params-table">
+          <thead><tr>
+            <th>#</th><th>Date</th><th>Entreprise</th><th>Plan</th><th>Montant TTC</th>
+            <th>Statut</th><th>Email envoyé</th><th>Payé le</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="invoices-history-tbody">
+            <tr><td colspan="9" style="text-align:center;padding:30px;color:var(--gray)">Aucun historique</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /view-billing -->
+
+  <!-- ═══ VUE PLANS & TARIFS ═══ -->
+  <div id="view-plans" style="display:none">
+
+    <style>
+      .plans-page { max-width:1100px; margin:0 auto; }
+      .plans-page h1 { text-align:center; font-size:1.8rem; margin-bottom:6px; color:#fff; }
+      .plans-page .plans-subtitle { text-align:center; color:var(--gray); margin-bottom:30px; font-size:.95rem; }
+      .plans-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:36px; }
+      .plan-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:28px 22px; position:relative; }
+      .plan-card.popular { border-color:#60A5FA; box-shadow:0 0 20px rgba(96,165,250,.15); }
+      .plan-card .plan-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#60A5FA; color:#fff; font-size:.75rem; font-weight:700; padding:3px 14px; border-radius:20px; }
+      .plan-card h2 { text-align:center; margin:0 0 4px; font-size:1.3rem; }
+      .plan-card .plan-price { text-align:center; font-size:2rem; font-weight:800; color:#60A5FA; margin-bottom:18px; }
+      .plan-card .plan-price span { font-size:.9rem; font-weight:400; color:var(--gray); }
+      .plan-card ul { list-style:none; padding:0; margin:0; }
+      .plan-card ul li { padding:5px 0; font-size:.88rem; color:var(--text); }
+      .plan-card ul li.feat-ok::before { content:'✅ '; }
+      .plan-card ul li.feat-no::before { content:'❌ '; color:var(--gray); }
+      .plan-card ul li.feat-no { opacity:.5; }
+
+      .addons-section { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px 28px; margin-bottom:28px; }
+      .addons-section h3 { margin:0 0 14px; font-size:1.1rem; color:#F5A623; }
+      .addons-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+      .addon-item { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:10px; padding:16px; }
+      .addon-item .addon-name { font-weight:700; font-size:1rem; margin-bottom:4px; }
+      .addon-item .addon-price { color:#60A5FA; font-weight:700; font-size:1.1rem; }
+      .addon-item .addon-desc { color:var(--gray); font-size:.85rem; margin-top:6px; }
+
+      .ai-section { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px 28px; margin-bottom:28px; }
+      .ai-section h3 { margin:0 0 14px; font-size:1.1rem; color:#A78BFA; }
+      .ai-cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+      .ai-card { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:10px; padding:18px; }
+      .ai-card .ai-icon { font-size:1.8rem; margin-bottom:8px; }
+      .ai-card .ai-name { font-weight:700; font-size:1rem; margin-bottom:6px; }
+      .ai-card .ai-desc { color:var(--gray); font-size:.85rem; line-height:1.5; }
+      .ai-card .ai-tag { display:inline-block; margin-top:10px; padding:3px 12px; border-radius:20px; font-size:.75rem; font-weight:700; }
+      .ai-card .ai-tag.included { background:rgba(34,197,94,.15); color:#22C55E; }
+      .ai-card .ai-tag.addon { background:rgba(245,166,35,.15); color:#F5A623; }
+
+      .plans-footer { text-align:center; color:var(--gray); font-size:.82rem; margin-top:20px; padding-top:16px; border-top:1px solid var(--border); }
+      .plans-dl-btn { display:block; width:fit-content; margin:0 auto 24px; background:linear-gradient(135deg,#60A5FA,#A78BFA); color:#fff; border:none; padding:12px 32px; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer; }
+      .plans-dl-btn:hover { opacity:.9; }
+
+      @media print {
+        @page { size: A4; margin: 12mm 10mm; }
+        body, html { background:#fff !important; color:#000 !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+        .sidebar, .topbar, .sa-tabs-bar, .sa-tab, .plans-dl-btn, .modal-overlay { display:none !important; }
+        #view-plans { display:block !important; }
+        #view-companies, #view-billing { display:none !important; }
+        .plans-page, .plans-page h1, .plan-card, .plan-card h2, .plan-card ul li, .addons-section, .addons-section h3,
+        .addon-item, .addon-item .addon-name, .addon-item .addon-desc,
+        .ai-section, .ai-section h3, .ai-card, .ai-card .ai-name, .ai-card .ai-desc,
+        .plans-footer { color:#000 !important; background:#fff !important; }
+        .plan-card, .addon-item, .ai-card, .addons-section, .ai-section { border-color:#ccc !important; box-shadow:none !important; }
+        .plan-card .plan-price { color:#1e40af !important; }
+        .plans-page .plans-subtitle { color:#555 !important; }
+        .plan-card ul li.feat-no { opacity:.6; }
+        .content { padding:0 !important; margin:0 !important; }
+        .plans-page { padding:0 !important; margin:0 !important; max-width:none !important; }
+        .plans-cards { page-break-inside:avoid; break-inside:avoid; }
+        .plan-card, .addon-item, .ai-card { page-break-inside:avoid; break-inside:avoid; }
+        .addons-section, .ai-section { page-break-inside:avoid; break-inside:avoid; }
+        .addons-section h3, .ai-section h3 { page-break-after:avoid; break-after:avoid; }
+        .plans-footer { margin-top:12px !important; }
+      }
+    </style>
+
+    <div class="plans-page">
+      <h1>T SERVICE & CO — Grille Tarifaire 2026</h1>
+      <p class="plans-subtitle">Solutions de gestion de transport sur mesure pour votre entreprise</p>
+
+      <div class="plans-cards">
+        <!-- Essentiel -->
+        <div class="plan-card">
+          <h2>🥉 Essentiel</h2>
+          <div class="plan-price">179,99€ <span>/mois HT</span></div>
+          <ul>
+            <li class="feat-ok">Tableau de bord & KPIs</li>
+            <li class="feat-ok">Planning semaine complet</li>
+            <li class="feat-ok">Saisie des tournées</li>
+            <li class="feat-ok">Parc véhicules</li>
+            <li class="feat-ok">Clients & Export CSV</li>
+            <li class="feat-ok">RH, Contrats & Fiches de paie</li>
+            <li class="feat-ok">Paramètres entreprise</li>
+            <li class="feat-ok">🤖 IA Analyst (inclus)</li>
+            <li class="feat-no">WhatsApp chauffeurs</li>
+            <li class="feat-no">Facturation Excel</li>
+            <li class="feat-no">Chauffeurs & Salaires</li>
+            <li class="feat-no">Suivi Gazole</li>
+          </ul>
+        </div>
+        <!-- Pro -->
+        <div class="plan-card popular">
+          <div class="plan-badge">POPULAIRE</div>
+          <h2>🥈 Pro</h2>
+          <div class="plan-price">259,99€ <span>/mois HT</span></div>
+          <ul>
+            <li class="feat-ok">Tout Essentiel</li>
+            <li class="feat-ok">WhatsApp tournées par chauffeur</li>
+            <li class="feat-ok">WhatsApp groupé toutes tournées</li>
+            <li class="feat-ok">Facturation Excel par client</li>
+            <li class="feat-ok">Chauffeurs & Salaires</li>
+            <li class="feat-ok">Validation tournées + pénalités</li>
+            <li class="feat-ok">Export CSV salaires & tournées</li>
+            <li class="feat-ok">🤖 IA Analyst (inclus)</li>
+            <li class="feat-no">Suivi Gazole</li>
+            <li class="feat-no">Export Excel gazole</li>
+            <li class="feat-no">WhatsApp récap salaire</li>
+          </ul>
+        </div>
+        <!-- Business -->
+        <div class="plan-card">
+          <h2>🥇 Business</h2>
+          <div class="plan-price">399,99€ <span>/mois HT</span></div>
+          <ul>
+            <li class="feat-ok">Tout Pro</li>
+            <li class="feat-ok">Suivi Gazole par chauffeur</li>
+            <li class="feat-ok">Export Excel gazole</li>
+            <li class="feat-ok">WhatsApp récap salaire mensuel</li>
+            <li class="feat-ok">Export CSV salaires complet</li>
+            <li class="feat-ok">2 admins + 5 chefs d'équipe</li>
+            <li class="feat-ok">Chauffeurs illimités</li>
+            <li class="feat-ok">🤖 IA Analyst (inclus)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Addons -->
+      <div class="addons-section">
+        <h3>📦 Addons disponibles</h3>
+        <div class="addons-grid">
+          <div class="addon-item">
+            <div class="addon-name">📄 Feuille de Route</div>
+            <div class="addon-price">+59,99€ /mois</div>
+            <div class="addon-desc">Génération automatique des feuilles de route pour chaque chauffeur et tournée.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intelligence Artificielle -->
+      <div class="ai-section">
+        <h3>🧪 Intelligence Artificielle</h3>
+        <div class="ai-cards">
+          <div class="ai-card">
+            <div class="ai-icon">🤖</div>
+            <div class="ai-name">IA Analyst</div>
+            <div class="ai-desc">Analyse rentabilité clients, performances chauffeurs, optimisation coûts, projections financières.</div>
+            <div class="ai-tag included">Inclus dans tous les plans</div>
+          </div>
+          <div class="ai-card">
+            <div class="ai-icon">🧠</div>
+            <div class="ai-name">IA Dispatch</div>
+            <div class="ai-desc">Planning automatique par IA — à partir d'une matrice Excel, l'IA affecte chauffeurs, véhicules, jours et horaires.</div>
+            <div class="ai-tag addon">Addon 59,99€/mois</div>
+          </div>
+          <div class="ai-card">
+            <div class="ai-icon">🤖</div>
+            <div class="ai-name">JuJu Telegram</div>
+            <div class="ai-desc">Assistant IA conversationnel sur Telegram — pilotez toute votre activité par messages texte ou vocaux. Planning, tournées, chauffeurs, clients, véhicules, absences, facturation, salaires, gazole, amendes, export Excel. Audit quotidien automatique avec alertes et recommandations métier.</div>
+            <div class="ai-tag addon">Addon 69,99€/mois</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="plans-dl-btn" onclick="window.print()">📥 Télécharger PDF</button>
+
+      <div class="plans-footer">T SERVICE & CO — tserviceco5@gmail.com</div>
+    </div>
+
+  </div><!-- /view-plans -->
+
+  <!-- ═══ VUE RELATIONS STT ═══ -->
+  <div id="view-stt" style="display:none">
+
+    <div class="card">
+      <div class="card-title">🔗 RELATIONS SOUS-TRAITANCE INTER-COMPAGNIES</div>
+      <div style="font-size:12px;color:var(--gray);margin-bottom:18px">Configurez les canaux de sous-traitance entre deux compagnies T SERVICE & CO. Les deux doivent avoir l'addon STT activé.</div>
+
+      <!-- Formulaire création relation -->
+      <div style="background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:18px;margin-bottom:20px">
+        <div class="section-label">Créer une nouvelle relation</div>
+        <div class="fg fg-3" style="margin-bottom:12px">
+          <div>
+            <label class="lbl">Compagnie donneuse (envoie les tournées)</label>
+            <select id="stt-donor" class="is" onchange="loadSTTEntreprises(this.value)">
+              <option value="">— Sélectionner —</option>
+            </select>
+          </div>
+          <div>
+            <label class="lbl">Compagnie receveuse (exécute les tournées)</label>
+            <select id="stt-receiver" class="is">
+              <option value="">— Sélectionner —</option>
+            </select>
+          </div>
+          <div>
+            <label class="lbl">Entreprise STT (depuis les chauffeurs de la donneuse)</label>
+            <select id="stt-entreprise-nom" class="is">
+              <option value="">— Sélectionner la donneuse d'abord —</option>
+            </select>
+            <div id="stt-entreprise-hint" style="font-size:10px;color:var(--gray);margin-top:4px;display:none"></div>
+          </div>
+        </div>
+        <div id="stt-create-error" style="font-size:11px;color:#FC8181;margin-bottom:8px;display:none"></div>
+        <button class="btn-sm btn-accent" onclick="createSTTRelation()">✅ Créer la relation</button>
+      </div>
+
+      <!-- Liste des relations -->
+      <div id="stt-relations-list">
+        <div style="text-align:center;padding:30px;color:var(--gray);font-size:12px">Chargement...</div>
+      </div>
+    </div>
+
+  </div><!-- /view-stt -->
+
+</div>
+
+<!-- MODAL ENTREPRISE -->
+<div class="modal-overlay" id="modal-co" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">🏢 NOUVELLE ENTREPRISE</div>
+    <div class="modal-sub">Configurez l'accès client et choisissez le plan</div>
+
+    <!-- PLAN SELECTOR -->
+    <div class="section-label">Plan d'abonnement</div>
+    <div class="plan-cards" id="plan-selector">
+      <!-- Rendered by JS -->
+    </div>
+
+    <!-- QUOTAS DISPLAY -->
+    <div id="quota-display" style="background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.15);border-radius:10px;padding:14px 16px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">👥 Quotas inclus dans ce plan</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" id="quota-boxes">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- QUOTA OVERRIDE (custom) -->
+    <div style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px">Quotas personnalisés</label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--gray)">
+          <input type="checkbox" id="custom-quota-toggle" onchange="toggleCustomQuota()" style="accent-color:var(--blue)"> Modifier les quotas
+        </label>
+      </div>
+      <div id="custom-quota-block" style="display:none">
+        <div class="fg fg-3">
+          <div>
+            <label class="lbl">Admins *</label>
+            <input type="number" id="q-admins" class="ii" min="1" max="10" value="1" oninput="checkQuotaAlert()">
+          </div>
+          <div>
+            <label class="lbl">Chefs d'équipe *</label>
+            <input type="number" id="q-chefs" class="ii" min="0" max="20" value="2" oninput="checkQuotaAlert()">
+          </div>
+          <div>
+            <label class="lbl">Chauffeurs *</label>
+            <input type="number" id="q-chauffeurs" class="ii" min="0" max="999" value="10" oninput="checkQuotaAlert()">
+          </div>
+        </div>
+        <!-- ALERTE DÉPASSEMENT -->
+        <div class="quota-alert" id="quota-alert">
+          <span style="font-size:20px">⚠️</span>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#FC8181" id="quota-alert-title">Dépassement de quota</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:2px" id="quota-alert-detail">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Informations entreprise</div>
+    <div class="fg fg-2">
+      <div><label class="lbl">Nom de l'entreprise *</label><input type="text" id="co-name" class="ii" placeholder="TRANSPORT XYZ"></div>
+      <div><label class="lbl">Email admin *</label><input type="email" id="co-email" class="ii" placeholder="admin@transport.fr" onblur="checkEmailUnique(this.value)"></div>
+    </div>
+    <div class="fg fg-3">
+      <div><label class="lbl">Téléphone</label><input type="text" id="co-phone" class="ii" placeholder="+33 6 00 00 00 00"></div>
+      <div><label class="lbl">Ville</label><input type="text" id="co-city" class="ii" placeholder="Paris"></div>
+      <div><label class="lbl">SIRET</label><input type="text" id="co-siret" class="ii" placeholder="000 000 000 00000"></div>
+    </div>
+    <div class="fg fg-2">
+      <div><label class="lbl">Responsable</label><input type="text" id="co-resp" class="ii" placeholder="M. Dupont"></div>
+      <div><label class="lbl">Date d'expiration</label><input type="date" id="co-expiry" class="ii"></div>
+    </div>
+
+    <div class="section-label">Options & Addons</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="co-addon-saisie" style="accent-color:var(--blue);width:16px;height:16px" checked>
+        <span>📝 Module Saisie des tournées <strong style="color:#2ECC71">Inclus</strong></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="co-addon-route" onchange="refreshAutoPriceDisplay()" style="accent-color:var(--blue);width:16px;height:16px">
+        <span>🗺️ Feuille de Route <strong style="color:var(--accent)">+59,99€/mois</strong></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="co-addon-dispatch" onchange="refreshAutoPriceDisplay()" style="accent-color:var(--purple);width:16px;height:16px">
+        <span>🧠 IA Dispatch <strong style="color:var(--purple)">+59,99€/mois</strong></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="co-addon-tracking" onchange="refreshAutoPriceDisplay()" style="accent-color:#10B981;width:16px;height:16px">
+        <span>📡 Suivi Chauffeurs Temps Réel <strong style="color:#10B981">+29,99€/mois</strong></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="co-addon-decompte-st" style="accent-color:var(--accent);width:16px;height:16px">
+        <span>📈 Décompte ST (Delifresh) <strong style="color:var(--accent)">Addon</strong></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="co-addon-zone" style="accent-color:#3B82F6;width:16px;height:16px">
+        <span>📍 Facturation par zone <strong style="color:#60A5FA">Addon</strong></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="co-addon-etat-vehicule" onchange="refreshAutoPriceDisplay()" style="accent-color:#7C3AED;width:16px;height:16px">
+        <span>📸 État des Lieux Véhicules <strong style="color:#A78BFA">+19,99€/mois</strong></span>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="co-addon-stt" style="accent-color:#10B981;width:16px;height:16px">
+        <span>🔗 Interfaçage Sous-Traitants <strong style="color:#10B981">Addon</strong>
+          <div style="font-size:10px;color:var(--gray);line-height:1.5;margin-top:3px">Permet d'envoyer / recevoir des tournées entre deux compagnies T SERVICE & CO. Les deux compagnies doivent avoir cet addon activé.</div>
+        </span>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:13px">
+        <input type="checkbox" id="co-addon-agent" onchange="refreshAutoPriceDisplay()" style="accent-color:#8B5CF6;width:16px;height:16px;margin-top:3px">
+        <span>🤖 JuJu — Assistant IA Telegram <strong style="color:#8B5CF6">+69,99€/mois</strong>
+          <div style="font-size:10px;color:var(--gray);line-height:1.5;margin-top:3px">Pilotage complet par messages texte ou vocaux : planning, tournées, chauffeurs, clients, véhicules, absences, facturation, salaires, gazole, amendes, export Excel. Audit quotidien automatique avec alertes et recommandations. Activation par code Telegram.</div>
+        </span>
+      </label>
+    </div>
+
+    <!-- PRIX PERSONNALISÉ (override) -->
+    <div style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px">Prix personnalisé</label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--gray)">
+          <input type="checkbox" id="custom-price-toggle" onchange="toggleCustomPrice()" style="accent-color:var(--accent)"> Définir un prix manuel pour ce client
+        </label>
+      </div>
+      <div id="custom-price-block" style="display:none">
+        <div style="background:rgba(245,166,35,0.06);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:14px 16px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+            <div style="flex:1">
+              <label class="lbl">Prix mensuel HT (€)</label>
+              <input type="number" id="co-custom-price" class="ii" min="0" step="0.01" placeholder="Ex: 150.00" style="font-weight:700">
+            </div>
+            <div style="font-size:11px;color:var(--gray);max-width:220px;line-height:1.5">
+              💡 Ce montant remplace le prix calculé du forfait + addons pour ce client (affichage, MRR, facturation).
+            </div>
+          </div>
+          <div id="custom-price-info" style="font-size:11px;color:var(--gray)">Prix forfait calculé : <span id="auto-price-display" style="color:var(--accent);font-weight:600">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="new-account-block">
+      <div class="section-label">Créer le compte administrateur</div>
+      <div class="fg fg-2">
+        <div><label class="lbl">Mot de passe *</label><div style="display:flex;gap:6px"><input type="password" id="co-pwd" class="ii" placeholder="min. 8 caractères" style="flex:1"><button type="button" class="btn-sm btn-ghost" onclick="generatePwd('co-pwd','co-pwd2')" title="Générer un mot de passe" style="white-space:nowrap;padding:7px 10px">🔑 Générer</button></div></div>
+        <div><label class="lbl">Confirmer</label><input type="password" id="co-pwd2" class="ii" placeholder="Répéter le mot de passe"></div>
+      </div>
+    </div>
+
+    <div id="modal-progress" style="display:none;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--gray);margin-bottom:5px" id="modal-progress-txt">⏳ Création en cours...</div>
+      <div style="height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden"><div id="modal-prog-fill" style="height:100%;background:linear-gradient(90deg,var(--blue),var(--accent));border-radius:3px;transition:width 0.4s;width:0%"></div></div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border)">
+      <button class="btn-sm btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn-sm btn-accent" id="btn-save-co" onclick="saveCompany()">✅ Créer l'entreprise</button>
+    </div>
+    <input type="hidden" id="co-edit-id">
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══ DRAWER UTILISATEURS ══ -->
+<div id="drawer-users" style="position:fixed;top:0;right:-480px;width:480px;height:100vh;background:var(--navy2);border-left:1px solid var(--border);z-index:300;display:flex;flex-direction:column;transition:right 0.35s cubic-bezier(.4,0,.2,1);box-shadow:-8px 0 40px rgba(0,0,0,0.4);">
+  <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--white);letter-spacing:2px">👥 UTILISATEURS</div>
+      <div style="font-size:12px;color:var(--gray);margin-top:2px" id="drawer-co-name">—</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-sm btn-accent" onclick="openAddUser()" id="btn-add-user">+ Ajouter</button>
+      <button onclick="closeDrawer()" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:14px;color:#FC8181;">✕</button>
+    </div>
+  </div>
+
+  <!-- Quota bar -->
+  <div style="padding:12px 24px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border);flex-shrink:0" id="drawer-quota-bar"></div>
+
+  <!-- Filtres -->
+  <div style="padding:10px 24px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;gap:8px;align-items:center">
+    <input type="text" id="drawer-search" class="ii" placeholder="Rechercher un nom ou email..." oninput="filterUsers()" style="flex:1;font-size:12px;padding:7px 10px">
+    <select id="drawer-role-filter" class="is" onchange="filterUsers()" style="font-size:11px;padding:7px 8px;width:auto">
+      <option value="">Tous</option>
+      <option value="admin">Admin</option>
+      <option value="chef_equipe">Chef</option>
+      <option value="chauffeur">Chauffeur</option>
+    </select>
+  </div>
+
+  <!-- Liste users -->
+  <div style="flex:1;overflow-y:auto;padding:16px 24px" id="drawer-users-list">
+    <div style="text-align:center;padding:40px;color:var(--gray)">Chargement...</div>
+  </div>
+
+  <!-- Formulaire ajout/modif user -->
+  <div id="drawer-form" style="display:none;padding:20px 24px;border-top:1px solid var(--border);background:rgba(26,79,191,0.06);flex-shrink:0">
+    <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="drawer-form-title">➕ Nouvel utilisateur</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div><label class="lbl">Nom complet *</label><input type="text" id="u-nom" class="ii" placeholder="NOM Prénom" style="font-size:12px;padding:8px 10px"></div>
+      <div><label class="lbl">Rôle *</label>
+        <select id="u-role" class="is" style="font-size:12px;padding:8px 10px" onchange="toggleChauffeurField()">
+          <option value="admin">👤 Admin</option>
+          <option value="chef_equipe">👔 Chef d'équipe</option>
+          <option value="chauffeur">🚐 Chauffeur</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-bottom:10px"><label class="lbl">Email *</label><input type="email" id="u-email" class="ii" placeholder="user@entreprise.fr" style="font-size:12px;padding:8px 10px"></div>
+    <div id="u-chauffeur-block" style="display:none;margin-bottom:10px"><label class="lbl">Nom chauffeur (doit correspondre au planning — requis pour accéder aux fiches de paie / contrats / congés)</label><input type="text" id="u-chauffeur-nom" class="ii" placeholder="NOM PRÉNOM (majuscules)" style="font-size:12px;padding:8px 10px" oninput="checkChauffeurMatch()" autocomplete="off"><div id="u-chauffeur-feedback" style="font-size:11px;margin-top:4px;min-height:16px"></div></div>
+    <div id="u-pwd-block" style="margin-bottom:10px"><label class="lbl">Mot de passe *</label><div style="display:flex;gap:6px"><input type="password" id="u-pwd" class="ii" placeholder="min. 8 caractères" style="font-size:12px;padding:8px 10px;flex:1"><button type="button" class="btn-sm btn-ghost" onclick="generatePwd('u-pwd')" title="Générer un mot de passe" style="white-space:nowrap;padding:7px 10px;font-size:12px">🔑 Générer</button></div></div>
+    <!-- Quota alert dans le form -->
+    <div id="u-quota-alert" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px;color:#FC8181"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn-sm btn-ghost" onclick="cancelUserForm()" style="font-size:12px">Annuler</button>
+      <button class="btn-sm btn-accent" id="btn-save-user" onclick="saveUser()" style="font-size:12px">✅ Enregistrer</button>
+    </div>
+    <input type="hidden" id="u-edit-id">
+  </div>
+</div>
+<!-- Overlay drawer -->
+<div id="drawer-overlay" onclick="closeDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:299;backdrop-filter:blur(3px)"></div>
+
+<!-- Modal Clé API service_role -->
+<div id="modal-sakey" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center">
+  <div style="background:#0F2040;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:28px 28px 24px;width:420px;max-width:90vw">
+    <div style="font-size:32px;text-align:center;margin-bottom:10px">🔑</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:2px;text-align:center;margin-bottom:6px">CLÉ SERVICE_ROLE SUPABASE</div>
+    <div style="font-size:12px;color:#8A9BB5;text-align:center;margin-bottom:14px;line-height:1.5">
+      Depuis ton dashboard Supabase :<br>
+      <strong style="color:#fff">Project Settings → API → service_role (secret)</strong>
+    </div>
+    <div style="font-size:11px;color:#FCA5A5;background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:10px 12px;margin-bottom:14px;line-height:1.5">
+      ⚠️ <strong>Cette clé donne un accès complet à toutes les bases.</strong><br>
+      • Stockée uniquement <strong>en mémoire de session</strong> (pas en localStorage)<br>
+      • Effacée à la fermeture du navigateur ou après 30 min d'inactivité<br>
+      • Ne JAMAIS la partager, la coller dans un chat, ou la committer
+    </div>
+    <div id="sakey-status" style="display:none;margin-bottom:12px;padding:8px 12px;border-radius:8px;font-size:12px;text-align:center"></div>
+    <input type="password" id="sakey-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp..." autocomplete="off" spellcheck="false" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 12px;font-family:monospace;font-size:11px;color:#fff;outline:none;margin-bottom:14px">
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <button onclick="closeSAKeyModal()" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:#8A9BB5;cursor:pointer">Annuler</button>
+      <button onclick="saveSAKey()" style="flex:2;background:linear-gradient(135deg,#7C3AED,#4F46E5);color:#fff;border:none;border-radius:10px;padding:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer">💾 Charger pour cette session</button>
+    </div>
+    <button onclick="clearSAKey()" style="width:100%;background:transparent;border:1px solid rgba(231,76,60,0.4);border-radius:10px;padding:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#FC8181;cursor:pointer">🔒 Purger la clé maintenant</button>
+  </div>
+</div>
+
+<!-- Modal MDP temporaire -->
+<div id="modal-tmppwd" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center">
+  <div style="background:#0F2040;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:28px 28px 24px;width:340px;max-width:90vw">
+    <div style="font-size:36px;text-align:center;margin-bottom:12px">🔐</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:2px;text-align:center;margin-bottom:6px">MOT DE PASSE RÉINITIALISÉ</div>
+    <div style="font-size:12px;color:#8A9BB5;text-align:center;margin-bottom:18px" id="tmppwd-user-label">—</div>
+    <div style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.3);border-radius:12px;padding:14px 16px;margin-bottom:6px;display:flex;align-items:center;gap:12px">
+      <div id="tmppwd-value" style="font-family:monospace;font-size:20px;font-weight:700;color:#F5A623;letter-spacing:3px;flex:1">—</div>
+      <button onclick="copyTmpPwd()" style="background:rgba(245,166,35,0.15);border:1px solid rgba(245,166,35,0.3);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;color:#F5A623" title="Copier">📋</button>
+    </div>
+    <div style="font-size:11px;color:#8A9BB5;margin-bottom:20px;line-height:1.6;padding:8px 10px;background:rgba(255,255,255,0.03);border-radius:8px">
+      ⚠️ L'utilisateur devra <strong style="color:#fff">changer ce mot de passe</strong> dès sa prochaine connexion.<br>
+      Communiquez-lui ce mot de passe temporaire de façon sécurisée.
+    </div>
+    <button onclick="closeTmpPwdModal()" style="width:100%;background:linear-gradient(135deg,#1A4FBF,#2563EB);color:#fff;border:none;border-radius:10px;padding:12px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer">✅ Compris</button>
+  </div>
+</div>
+
+<script src="ot_401_guard.js"></script>
+<script>
+const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
+const ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+
+// ⚠️ SÉCURITÉ — clé service_role (DETTE TECHNIQUE À ÉLIMINER)
+// ─────────────────────────────────────────────────────────────────────────
+// Cette page nécessite la clé Supabase service_role pour les opérations
+// admin (création de tenants, reset password, generate magic link).
+// Tant que ces opérations n'ont pas été déplacées dans une Edge Function,
+// la clé est stockée côté navigateur. On limite la fenêtre d'exposition :
+//   1. sessionStorage (et NON localStorage) → effacée à la fermeture du tab
+//   2. Auto-purge après 30 min d'inactivité
+//   3. Migration unique depuis l'ancien stockage localStorage
+// PROCHAINE ÉTAPE : créer une Edge Function "admin-ops" qui prend en entrée
+// le JWT du superadmin (vérifié côté serveur) et utilise service_role en
+// interne. La clé ne quitterait alors plus jamais le serveur.
+// ─────────────────────────────────────────────────────────────────────────
+const SA_KEY_STORE_KEY = 'ot_sa_service_key';
+const SA_KEY_TS_KEY    = 'ot_sa_service_key_ts';
+const SA_KEY_TTL_MS    = 30 * 60 * 1000; // 30 min d'inactivité
+function _saMigrateLegacyKey(){
+  // Migre l'ancienne clé localStorage → sessionStorage une seule fois, puis purge.
+  try{
+    const legacy = localStorage.getItem(SA_KEY_STORE_KEY);
+    if(legacy && !sessionStorage.getItem(SA_KEY_STORE_KEY)){
+      sessionStorage.setItem(SA_KEY_STORE_KEY, legacy);
+      sessionStorage.setItem(SA_KEY_TS_KEY, String(Date.now()));
+    }
+    if(legacy){ localStorage.removeItem(SA_KEY_STORE_KEY); }
+  }catch(_){}
+}
+_saMigrateLegacyKey();
+function _saKeyExpired(){
+  const ts = parseInt(sessionStorage.getItem(SA_KEY_TS_KEY)||'0',10);
+  return !ts || (Date.now() - ts) > SA_KEY_TTL_MS;
+}
+function getSAKey(){
+  if(_saKeyExpired()){
+    sessionStorage.removeItem(SA_KEY_STORE_KEY);
+    sessionStorage.removeItem(SA_KEY_TS_KEY);
+    return '';
+  }
+  // Touch TTL à chaque lecture (sliding expiration)
+  sessionStorage.setItem(SA_KEY_TS_KEY, String(Date.now()));
+  return sessionStorage.getItem(SA_KEY_STORE_KEY) || '';
+}
+function getSAToken(){
+  try{
+    const raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
+    return JSON.parse(raw).token||ANON_KEY;
+  }catch(e){ return ANON_KEY; }
+}
+const H  = ()=>({'Content-Type':'application/json','apikey':ANON_KEY,'Authorization':'Bearer '+getSAToken()});
+// HS() = service_role pour les opérations admin Auth (generate-link, reset pwd, create user)
+const HS = ()=>({'Content-Type':'application/json','apikey':getSAKey(),'Authorization':'Bearer '+getSAKey()});
+// Garde UX : à appeler en début de fonction admin avant tout HS(). Affiche un
+// message clair + ouvre la modale clé si la clé service_role n'est pas chargée
+// (sessionStorage vide ou expiré). Retourne true si OK, false si bloquant.
+function requireSAKey(){
+  if(getSAKey()) return true;
+  if(typeof toast==='function') toast('❌ Clé API manquante — clique sur ⚙️ Clé API','error');
+  if(typeof openSAKeyModal==='function') setTimeout(openSAKeyModal,400);
+  return false;
+}
+
+// ══ PLANS CONFIG ══
+const PLANS = {
+  starter: {
+    nom:'Essentiel', emoji:'🥉', prix:179.99, couleur:'#8A9BB5',
+    max_admins:1, max_chefs:2, max_chauffeurs:10,
+    feats:[
+      {ok:true,txt:'Tableau de bord & KPIs'},
+      {ok:true,txt:'Planning semaine complet'},
+      {ok:true,txt:'Saisie des tournées'},
+      {ok:true,txt:'Parc véhicules'},
+      {ok:true,txt:'Clients & Export CSV'},
+      {ok:true,txt:'RH, Contrats & Fiches de paie'},
+      {ok:true,txt:'Paramètres entreprise'},
+      {ok:false,txt:'WhatsApp chauffeurs'},
+      {ok:false,txt:'Facturation Excel'},
+      {ok:false,txt:'Chauffeurs & Salaires'},
+      {ok:false,txt:'Suivi Gazole'},
+      {ok:true,txt:'🤖 IA Analyst (inclus)'},
+      {ok:false,txt:'🧠 IA Dispatch (addon +59,99€)'},
+      {ok:false,txt:'🤖 JuJu Telegram — Gérez tout par messages ou vocal (addon +69,99€)'},
+    ]
+  },
+  pro: {
+    nom:'Pro', emoji:'🥈', prix:259.99, couleur:'#60A5FA', popular:true,
+    max_admins:1, max_chefs:3, max_chauffeurs:25,
+    feats:[
+      {ok:true,txt:'Tout Essentiel'},
+      {ok:true,txt:'WhatsApp tournées par chauffeur'},
+      {ok:true,txt:'WhatsApp groupé toutes tournées'},
+      {ok:true,txt:'Facturation Excel par client'},
+      {ok:true,txt:'Chauffeurs & Salaires'},
+      {ok:true,txt:'Validation tournées + pénalités'},
+      {ok:true,txt:'Export CSV salaires & tournées'},
+      {ok:false,txt:'Suivi Gazole'},
+      {ok:false,txt:'Export Excel gazole'},
+      {ok:false,txt:'WhatsApp récap salaire'},
+      {ok:true,txt:'🤖 IA Analyst (inclus)'},
+      {ok:false,txt:'🧠 IA Dispatch (addon +59,99€)'},
+      {ok:false,txt:'🤖 JuJu Telegram — Gérez tout par messages ou vocal (addon +69,99€)'},
+    ]
+  },
+  business: {
+    nom:'Business', emoji:'🥇', prix:399.99, couleur:'#F5A623',
+    max_admins:2, max_chefs:5, max_chauffeurs:999,
+    feats:[
+      {ok:true,txt:'Tout Pro'},
+      {ok:true,txt:'Suivi Gazole par chauffeur'},
+      {ok:true,txt:'Export Excel gazole'},
+      {ok:true,txt:'WhatsApp récap salaire mensuel'},
+      {ok:true,txt:'Export CSV salaires complet'},
+      {ok:true,txt:'2 admins + 5 chefs d\'équipe'},
+      {ok:true,txt:'Chauffeurs illimités'},
+      {ok:true,txt:'🤖 IA Analyst (inclus)'},
+      {ok:false,txt:'🧠 IA Dispatch (addon +59,99€)'},
+      {ok:false,txt:'🤖 JuJu Telegram — Gérez tout par messages ou vocal (addon +69,99€)'},
+    ]
+  }
+};
+
+const MODULES_BY_PLAN = {
+  starter: {planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,vehicules:true,whatsapp:false,facturation:false,chauffeurs:false,gazole:false},
+  pro:     {planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,vehicules:true,whatsapp:true,facturation:true,chauffeurs:true,gazole:false},
+  business:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,vehicules:true,whatsapp:true,facturation:true,chauffeurs:true,gazole:true}
+};
+
+let allCompanies=[], selectedPlan='pro', editingId=null;
+
+document.addEventListener('DOMContentLoaded',()=>{
+  // Accès restreint — UUID superadmin requis
+  const SA_UID='d7fcfa25-33e5-45ea-8d15-67b828bcf4e0';
+  const raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
+  let sess=null; try{sess=JSON.parse(raw||'');}catch(e){}
+  if(!sess||!sess.token||sess.id!==SA_UID){window.location.href='optimum_trans_dashboard.html';return;}
+  renderPlanSelector();
+  loadCompanies();
+  // Indicateur clé API (sessionStorage, pas localStorage)
+  if(!sessionStorage.getItem(SA_KEY_STORE_KEY)){
+    const btn=document.getElementById('btn-sakey');
+    if(btn){btn.style.border='1px solid rgba(231,76,60,0.5)';btn.style.color='#FC8181';btn.textContent='⚠️ Clé API';}
+    // Prompt automatique : la clé est requise pour quasiment toutes les
+    // opérations admin. Mieux vaut la demander tout de suite que de laisser
+    // le superadmin tomber sur des "Clé API manquante" à chaque clic.
+    setTimeout(()=>{
+      if(!sessionStorage.getItem(SA_KEY_STORE_KEY) && typeof openSAKeyModal==='function'){
+        openSAKeyModal();
+      }
+    }, 700);
+  }
+  // Expiry par défaut = +1 an
+  const d=new Date(); d.setFullYear(d.getFullYear()+1);
+  document.getElementById('co-expiry').value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+});
+
+// ── PLAN SELECTOR ──
+function renderPlanSelector(){
+  const container=document.getElementById('plan-selector');
+  container.innerHTML='';
+  Object.entries(PLANS).forEach(([key,p])=>{
+    const div=document.createElement('div');
+    div.className='plan-card'+(key===selectedPlan?' selected':'')+(p.popular?' popular':'');
+    div.onclick=()=>selectPlan(key);
+    div.innerHTML=`
+      ${p.popular?'<div class="popular-badge">⭐ POPULAIRE</div>':''}
+      <div class="plan-name" style="color:${p.couleur}">${p.emoji} ${p.nom.toUpperCase()}</div>
+      <div class="plan-price">${p.prix.toLocaleString('fr-FR',{minimumFractionDigits:2})}<span>€/mois</span></div>
+      <div class="plan-feat">
+        ${p.feats.slice(0,5).map(f=>`<div class="${f.ok?'ok':'no'}">${f.ok?'✅':'❌'} ${f.txt}</div>`).join('')}
+        <div style="color:var(--gray2);font-size:10px;margin-top:4px">+${p.feats.length-5} fonctionnalités...</div>
+      </div>`;
+    container.appendChild(div);
+  });
+  updateQuotaDisplay();
+}
+
+function selectPlan(key){
+  selectedPlan=key;
+  renderPlanSelector();
+  // Reset custom quotas to plan defaults
+  const p=PLANS[key];
+  document.getElementById('q-admins').value=p.max_admins;
+  document.getElementById('q-chefs').value=p.max_chefs;
+  document.getElementById('q-chauffeurs').value=p.max_chauffeurs===999?'Illimité':p.max_chauffeurs;
+  checkQuotaAlert();
+  refreshAutoPriceDisplay();
+}
+
+function updateQuotaDisplay(){
+  const p=PLANS[selectedPlan];
+  document.getElementById('quota-boxes').innerHTML=`
+    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+      <div style="font-size:22px;font-weight:900;color:var(--white)">${p.max_admins}</div>
+      <div style="font-size:10px;color:var(--gray);margin-top:2px">Admin${p.max_admins>1?'s':''}</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+      <div style="font-size:22px;font-weight:900;color:#60A5FA">${p.max_chefs}</div>
+      <div style="font-size:10px;color:var(--gray);margin-top:2px">Chef${p.max_chefs>1?'s':''} d'équipe</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+      <div style="font-size:22px;font-weight:900;color:var(--accent)">${p.max_chauffeurs===999?'∞':p.max_chauffeurs}</div>
+      <div style="font-size:10px;color:var(--gray);margin-top:2px">Chauffeur${p.max_chauffeurs!==1?'s':''}</div>
+    </div>`;
+}
+
+function toggleCustomQuota(){
+  const show=document.getElementById('custom-quota-toggle').checked;
+  document.getElementById('custom-quota-block').style.display=show?'block':'none';
+  if(show){
+    const p=PLANS[selectedPlan];
+    document.getElementById('q-admins').value=p.max_admins;
+    document.getElementById('q-chefs').value=p.max_chefs;
+    document.getElementById('q-chauffeurs').value=p.max_chauffeurs===999?99:p.max_chauffeurs;
+  }
+}
+
+// ── PRIX PERSONNALISÉ ──
+function computeAutoPrice(){
+  const p=PLANS[selectedPlan];
+  return p.prix
+    +(document.getElementById('co-addon-route').checked?59.99:0)
+    +(document.getElementById('co-addon-dispatch').checked?59.99:0)
+    +(document.getElementById('co-addon-tracking').checked?29.99:0)
+    +(document.getElementById('co-addon-agent').checked?69.99:0)
+    +(document.getElementById('co-addon-etat-vehicule').checked?19.99:0);
+}
+function refreshAutoPriceDisplay(){
+  const el=document.getElementById('auto-price-display');
+  if(el) el.textContent=computeAutoPrice().toLocaleString('fr-FR',{minimumFractionDigits:2})+' €/mois';
+}
+function toggleCustomPrice(){
+  const on=document.getElementById('custom-price-toggle').checked;
+  document.getElementById('custom-price-block').style.display=on?'block':'none';
+  if(on){
+    refreshAutoPriceDisplay();
+    const inp=document.getElementById('co-custom-price');
+    if(!inp.value) inp.value=computeAutoPrice().toFixed(2);
+  }
+}
+
+function checkQuotaAlert(){
+  const p=PLANS[selectedPlan];
+  const qa=parseInt(document.getElementById('q-admins').value)||0;
+  const qc=parseInt(document.getElementById('q-chefs').value)||0;
+  const qch=parseInt(document.getElementById('q-chauffeurs').value)||0;
+  const alerts=[];
+  if(qa>p.max_admins) alerts.push(`⚠️ Admins: ${qa} > ${p.max_admins} prévu pour le plan ${p.nom}`);
+  if(qc>p.max_chefs) alerts.push(`⚠️ Chefs d'équipe: ${qc} > ${p.max_chefs} prévu pour le plan ${p.nom}`);
+  if(p.max_chauffeurs!==999&&qch>p.max_chauffeurs) alerts.push(`⚠️ Chauffeurs: ${qch} > ${p.max_chauffeurs} prévu pour le plan ${p.nom}`);
+  const alertEl=document.getElementById('quota-alert');
+  if(alerts.length){
+    alertEl.classList.add('show');
+    document.getElementById('quota-alert-title').textContent='⚠️ Nombre d\'utilisateurs supérieur au plan choisi';
+    document.getElementById('quota-alert-detail').textContent=alerts.join(' · ');
+  } else {
+    alertEl.classList.remove('show');
+  }
+}
+
+// ── COMPANIES ──
+async function loadCompanies(){
+  const tbody=document.getElementById('companies-tbody');
+  tbody.innerHTML='<tr><td colspan="8"><div style="padding:30px;text-align:center;display:flex;gap:10px;justify-content:center;align-items:center"><div class="spinner"></div><span style="color:var(--gray);font-size:12px">Chargement...</span></div></td></tr>';
+  try{
+    const r=await fetch(`${SB}/rest/v1/sa_companies?order=created_at.desc`,{headers:H()});
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data=await r.json();
+    allCompanies=Array.isArray(data)?data:[];
+    renderCompanies(allCompanies);
+    updateKPIs();
+  }catch(e){
+    console.error('[SuperAdmin] Erreur:', e);
+    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:20px;color:#FC8181">❌ Erreur: ${e.message}</td></tr>`;
+  }
+}
+
+function renderCompanies(data){
+  const tbody=document.getElementById('companies-tbody');
+  if(!data.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--gray)">Aucune entreprise</td></tr>';return;}
+  tbody.innerHTML='';
+  data.forEach(co=>{
+    const p=PLANS[co.plan]||PLANS.starter;
+    const planColor=p.couleur||'var(--gray)';
+    const expiry=co.expiry?new Date(co.expiry):null;
+    const today=new Date(); today.setHours(0,0,0,0);
+    const daysLeft=expiry?Math.round((expiry-today)/86400000):null;
+    const expiryHtml=expiry
+      ?`<span style="color:${daysLeft<=7?'#FC8181':daysLeft<=30?'#F5A623':'#2ECC71'};font-size:11px">${daysLeft<=0?'⛔ Expiré':daysLeft<=30?`⚠️ ${daysLeft}j`:`✅ ${daysLeft}j`}</span>`
+      :'<span style="color:var(--gray2)">—</span>';
+    const usersHtml=`
+      <div style="font-size:11px;line-height:1.8">
+        <span title="Admins">👤 ${co.max_admins||1}</span> ·
+        <span title="Chefs">👔 ${co.max_chefs||2}</span> ·
+        <span title="Chauffeurs">🚐 ${co.max_chauffeurs>=999?'∞':co.max_chauffeurs||10}</span>
+      </div>`;
+    const addonsHtml=[
+      co.addon_route?'<span class="badge badge-blue" style="font-size:9px">🗺️ Route</span>':'',
+      co.addon_saisie?'<span class="badge badge-green" style="font-size:9px">📝 Saisie</span>':'',
+      co.addon_dispatch?'<span class="badge" style="font-size:9px;background:rgba(124,58,237,0.15);color:#A78BFA">🧠 Dispatch</span>':'',
+      co.addon_tracking?'<span class="badge" style="font-size:9px;background:rgba(16,185,129,0.15);color:#10B981">📡 Tracking</span>':'',
+      co.addon_decompte_st?'<span class="badge" style="font-size:9px;background:rgba(245,166,35,0.15);color:#F5A623">📈 Décompte ST</span>':'',
+      co.addon_zone?'<span class="badge" style="font-size:9px;background:rgba(59,130,246,0.15);color:#60A5FA">📍 Zone</span>':'',
+      co.addon_etat_vehicule?'<span class="badge" style="font-size:9px;background:rgba(124,58,237,0.15);color:#A78BFA">📸 État Véhicule</span>':'',
+      co.addon_agent?'<span class="badge" style="font-size:9px;background:rgba(139,92,246,0.15);color:#8B5CF6">🤖 Agent IA</span>':'',
+      co.addon_stt?'<span class="badge" style="font-size:9px;background:rgba(16,185,129,0.15);color:#10B981">🔗 STT</span>':'',
+    ].filter(Boolean).join(' ')||'<span style="color:var(--gray2);font-size:11px">—</span>';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td>
+        <div style="font-weight:700;color:var(--white)">${co.name}</div>
+        <div style="font-size:10px;color:var(--gray)">${co.email||''}</div>
+      </td>
+      <td><span style="font-weight:700;color:${planColor}">${p.emoji} ${p.nom}</span><br><span style="font-size:10px;color:var(--gray)">${p.prix.toLocaleString('fr-FR',{minimumFractionDigits:2})}€/mois</span></td>
+      <td>${usersHtml}</td>
+      <td style="font-weight:700;color:#2ECC71">${(co.custom_price!=null&&co.custom_price!=='')?`<span title="Prix personnalisé (override)">${Number(co.custom_price).toLocaleString('fr-FR',{minimumFractionDigits:2})}€ <span style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:3px;vertical-align:middle">✏️ Manuel</span></span>`:(co.price?Number(co.price).toLocaleString('fr-FR',{minimumFractionDigits:2})+'€':'—')}</td>
+      <td>${expiryHtml}</td>
+      <td>${addonsHtml}</td>
+      <td><span class="badge ${co.status==='active'?'badge-green':co.status==='suspended'?'badge-red':'badge-orange'}">${co.status==='active'?'✅ Actif':co.status==='suspended'?'🔴 Suspendu':'⏳ '+co.status}</span></td>
+      <td style="white-space:nowrap">
+        <button class="icon-btn" onclick="openUsersDrawer('${co.id}','${co.name.replace(/'/g,"\\'")}')" title="Gérer les utilisateurs" style="color:#60A5FA">👥</button>
+        <button class="icon-btn" onclick="editCompany('${co.id}')" title="Modifier">✏️</button>
+        ${co.addon_agent?`<button class="icon-btn" onclick="generateTelegramCode('${co.id}','${co.name.replace(/'/g,"\\'")}')" title="Générer code Telegram" style="color:#8B5CF6">🤖</button>`:''}
+        <button class="icon-btn" onclick="toggleStatus('${co.id}','${co.status}')" title="${co.status==='active'?'Suspendre':'Activer'}">${co.status==='active'?'⏸️':'▶️'}</button>
+        <button class="icon-btn" onclick="deleteCompany('${co.id}','${co.name.replace(/'/g,"\\'")}');" style="color:rgba(231,76,60,0.7)" title="Supprimer">🗑</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function filterCompanies(q){
+  renderCompanies(!q?allCompanies:allCompanies.filter(c=>(c.name||'').toLowerCase().includes(q.toLowerCase())||(c.email||'').toLowerCase().includes(q.toLowerCase())));
+}
+
+function updateKPIs(){
+  const active=allCompanies.filter(c=>c.status==='active');
+  document.getElementById('k-total').textContent=active.length;
+  const mrr=allCompanies.filter(c=>c.status==='active').reduce((s,c)=>s+Number((c.custom_price!=null&&c.custom_price!=='')?c.custom_price:c.price||0),0); // custom_price override le prix calculé
+  document.getElementById('k-mrr').textContent=mrr.toLocaleString('fr-FR',{minimumFractionDigits:2})+'€';
+  const dist=Object.entries(PLANS).map(([k,p])=>{const n=allCompanies.filter(c=>c.plan===k&&c.status==='active').length;return n?`${p.emoji}${p.nom}:${n}`:null;}).filter(Boolean).join(' · ')||'—';
+  document.getElementById('k-plans').innerHTML=dist;
+  const addonCount=allCompanies.filter(c=>c.status==='active'&&(c.addon_route||c.addon_dispatch||c.addon_tracking||c.addon_agent)).length;
+  document.getElementById('k-addon').textContent=addonCount;
+}
+
+// ── GENERATE PASSWORD ──
+function generatePwd(...ids){
+  const upper='ABCDEFGHJKLMNPQRSTUVWXYZ';
+  const lower='abcdefghjkmnpqrstuvwxyz';
+  const digits='23456789';
+  const special='!@#&*';
+  const all=upper+lower+digits+special;
+  let pwd='';
+  pwd+=upper[Math.floor(Math.random()*upper.length)];
+  pwd+=lower[Math.floor(Math.random()*lower.length)];
+  pwd+=digits[Math.floor(Math.random()*digits.length)];
+  pwd+=special[Math.floor(Math.random()*special.length)];
+  for(let i=4;i<10;i++) pwd+=all[Math.floor(Math.random()*all.length)];
+  pwd=pwd.split('').sort(()=>Math.random()-0.5).join('');
+  ids.forEach(id=>{const el=document.getElementById(id);if(el){el.type='text';el.value=pwd;}});
+  navigator.clipboard.writeText(pwd).then(()=>toast('Mot de passe copié dans le presse-papier')).catch(()=>{});
+}
+
+// ── MODAL ──
+function openNewCompany(){
+  editingId=null;
+  selectedPlan='pro';
+  document.getElementById('modal-title').textContent='🏢 NOUVELLE ENTREPRISE';
+  document.getElementById('btn-save-co').textContent='✅ Créer l\'entreprise';
+  document.getElementById('new-account-block').style.display='block';
+  document.getElementById('co-edit-id').value='';
+  ['co-name','co-email','co-phone','co-city','co-siret','co-resp','co-pwd','co-pwd2'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('co-addon-route').checked=false;
+  document.getElementById('co-addon-dispatch').checked=false;
+  document.getElementById('co-addon-tracking').checked=false;
+  document.getElementById('co-addon-saisie').checked=true;
+  document.getElementById('co-addon-decompte-st').checked=false;
+  document.getElementById('co-addon-etat-vehicule').checked=false;
+  document.getElementById('co-addon-agent').checked=false;
+  document.getElementById('co-addon-stt').checked=false;
+  document.getElementById('custom-quota-toggle').checked=false;
+  document.getElementById('custom-quota-block').style.display='none';
+  document.getElementById('custom-price-toggle').checked=false;
+  document.getElementById('custom-price-block').style.display='none';
+  document.getElementById('co-custom-price').value='';
+  document.getElementById('quota-alert').classList.remove('show');
+  const d=new Date();d.setFullYear(d.getFullYear()+1);
+  document.getElementById('co-expiry').value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  renderPlanSelector();
+  document.getElementById('modal-co').classList.add('show');
+}
+
+function editCompany(id){
+  const co=allCompanies.find(x=>x.id===id); if(!co) return;
+  editingId=id;
+  selectedPlan=co.plan||'pro';
+  document.getElementById('modal-title').textContent='✏️ MODIFIER ENTREPRISE';
+  document.getElementById('btn-save-co').textContent='💾 Enregistrer';
+  document.getElementById('new-account-block').style.display='none';
+  document.getElementById('co-edit-id').value=id;
+  document.getElementById('co-name').value=co.name||'';
+  document.getElementById('co-email').value=co.email||'';
+  document.getElementById('co-phone').value=co.phone||'';
+  document.getElementById('co-city').value=co.city||'';
+  document.getElementById('co-siret').value=co.siret||'';
+  document.getElementById('co-resp').value=co.resp||'';
+  document.getElementById('co-expiry').value=co.expiry||'';
+  document.getElementById('co-addon-route').checked=!!co.addon_route;
+  document.getElementById('co-addon-dispatch').checked=!!co.addon_dispatch;
+  document.getElementById('co-addon-tracking').checked=!!co.addon_tracking;
+  document.getElementById('co-addon-saisie').checked=co.addon_saisie===true;
+  document.getElementById('co-addon-decompte-st').checked=co.addon_decompte_st===true;
+  document.getElementById('co-addon-zone').checked=co.addon_zone===true;
+  document.getElementById('co-addon-etat-vehicule').checked=co.addon_etat_vehicule===true;
+  document.getElementById('co-addon-agent').checked=co.addon_agent===true;
+  document.getElementById('co-addon-stt').checked=co.addon_stt===true;
+  // Show custom quotas if they differ from plan defaults
+  const p=PLANS[selectedPlan];
+  const hasCustom=co.max_admins!==p.max_admins||co.max_chefs!==p.max_chefs||(co.max_chauffeurs!==p.max_chauffeurs&&p.max_chauffeurs!==999);
+  document.getElementById('custom-quota-toggle').checked=hasCustom;
+  document.getElementById('custom-quota-block').style.display=hasCustom?'block':'none';
+  document.getElementById('q-admins').value=co.max_admins||p.max_admins;
+  document.getElementById('q-chefs').value=co.max_chefs||p.max_chefs;
+  document.getElementById('q-chauffeurs').value=co.max_chauffeurs||p.max_chauffeurs;
+  // Custom price
+  const hasCustomPrice=co.custom_price!==null&&co.custom_price!==undefined&&co.custom_price!=='';
+  document.getElementById('custom-price-toggle').checked=hasCustomPrice;
+  document.getElementById('custom-price-block').style.display=hasCustomPrice?'block':'none';
+  document.getElementById('co-custom-price').value=hasCustomPrice?Number(co.custom_price).toFixed(2):'';
+  renderPlanSelector();
+  if(hasCustomPrice) refreshAutoPriceDisplay();
+  document.getElementById('modal-co').classList.add('show');
+}
+
+function closeModal(){document.getElementById('modal-co').classList.remove('show');}
+
+async function saveCompany(){
+  const name=document.getElementById('co-name').value.trim();
+  const email=document.getElementById('co-email').value.trim();
+  if(!name||!email){toast('Nom et email obligatoires','error');return;}
+  // BUG FIX: Valider le mot de passe AVANT toute opération DB
+  if(!editingId){
+    const _pwd=document.getElementById('co-pwd').value;
+    const _pwd2=document.getElementById('co-pwd2').value;
+    if(!_pwd||_pwd.length<8){toast('Mot de passe min. 8 caractères','error');return;}
+    if(_pwd!==_pwd2){toast('Les mots de passe ne correspondent pas','error');return;}
+  }
+  const useCustom=document.getElementById('custom-quota-toggle').checked;
+  const p=PLANS[selectedPlan];
+  const maxAdmins=useCustom?parseInt(document.getElementById('q-admins').value)||p.max_admins:p.max_admins;
+  const maxChefs=useCustom?parseInt(document.getElementById('q-chefs').value)||p.max_chefs:p.max_chefs;
+  const maxChauffeurs=useCustom?parseInt(document.getElementById('q-chauffeurs').value)||p.max_chauffeurs:p.max_chauffeurs;
+  const maxUsers=maxAdmins+maxChefs+maxChauffeurs;
+  const addon_route=document.getElementById('co-addon-route').checked;
+  const addon_dispatch=document.getElementById('co-addon-dispatch').checked;
+  const addon_tracking=document.getElementById('co-addon-tracking').checked;
+  const addon_agent=document.getElementById('co-addon-agent').checked;
+  const addon_etat_vehicule=document.getElementById('co-addon-etat-vehicule').checked;
+  const price=p.prix+(addon_route?59.99:0)+(addon_dispatch?59.99:0)+(addon_tracking?29.99:0)+(addon_agent?69.99:0)+(addon_etat_vehicule?19.99:0);
+
+  // Prix personnalisé (override)
+  let custom_price=null;
+  if(document.getElementById('custom-price-toggle').checked){
+    const raw=document.getElementById('co-custom-price').value;
+    const n=parseFloat(raw);
+    if(!isFinite(n)||n<0){toast('Prix personnalisé invalide','error');return;}
+    custom_price=Math.round(n*100)/100;
+  }
+
+  // Check quota alert before save
+  const alerts=[];
+  if(maxAdmins>p.max_admins) alerts.push(`Admins (${maxAdmins}) > plan ${p.nom} (${p.max_admins})`);
+  if(maxChefs>p.max_chefs) alerts.push(`Chefs (${maxChefs}) > plan ${p.nom} (${p.max_chefs})`);
+  if(p.max_chauffeurs!==999&&maxChauffeurs>p.max_chauffeurs) alerts.push(`Chauffeurs (${maxChauffeurs}) > plan ${p.nom} (${p.max_chauffeurs})`);
+  if(alerts.length){
+    if(!confirm(`⚠️ Attention : nombre d'utilisateurs supérieur au plan choisi.\n\n${alerts.join('\n')}\n\nVoulez-vous continuer quand même ?`)) return;
+  }
+
+  // Garde-fou : désactivation addon_zone alors que la compagnie a des données zone actives
+  // (clients en type_paiement='zone' ou tournées avec zone_lines/ville_livraison).
+  if(editingId){
+    const wasZone = (allCompanies.find(c=>c.id===editingId)||{}).addon_zone === true;
+    const willBeZone = document.getElementById('co-addon-zone').checked;
+    if(wasZone && !willBeZone){
+      try{
+        const [rCl, rTr] = await Promise.all([
+          fetch(`${SB}/rest/v1/clients?company_id=eq.${editingId}&type_paiement=eq.zone&select=nom&limit=20`,{headers:H()}),
+          fetch(`${SB}/rest/v1/tournees?company_id=eq.${editingId}&or=(zone_lines.not.is.null,ville_livraison.not.is.null)&select=id&limit=1`,{headers:H()})
+        ]);
+        const cls = rCl.ok ? await rCl.json() : [];
+        const trs = rTr.ok ? await rTr.json() : [];
+        if(cls.length > 0 || trs.length > 0){
+          const clNames = cls.map(c=>'  • '+c.nom).slice(0,10).join('\n');
+          const more = cls.length > 10 ? `\n  … et ${cls.length-10} autres` : '';
+          const trMsg = trs.length > 0 ? '\n\n⚠️ Cette compagnie a aussi des tournées avec données zone (zone_lines, ville_livraison).' : '';
+          const ok = confirm(
+            `⚠️ DÉSACTIVATION ADDON FACTURATION PAR ZONE\n\n`+
+            `${cls.length} client(s) en mode "À la zone" :\n${clNames}${more}${trMsg}\n\n`+
+            `CONSÉQUENCES si tu désactives :\n`+
+            `  ❌ Le CA des tournées de ces clients tombe à 0€\n`+
+            `  ❌ Onglet Paramètres → Zones caché\n`+
+            `  ❌ Plus de saisie en mode zone\n\n`+
+            `Les données restent en base et tout revient si tu réactives.\n\n`+
+            `Recommandation : convertis d'abord ces clients vers un autre mode de facturation (fixe / point / heure / forfait) AVANT de désactiver l'addon.\n\n`+
+            `Désactiver quand même ?`
+          );
+          if(!ok){
+            // Re-cocher la case pour éviter de partir sur un payload incohérent
+            document.getElementById('co-addon-zone').checked = true;
+            return;
+          }
+        }
+      } catch(e) {
+        // En cas d'erreur de fetch, on laisse passer (mieux que bloquer une modif legitime)
+        console.warn('Garde-fou addon_zone : impossible de vérifier les clients zone', e);
+      }
+    }
+  }
+
+  const payload={
+    name, email,
+    plan:selectedPlan,
+    status:'active',
+    max_admins:maxAdmins,
+    max_chefs:maxChefs,
+    max_chauffeurs:maxChauffeurs,
+    max_users:maxUsers,
+    price,
+    custom_price,
+    addon_route,
+    addon_dispatch,
+    addon_tracking,
+    addon_saisie:document.getElementById('co-addon-saisie').checked,
+    addon_decompte_st:document.getElementById('co-addon-decompte-st').checked,
+    addon_zone:document.getElementById('co-addon-zone').checked,
+    addon_etat_vehicule:document.getElementById('co-addon-etat-vehicule').checked,
+    addon_agent:document.getElementById('co-addon-agent').checked,
+    addon_stt:document.getElementById('co-addon-stt').checked,
+    phone:document.getElementById('co-phone').value.trim()||null,
+    city:document.getElementById('co-city').value.trim()||null,
+    siret:document.getElementById('co-siret').value.trim()||null,
+    resp:document.getElementById('co-resp').value.trim()||null,
+    expiry:document.getElementById('co-expiry').value||null,
+  };
+
+  const btn=document.getElementById('btn-save-co');
+  btn.disabled=true; btn.textContent='⏳...';
+  document.getElementById('modal-progress').style.display='block';
+
+  let _newCompanyId=null; // BUG FIX: pour rollback si création partielle
+  try{
+    let companyId=editingId;
+    if(editingId){
+      const r=await fetch(`${SB}/rest/v1/sa_companies?id=eq.${editingId}`,{method:'PATCH',headers:H(),body:JSON.stringify(payload)});
+      if(!r.ok) throw new Error(await r.text());
+      setProgress(60,'✅ Entreprise mise à jour...');
+      // Notifier la session du client en temps réel (polling 30s côté client)
+      await fetch(`${SB}/rest/v1/session_invalidations`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({company_id:editingId,reason:'plan_change',new_plan:payload.plan,new_status:payload.status,new_quotas:{addon_route:payload.addon_route,addon_dispatch:payload.addon_dispatch,addon_tracking:payload.addon_tracking,addon_saisie:payload.addon_saisie,addon_decompte_st:payload.addon_decompte_st,addon_zone:payload.addon_zone,max_admins:payload.max_admins,max_chefs:payload.max_chefs,max_chauffeurs:payload.max_chauffeurs}})}).catch(()=>{});
+    } else {
+      // Create company
+      setProgress(20,'🏢 Création entreprise...');
+      // Mon Marché réservé exclusivement à MS Express : forcer false à la création
+      payload.addon_monmarche=false;
+      const r=await fetch(`${SB}/rest/v1/sa_companies`,{method:'POST',headers:{...H(),'Prefer':'return=representation'},body:JSON.stringify(payload)});
+      if(!r.ok){
+        const errTxt=await r.text();
+        if(errTxt.includes('23505')||errTxt.includes('duplicate key')||errTxt.includes('sa_companies_email_key')){
+          throw new Error(`Cet email (${email}) est déjà utilisé par une autre entreprise. Veuillez utiliser un email différent.`);
+        }
+        throw new Error(errTxt);
+      }
+      const data=await r.json();
+      companyId=data[0].id;
+      _newCompanyId=companyId; // BUG FIX: mémoriser pour rollback éventuel
+      setProgress(50,'👤 Création compte admin...');
+      // Create auth user (mot de passe déjà validé en début de fonction)
+      const pwd=document.getElementById('co-pwd').value;
+      const authR=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1/create-auth-user',{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON_KEY},body:JSON.stringify({email,password:pwd,metadata:{company_id:companyId,role:'admin',name,plan:selectedPlan,max_admins:maxAdmins,max_chefs:maxChefs,max_chauffeurs:maxChauffeurs}})});
+      const authJson=await authR.json();
+      if(authJson.error) throw new Error('Erreur création compte: '+authJson.error);
+      const authData={user:authJson.user};
+      setProgress(80,'🔗 Liaison compte...');
+      // Create company_user
+      await fetch(`${SB}/rest/v1/company_users`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({company_id:companyId,auth_uid:authData.user?.id||null,email,nom:name,role:'admin',actif:true,must_change_password:true})});
+      setProgress(100,'✅ Terminé !');
+    }
+    await new Promise(r=>setTimeout(r,500));
+    toast(`✅ ${name} ${editingId?'modifiée':'créée'} — Plan ${PLANS[selectedPlan].nom}`);
+    // Email de bienvenue si nouvelle entreprise
+    if (!editingId) {
+      const pwd = document.getElementById('co-pwd').value;
+      const emailOk = await sendWelcomeEmail(name, email, pwd, selectedPlan);
+      if (emailOk) toast('📧 Email de bienvenue envoyé à ' + email);
+    }
+    closeModal();
+    loadCompanies();
+  }catch(e){
+    toast('❌ '+e.message,'error');
+    // BUG FIX: Rollback — supprimer l'entreprise orpheline si le compte auth n'a pas pu être créé
+    if(_newCompanyId){
+      await fetch(`${SB}/rest/v1/sa_companies?id=eq.${_newCompanyId}`,{method:'DELETE',headers:H()}).catch(()=>{});
+      toast('⚠️ Entreprise supprimée (rollback) — réessayez','error');
+    }
+  }finally{
+    btn.disabled=false; btn.textContent=editingId?'💾 Enregistrer':'✅ Créer l\'entreprise';
+    document.getElementById('modal-progress').style.display='none';
+  }
+}
+
+function setProgress(pct,txt){
+  document.getElementById('modal-prog-fill').style.width=pct+'%';
+  document.getElementById('modal-progress-txt').textContent=txt;
+}
+
+async function toggleStatus(id,current){
+  const newStatus=current==='active'?'suspended':'active';
+  const co=allCompanies.find(x=>x.id===id);
+  if(!confirm(`${newStatus==='suspended'?'Suspendre':'Réactiver'} ${co?.name} ?`)) return;
+  await fetch(`${SB}/rest/v1/sa_companies?id=eq.${id}`,{method:'PATCH',headers:H(),body:JSON.stringify({status:newStatus})});
+  toast(`${newStatus==='active'?'✅ Réactivé':'⏸️ Suspendu'} : ${co?.name}`);
+  loadCompanies();
+}
+
+async function generateTelegramCode(companyId,companyName){
+  const code=companyName.replace(/[^A-Za-z0-9]/g,'').substring(0,6).toUpperCase()+Math.random().toString(36).substring(2,6).toUpperCase();
+  try{
+    const r=await fetch(`${SB}/rest/v1/activation_codes`,{method:'POST',headers:{...H(),'Prefer':'return=representation'},body:JSON.stringify({code,company_id:companyId,used:false})});
+    if(!r.ok){const t=await r.text();toast('Erreur: '+t,'error');return;}
+    const modal=document.createElement('div');
+    modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999';
+    modal.innerHTML=`<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px;max-width:400px;text-align:center">
+      <div style="font-size:28px;margin-bottom:12px">🤖</div>
+      <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px">Code Telegram pour ${companyName}</div>
+      <div style="font-size:11px;color:var(--gray);margin-bottom:20px">Expire dans 72h. Le client envoie ce code au bot pour activer son compte.</div>
+      <div style="background:rgba(139,92,246,0.15);border:2px dashed rgba(139,92,246,0.4);border-radius:12px;padding:16px;margin-bottom:20px">
+        <div style="font-size:28px;font-weight:900;letter-spacing:4px;color:#8B5CF6;font-family:monospace" id="tg-code-display">${code}</div>
+      </div>
+      <button onclick="navigator.clipboard.writeText('${code}');this.textContent='Copie !';setTimeout(()=>this.textContent='Copier le code',1500)" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);color:#fff;border:none;padding:10px 24px;border-radius:10px;font-weight:700;cursor:pointer;font-size:13px;margin-right:8px">Copier le code</button>
+      <button onclick="this.closest('div[style*=fixed]').remove()" style="background:rgba(255,255,255,0.08);color:var(--gray);border:1px solid var(--border);padding:10px 20px;border-radius:10px;cursor:pointer;font-size:13px">Fermer</button>
+    </div>`;
+    document.body.appendChild(modal);
+    toast('Code Telegram genere: '+code);
+  }catch(e){toast('Erreur: '+e.message,'error');}
+}
+
+async function deleteCompany(id,name){
+  if(!confirm(`⚠️ Supprimer définitivement ${name} ?\n\nToutes les données associées (chauffeurs, tournées, états véhicules, messages, etc.) seront définitivement effacées.`)) return;
+  // Suppression en cascade de toutes les tables liées au company_id
+  const tables=[
+    'etats_vehicule','tournee_validations','tournee_points','tournees',
+    'affectations_vehicule','maintenance_vehicules','vehicules',
+    'gazole_pleins','amendes','fiches_paie','chauffeur_avances',
+    'absences','soldes_conges','contrats','penalites_config',
+    'points_livraison','factures','clients','commissionnaires',
+    'messages','message_group_members','message_groups',
+    'monmarche_shifts','decompte_st_imports','decompte_st_zones',
+    'chef_equipe_jour','driver_locations','driver_positions_history',
+    'session_invalidations','company_users','chauffeurs'
+  ];
+  await Promise.all(tables.map(t=>
+    fetch(`${SB}/rest/v1/${t}?company_id=eq.${id}`,{method:'DELETE',headers:H()})
+  ));
+  // Supprimer les relations STT (donor ou receiver)
+  await Promise.all([
+    fetch(`${SB}/rest/v1/stt_relationships?donor_company_id=eq.${id}`,{method:'DELETE',headers:HS()}),
+    fetch(`${SB}/rest/v1/stt_relationships?receiver_company_id=eq.${id}`,{method:'DELETE',headers:HS()}),
+  ]);
+  await fetch(`${SB}/rest/v1/sa_companies?id=eq.${id}`,{method:'DELETE',headers:H()});
+  toast(`🗑 ${name} supprimée`);
+  loadCompanies();
+}
+
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'❌':'✅'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
+
+// ══ DRAWER UTILISATEURS ══
+let drawerCompanyId=null, drawerCompanyName='', drawerUsers=[], editingUserId=null, drawerChauffeurs=[];
+
+async function openUsersDrawer(companyId, companyName){
+  drawerCompanyId=companyId;
+  drawerCompanyName=companyName;
+  editingUserId=null;
+  document.getElementById('drawer-co-name').textContent=companyName;
+  document.getElementById('drawer-form').style.display='none';
+  document.getElementById('drawer-search').value='';
+  document.getElementById('drawer-role-filter').value='';
+  document.getElementById('drawer-users').style.right='0';
+  document.getElementById('drawer-overlay').style.display='block';
+  await Promise.all([loadUsers(), loadCompanyChauffeurs()]);
+}
+async function loadCompanyChauffeurs(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/chauffeurs?company_id=eq.${drawerCompanyId}&select=nom&order=nom`,{headers:H()});
+    if(r.ok) drawerChauffeurs=(await r.json()).map(c=>c.nom);
+    else drawerChauffeurs=[];
+  }catch(e){drawerChauffeurs=[];}
+}
+function checkChauffeurMatch(){
+  const fb=document.getElementById('u-chauffeur-feedback');
+  const val=document.getElementById('u-chauffeur-nom').value.trim().toUpperCase();
+  if(!val){fb.innerHTML='';return;}
+  if(!drawerChauffeurs.length){fb.innerHTML='<span style="color:var(--gray)">Aucun chauffeur trouvé pour cette entreprise</span>';return;}
+  const exact=drawerChauffeurs.find(n=>n.toUpperCase()===val);
+  if(exact){fb.innerHTML=`<span style="color:#48BB78">&#10003; Chauffeur trouvé : <b>${exact}</b></span>`;return;}
+  const parts=val.split(/\s+/);
+  const matches=drawerChauffeurs.filter(n=>{const up=n.toUpperCase();return parts.every(p=>up.includes(p));});
+  if(matches.length){
+    const btns=matches.slice(0,5).map(m=>`<span onclick="document.getElementById('u-chauffeur-nom').value='${m}';checkChauffeurMatch();" style="cursor:pointer;text-decoration:underline;color:var(--blue)">${m}</span>`).join(', ');
+    fb.innerHTML=`<span style="color:#ECC94B">&#9888; Pas de correspondance exacte. Suggestions : ${btns}</span>`;
+  } else {
+    fb.innerHTML=`<span style="color:#FC8181">&#10007; Aucun chauffeur ne correspond dans le planning</span>`;
+  }
+}
+
+function closeDrawer(){
+  document.getElementById('drawer-users').style.right='-480px';
+  document.getElementById('drawer-overlay').style.display='none';
+  drawerCompanyId=null;
+}
+
+async function loadUsers(){
+  document.getElementById('drawer-users-list').innerHTML='<div style="text-align:center;padding:30px;color:var(--gray);display:flex;gap:10px;justify-content:center;align-items:center"><div class="spinner"></div> Chargement...</div>';
+  try{
+    const r=await fetch(`${SB}/rest/v1/company_users?company_id=eq.${drawerCompanyId}&order=role,nom`,{headers:H()});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    drawerUsers=await r.json();
+    renderQuotaBar();
+    renderUsers();
+  }catch(e){
+    document.getElementById('drawer-users-list').innerHTML=`<div style="color:#FC8181;padding:20px">❌ ${e.message}</div>`;
+  }
+}
+
+function renderQuotaBar(){
+  const co=allCompanies.find(c=>c.id===drawerCompanyId);
+  if(!co) return;
+  const admins=drawerUsers.filter(u=>u.role==='admin').length;
+  const chefs=drawerUsers.filter(u=>u.role==='chef_equipe').length;
+  const chauffeurs=drawerUsers.filter(u=>u.role==='chauffeur').length;
+  const maxA=co.max_admins||1, maxC=co.max_chefs||2, maxCh=co.max_chauffeurs||10;
+  const bar=(cur,max,label)=>{
+    const pct=Math.min(Math.round(cur/max*100),100);
+    const color=cur>=max?'#FC8181':cur>=max*0.8?'#F5A623':'#2ECC71';
+    return `<div style="flex:1">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--gray);margin-bottom:3px"><span>${label}</span><span style="color:${color};font-weight:700">${cur}/${max===999?'∞':max}</span></div>
+      <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px"><div style="height:100%;width:${pct}%;background:${color};border-radius:2px;transition:width 0.4s"></div></div>
+    </div>`;
+  };
+  document.getElementById('drawer-quota-bar').innerHTML=`
+    <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Quotas utilisateurs</div>
+    <div style="display:flex;gap:16px">${bar(admins,maxA,'👤 Admins')}${bar(chefs,maxC,'👔 Chefs')}${bar(chauffeurs,maxCh,'🚐 Chauffeurs')}</div>`;
+}
+
+function filterUsers(){renderUsers();}
+function renderUsers(){
+  const list=document.getElementById('drawer-users-list');
+  if(!drawerUsers.length){
+    list.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px">👥</div>Aucun utilisateur — cliquez "+ Ajouter"</div>';
+    return;
+  }
+  const search=(document.getElementById('drawer-search')?.value||'').trim().toLowerCase();
+  const roleFilter=document.getElementById('drawer-role-filter')?.value||'';
+  const roleIco={admin:'👤',chef_equipe:'👔',chauffeur:'🚐'};
+  const roleLabel={admin:'Admin',chef_equipe:"Chef d'équipe",chauffeur:'Chauffeur'};
+  const roleColor={admin:'#60A5FA',chef_equipe:'#A78BFA',chauffeur:'#2ECC71'};
+  const order={admin:0,chef_equipe:1,chauffeur:2};
+  let sorted=[...drawerUsers].sort((a,b)=>(order[a.role]||9)-(order[b.role]||9));
+  if(roleFilter) sorted=sorted.filter(u=>u.role===roleFilter);
+  if(search) sorted=sorted.filter(u=>(u.nom||'').toLowerCase().includes(search)||(u.email||'').toLowerCase().includes(search)||(u.chauffeur_nom||'').toLowerCase().includes(search));
+  list.innerHTML='';
+  if(!sorted.length){list.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray);font-size:13px">Aucun résultat</div>';return;}
+  sorted.forEach(u=>{
+    const div=document.createElement('div');
+    div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;';
+    div.innerHTML=`
+      <div style="width:38px;height:38px;border-radius:9px;background:rgba(26,79,191,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${roleIco[u.role]||'👤'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;color:var(--white);font-size:13px">${u.nom||'—'}</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:1px">${u.email||'—'}</div>
+        ${u.chauffeur_nom?`<div style="font-size:10px;color:#2ECC71;margin-top:1px">🚐 ${u.chauffeur_nom}</div>`:''}
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-size:11px;font-weight:700;color:${roleColor[u.role]||'var(--gray)'}">${roleLabel[u.role]||u.role}</div>
+        <div style="font-size:10px;color:${u.actif?'#2ECC71':'#FC8181'};margin-top:2px">${u.actif?'✅ Actif':'🔴 Inactif'}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-left:8px">
+        <button class="icon-btn" onclick="accessAccount('${(u.nom||drawerCompanyName).replace(/'/g,"\\'")}','${(u.email||'').replace(/'/g,"\\'")}','${u.auth_uid||''}')" title="Accéder au compte" style="color:#A78BFA;font-size:13px">🔑</button>
+        <button class="icon-btn" onclick="editUser('${u.id}')" title="Modifier" style="font-size:12px">✏️</button>
+        <button class="icon-btn" onclick="resetTempPassword('${u.id}','${u.auth_uid||''}','${(u.nom||'').replace(/'/g,"\\'")}')" title="Réinitialiser le mot de passe" style="font-size:12px">🔐</button>
+        <button class="icon-btn" onclick="toggleUserStatus('${u.id}',${u.actif})" title="${u.actif?'Désactiver':'Activer'}" style="font-size:12px">${u.actif?'⏸️':'▶️'}</button>
+        <button class="icon-btn" onclick="deleteUser('${u.id}','${(u.nom||'').replace(/'/g,"\\'")}');" style="color:rgba(231,76,60,0.7);font-size:12px" title="Supprimer">🗑</button>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+function openAddUser(){
+  editingUserId=null;
+  document.getElementById('drawer-form-title').textContent='➕ Nouvel utilisateur';
+  document.getElementById('btn-save-user').textContent='✅ Créer';
+  document.getElementById('u-nom').value='';
+  document.getElementById('u-email').value='';
+  document.getElementById('u-role').value='chauffeur';
+  document.getElementById('u-chauffeur-nom').value='';
+  document.getElementById('u-chauffeur-feedback').innerHTML='';
+  document.getElementById('u-pwd').value='';
+  document.getElementById('u-edit-id').value='';
+  document.getElementById('u-pwd-block').style.display='block';
+  document.getElementById('u-quota-alert').style.display='none';
+  toggleChauffeurField();
+  document.getElementById('drawer-form').style.display='block';
+  document.getElementById('u-nom').focus();
+}
+
+function editUser(id){
+  const u=drawerUsers.find(x=>x.id===id); if(!u) return;
+  editingUserId=id;
+  document.getElementById('drawer-form-title').textContent='✏️ Modifier utilisateur';
+  document.getElementById('btn-save-user').textContent='💾 Enregistrer';
+  document.getElementById('u-nom').value=u.nom||'';
+  document.getElementById('u-email').value=u.email||'';
+  document.getElementById('u-role').value=u.role||'chauffeur';
+  document.getElementById('u-chauffeur-nom').value=u.chauffeur_nom||'';
+  document.getElementById('u-edit-id').value=id;
+  document.getElementById('u-pwd-block').style.display='none'; // pas de reset pwd ici
+  document.getElementById('u-quota-alert').style.display='none';
+  toggleChauffeurField();
+  checkChauffeurMatch();
+  document.getElementById('drawer-form').style.display='block';
+}
+
+function cancelUserForm(){
+  document.getElementById('drawer-form').style.display='none';
+  editingUserId=null;
+}
+
+function toggleChauffeurField(){
+  const role=document.getElementById('u-role').value;
+  // Chauffeur ET chef_equipe doivent être liés à une fiche chauffeur
+  // (pour accéder aux fiches de paie / contrats / congés du chef).
+  document.getElementById('u-chauffeur-block').style.display=(role==='chauffeur'||role==='chef_equipe')?'block':'none';
+  // Vérifier quota pour ce rôle
+  checkUserQuota(role);
+}
+
+function checkUserQuota(role){
+  const co=allCompanies.find(c=>c.id===drawerCompanyId);
+  if(!co) return;
+  const alertEl=document.getElementById('u-quota-alert');
+  if(editingUserId){ alertEl.style.display='none'; return; } // pas d'alerte en modif
+  const cur=drawerUsers.filter(u=>u.role===role).length;
+  const limits={admin:co.max_admins||1,chef_equipe:co.max_chefs||2,chauffeur:co.max_chauffeurs||10};
+  const max=limits[role]||999;
+  const labels={admin:'Admin',chef_equipe:"Chef d'équipe",chauffeur:'Chauffeur'};
+  if(cur>=max&&max!==999){
+    alertEl.style.display='block';
+    alertEl.textContent=`⚠️ Quota ${labels[role]} atteint (${cur}/${max}) pour le plan ${PLANS[co.plan]?.nom||co.plan}`;
+  } else {
+    alertEl.style.display='none';
+  }
+}
+
+async function saveUser(){
+  const nom=document.getElementById('u-nom').value.trim().toUpperCase();
+  const email=document.getElementById('u-email').value.trim();
+  const role=document.getElementById('u-role').value;
+  const chauffeurNom=document.getElementById('u-chauffeur-nom').value.trim().toUpperCase();
+  const pwd=document.getElementById('u-pwd').value;
+  const id=document.getElementById('u-edit-id').value;
+  if(!nom||!email||!role){toast('Nom, email et rôle obligatoires','error');return;}
+  if((role==='chauffeur'||role==='chef_equipe')&&chauffeurNom&&drawerChauffeurs.length&&!drawerChauffeurs.some(n=>n.toUpperCase()===chauffeurNom)){
+    if(!confirm(`⚠️ "${chauffeurNom}" ne correspond à aucun chauffeur dans le planning.\n\nContinuer quand même ?`)) return;
+  }
+  // Modification = besoin de service_role (cf. trigger lock_privileged_fields).
+  if(id && !requireSAKey()) return;
+  const btn=document.getElementById('btn-save-user');
+  btn.disabled=true;btn.textContent='⏳...';
+  try{
+    if(id){
+      // Modification — HS() (service_role) car role/chauffeur_nom sont
+      // verrouillés au JWT par le trigger lock_privileged_fields.
+      const r=await fetch(`${SB}/rest/v1/company_users?id=eq.${id}`,{method:'PATCH',headers:HS(),body:JSON.stringify({nom,email,role,chauffeur_nom:(role==='chauffeur'||role==='chef_equipe')?(chauffeurNom||null):null})});
+      if(!r.ok) throw new Error(await r.text());
+      toast(`✅ ${nom} modifié`);
+    } else {
+      // Création : d'abord créer le compte Auth
+      if(!pwd||pwd.length<8){throw new Error('Mot de passe min. 8 caractères');}
+      const authR=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1/create-auth-user',{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON_KEY},body:JSON.stringify({email,password:pwd,metadata:{company_id:drawerCompanyId,role,name:nom,chauffeur_nom:(role==='chauffeur'||role==='chef_equipe')?(chauffeurNom||null):null}})});
+      const authJson=await authR.json();
+      if(authJson.error) throw new Error('Erreur Auth: '+authJson.error);
+      const authData={user:authJson.user};
+      // Puis créer la ligne company_users
+      const r=await fetch(`${SB}/rest/v1/company_users`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({company_id:drawerCompanyId,auth_uid:authData.user?.id||null,email,nom,role,chauffeur_nom:(role==='chauffeur'||role==='chef_equipe')?(chauffeurNom||null):null,actif:true,must_change_password:true})});
+      if(!r.ok) throw new Error(await r.text());
+      toast(`✅ ${nom} créé — ${role}`);
+    }
+    cancelUserForm();
+    await loadUsers();
+  }catch(e){toast('❌ '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=id?'💾 Enregistrer':'✅ Créer';}
+}
+
+async function accessAccount(userName, userEmail, authUid){
+  if(!userEmail){alert('❌ Email manquant pour cet utilisateur.');return;}
+  if(!confirm(`Accéder au compte de "${userName}" (${userEmail}) ?`)) return;
+
+  try{
+    // Edge Function — 3 essais : generateLink → createSession → refresh_token
+    const r=await fetch(`${SB}/functions/v1/impersonate-user`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':ANON_KEY,'Authorization':'Bearer '+getSAToken()},
+      body:JSON.stringify({email:userEmail,companyName:userName})
+    });
+    const text=await r.text();
+    let data;
+    try{data=JSON.parse(text);}catch(e){throw new Error('Réponse non-JSON ('+r.status+'): '+text.substring(0,120));}
+    if(!r.ok) throw new Error(data.error||data.msg||data.message||'Erreur ('+r.status+')');
+
+    // Sauvegarder la session superadmin
+    const saSess=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
+    if(saSess) localStorage.setItem('ot_sa_backup',saSess);
+    localStorage.setItem('ot_sa_company',userName);
+
+    if(data.action_link){
+      // Cas generateLink : navigation → index.html gère le redirect
+      window.location.href=data.action_link;
+      return;
+    }
+
+    if(data.access_token){
+      // Cas access_token direct (createSession ou refresh_token)
+      const token=data.access_token;
+      const userR=await fetch(`${SB}/auth/v1/user`,{headers:{'apikey':ANON_KEY,'Authorization':'Bearer '+token}});
+      const userData=await userR.json();
+      const uid=userData.id; const email2=userData.email||'';
+      if(!uid) throw new Error('Token invalide (uid manquant)');
+
+      let role='admin',chauffeurNom=null,displayName=null,companyId=uid;
+      let plan='starter',addonRoute=false,addonSaisie=false,name=email2.split('@')[0];
+
+      const cu=await fetch(`${SB}/rest/v1/company_users?auth_uid=eq.${uid}&select=role,chauffeur_nom,nom,company_id,actif`,
+        {headers:{'apikey':ANON_KEY,'Authorization':'Bearer '+token}});
+      const cuData=await cu.json();
+      if(Array.isArray(cuData)&&cuData[0]){const u=cuData[0];role=u.role||'admin';chauffeurNom=u.chauffeur_nom;displayName=u.nom;companyId=u.company_id;}
+
+      const coR=await fetch(`${SB}/rest/v1/sa_companies?id=eq.${companyId}&select=plan,addon_route,addon_saisie,addon_monmarche,addon_dispatch,addon_tracking,addon_etat_vehicule,addon_stt,status,name,max_users`,
+        {headers:{'apikey':ANON_KEY,'Authorization':'Bearer '+token}});
+      const coData=await coR.json();
+      let addonMonmarche=false,addonDispatch=false,addonTracking=false,addonEtatVehicule=false,addonSTT=false;
+      if(Array.isArray(coData)&&coData[0]){const co=coData[0];plan=co.plan||'starter';addonRoute=co.addon_route===true;addonSaisie=co.addon_saisie===true;addonMonmarche=co.addon_monmarche===true;addonDispatch=co.addon_dispatch===true;addonTracking=co.addon_tracking===true;addonEtatVehicule=co.addon_etat_vehicule===true;addonSTT=co.addon_stt===true;name=displayName||co.name||name;}
+
+      const sess={id:uid,company_id:companyId,name,email:email2,plan,status:'active',
+        addon_route:addonRoute,addon_saisie:addonSaisie,addon_monmarche:addonMonmarche,
+        addon_dispatch:addonDispatch,addon_tracking:addonTracking,addon_etat_vehicule:addonEtatVehicule,
+        addon_stt:addonSTT,max_users:999,is_client:true,
+        token,role,chauffeur_nom:chauffeurNom,display_name:displayName};
+      localStorage.setItem('ot_session',JSON.stringify(sess));
+      localStorage.setItem('ot_logged','1');
+      if(role==='chauffeur') window.location.href='optimum_trans_chauffeur_vue.html';
+      else if(role==='chef_equipe') window.location.href='optimum_trans_planning.html';
+      else window.location.href='optimum_trans_dashboard.html';
+      return;
+    }
+
+    throw new Error('Réponse inattendue : '+JSON.stringify(data).substring(0,200));
+
+  }catch(e){
+    alert('❌ '+e.message);
+  }
+}
+
+async function resetTempPassword(userId, authUid, userNom){
+  if(!authUid){toast('❌ Compte Auth introuvable pour cet utilisateur','error');return;}
+  // Le PATCH must_change_password=true (étape 2) requiert service_role
+  // (cf. trigger lock_privileged_fields qui bloque false→true côté JWT).
+  if(!requireSAKey()) return;
+  if(!confirm(`Réinitialiser le mot de passe de ${userNom} ?\nUn mot de passe temporaire vous sera affiché.`)) return;
+
+  // Générer un MDP temporaire du type "Tmp-4821!"
+  const tmpPwd='Tmp-'+Math.floor(1000+Math.random()*9000)+'!';
+
+  try{
+    // 1. Changer le mot de passe via Edge Function (service_role côté serveur)
+    const r=await fetch(`${SB}/functions/v1/reset-user-password`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':ANON_KEY},
+      body:JSON.stringify({user_id:authUid,password:tmpPwd})
+    });
+    const rData=await r.json();
+    if(!r.ok) throw new Error(rData.error||'Erreur réinitialisation mot de passe');
+
+    // 2. Forcer must_change_password = true → l'utilisateur devra le rechanger.
+    //    HS() (service_role) car la transition false→true est bloquée au JWT
+    //    par le trigger lock_privileged_fields (anti-promotion d'attaquant).
+    await fetch(`${SB}/rest/v1/company_users?id=eq.${userId}`,{
+      method:'PATCH',
+      headers:{...HS(),'Prefer':'return=minimal'},
+      body:JSON.stringify({must_change_password:true})
+    });
+
+    // 3. Afficher le MDP temporaire au superadmin
+    document.getElementById('tmppwd-user-label').textContent=userNom;
+    document.getElementById('tmppwd-value').textContent=tmpPwd;
+    document.getElementById('modal-tmppwd').style.display='flex';
+  }catch(e){
+    toast('❌ '+e.message,'error');
+  }
+}
+
+// ── Modale clé API service_role ──
+function openSAKeyModal(){
+  const existing=sessionStorage.getItem(SA_KEY_STORE_KEY)||'';
+  const st=document.getElementById('sakey-status');
+  if(existing){
+    st.style.display='block';st.style.background='rgba(39,174,96,0.1)';
+    st.style.border='1px solid rgba(39,174,96,0.3)';st.style.color='#2ECC71';
+    st.textContent='✅ Clé en mémoire (sessionStorage, '+existing.substring(0,12)+'...) — purgée à la fermeture du navigateur';
+  }else{
+    st.style.display='block';st.style.background='rgba(231,76,60,0.1)';
+    st.style.border='1px solid rgba(231,76,60,0.3)';st.style.color='#FC8181';
+    st.textContent='⚠️ Aucune clé chargée — les opérations admin échoueront';
+  }
+  document.getElementById('sakey-input').value='';
+  document.getElementById('modal-sakey').style.display='flex';
+}
+function closeSAKeyModal(){document.getElementById('modal-sakey').style.display='none';}
+function saveSAKey(){
+  const val=(document.getElementById('sakey-input').value||'').trim();
+  if(!val||!val.startsWith('eyJ')||val.length<40||val.length>4096){
+    alert('❌ Clé invalide — doit être un JWT (commence par eyJ).');return;
+  }
+  // sessionStorage : la clé disparaît à la fermeture du tab/navigateur.
+  // Ne JAMAIS écrire dans localStorage — persisterait indéfiniment.
+  sessionStorage.setItem(SA_KEY_STORE_KEY, val);
+  sessionStorage.setItem(SA_KEY_TS_KEY, String(Date.now()));
+  closeSAKeyModal();
+  toast('✅ Clé chargée pour cette session uniquement');
+}
+// Bouton "déconnexion clé" — purge immédiate (utile si autre personne
+// arrive devant l'écran)
+function clearSAKey(){
+  sessionStorage.removeItem(SA_KEY_STORE_KEY);
+  sessionStorage.removeItem(SA_KEY_TS_KEY);
+  toast('🔒 Clé service_role purgée');
+  setTimeout(()=>location.reload(),600);
+}
+
+function closeTmpPwdModal(){
+  document.getElementById('modal-tmppwd').style.display='none';
+  document.getElementById('tmppwd-value').textContent='—';
+}
+
+function copyTmpPwd(){
+  const val=document.getElementById('tmppwd-value').textContent;
+  navigator.clipboard.writeText(val).then(()=>toast('📋 Mot de passe copié')).catch(()=>{});
+}
+
+async function toggleUserStatus(id,actif){
+  // HS() (service_role) car `actif` est verrouillé au JWT par le trigger
+  // lock_privileged_fields (sinon un user désactivé pourrait se réactiver lui-même).
+  if(!requireSAKey()) return;
+  await fetch(`${SB}/rest/v1/company_users?id=eq.${id}`,{method:'PATCH',headers:HS(),body:JSON.stringify({actif:!actif})});
+  toast(`${!actif?'✅ Activé':'⏸️ Désactivé'}`);
+  await loadUsers();
+}
+
+async function deleteUser(id,nom){
+  if(!confirm(`Supprimer l'utilisateur ${nom} ?`)) return;
+  await fetch(`${SB}/rest/v1/company_users?id=eq.${id}`,{method:'DELETE',headers:H()});
+  toast(`🗑 ${nom} supprimé`);
+  await loadUsers();
+}
+
+// ══════════════════════════════════════════════
+// FACTURATION SAAS — Stripe
+// ══════════════════════════════════════════════
+
+const PLAN_PRICES_TTC = { starter:179.99, pro:259.99, business:399.99 };
+const PLAN_LABELS_FR  = { starter:'Essentiel 🥉', pro:'Pro 🥈', business:'Business 🥇' };
+const SB_FUNCTIONS_URL = 'https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1';
+
+function switchSATab(name, el) {
+  document.querySelectorAll('.sa-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('view-companies').style.display = name === 'companies' ? '' : 'none';
+  document.getElementById('view-billing').style.display   = name === 'billing'   ? '' : 'none';
+  document.getElementById('view-plans').style.display     = name === 'plans'     ? '' : 'none';
+  document.getElementById('view-stt').style.display       = name === 'stt'       ? '' : 'none';
+  if (name === 'billing') { checkStripeConfig(); loadBillingData(); loadInvoiceHistory(); }
+}
+
+// Stripe key gérée côté serveur (Edge Function Supabase)
+function checkStripeConfig() { /* clé côté serveur */ }
+function saveStripeKey() { /* clé côté serveur */ }
+
+const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+async function loadBillingData() {
+  const tbody = document.getElementById('billing-tbody');
+  tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px"><div class="spinner" style="margin:0 auto"></div></td></tr>`;
+
+  const [companies, subs] = await Promise.all([
+    fetch(`${SB}/rest/v1/sa_companies?order=name&select=id,name,plan,status,billing_email,stripe_customer_id,price,custom_price`, { headers: H() }).then(r=>r.json()),
+    fetch(`${SB}/rest/v1/saas_subscriptions?order=created_at.desc&select=*`, { headers: H() }).then(r=>r.json())
+  ]);
+
+  // KPIs
+  const pays = subs.filter(s => s.statut === 'payee');
+  const enAtt = subs.filter(s => s.statut === 'en_attente' || s.statut === 'envoyee');
+  const now = new Date();
+  const ce_mois = subs.filter(s => {
+    const d = new Date(s.created_at);
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  });
+
+  document.getElementById('b-total-encaisse').textContent  = fe(pays.reduce((s,x) => s + Number(x.montant_ttc||0), 0));
+  document.getElementById('b-en-attente').textContent      = fe(enAtt.reduce((s,x) => s + Number(x.montant_ttc||0), 0));
+  document.getElementById('b-nb-factures').textContent     = ce_mois.length;
+  document.getElementById('b-taux-paiement').textContent   = subs.length > 0 ? Math.round(pays.length/subs.length*100)+'%' : '—';
+
+  tbody.innerHTML = '';
+  companies.filter(c => c.status !== 'suspended').forEach(co => {
+    const hasCustom = co.custom_price != null && co.custom_price !== '';
+    const price = hasCustom ? Number(co.custom_price) : (PLAN_PRICES_TTC[co.plan] || 179.99);
+    const lastSub = subs.find(s => s.company_id === co.id);
+    const statut = lastSub?.statut || '—';
+    const statutHtml = statut === 'payee'
+      ? '<span style="color:#2ECC71;font-weight:600">✅ Payée</span>'
+      : statut === 'envoyee'
+      ? '<span style="color:#60A5FA;font-weight:600">📧 Envoyée</span>'
+      : statut === 'en_attente'
+      ? '<span style="color:var(--accent);font-weight:600">⏳ En attente</span>'
+      : statut === 'echouee'
+      ? '<span style="color:#FC8181;font-weight:600">❌ Échouée</span>'
+      : '<span style="color:var(--gray)">— Jamais facturé</span>';
+
+    const lastDate = lastSub ? new Date(lastSub.created_at).toLocaleDateString('fr-FR') : '—';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-weight:700;color:var(--white)">${co.name}</td>
+      <td><span style="background:rgba(26,79,191,0.2);color:#60A5FA;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600">${PLAN_LABELS_FR[co.plan]||co.plan}</span></td>
+      <td style="font-weight:700;color:#2ECC71">${price.toLocaleString('fr-FR',{minimumFractionDigits:2})}€ TTC${hasCustom?' <span title="Prix personnalisé" style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:4px">✏️ Manuel</span>':''}</td>
+      <td>
+        <input type="email" class="ii" style="font-size:11px;padding:5px 8px;width:200px"
+          id="email-${co.id}" value="${co.billing_email||''}" placeholder="email@client.fr"
+          onblur="saveBillingEmail('${co.id}',this.value)">
+      </td>
+      <td style="font-size:11px;color:var(--gray)">${lastDate}</td>
+      <td>${statutHtml}</td>
+      <td style="white-space:nowrap">
+        <button class="btn-sm btn-accent" style="font-size:11px;padding:5px 12px" onclick="openSendInvoiceModal('${co.id}','${co.name}','${co.plan}','${co.stripe_customer_id||''}',${hasCustom?Number(co.custom_price):'null'})">
+          🧾 Facturer
+        </button>
+        ${lastSub?.stripe_invoice_url ? `<a href="${lastSub.stripe_invoice_url}" target="_blank" class="btn-sm btn-ghost" style="font-size:11px;padding:5px 12px;text-decoration:none;display:inline-block;margin-left:4px">👁 Voir</a>` : ''}
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+async function saveBillingEmail(companyId, email) {
+  if (!email) return;
+  await fetch(`${SB}/rest/v1/sa_companies?id=eq.${companyId}`, {
+    method: 'PATCH', headers: H(), body: JSON.stringify({ billing_email: email })
+  });
+}
+
+async function loadInvoiceHistory() {
+  const statut = document.getElementById('billing-filter-statut')?.value || '';
+  const tbody  = document.getElementById('invoices-history-tbody');
+  let url = `${SB}/rest/v1/saas_subscriptions?order=created_at.desc&select=*`;
+  if (statut) url += `&statut=eq.${statut}`;
+  const r = await fetch(url, { headers: H() });
+  const subs = await r.json();
+
+  // Charger les noms d'entreprises
+  const rco = await fetch(`${SB}/rest/v1/sa_companies?select=id,name`, { headers: H() });
+  const companies = await rco.json();
+  const coMap = Object.fromEntries(companies.map(c => [c.id, c.name]));
+
+  tbody.innerHTML = '';
+  if (!subs.length) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--gray)">Aucune facture</td></tr>';
+    return;
+  }
+
+  subs.forEach((s, i) => {
+    const statutHtml = s.statut === 'payee'
+      ? '<span style="color:#2ECC71;font-size:11px">✅ Payée</span>'
+      : s.statut === 'envoyee'
+      ? '<span style="color:#60A5FA;font-size:11px">📧 Envoyée</span>'
+      : s.statut === 'en_attente'
+      ? '<span style="color:var(--accent);font-size:11px">⏳ En attente</span>'
+      : '<span style="color:#FC8181;font-size:11px">❌ Échouée</span>';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-size:11px;color:var(--gray)">${s.numero_facture||'—'}</td>
+      <td style="font-size:11px">${new Date(s.created_at).toLocaleDateString('fr-FR')}</td>
+      <td style="font-weight:600;color:var(--white)">${coMap[s.company_id]||'—'}</td>
+      <td style="font-size:11px"><span style="background:rgba(26,79,191,0.2);color:#60A5FA;padding:2px 8px;border-radius:10px">${PLAN_LABELS_FR[s.plan]||s.plan}</span></td>
+      <td style="font-weight:700;color:#2ECC71">${Number(s.montant_ttc||0).toLocaleString('fr-FR',{minimumFractionDigits:2})}€</td>
+      <td>${statutHtml}</td>
+      <td style="font-size:11px;color:var(--gray)">${s.email_sent_at ? new Date(s.email_sent_at).toLocaleDateString('fr-FR') : '—'}</td>
+      <td style="font-size:11px;color:var(--gray)">${s.paid_at ? new Date(s.paid_at).toLocaleDateString('fr-FR') : '—'}</td>
+      <td style="white-space:nowrap">
+        ${s.stripe_invoice_url ? `<a href="${s.stripe_invoice_url}" target="_blank" style="color:#60A5FA;font-size:11px">👁 Voir</a>` : '—'}
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Modal envoi facture ──────────────────────────
+let _invoiceModal = { company_id:'', name:'', plan:'', stripe_customer_id:'', custom_price:null };
+
+function openSendInvoiceModal(cid, name, plan, stripeId, customPrice) {
+  const cp = (customPrice!=null && customPrice!=='' && !isNaN(Number(customPrice))) ? Number(customPrice) : null;
+  _invoiceModal = { company_id:cid, name, plan, stripe_customer_id:stripeId, custom_price:cp };
+  const now = new Date();
+  const label = `${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  const num   = `OT-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}-${cid.substring(0,4).toUpperCase()}`;
+  const price = cp != null ? cp : (PLAN_PRICES_TTC[plan] || 179.99);
+  const priceHT = (price / 1.2).toFixed(2);
+
+  // Récupérer l'email depuis le champ input
+  const emailInput = document.getElementById(`email-${cid}`);
+  const email = emailInput ? emailInput.value : '';
+
+  // Utiliser un modal simple natif
+  const content = `
+    <div style="font-family:Outfit,sans-serif;font-size:13px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--white);margin-bottom:4px">🧾 ENVOYER FACTURE</div>
+      <div style="font-size:12px;color:var(--gray);margin-bottom:16px">${name} — ${PLAN_LABELS_FR[plan]}${cp!=null?' <span style="font-size:10px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:4px">✏️ Prix manuel</span>':''}</div>
+      <div style="background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:10px;padding:14px;margin-bottom:16px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+          <div><div style="color:var(--gray);font-size:10px;text-transform:uppercase;letter-spacing:1px">N° Facture</div><div style="color:var(--white);font-weight:600;margin-top:2px">${num}</div></div>
+          <div><div style="color:var(--gray);font-size:10px;text-transform:uppercase;letter-spacing:1px">Période</div><div style="color:var(--white);font-weight:600;margin-top:2px">${label}</div></div>
+          <div><div style="color:var(--gray);font-size:10px;text-transform:uppercase;letter-spacing:1px">Montant HT</div><div style="color:var(--white);font-weight:600;margin-top:2px">${priceHT}€</div></div>
+          <div><div style="color:var(--gray);font-size:10px;text-transform:uppercase;letter-spacing:1px">Montant TTC</div><div style="color:#2ECC71;font-weight:700;margin-top:2px">${price.toLocaleString('fr-FR',{minimumFractionDigits:2})}€</div></div>
+        </div>
+      </div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--gray);display:block;margin-bottom:4px">Email destinataire *</label>
+        <input type="email" id="inv-email" class="ii" value="${email}" placeholder="contact@client.fr">
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--gray);display:block;margin-bottom:4px">Notes (optionnel)</label>
+        <input type="text" id="inv-notes" class="ii" placeholder="Période d'essai, remise...">
+      </div>
+      <div id="inv-status" style="margin-bottom:12px"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn-sm btn-ghost" onclick="closeInvoiceModal()">Annuler</button>
+        <button class="btn-sm btn-accent" id="btn-send-invoice" onclick="sendInvoice('${cid}','${name}','${plan}','${stripeId}','${num}','${label}')">
+          🚀 Créer &amp; Envoyer via Stripe
+        </button>
+      </div>
+    </div>`;
+
+  let overlay = document.getElementById('invoice-modal-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'invoice-modal-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(5px);z-index:500;display:flex;align-items:center;justify-content:center';
+    overlay.onclick = (e) => { if (e.target === overlay) closeInvoiceModal(); };
+    const modal = document.createElement('div');
+    modal.id = 'invoice-modal-inner';
+    modal.style.cssText = 'background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:28px;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto';
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+  }
+  document.getElementById('invoice-modal-inner').innerHTML = content;
+  overlay.style.display = 'flex';
+}
+
+function closeInvoiceModal() {
+  const overlay = document.getElementById('invoice-modal-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+async function sendInvoice(cid, name, plan, stripeId, numero, periodeLabel) {
+  const email = document.getElementById('inv-email')?.value.trim();
+  if (!email) { toast('Email requis', 'error'); return; }
+
+  const btn = document.getElementById('btn-send-invoice');
+  const status = document.getElementById('inv-status');
+  btn.disabled = true; btn.textContent = '⏳ Création en cours...';
+  status.innerHTML = '<div style="color:var(--gray);font-size:12px">🔄 Connexion Stripe...</div>';
+
+  const cp = (_invoiceModal && _invoiceModal.custom_price != null) ? Number(_invoiceModal.custom_price) : null;
+  const price = cp != null ? cp : (PLAN_PRICES_TTC[plan] || 179.99);
+  const priceHT = price / 1.2;
+
+  try {
+    // Appel Edge Function Supabase
+    const r = await fetch(`https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1/stripe-create-invoice`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': ANON_KEY,
+        // clé Stripe gérée côté serveur
+      },
+      body: JSON.stringify({
+        company_id:           cid,
+        company_name:         name,
+        billing_email:        email,
+        plan:                 plan,
+        stripe_customer_id:   stripeId || null,
+        periode_label:        periodeLabel,
+        numero_facture:       numero,
+        due_days:             30,
+        custom_price_ttc:     cp,
+      }),
+    });
+
+    const data = await r.json();
+    if (data.error) throw new Error(data.error);
+
+    // Sauvegarder en DB
+    const now = new Date();
+    await fetch(`${SB}/rest/v1/saas_subscriptions`, {
+      method: 'POST',
+      headers: { ...H(), 'Prefer': 'return=minimal' },
+      body: JSON.stringify({
+        company_id:           cid,
+        plan:                 plan,
+        montant_ht:           priceHT,
+        tva:                  20,
+        numero_facture:       numero,
+        stripe_customer_id:   data.stripe_customer_id,
+        stripe_invoice_id:    data.stripe_invoice_id,
+        stripe_invoice_url:   data.stripe_invoice_url,
+        email_destinataire:   email,
+        email_sent_at:        data.email_sent ? now.toISOString() : null,
+        statut:               data.email_sent ? 'envoyee' : 'en_attente',
+        periode_debut:        `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`,
+        periode_fin:          (()=>{const _d=new Date(now.getFullYear(), now.getMonth()+1, 0);return `${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`;})(),
+        due_date:             (()=>{const _d=new Date(now.getTime() + 30*86400000);return `${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`;})(),
+      }),
+    });
+
+    // Mettre à jour stripe_customer_id dans sa_companies
+    if (data.stripe_customer_id) {
+      await fetch(`${SB}/rest/v1/sa_companies?id=eq.${cid}`, {
+        method: 'PATCH', headers: H(),
+        body: JSON.stringify({ stripe_customer_id: data.stripe_customer_id, billing_email: email }),
+      });
+    }
+
+    status.innerHTML = `
+      <div style="background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:10px;font-size:12px;color:#2ECC71">
+        ✅ Facture créée et envoyée par email !<br>
+        <a href="${data.stripe_invoice_url}" target="_blank" style="color:#60A5FA;text-decoration:none">👁 Voir la facture Stripe →</a>
+      </div>`;
+
+    btn.textContent = '✅ Envoyé !';
+    toast(`✅ Facture envoyée à ${email}`);
+    // Notification superadmin
+    await sendAdminNotif(
+      '💰 Facture envoyée',
+      name, email,
+      PLAN_LABELS_FR[plan] || plan,
+      price.toLocaleString('fr-FR',{minimumFractionDigits:2}) + '€ TTC',
+      data.stripe_invoice_url
+    );
+    setTimeout(() => { closeInvoiceModal(); loadBillingData(); loadInvoiceHistory(); }, 2000);
+
+  } catch(e) {
+    status.innerHTML = `<div style="color:#FC8181;font-size:12px">❌ ${e.message}</div>`;
+    btn.disabled = false;
+    btn.textContent = '🚀 Créer & Envoyer';
+    toast('❌ ' + e.message, 'error');
+  }
+}
+
+async function generateAllInvoices() {
+  if (!confirm('Facturer TOUTES les entreprises actives ce mois ? Cela enverra un email à chaque client.')) return;
+  toast('⚡ Génération en cours...', 'info');
+  // On récupère toutes les companies actives sans facture ce mois
+  const r = await fetch(`${SB}/rest/v1/sa_companies?status=eq.active&select=id,name,plan,billing_email,stripe_customer_id,custom_price`, { headers: H() });
+  const companies = await r.json();
+  let sent = 0;
+  for (const co of companies) {
+    if (!co.billing_email) continue;
+    const now = new Date();
+    const num = `OT-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}-${co.id.substring(0,4).toUpperCase()}`;
+    const label = `${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+    await sendInvoiceAuto(co, num, label);
+    sent++;
+  }
+  toast(`✅ ${sent} facture${sent>1?'s':''} générée${sent>1?'s':''}`);
+  loadBillingData(); loadInvoiceHistory();
+}
+
+async function sendInvoiceAuto(co, numero, periodeLabel) {
+  if (!co.billing_email) return;
+  const cp = (co.custom_price != null && co.custom_price !== '') ? Number(co.custom_price) : null;
+  const price = cp != null ? cp : (PLAN_PRICES_TTC[co.plan] || 179.99);
+  try {
+    const r = await fetch(`https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1/stripe-create-invoice`, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'apikey':ANON_KEY },
+      body: JSON.stringify({ company_id:co.id, company_name:co.name, billing_email:co.billing_email, plan:co.plan, stripe_customer_id:co.stripe_customer_id||null, periode_label:periodeLabel, numero_facture:numero, due_days:30, custom_price_ttc:cp }),
+    });
+    const data = await r.json();
+    if (data.error) return;
+    const now = new Date();
+    await fetch(`${SB}/rest/v1/saas_subscriptions`, {
+      method:'POST', headers:{...H(),'Prefer':'return=minimal'},
+      body:JSON.stringify({ company_id:co.id, plan:co.plan, montant_ht:price/1.2, tva:20, numero_facture:numero, stripe_customer_id:data.stripe_customer_id, stripe_invoice_id:data.stripe_invoice_id, stripe_invoice_url:data.stripe_invoice_url, email_destinataire:co.billing_email, email_sent_at:data.email_sent?now.toISOString():null, statut:data.email_sent?'envoyee':'en_attente', periode_debut:`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`, periode_fin:(()=>{const _d=new Date(now.getFullYear(),now.getMonth()+1,0);return `${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`;})() }),
+    });
+  } catch(e) { console.error('sendInvoiceAuto:', e); }
+}
+
+function fe(n) { return (Math.round((n||0)*100)/100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€'; }
+
+// Vérification email unique en temps réel
+async function checkEmailUnique(email) {
+  if (!email || editingId) return; // pas de vérif en mode édition
+  const emailEl = document.getElementById('co-email');
+  const r = await fetch(`${SB}/rest/v1/sa_companies?email=eq.${encodeURIComponent(email)}&select=id,name`, { headers: H() });
+  const data = await r.json();
+  if (data.length > 0) {
+    emailEl.style.borderColor = '#FC8181';
+    emailEl.style.boxShadow = '0 0 0 3px rgba(231,76,60,0.2)';
+    // Afficher message d'erreur sous le champ
+    let errEl = document.getElementById('co-email-err');
+    if (!errEl) {
+      errEl = document.createElement('div');
+      errEl.id = 'co-email-err';
+      errEl.style.cssText = 'font-size:11px;color:#FC8181;margin-top:4px';
+      emailEl.parentNode.appendChild(errEl);
+    }
+    errEl.textContent = `⚠️ Email déjà utilisé par : ${data[0].name}`;
+  } else {
+    emailEl.style.borderColor = '#2ECC71';
+    emailEl.style.boxShadow = '0 0 0 3px rgba(39,174,96,0.15)';
+    const errEl = document.getElementById('co-email-err');
+    if (errEl) errEl.remove();
+  }
+}
+
+// ══ RELATIONS STT ══
+let sttRelations = [], sttCompanies = [];
+
+async function loadSTTEntreprises(donorId) {
+  const sel     = document.getElementById('stt-entreprise-nom');
+  const hintEl  = document.getElementById('stt-entreprise-hint');
+  sel.innerHTML = '<option value="">— Chargement... —</option>';
+  hintEl.style.display = 'none';
+
+  if (!donorId) {
+    sel.innerHTML = '<option value="">— Sélectionner la donneuse d\'abord —</option>';
+    return;
+  }
+
+  try {
+    const r = await fetch(
+      `${SB}/rest/v1/chauffeurs?company_id=eq.${donorId}&type=eq.sous-traitant&select=entreprise_nom&order=entreprise_nom`,
+      { headers: HS() }
+    );
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const rows = await r.json();
+
+    // Dédupliquer et filtrer les valeurs vides
+    const entreprises = [...new Set(rows.map(r => r.entreprise_nom).filter(Boolean))];
+
+    if (!entreprises.length) {
+      sel.innerHTML = '<option value="">— Aucun chauffeur STT avec entreprise_nom —</option>';
+      hintEl.textContent = '⚠️ Aucun chauffeur sous-traitant avec une entreprise renseignée trouvé pour cette compagnie.';
+      hintEl.style.color = '#F5A623';
+      hintEl.style.display = 'block';
+      return;
+    }
+
+    sel.innerHTML = '<option value="">— Sélectionner —</option>' +
+      entreprises.map(e => `<option value="${e}">${e}</option>`).join('');
+    hintEl.textContent = `${entreprises.length} entreprise(s) STT trouvée(s) parmi les chauffeurs.`;
+    hintEl.style.color = 'var(--gray)';
+    hintEl.style.display = 'block';
+  } catch(e) {
+    sel.innerHTML = '<option value="">— Erreur de chargement —</option>';
+    hintEl.textContent = '❌ ' + e.message;
+    hintEl.style.color = '#FC8181';
+    hintEl.style.display = 'block';
+  }
+}
+
+async function loadSTTRelations() {
+  const listEl = document.getElementById('stt-relations-list');
+  listEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray);font-size:12px"><div class="spinner" style="margin:0 auto 10px"></div>Chargement...</div>';
+
+  try {
+    const [rRel, rCo] = await Promise.all([
+      fetch(`${SB}/rest/v1/stt_relationships?order=created_at.desc&select=*`, { headers: HS() }),
+      fetch(`${SB}/rest/v1/sa_companies?order=name&select=id,name,addon_stt`, { headers: H() }),
+    ]);
+    sttRelations = rRel.ok ? await rRel.json() : [];
+    sttCompanies = rCo.ok ? await rCo.json() : [];
+  } catch(e) {
+    listEl.innerHTML = `<div style="color:#FC8181;font-size:12px;padding:16px">❌ Erreur: ${e.message}</div>`;
+    return;
+  }
+
+  // Peupler les selects du formulaire (uniquement compagnies avec addon_stt)
+  const sttOnly = sttCompanies.filter(c => c.addon_stt);
+  ['stt-donor','stt-receiver'].forEach(id => {
+    const sel = document.getElementById(id);
+    const prev = sel.value;
+    sel.innerHTML = '<option value="">— Sélectionner —</option>' +
+      sttOnly.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    if (prev) sel.value = prev;
+  });
+  // Réinitialiser le select entreprise (dépend du donneur)
+  document.getElementById('stt-entreprise-nom').innerHTML = '<option value="">— Sélectionner la donneuse d\'abord —</option>';
+  document.getElementById('stt-entreprise-hint').style.display = 'none';
+
+  // Rendre la liste des relations
+  if (!sttRelations.length) {
+    listEl.innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);font-size:12px">Aucune relation STT configurée.</div>';
+    return;
+  }
+
+  const coMap = Object.fromEntries(sttCompanies.map(c => [c.id, c.name]));
+  listEl.innerHTML = `
+    <table class="params-table">
+      <thead><tr>
+        <th>Compagnie donneuse</th>
+        <th>Compagnie receveuse</th>
+        <th>Ref. entreprise_nom</th>
+        <th>Statut</th>
+        <th>Créée le</th>
+        <th>Actions</th>
+      </tr></thead>
+      <tbody>
+        ${sttRelations.map(r => `
+          <tr>
+            <td><strong style="color:var(--white)">${coMap[r.donor_company_id]||r.donor_company_id}</strong></td>
+            <td><strong style="color:var(--white)">${coMap[r.receiver_company_id]||r.receiver_company_id}</strong></td>
+            <td><span style="font-family:monospace;color:var(--accent);font-size:12px">${r.entreprise_nom_ref}</span></td>
+            <td>${r.actif
+              ? '<span class="badge badge-green">Actif</span>'
+              : '<span class="badge badge-red">Inactif</span>'}</td>
+            <td style="color:var(--gray);font-size:11px">${new Date(r.created_at).toLocaleDateString('fr-FR')}</td>
+            <td>
+              <button class="icon-btn" title="${r.actif?'Désactiver':'Activer'}" onclick="toggleSTTRelation('${r.id}',${r.actif})">${r.actif?'⏸':'▶️'}</button>
+              <button class="icon-btn btn-red" title="Supprimer" onclick="deleteSTTRelation('${r.id}','${coMap[r.donor_company_id]}','${coMap[r.receiver_company_id]}')">🗑</button>
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+async function createSTTRelation() {
+  const donorId    = document.getElementById('stt-donor').value;
+  const receiverId = document.getElementById('stt-receiver').value;
+  const entNom     = document.getElementById('stt-entreprise-nom').value.trim();
+  const errEl      = document.getElementById('stt-create-error');
+
+  errEl.style.display = 'none';
+
+  if (!donorId || !receiverId || !entNom) {
+    errEl.textContent = '⚠️ Tous les champs sont obligatoires.';
+    errEl.style.display = 'block'; return;
+  }
+  if (donorId === receiverId) {
+    errEl.textContent = '⚠️ La compagnie donneuse et receveuse doivent être différentes.';
+    errEl.style.display = 'block'; return;
+  }
+
+  // Vérifier que les deux ont addon_stt
+  const donor    = sttCompanies.find(c => c.id === donorId);
+  const receiver = sttCompanies.find(c => c.id === receiverId);
+  if (!donor?.addon_stt) {
+    errEl.textContent = `⚠️ ${donor?.name||'Donneuse'} n'a pas l'addon STT activé.`;
+    errEl.style.display = 'block'; return;
+  }
+  if (!receiver?.addon_stt) {
+    errEl.textContent = `⚠️ ${receiver?.name||'Receveuse'} n'a pas l'addon STT activé.`;
+    errEl.style.display = 'block'; return;
+  }
+
+  try {
+    const r = await fetch(`${SB}/rest/v1/stt_relationships`, {
+      method: 'POST',
+      headers: { ...HS(), 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ donor_company_id: donorId, receiver_company_id: receiverId, entreprise_nom_ref: entNom }),
+    });
+    if (!r.ok) {
+      const txt = await r.text();
+      if (txt.includes('23505') || txt.includes('duplicate')) {
+        errEl.textContent = '⚠️ Cette relation existe déjà.';
+      } else {
+        errEl.textContent = '❌ Erreur: ' + txt;
+      }
+      errEl.style.display = 'block'; return;
+    }
+    document.getElementById('stt-donor').value = '';
+    document.getElementById('stt-receiver').value = '';
+    document.getElementById('stt-entreprise-nom').innerHTML = '<option value="">— Sélectionner la donneuse d\'abord —</option>';
+    document.getElementById('stt-entreprise-hint').style.display = 'none';
+    toast('✅ Relation STT créée');
+    loadSTTRelations();
+  } catch(e) {
+    errEl.textContent = '❌ ' + e.message;
+    errEl.style.display = 'block';
+  }
+}
+
+async function toggleSTTRelation(id, currentActif) {
+  const r = await fetch(`${SB}/rest/v1/stt_relationships?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: HS(),
+    body: JSON.stringify({ actif: !currentActif }),
+  });
+  if (r.ok) { toast(currentActif ? 'Relation désactivée' : 'Relation activée'); loadSTTRelations(); }
+  else toast('Erreur lors de la mise à jour', 'error');
+}
+
+async function deleteSTTRelation(id, donorName, receiverName) {
+  if (!confirm(`Supprimer la relation STT entre ${donorName} et ${receiverName} ?\n\nLes stt_orders en cours seront conservés mais aucun nouvel envoi ne sera possible.`)) return;
+  const r = await fetch(`${SB}/rest/v1/stt_relationships?id=eq.${id}`, { method: 'DELETE', headers: HS() });
+  if (r.ok) { toast('Relation STT supprimée'); loadSTTRelations(); }
+  else toast('Erreur lors de la suppression', 'error');
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>T SERVICE & CO — Feuille de Route</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0A1628">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="T.S">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="stylesheet" href="/fonts.css">
+<link rel="stylesheet" href="/lib/leaflet.css">
+<script src="/lib/leaflet.js" defer></script>
+<style>
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
+.sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:18px 20px;border-bottom:1px solid var(--border);}
+.logo-tag{font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);line-height:1;margin-top:4px;}
+.logo-name span{color:var(--accent);}
+.sidebar-nav{flex:1;padding:10px 12px;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);padding:5px 8px 2px;margin-top:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:1px;font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;}
+.nav-item:hover{background:var(--card);color:var(--light);}
+.nav-item.active{background:linear-gradient(135deg,rgba(26,79,191,0.4),rgba(26,79,191,0.2));color:var(--white);border:1px solid rgba(26,79,191,0.3);}
+.nav-icon{font-size:16px;width:20px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--accent);color:var(--navy);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.sidebar-footer{padding:12px 12px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:10px;border:1px solid var(--border);cursor:pointer;}
+.user-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+.topbar{height:60px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.btn-sm{padding:7px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+.btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-weight:700;}
+.btn-accent:hover{transform:translateY(-1px);}
+.btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--gray);}
+.btn-ghost:hover{color:var(--white);border-color:var(--blue);}
+.btn-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:var(--white);font-weight:700;}
+.app-body{display:flex;flex:1;overflow:hidden;}
+
+/* LEFT PANEL */
+.left-panel{width:390px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto;background:var(--navy2);}
+.selectors{padding:14px 16px;border-bottom:1px solid var(--border);}
+.lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:4px;display:block;}
+.sel{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--light);outline:none;cursor:pointer;width:100%;}
+.sel option{background:var(--navy2);}
+.sel:focus{border-color:var(--blue);}
+.sel-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);}
+.stat-cell{padding:10px;text-align:center;border-right:1px solid var(--border);}
+.stat-cell:last-child{border-right:none;}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);}
+.stat-lbl{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;}
+
+/* ITINÉRAIRE */
+.itinerary{padding:14px 16px;}
+.it-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:10px;display:flex;justify-content:space-between;}
+
+.it-step{display:flex;gap:10px;margin-bottom:0;}
+.it-col{display:flex;flex-direction:column;align-items:center;width:28px;flex-shrink:0;}
+.it-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.it-dot.depot{background:rgba(39,174,96,0.15);border:2px solid #27AE60;}
+.it-dot.client{background:rgba(26,79,191,0.15);border:2px solid var(--blue);}
+.it-dot.point{background:rgba(245,166,35,0.12);border:2px solid var(--accent);color:var(--accent);font-size:11px;font-weight:800;font-family:'Outfit',sans-serif;}
+.it-line{width:2px;flex:1;min-height:10px;background:rgba(255,255,255,0.08);}
+.it-body{flex:1;padding-bottom:10px;cursor:pointer;}
+.it-body:hover .it-card{border-color:var(--blue);}
+.it-type{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.it-type.green{color:#27AE60;}
+.it-type.blue{color:#60A5FA;}
+.it-type.orange{color:var(--accent);}
+.it-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:8px 10px;transition:all 0.2s;}
+.it-name{font-size:13px;font-weight:700;color:var(--white);}
+.it-addr{font-size:11px;color:var(--gray);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.it-meta{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;}
+.it-badge{padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600;}
+.it-badge.heure{background:rgba(245,166,35,0.12);color:var(--accent);}
+.it-badge.dist{background:rgba(255,255,255,0.06);color:var(--gray);}
+.it-badge.geo-ok{color:#2ECC71;font-size:9px;}
+.it-badge.geo-err{color:#FC8181;font-size:9px;}
+.it-badge.geo-load{color:var(--accent);font-size:9px;}
+.it-badge.eta{background:rgba(26,79,191,0.15);color:#60A5FA;}
+.it-badge.warn-badge{background:rgba(231,76,60,0.15);color:#FC8181;}
+.it-badge.early-badge{background:rgba(39,174,96,0.12);color:#2ECC71;}
+/* Modal optimisation */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal-box{background:var(--navy2);border:1px solid rgba(26,79,191,0.3);border-radius:14px;padding:24px;width:min(460px,100%);box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--white);letter-spacing:2px;margin-bottom:4px;}
+.modal-sub{font-size:11px;color:var(--gray);margin-bottom:18px;}
+.modal-field{margin-bottom:14px;}
+.modal-field label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:5px;}
+.modal-field input,.modal-field select{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--light);outline:none;transition:border-color 0.2s;}
+.modal-field input:focus,.modal-field select:focus{border-color:var(--blue);}
+.modal-field select option{background:var(--navy2);}
+.modal-hint{font-size:10px;color:var(--gray);margin-top:4px;line-height:1.5;}
+.modal-key-row{display:flex;gap:8px;}
+.modal-key-row input{flex:1;}
+.modal-key-row button{flex-shrink:0;}
+.modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+.modal-sep{border:none;border-top:1px solid var(--border);margin:16px 0;}
+
+/* CHAUFFEUR CARD */
+.ch-card{margin:12px 16px;background:rgba(26,79,191,0.07);border:1px solid rgba(26,79,191,0.2);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;}
+.ch-av{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--accent));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--white);flex-shrink:0;}
+
+/* MULTI CHAUFFEUR SELECT */
+.multi-ch-card{margin:4px 0;display:flex;align-items:center;gap:10px;padding:10px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.2s;}
+.multi-ch-card:hover{border-color:var(--blue);}
+
+/* EMPTY */
+.empty{padding:50px 20px;text-align:center;color:var(--gray);}
+.empty-icon{font-size:44px;margin-bottom:12px;}
+
+/* MAP */
+.right-panel{flex:1;position:relative;}
+#map{width:100%;height:100%;}
+.map-overlay{position:absolute;top:12px;right:12px;z-index:400;display:flex;flex-direction:column;gap:8px;}
+.map-btn{background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:var(--light);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:all 0.2s;}
+.map-btn:hover{border-color:var(--blue);}
+.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-row{display:flex;align-items:center;gap:10px;padding:14px 16px;font-size:12px;color:var(--gray);}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:13px;color:var(--white);z-index:9999;transform:translateY(20px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* ══ MOBILE ≤ 768px ══ */
+@media(max-width:768px){
+  :root{--sidebar-w:0px!important;}
+  body{overflow-x:hidden!important;}
+  .sidebar{display:none!important;width:0!important;}
+  .main{margin-left:0!important;width:100%!important;max-width:100vw!important;height:auto!important;overflow:visible!important;}
+  .topbar{padding:0 12px!important;height:50px!important;flex-shrink:0!important;}
+  .topbar-title{font-size:14px!important;}
+  .topbar-right .btn-ghost{display:none!important;}
+  .app-body{flex-direction:column!important;height:auto!important;overflow:visible!important;}
+  /* Carte en haut, itinéraire en bas */
+  .right-panel{order:-1!important;height:260px!important;min-height:260px!important;flex-shrink:0!important;}
+  #map{height:260px!important;}
+  .left-panel{width:100%!important;height:auto!important;overflow-y:visible!important;padding-bottom:80px!important;}
+  .selectors{padding:10px 12px!important;}
+  .sel-row{grid-template-columns:1fr 1fr!important;gap:8px!important;}
+  .sel{height:44px!important;font-size:14px!important;}
+  .map-overlay{top:8px!important;right:8px!important;}
+  .map-btn{padding:5px 10px!important;font-size:11px!important;}
+  .btn-sm,.btn-accent,.btn-ghost{min-height:38px!important;padding:7px 12px!important;font-size:12px!important;}
+  .toast,[id*="toast"]{left:12px!important;right:12px!important;bottom:75px!important;font-size:12px!important;}
+  #ot-cookie-banner{padding:12px 14px!important;flex-direction:column!important;gap:8px!important;bottom:64px!important;}
+  .it-card{padding:6px 8px!important;}
+  .it-name{font-size:12px!important;}
+  .it-addr{font-size:10px!important;}
+  .ch-card{margin:8px 12px!important;padding:10px 12px!important;}
+  .stats-bar{grid-template-columns:1fr 1fr!important;}
+  .stat-val{font-size:18px!important;}
+  .itinerary{padding:10px 12px!important;}
+  .topbar-right #btn-wa{display:none!important;}
+}
+/* ── Navbar mobile ── */
+.mobile-navbar{display:none;position:fixed;bottom:0;left:0;right:0;height:62px;background:var(--navy2);border-top:1px solid var(--border);z-index:200;padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -4px 24px rgba(0,0,0,0.3);}
+.mobile-navbar-inner{display:flex;align-items:center;height:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 2px;}
+.mobile-navbar-inner::-webkit-scrollbar{display:none;}
+.mob-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:0 0 62px;height:100%;cursor:pointer;text-decoration:none;color:var(--gray);border-radius:10px;padding:4px 2px;-webkit-tap-highlight-color:transparent;user-select:none;transition:color 0.2s;}
+.mob-nav-item.active{color:var(--blue);background:rgba(26,79,191,0.12);}
+.mob-nav-item.mob-nav-logout{color:#FC8181;}
+.mob-nav-item .mob-icon{font-size:20px;line-height:1;}
+.mob-nav-item .mob-label{font-size:9px;font-weight:600;text-transform:uppercase;white-space:nowrap;text-align:center;}
+@media(max-width:768px){.mobile-navbar{display:flex!important;}}
+
+/* ══ PRINT ══ */
+@media print{
+  .sidebar,.topbar,.map-overlay,#btn-wa,#btn-print,.selectors{display:none!important;}
+  body{background:white!important;color:black!important;display:block!important;}
+  .main{margin-left:0!important;height:auto!important;overflow:visible!important;}
+  .app-body{flex-direction:column!important;overflow:visible!important;height:auto!important;}
+  .left-panel{width:100%!important;overflow:visible!important;background:white!important;border:none!important;}
+  .right-panel{display:none!important;}
+  .print-header{display:block!important;}
+  .stats-bar{border:1px solid #ddd!important;border-radius:6px!important;margin-bottom:12px;}
+  .stat-val{color:#0A1628!important;}
+  .stat-lbl{color:#555!important;}
+  .ch-card{background:#f0f4ff!important;border:2px solid #1A4FBF!important;margin:0 0 12px!important;}
+  .ch-av{background:#1A4FBF!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .it-card{background:white!important;border:1px solid #ddd!important;}
+  .it-name{color:#0A1628!important;}
+  .it-addr{color:#555!important;}
+  .it-dot{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .it-step{break-inside:avoid;}
+}
+.print-header{display:none;padding:0 0 14px;border-bottom:3px solid #0A1628;margin-bottom:14px;}
+.print-logo{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#0A1628;letter-spacing:3px;}
+.print-logo span{color:#F5A623;}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--navy2)}::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:3px}
+</style>
+<script src="ot_401_guard.js"></script>
+<script>
+// OT_SESSION.JS - Gestionnaire de session T SERVICE & CO
+// v2.0 - Isolation renforcee, controle plan complet
+
+const OT = (() => {
+
+  const SB  = 'https://kfdyqcbclueppmvkccdz.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+
+  // Pages accessibles sans session (login uniquement)
+  const PUBLIC_PAGES = ['index.html', 'optimum_trans_legal.html'];
+
+  // Page Super Admin (accessible uniquement a l'admin principal)
+  const SUPERADMIN_PAGE = 'optimum_trans_superadmin.html';
+
+  // Lire la session
+  function getSession() {
+    const raw = localStorage.getItem('ot_session') || sessionStorage.getItem('ot_session');
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch(e) { return null; }
+  }
+
+  // Est-ce la page Super Admin ?
+  function isSuperAdminPage() {
+    return window.location.pathname.includes(SUPERADMIN_PAGE);
+  }
+
+  // Headers Supabase avec token utilisateur
+  function authHeaders() {
+    const s = getSession();
+    const token = (s && s.token) ? s.token : KEY;
+    return { 'Content-Type':'application/json', 'apikey':KEY, 'Authorization':'Bearer '+token };
+  }
+
+  // Headers Supabase anon (lecture publique sa_companies)
+  function anonHeaders() {
+    return { 'Content-Type':'application/json', 'apikey':KEY, 'Authorization':'Bearer '+KEY };
+  }
+
+  // PLAN MODULES - definit ce que chaque plan peut faire
+  const PLAN_MODULES = {
+    starter: {
+      planning:      true,
+      saisie:        true,
+      dashboard:     true,
+      clients:       true,
+      parametres:    true,
+      rh:            true,
+      whatsapp:      false,
+      vehicules:     true,
+      facturation:   false,
+      chauffeurs:    false,
+      gazole:        false,
+      feuille_route: false,
+    },
+    pro: {
+      planning:      true,
+      saisie:        true,
+      dashboard:     true,
+      clients:       true,
+      parametres:    true,
+      rh:            true,
+      whatsapp:      true,
+      vehicules:     true,
+      facturation:   true,
+      chauffeurs:    true,
+      gazole:        false,
+      feuille_route: false,
+    },
+    business: {
+      planning:      true,
+      saisie:        true,
+      dashboard:     true,
+      clients:       true,
+      parametres:    true,
+      rh:            true,
+      whatsapp:      true,
+      vehicules:     true,
+      facturation:   true,
+      chauffeurs:    true,
+      gazole:        true,
+      feuille_route: false,
+    }
+  };
+
+  function can(feature) {
+    const s = getSession();
+    if (!s) return false;
+    if (s.id === 'demo') { if (feature === 'saisie' || feature === 'feuille_route' || feature === 'monmarche') return false; return true; }
+    if (feature === 'feuille_route') return s.addon_route === true;
+    if (feature === 'saisie') return s.addon_saisie === true;
+    if (feature === 'monmarche') return s.addon_monmarche === true;
+    if (feature === 'etat_vehicule') return s.addon_etat_vehicule === true;
+    return (PLAN_MODULES[s.plan] || PLAN_MODULES.starter)[feature] === true;
+  }
+
+  // APPLY PLAN RESTRICTIONS - cache les modules interdits
+  function applyPlanRestrictions() {
+    const s = getSession();
+    if (!s) return;
+
+    // 1. Masquer la sidebar Super Admin pour les clients
+    document.querySelectorAll('a[href="' + SUPERADMIN_PAGE + '"]').forEach(function(el) {
+      el.style.display = 'none';
+    });
+
+    // 2. Modules conditionnels
+    var rules = [
+      { href: 'optimum_trans_feuille_route.html', feature: 'feuille_route' },
+      { href: 'optimum_trans_vehicules.html',     feature: 'vehicules'     },
+      { href: 'optimum_trans_chauffeurs.html',    feature: 'chauffeurs'    },
+      { href: 'optimum_trans_gazole.html',        feature: 'gazole'        },
+      { href: 'optimum_trans_saisie.html',        feature: 'saisie'        },
+      { href: 'monmarche.html',                   feature: 'monmarche'     },
+      { href: 'optimum_trans_etat_vehicule.html', feature: 'etat_vehicule' },
+    ];
+
+    rules.forEach(function(rule) {
+      document.querySelectorAll('a[href="' + rule.href + '"]').forEach(function(el) {
+        if (!can(rule.feature)) {
+          el.style.display = 'none';
+        } else {
+          el.style.display = '';
+        }
+      });
+    });
+
+    // 3. Masquer boutons WhatsApp si plan < Pro
+    if (!can('whatsapp')) {
+      document.querySelectorAll('.btn-wa').forEach(function(el) { el.style.display = 'none'; });
+      var waBanner = document.getElementById('wa-banner');
+      if (waBanner) waBanner.style.display = 'none';
+      document.querySelectorAll('button, a').forEach(function(el) {
+        var txt = (el.textContent || '').toLowerCase();
+        var oc  = (el.getAttribute('onclick') || '').toLowerCase();
+        if (txt.indexOf('whatsapp') >= 0 || oc.indexOf('whatsapp') >= 0 || oc.indexOf('wa.me') >= 0 || oc.indexOf('sendwa') >= 0 || oc.indexOf('sendallwa') >= 0) {
+          el.style.display = 'none';
+        }
+      });
+    }
+
+    // 4. Mettre a jour la user-card (nom + plan)
+    var avatarEl = document.querySelector('.user-avatar');
+    var nameEl   = document.querySelector('.user-card > div > div:first-child');
+    var planEl   = document.querySelector('.user-card > div > div:last-child');
+
+    if (avatarEl && s.name) {
+      avatarEl.textContent = s.name.substring(0, 2).toUpperCase();
+    }
+    if (nameEl && s.name) {
+      nameEl.textContent = s.name.length > 18 ? s.name.substring(0, 16) + '...' : s.name;
+    }
+    if (planEl && s.plan) {
+      var labels = { starter:'Starter', pro:'Pro', business:'Business' };
+      var colors = { starter:'var(--gray)', pro:'#60A5FA', business:'#F5A623' };
+      planEl.textContent = labels[s.plan] || s.plan;
+      planEl.style.color = colors[s.plan] || 'var(--gray)';
+    }
+
+    // 5. Banniere "compte suspendu"
+    if (s.status === 'suspended') {
+      _showSuspendedBanner();
+    }
+  }
+
+  // Banniere compte suspendu
+  function _showSuspendedBanner() {
+    if (document.getElementById('ot-suspended-banner')) return;
+    var banner = document.createElement('div');
+    banner.id = 'ot-suspended-banner';
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fecaca;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;border-bottom:2px solid #ef4444;box-shadow:0 4px 20px rgba(239,68,68,0.4)';
+    banner.innerHTML = '<div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">&#9940;</span><div><div style="font-size:14px;font-weight:700;color:#fff">Compte suspendu</div><div style="font-size:11px;font-weight:400;margin-top:2px">Votre acces est temporairement suspendu. Contactez votre administrateur.</div></div></div><button onclick="OT.logout()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:6px 14px;color:#fff;cursor:pointer;font-family:Outfit,sans-serif;font-size:12px;font-weight:600">Se deconnecter</button>';
+    document.body.prepend(banner);
+    var main = document.querySelector('.main');
+    if (main) main.style.marginTop = '52px';
+  }
+
+  // REQUIRE LOGIN - redirige vers login si non connecte
+  function requireLogin() {
+    var logged = localStorage.getItem('ot_logged') || sessionStorage.getItem('ot_logged');
+    var session = getSession();
+    if (!logged || !session) {
+      var currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      var isPublic = PUBLIC_PAGES.some(function(p) { return currentPage.indexOf(p) >= 0; });
+      if (!isPublic) {
+        var hash = window.location.hash;
+        if (hash && hash.indexOf('access_token') >= 0) return true;
+        window.location.href = window.location.origin + '/index.html';
+      }
+      return false;
+    }
+    return true;
+  }
+
+  // REQUIRE ADDON - redirige si fonctionnalite inaccessible
+  function requireAddon(feature) {
+    if (!can(feature)) {
+      var labels = {
+        feuille_route: 'Feuille de Route (Addon +29EUR/mois)',
+        vehicules:     'Parc Vehicules (Plan Pro ou superieur)',
+        chauffeurs:    'Chauffeurs & Salaires (Plan Business)',
+        gazole:        'Suivi Gazole (Plan Business)',
+        whatsapp:      'Envoi WhatsApp (Plan Pro ou superieur)',
+      };
+      var msg = labels[feature] || feature;
+      _showAccessDenied(msg);
+      return false;
+    }
+    return true;
+  }
+
+  // Page d'acces refuse inline
+  function _showAccessDenied(featureLabel) {
+    document.body.innerHTML = '<div style="font-family:Outfit,sans-serif;background:#0A1628;color:#E8EDF5;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;"><div style="max-width:440px"><div style="font-size:64px;margin-bottom:20px">&#128274;</div><div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;margin-bottom:10px">ACCES RESTREINT</div><div style="font-size:14px;color:#8A9BB5;margin-bottom:8px">Cette fonctionnalite n\'est pas incluse dans votre forfait actuel.</div><div style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:10px;padding:12px 16px;margin:16px 0;font-size:13px;color:#F5A623;font-weight:600">&#128275; ' + featureLabel + '</div><div style="font-size:12px;color:#4A5568;margin-bottom:24px">Contactez votre administrateur pour mettre a niveau votre abonnement.</div><button onclick="window.history.back()" style="background:linear-gradient(135deg,#1A4FBF,#2563EB);color:#fff;border:none;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-right:8px">Retour</button><button onclick="window.location.href=\'optimum_trans_dashboard.html\'" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#E8EDF5;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer">Dashboard</button></div></div>';
+  }
+
+  // REFRESH SESSION - relit le plan/statut depuis Supabase
+  async function refreshSession() {
+    var s = getSession();
+    if (!s || !s.id || s.id === 'demo') return;
+
+    try {
+      var controller = new AbortController();
+      var timeout = setTimeout(function() { controller.abort(); }, 4000);
+
+      var cid = s.company_id || s.id;
+      var r = await fetch(SB + '/rest/v1/sa_companies?id=eq.' + cid + '&select=plan,addon_route,addon_saisie,addon_monmarche,addon_dispatch,addon_tracking,addon_etat_vehicule,status,max_users,name', {
+        headers: authHeaders(),
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+
+      if (!r.ok) return;
+      var data = await r.json();
+
+      if (Array.isArray(data) && data[0]) {
+        var co = data[0];
+
+        if (co.status === 'suspended' && s.status !== 'suspended') {
+          var updated1 = Object.assign({}, s, { status: 'suspended' });
+          var store1 = localStorage.getItem('ot_session') ? localStorage : sessionStorage;
+          store1.setItem('ot_session', JSON.stringify(updated1));
+          return;
+        }
+
+        var updated = Object.assign({}, s, {
+          plan:            co.plan            || s.plan,
+          addon_route:     co.addon_route     === true,
+          addon_saisie:    co.addon_saisie    === true,
+          addon_monmarche: co.addon_monmarche === true,
+          addon_dispatch:  co.addon_dispatch  === true,
+          addon_tracking:  co.addon_tracking  === true,
+          addon_etat_vehicule: co.addon_etat_vehicule === true,
+          status:          co.status          || s.status,
+          max_users:       co.max_users       || s.max_users,
+          name:            co.name            || s.name,
+        });
+
+        var store = localStorage.getItem('ot_session') ? localStorage : sessionStorage;
+        store.setItem('ot_session', JSON.stringify(updated));
+      }
+    } catch(e) {
+      console.warn('[OT Session] Refresh skipped:', e.name);
+    }
+  }
+
+  // LOGOUT
+  async function logout() {
+    if (!confirm('Se deconnecter ?')) return;
+    var s = getSession();
+    if (s && s.token) {
+      try {
+        await fetch(SB + '/auth/v1/logout', {
+          method:'POST',
+          headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+s.token}
+        });
+      } catch(e) {}
+    }
+    ['ot_session','ot_logged','ot_email'].forEach(function(k) {
+      localStorage.removeItem(k);
+      sessionStorage.removeItem(k);
+    });
+    window.location.href = window.location.origin + '/index.html';
+  }
+
+  // COMPANY ID FILTER - retourne le filtre Supabase pour isoler les donnees
+  function companyFilter() {
+    var s = getSession();
+    if (!s || s.id === 'demo') return '';
+    var cid = s.company_id || s.id;
+    return 'company_id=eq.' + cid;
+  }
+
+  function getCompanyId() {
+    var s = getSession();
+    if (!s) return null;
+    return s.company_id || s.id;
+  }
+
+  // INIT - appele automatiquement au DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', async function() {
+    var currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    var isPublic = PUBLIC_PAGES.some(function(p) { return currentPage.indexOf(p) >= 0; });
+    if (isPublic) return;
+
+    if (!requireLogin()) return;
+
+    // Affichage immédiat avec session en cache ; refresh en arrière-plan.
+    applyPlanRestrictions();
+    refreshSession().then(function(){ applyPlanRestrictions(); }).catch(function(){});
+  });
+
+  // API publique
+  return {
+    getSession:          getSession,
+    authHeaders:         authHeaders,
+    anonHeaders:         anonHeaders,
+    can:                 can,
+    logout:              logout,
+    requireLogin:        requireLogin,
+    requireAddon:        requireAddon,
+    companyFilter:       companyFilter,
+    getCompanyId:        getCompanyId,
+    refreshSession:      refreshSession,
+  };
+
+})();
+
+// Global pour onclick="logout()" dans le HTML
+function logout() { OT.logout(); }
+// v=1772397756
+
+</script>
+</head>
+<body>
+<script data-cfasync="false">
+  // Vérification accès au chargement de la page
+  (function(){
+    const raw = localStorage.getItem('ot_session') || sessionStorage.getItem('ot_session');
+    if(!raw){ window.location.href=window.location.origin+'/index.html'; return; }
+    try{
+      const s = JSON.parse(raw);
+      const plan = s.plan || 'starter';
+      const MODULES = {
+        starter:  {vehicules:false, chauffeurs:false, feuille_route:false},
+        pro:      {vehicules:true,  chauffeurs:false, feuille_route:false},
+        business: {vehicules:true,  chauffeurs:true,  feuille_route:false}
+      };
+      const feature = 'feuille_route';
+      const allowed = feature === 'feuille_route'
+        ? s.addon_route === true
+        : (MODULES[plan] || MODULES.starter)[feature] === true;
+      if(!allowed){
+        alert('🔒 Accès refusé — cette fonctionnalité n\'est pas incluse dans votre forfait.');
+        window.location.href=window.location.origin+'/optimum_trans_dashboard.html';
+      }
+    }catch(e){
+      window.location.href=window.location.origin+'/index.html';
+    }
+  })();
+</script>
+<aside class="sidebar">
+  <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+    <div class="logo-tag">Gestion Transport</div>
+    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
+    <a class="nav-item active" href="#"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <div class="nav-section-label">Gestion</div>
+    <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
+    <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH & Contrats</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
+    <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+    <div class="nav-section-label">Communication</div>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <div class="nav-section-label">Intelligence</div>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+    <div class="nav-section-label">Paramètres</div>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
+      <div class="user-avatar">T.S</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 8px;cursor:pointer;font-size:13px;color:#FC8181;transition:all 0.2s" onmouseover="this.style.background='rgba(231,76,60,0.22)'" onmouseout="this.style.background='rgba(231,76,60,0.12)'">⏻</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">🗺️ FEUILLE DE ROUTE</div>
+    <div class="topbar-right">
+      <span id="sync-info" style="font-size:11px;color:var(--gray)">—</span>
+      <button class="btn-sm btn-ghost" id="btn-wa" onclick="sendWA()" style="display:none">💬 WhatsApp</button>
+      <button class="btn-sm btn-ghost" id="btn-print" onclick="window.print()" style="display:none">🖨️ Imprimer</button>
+      <button class="btn-sm btn-ghost" id="btn-optim" onclick="showOptimModal()" title="Optimiser l'ordre des arrêts avec contraintes horaires">⚡ Optimiser</button>
+      <button class="btn-sm btn-accent" onclick="generate()">🗺️ Générer</button>
+    </div>
+  </div>
+
+  <div class="app-body">
+
+    <!-- ══ LEFT ══ -->
+    <div class="left-panel">
+
+      <!-- PRINT HEADER -->
+      <div class="print-header" id="print-header">
+        <div style="display:flex;justify-content:space-between">
+          <div>
+            <div class="print-logo">T SERVICE <span>&amp; CO</span></div>
+            <div style="font-size:11px;color:#555;margin-top:2px">Feuille de route — <span id="print-lbl"></span></div>
+          </div>
+          <div style="text-align:right;font-size:11px;color:#555">Éditée le <span id="print-date"></span></div>
+        </div>
+      </div>
+
+      <!-- SÉLECTEURS -->
+      <div class="selectors">
+        <div class="sel-row">
+          <div><label class="lbl">📅 Date</label><input type="date" id="sel-date" class="sel"></div>
+          <div><label class="lbl">👷 Chauffeur</label><select id="sel-ch" class="sel"><option value="">— Tous —</option></select></div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-bar" id="stats-bar" style="display:none">
+        <div class="stat-cell"><div class="stat-val" id="s-stops">—</div><div class="stat-lbl">Arrêts</div></div>
+        <div class="stat-cell"><div class="stat-val" id="s-dist">—</div><div class="stat-lbl">Distance</div></div>
+        <div class="stat-cell"><div class="stat-val" id="s-dur">—</div><div class="stat-lbl">Durée</div></div>
+        <div class="stat-cell"><div class="stat-val" id="s-ret" style="font-size:16px">—</div><div class="stat-lbl">Retour dépôt</div></div>
+      </div>
+
+      <!-- CONTENU DYNAMIQUE -->
+      <div id="panel-content">
+        <div class="empty">
+          <div class="empty-icon">🗺️</div>
+          <div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">Feuille de route</div>
+          <div style="font-size:12px;line-height:1.6">Sélectionne une date et un chauffeur,<br>puis clique sur <strong>Générer</strong></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ MAP ══ -->
+    <div class="right-panel">
+      <div id="map"></div>
+      <div class="map-overlay">
+        <button class="map-btn" onclick="fitMap()">🎯 Recentrer</button>
+        <button class="map-btn" id="btn-sat" onclick="toggleSat()">🛰️ Satellite</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+
+<!-- ══ MODAL OPTIMISATION ══ -->
+<div id="modal-optim" class="modal-backdrop" style="display:none" onclick="if(event.target===this)closeOptimModal()">
+  <div class="modal-box">
+    <div class="modal-title">⚡ Optimiser l'itinéraire</div>
+    <div class="modal-sub">Optimisation VRP · ETAs calculés arrêt par arrêt · Alertes retard/avance</div>
+
+    <hr class="modal-sep" style="margin-top:4px">
+
+    <div class="modal-field">
+      <label>🕐 Heure de départ du dépôt</label>
+      <input type="time" id="optim-heure" value="07:00">
+    </div>
+
+    <div class="modal-field">
+      <label>⏱️ Tolérance fenêtre horaire (autour du RDV client)</label>
+      <select id="optim-tolerance">
+        <option value="15">± 15 min</option>
+        <option value="30" selected>± 30 min</option>
+        <option value="45">± 45 min</option>
+        <option value="60">± 60 min</option>
+      </select>
+      <div class="modal-hint">Ex : RDV 09h00 avec ±30min → fenêtre [08h30 → 09h30]</div>
+    </div>
+
+    <div class="modal-field">
+      <label>📦 Durée de service par arrêt (minutes)</label>
+      <input type="number" id="optim-service" value="15" min="0" max="120">
+      <div class="modal-hint">Temps passé chez chaque client (déchargement). Utilisé pour calculer les ETAs.</div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-sm btn-ghost" onclick="closeOptimModal()">Annuler</button>
+      <button class="btn-sm btn-accent" onclick="confirmOptim()">⚡ Lancer l'optimisation</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+function H(){return OT.authHeaders();}
+function H_MIN(){return{...OT.authHeaders(),'Prefer':'return=minimal'};}
+const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const DAYS_L=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+
+let map,tileL,satL,sat=false;
+let routeLayer=null,markersLayer=null;
+let allChauffeurs=[],allClients=[],allVehicules=[],entreprise={};
+let currentWaypoints=[], currentChauffeur=null;
+let currentOptimConfig=null; // null = mode basique, objet = mode optimisation
+
+// ── TIME HELPERS ──
+function timeToMin(t){ const[h,m]=(t||'00:00').split(':').map(Number); return h*60+(m||0); }
+function minToTime(m){ const h=Math.floor(m/60)%24; const mn=((m%60)+60)%60; return String(h).padStart(2,'0')+':'+String(mn).padStart(2,'0'); }
+function timeToSec(t){ return timeToMin(t)*60; }
+
+// ── MAP INIT ──
+function initMap(){
+  map=L.map('map',{zoomControl:true}).setView([46.6,1.888],6);
+  tileL=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
+  satL=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'© Esri',maxZoom:19});
+  markersLayer=L.layerGroup().addTo(map);
+}
+function toggleSat(){sat=!sat;sat?(map.removeLayer(tileL),map.addLayer(satL)):(map.removeLayer(satL),map.addLayer(tileL));document.getElementById('btn-sat').textContent=sat?'🗺️ Plan':'🛰️ Satellite';}
+function fitMap(){const pts=currentWaypoints.filter(w=>w.lat).map(w=>[w.lat,w.lng]);if(pts.length>0)map.fitBounds(pts,{padding:[40,40]});}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded',async()=>{
+  if(!OT.requireAddon('feuille_route')) return;
+  initMap();
+  const n=new Date();
+  const ny=n.getFullYear(), nm=String(n.getMonth()+1).padStart(2,'0'), nd=String(n.getDate()).padStart(2,'0');
+  document.getElementById('sel-date').value=`${ny}-${nm}-${nd}`;
+  document.getElementById('print-date').textContent=n.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  await loadMeta();
+  // URL params
+  const p=new URLSearchParams(location.search);
+  if(p.get('date')) document.getElementById('sel-date').value=p.get('date');
+  if(p.get('chauffeur')) document.getElementById('sel-ch').value=p.get('chauffeur');
+  if(p.get('date')&&p.get('chauffeur')) generate();
+});
+
+async function loadMeta(){
+  try{
+    const cf=OT.companyFilter();
+    const cfq=cf?cf+'&':'';
+    const[rc,rcl,rv,re]=await Promise.all([
+      fetch(`${SB}/rest/v1/chauffeurs?${cfq}order=nom`,{headers:H()}),
+      fetch(`${SB}/rest/v1/clients?${cfq}order=nom`,{headers:H()}),
+      fetch(`${SB}/rest/v1/vehicules?${cfq}order=immatriculation`,{headers:H()}),
+      fetch(`${SB}/rest/v1/entreprise?${cfq}limit=1`,{headers:H()})
+    ]);
+    allChauffeurs=await rc.json();
+    allClients=await rcl.json();
+    allVehicules=rv.ok?await rv.json():[];
+    const ed=re.ok?await re.json():[];
+    if(ed.length) entreprise=ed[0];
+    const sel=document.getElementById('sel-ch');
+    sel.innerHTML='<option value="">— Tous —</option>';
+    allChauffeurs.forEach(c=>{const o=document.createElement('option');o.value=c.nom;o.textContent=c.nom;sel.appendChild(o);});
+    setSI('✅ Prêt','#2ECC71');
+  }catch(e){setSI('❌ '+e.message,'#FC8181');}
+}
+
+// ── GENERATE ──
+async function generate(){
+  const date=document.getElementById('sel-date').value;
+  const chNom=document.getElementById('sel-ch').value;
+  if(!date){toast('Sélectionne une date','error');return;}
+  setSI('🔄 Chargement...','var(--gray)');
+  showLoading('Chargement des tournées...');
+  try{
+    const cf2=OT.companyFilter();
+    const cfq2=cf2?cf2+'&':'';
+    let url=`${SB}/rest/v1/tournees?${cfq2}date=eq.${date}&order=heure`;
+    if(chNom) url+=`&chauffeur_nom=eq.${encodeURIComponent(chNom)}`;
+    const[rt,rp]=await Promise.all([
+      fetch(url,{headers:H()}),
+      fetch(`${SB}/rest/v1/tournee_points?${cfq2}order=ordre`,{headers:H()})
+    ]);
+    const tournees=await rt.json();
+    const allPts=rp.ok?await rp.json():[];
+
+    if(!tournees.length){showEmpty('Aucune tournée ce jour','Ajoutez des tournées dans Saisie Tournées.');clearMap();setSI('⚠️ Aucune tournée','#F5A623');return;}
+
+    if(!chNom){
+      const chs=[...new Set(tournees.map(t=>t.chauffeur_nom))];
+      if(chs.length>1){showMulti(date,chs,tournees,allPts);setSI(`${tournees.length} tournées · ${chs.length} chauffeurs`,'#2ECC71');return;}
+    }
+
+    currentChauffeur=allChauffeurs.find(c=>c.nom===tournees[0].chauffeur_nom)||{nom:tournees[0].chauffeur_nom};
+
+    // Associer les points à chaque tournée
+    const enriched=tournees.map(t=>({...t,points:allPts.filter(p=>p.tournee_id===t.id)}));
+    await buildRoute(enriched,date);
+
+  }catch(e){showEmpty('Erreur',e.message);setSI('❌ '+e.message,'#FC8181');}
+}
+
+// ── BUILD ROUTE ──
+// Séquence : Dépôt → Client1(chargement) → Pt1.1 → Pt1.2 → Client2 → Pt2.1 → ... → Dépôt
+async function buildRoute(tournees,date){
+  const dateF=new Date(date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('print-lbl').textContent=dateF+' — '+currentChauffeur.nom;
+
+  // Construire la séquence de waypoints
+  const wp=[];
+
+  // 1. DÉPÔT DÉPART
+  const depotAddr=entreprise.adresse?[entreprise.adresse,entreprise.code_postal,entreprise.ville].filter(Boolean).join(', '):'';
+  const depotNom=entreprise.nom||'Dépôt';
+  wp.push({type:'depot',role:'depart',nom:depotNom,adresse:depotAddr,lat:null,lng:null,icon:'🏁'});
+
+  // 2. Pour chaque tournée : CLIENT puis ses POINTS
+  tournees.forEach((t,ti)=>{
+    const client=allClients.find(c=>c.nom===t.client_nom)||{nom:t.client_nom};
+    const cAddr=[client.adresse,client.code_postal,client.ville].filter(Boolean).join(', ');
+    wp.push({type:'client',nom:t.client_nom,adresse:cAddr,heure:t.heure,tournee_id:t.id,lat:client.lat||null,lng:client.lng||null,clientObj:client,icon:'🏢',tourneeIdx:ti});
+    t.points.forEach((p,pi)=>{
+      const pAddr=[p.adresse,p.code_postal,p.ville].filter(Boolean).join(', ');
+      wp.push({type:'point',nom:p.nom,adresse:pAddr,heure:p.heure_prevue,telephone:p.telephone,notes:p.notes,lat:p.lat||null,lng:p.lng||null,pointObj:p,icon:'📍',num:pi+1,tourneeIdx:ti});
+    });
+  });
+
+  // 3. RETOUR DÉPÔT
+  wp.push({type:'depot',role:'retour',nom:depotNom,adresse:depotAddr,lat:null,lng:null,icon:'🏁'});
+
+  currentWaypoints=wp;
+
+  // Afficher chauffeur card + itinéraire provisoire (ordre de saisie)
+  showChauffeurCard(currentChauffeur,tournees,dateF);
+  renderItinerary(wp);
+
+  // 1. Géocoder tous les waypoints
+  setSI('🔄 Géocodage des adresses...','var(--gray)');
+  await geocodeAll(wp);
+
+  // 2. Optimiser l'ordre des points de livraison
+  setSI('🔄 Optimisation de l\'itinéraire...','var(--accent)');
+  let optimized;
+  if(currentOptimConfig){
+    optimized=await runOptimization(wp,currentOptimConfig);
+  } else {
+    optimized=optimizeWaypoints(wp);
+  }
+  currentWaypoints=optimized;
+
+  // 3. Re-render avec l'ordre optimisé
+  renderItinerary(optimized);
+
+  // 4. Tracer la route OSRM avec l'ordre optimisé
+  await drawRoute(optimized);
+
+  document.getElementById('btn-print').style.display='';
+  document.getElementById('btn-wa').style.display=currentChauffeur.tel?'':'none';
+  const modeLabel=currentOptimConfig?'⚡ Optimisé ORS/2-opt':'✅ Optimisé';
+  setSI(`${modeLabel} · ${optimized.filter(w=>w.type!=='depot').length} arrêts`,'#2ECC71');
+}
+
+// ── OPTIMISATION NEAREST NEIGHBOR ──
+function optimizeWaypoints(wp){
+  const depot_start = wp[0];
+  const depot_end   = wp[wp.length-1];
+  const middle      = wp.slice(1, -1); // tout sauf dépôt début/fin
+
+  // Grouper par tournée (client + ses points)
+  const groups = [];
+  let current = null;
+  middle.forEach(w => {
+    if(w.type === 'client'){
+      if(current) groups.push(current);
+      current = { client: w, points: [] };
+    } else if(w.type === 'point' && current){
+      current.points.push(w);
+    }
+  });
+  if(current) groups.push(current);
+
+  // Pour chaque groupe : optimiser l'ordre des points avec nearest neighbor
+  // en partant de l'adresse du client
+  groups.forEach(g => {
+    if(g.points.length <= 1) return; // 0 ou 1 point = pas d'optimisation
+    const withCoords = g.points.filter(p => p.lat && p.lng);
+    if(withCoords.length < 2) return; // pas assez de coords pour optimiser
+
+    // Nearest neighbor depuis la position du client (ou premier point si pas de coords client)
+    const startLat = g.client.lat || withCoords[0].lat;
+    const startLng = g.client.lng || withCoords[0].lng;
+
+    const remaining = [...g.points];
+    const ordered = [];
+    let curLat = startLat, curLng = startLng;
+
+    while(remaining.length > 0){
+      // Trouver le point le plus proche qui a des coords
+      let bestIdx = 0, bestDist = Infinity;
+      remaining.forEach((p, i) => {
+        if(!p.lat || !p.lng){
+          // Point sans coords : le mettre à la fin
+          return;
+        }
+        const d = haversine(curLat, curLng, p.lat, p.lng);
+        if(d < bestDist){ bestDist = d; bestIdx = i; }
+      });
+      const chosen = remaining.splice(bestIdx, 1)[0];
+      ordered.push(chosen);
+      if(chosen.lat){ curLat = chosen.lat; curLng = chosen.lng; }
+    }
+
+    // Renuméroter
+    ordered.forEach((p, i) => { p.num = i + 1; p.optimized = true; });
+    g.points = ordered;
+  });
+
+  // Reconstruire le tableau wp optimisé
+  const result = [depot_start];
+  groups.forEach(g => {
+    result.push(g.client);
+    g.points.forEach(p => result.push(p));
+  });
+  result.push(depot_end);
+  return result;
+}
+
+// Distance haversine en km
+function haversine(lat1, lng1, lat2, lng2){
+  const R = 6371;
+  const dLat = (lat2-lat1)*Math.PI/180;
+  const dLng = (lng2-lng1)*Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// ── MOTEUR D'OPTIMISATION PRINCIPAL ──
+async function runOptimization(wp, config){
+  const depot_start=wp[0];
+  const depot_end=wp[wp.length-1];
+  const middle=wp.slice(1,-1);
+
+  // Grouper par client
+  const groups=[];
+  let current=null;
+  middle.forEach(w=>{
+    if(w.type==='client'){if(current)groups.push(current);current={client:w,points:[]};}
+    else if(w.type==='point'&&current){current.points.push(w);}
+  });
+  if(current)groups.push(current);
+
+  // Optimiser l'ordre des points dans chaque groupe (nearest-neighbor intra)
+  groups.forEach(g=>{
+    if(g.points.length<=1)return;
+    const withC=g.points.filter(p=>p.lat&&p.lng);
+    if(withC.length<2)return;
+    const startLat=g.client.lat||withC[0].lat;
+    const startLng=g.client.lng||withC[0].lng;
+    const remaining=[...g.points];
+    const ordered=[];
+    let curLat=startLat,curLng=startLng;
+    while(remaining.length>0){
+      let bestIdx=0,bestDist=Infinity;
+      remaining.forEach((p,i)=>{
+        if(!p.lat||!p.lng)return;
+        const d=haversine(curLat,curLng,p.lat,p.lng);
+        if(d<bestDist){bestDist=d;bestIdx=i;}
+      });
+      const chosen=remaining.splice(bestIdx,1)[0];
+      ordered.push(chosen);
+      if(chosen.lat){curLat=chosen.lat;curLng=chosen.lng;}
+    }
+    ordered.forEach((p,i)=>{p.num=i+1;p.optimized=true;});
+    g.points=ordered;
+  });
+
+  // Optimiser l'ordre des groupes (inter-clients)
+  const depotLat=depot_start.lat, depotLng=depot_start.lng;
+  let optimizedGroups=null;
+
+  if(depotLat&&depotLng&&groups.length>=2){
+    setSI('⚡ Optimisation ORS en cours...','var(--accent)');
+    optimizedGroups=await tryORSOptimization(groups,depotLat,depotLng,config);
+    if(optimizedGroups){toast('✅ Optimisation ORS réussie');}
+    else{toast('⚠️ ORS indisponible — algorithme 2-opt activé','error');}
+  }
+
+  if(!optimizedGroups){
+    setSI('🔄 Optimisation 2-opt...','var(--accent)');
+    optimizedGroups=(depotLat&&depotLng&&groups.length>=3)?fallback2Opt(groups,depotLat,depotLng):groups;
+  }
+
+  // Reconstruire wp
+  const result=[depot_start];
+  optimizedGroups.forEach(g=>{
+    g.client.optimized=true;
+    result.push(g.client);
+    g.points.forEach(p=>result.push(p));
+  });
+  result.push(depot_end);
+  return result;
+}
+
+// ── ORS VROOM OPTIMIZATION ──
+async function tryORSOptimization(groups,depotLat,depotLng,config){
+  const withCoords=groups.filter(g=>g.client.lat&&g.client.lng);
+  if(withCoords.length<2)return null;
+  const jobs=withCoords.map((g,i)=>{
+    const job={id:i,location:[g.client.lng,g.client.lat],service:(config.dureeGlobale||15)*60};
+    if(g.client.heure){
+      const t=timeToSec(g.client.heure);
+      const tol=config.tolerance*60;
+      job.time_windows=[[Math.max(0,t-tol),t+tol]];
+    }
+    return job;
+  });
+  const departSec=timeToSec(config.heureDepart);
+  const payload={
+    jobs,
+    vehicles:[{id:1,start:[depotLng,depotLat],end:[depotLng,depotLat],time_window:[departSec,departSec+12*3600]}]
+  };
+  try{
+    const r=await fetch(`${SB}/functions/v1/ors-optimize`,{
+      method:'POST',
+      headers:H(),
+      body:JSON.stringify(payload)
+    });
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    if(!data.routes?.[0]?.steps)return null;
+    const orderedIds=data.routes[0].steps.filter(s=>s.type==='job').map(s=>s.job);
+    const noCoords=groups.filter(g=>!g.client.lat||!g.client.lng);
+    return [...orderedIds.map(id=>withCoords[id]),...noCoords];
+  }catch(e){console.warn('ORS error:',e.message);return null;}
+}
+
+// ── FALLBACK 2-OPT ──
+function fallback2Opt(groups,depotLat,depotLng){
+  const withCoords=groups.filter(g=>g.client.lat&&g.client.lng);
+  const noCoords=groups.filter(g=>!g.client.lat||!g.client.lng);
+  if(withCoords.length<3)return groups;
+
+  // Points : [depot, client0, client1, ...]
+  const pts=[{lat:depotLat,lng:depotLng},...withCoords.map(g=>({lat:g.client.lat,lng:g.client.lng}))];
+  let order=withCoords.map((_,i)=>i);
+
+  function routeLen(ord){
+    let d=0,prev=pts[0];
+    ord.forEach(i=>{const p=pts[i+1];d+=haversine(prev.lat,prev.lng,p.lat,p.lng);prev=p;});
+    return d+haversine(prev.lat,prev.lng,pts[0].lat,pts[0].lng);
+  }
+
+  let improved=true;
+  while(improved){
+    improved=false;
+    for(let i=0;i<order.length-1;i++){
+      for(let j=i+1;j<order.length;j++){
+        const newOrd=[...order.slice(0,i+1),...order.slice(i+1,j+1).reverse(),...order.slice(j+1)];
+        if(routeLen(newOrd)<routeLen(order)){order=newOrd;improved=true;}
+      }
+    }
+  }
+  return [...order.map(i=>withCoords[i]),...noCoords];
+}
+
+// ── CALCUL ETAs ──
+function computeETAsInPlace(wp,config,legs){
+  let cursor=timeToMin(config.heureDepart);
+  let legIdx=0;
+  wp[0].eta=minToTime(cursor);wp[0].etaDiff=null;
+  for(let i=1;i<wp.length;i++){
+    const w=wp[i];
+    if(w.lat){
+      const prev=wp.slice(0,i).reverse().find(x=>x.lat);
+      if(prev&&legs?.[legIdx]){cursor+=Math.round(legs[legIdx].duration/60);legIdx++;}
+    }
+    w.eta=w.lat?minToTime(cursor):null;
+    w.etaDiff=(w.heure&&w.eta)?cursor-timeToMin(w.heure):null;
+    if(w.type!=='depot')cursor+=(w.clientObj?.duree_service||config.dureeGlobale||15);
+  }
+  // Durée totale trajet
+  const totalTravelMin=legs?Math.round(legs.reduce((s,l)=>s+l.duration,0)/60):0;
+  const serviceMin=wp.filter(w=>w.type!=='depot').length*(config.dureeGlobale||15);
+  const totalMin=totalTravelMin+serviceMin;
+  const hh=Math.floor(totalMin/60),mm=totalMin%60;
+  const durEl=document.getElementById('s-dur');
+  const retEl=document.getElementById('s-ret');
+  if(durEl)durEl.textContent=`${hh}h${String(mm).padStart(2,'0')}`;
+  if(retEl)retEl.textContent=wp[wp.length-1].eta||'—';
+}
+
+// ── GEOCODER ──
+const geoCache={};
+async function geocodeAddr(addr){
+  if(!addr||addr.trim().length<3)return null;
+  const k=addr.toLowerCase().trim();
+  if(geoCache[k])return geoCache[k];
+
+  // Essayer plusieurs variantes pour maximiser les chances
+  const variants=[
+    addr,
+    addr+', France',
+    // Si l'adresse contient une virgule, essayer juste la 2ème partie (ville+CP)
+    addr.includes(',')?addr.split(',').slice(1).join(',').trim():null,
+  ].filter(Boolean);
+
+  for(const v of variants){
+    try{
+      const r=await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(v)}&format=json&limit=1&countrycodes=fr`,
+        {headers:{'Accept-Language':'fr','User-Agent':'OptimumTrans/1.0'}}
+      );
+      const d=await r.json();
+      if(d&&d.length){
+        const res={lat:parseFloat(d[0].lat),lng:parseFloat(d[0].lon)};
+        geoCache[k]=res;
+        return res;
+      }
+    }catch(e){}
+    await new Promise(r=>setTimeout(r,300));
+  }
+  return null;
+}
+
+async function geocodeAll(wp){
+  for(let i=0;i<wp.length;i++){
+    const w=wp[i];
+    if(w.lat||!w.adresse)continue;
+    updateWpGeo(i,'loading');
+    await new Promise(r=>setTimeout(r,500)); // Nominatim rate limit
+    const geo=await geocodeAddr(w.adresse);
+    if(geo){
+      w.lat=geo.lat;w.lng=geo.lng;
+      updateWpGeo(i,'ok');
+      // Sauvegarder coords client en base
+      if(w.type==='client'&&w.clientObj?.id) saveClientCoords(w.clientObj.id,geo.lat,geo.lng);
+      // Sauvegarder coords point en base
+      if(w.type==='point'&&w.pointObj?.id) savePointCoords(w.pointObj.id,geo.lat,geo.lng);
+    } else {
+      updateWpGeo(i,'err');
+    }
+  }
+}
+
+async function saveClientCoords(id,lat,lng){
+  try{await fetch(`${SB}/rest/v1/clients?id=eq.${id}`,{method:'PATCH',headers:H_MIN(),body:JSON.stringify({lat,lng})});}catch(e){}
+}
+async function savePointCoords(id,lat,lng){
+  try{await fetch(`${SB}/rest/v1/tournee_points?id=eq.${id}`,{method:'PATCH',headers:H_MIN(),body:JSON.stringify({lat,lng})});}catch(e){}
+}
+
+function updateWpGeo(i,status){
+  const el=document.querySelector(`.geo-badge[data-idx="${i}"]`);
+  if(!el)return;
+  if(status==='ok'){el.textContent='📍 Localisé';el.className='it-badge geo-ok';}
+  else if(status==='loading'){el.textContent='🔄 Géocodage...';el.className='it-badge geo-load';}
+  else{el.textContent='❌ Non trouvé';el.className='it-badge geo-err';}
+}
+
+// ── DRAW ROUTE ──
+async function drawRoute(wp){
+  clearMap();
+  const withCoords=wp.filter(w=>w.lat);
+  if(withCoords.length<2){
+    // Essayer de géocoder maintenant si pas déjà fait
+    const missing=wp.filter(w=>!w.lat&&w.adresse&&w.adresse.trim().length>3);
+    if(missing.length>0){
+      toast('🔄 Géocodage des adresses en cours...','info');
+      await geocodeAll(wp);
+      const withCoords2=wp.filter(w=>w.lat);
+      if(withCoords2.length<2){
+        toast('❌ Adresses introuvables — vérifiez le format (ex: 15 rue de la Paix, 75001 Paris)','error');
+        addMarkers(wp);return;
+      }
+    } else {
+      toast('❌ Renseignez les adresses complètes dans Paramètres → Clients','error');
+      addMarkers(wp);return;
+    }
+  }
+  try{
+    const coords=withCoords.map(w=>`${w.lng},${w.lat}`).join(';');
+    const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`);
+    const d=await r.json();
+    if(d.routes?.length){
+      const route=d.routes[0];
+      if(routeLayer)map.removeLayer(routeLayer);
+      routeLayer=L.geoJSON(route.geometry,{style:{color:'#1A4FBF',weight:4,opacity:0.85}}).addTo(map);
+      const distKm=(route.distance/1000).toFixed(1);
+      document.getElementById('s-stops').textContent=wp.filter(w=>w.type!=='depot').length;
+      document.getElementById('s-dist').textContent=distKm+'km';
+      document.getElementById('stats-bar').style.display='grid';
+      const legs=d.routes[0].legs||[];
+      // Durée totale trajet (sans ETAs avancés)
+      if(!currentOptimConfig){
+        const totalTravelMin=Math.round(route.duration/60);
+        const hh=Math.floor(totalTravelMin/60),mm=totalTravelMin%60;
+        document.getElementById('s-dur').textContent=`${hh}h${String(mm).padStart(2,'0')}`;
+        const retMin=timeToMin('07:00')+totalTravelMin;
+        document.getElementById('s-ret').textContent=minToTime(retMin);
+      }
+      // Calcul ETAs avancés si mode optimisation
+      if(currentOptimConfig){
+        computeETAsInPlace(wp,currentOptimConfig,legs);
+        renderItinerary(wp); // re-render avec ETAs peuplés
+      }
+      // Distances leg par leg (maj badges après render)
+      let legIdx=0;
+      wp.forEach((w,i)=>{
+        if(!w.lat||i===0)return;
+        const prev=wp.slice(0,i).reverse().find(x=>x.lat);
+        if(prev&&legs[legIdx]){
+          const leg=legs[legIdx++];
+          updateLegDist(i,(leg.distance/1000).toFixed(1)+'km · ~'+Math.round(leg.duration/60)+'min');
+        }
+      });
+    }
+  }catch(e){toast('Route OSRM indisponible — marqueurs seuls','error');}
+  addMarkers(wp);
+  fitMap();
+}
+
+function updateLegDist(idx,txt){
+  const el=document.querySelector(`.leg-dist[data-idx="${idx}"]`);
+  if(el){el.textContent=txt;el.style.display='inline-flex';}
+}
+
+function addMarkers(wp){
+  markersLayer.clearLayers();
+  let ptNum=0;
+  wp.forEach((w,i)=>{
+    if(!w.lat)return;
+    let html;
+    if(w.type==='depot'){
+      html=`<div style="background:#27AE60;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4)">🏁</div>`;
+    } else if(w.type==='client'){
+      html=`<div style="background:#1A4FBF;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4)">🏢</div>`;
+    } else {
+      ptNum++;
+      html=`<div style="background:#F5A623;color:#0A1628;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.35);font-family:'Outfit',sans-serif">${ptNum}</div>`;
+    }
+    const icon=L.divIcon({html,className:'',iconSize:[32,32],iconAnchor:[16,16]});
+    const popup=`<div style="font-family:'Outfit',sans-serif;min-width:150px">
+      <div style="font-weight:700;font-size:13px">${w.nom}</div>
+      <div style="font-size:11px;color:#555;margin-top:2px">${w.adresse||''}</div>
+      ${w.heure?`<div style="font-size:11px;margin-top:3px">🕐 ${w.heure}</div>`:''}
+      ${w.telephone?`<div style="font-size:11px">📞 ${w.telephone}</div>`:''}
+      ${w.notes?`<div style="font-size:11px;color:#777">📝 ${w.notes}</div>`:''}
+    </div>`;
+    L.marker([w.lat,w.lng],{icon}).addTo(markersLayer).bindPopup(popup);
+  });
+}
+
+// ── RENDER ITINERARY ──
+function renderItinerary(wp){
+  let html='<div class="itinerary"><div class="it-title"><span>📍 ITINÉRAIRE COMPLET</span><span style="color:var(--gray);font-weight:400">'+(wp.length-2)+' arrêts</span></div>';
+  wp.forEach((w,i)=>{
+    const isLast=i===wp.length-1;
+    const dotClass=w.type==='depot'?'depot':w.type==='client'?'client':'point';
+    const lblClass=w.type==='depot'?'green':w.type==='client'?'blue':'orange';
+    const typeLabel=w.type==='depot'?(w.role==='depart'?'DÉPART — DÉPÔT':'RETOUR — DÉPÔT'):w.type==='client'?'ENLÈVEMENT CLIENT':'POINT DE LIVRAISON';
+    const dotContent=w.type==='point'?w.num:w.icon;
+    html+=`<div class="it-step">
+      <div class="it-col">
+        <div class="it-dot ${dotClass}" onclick="focusWp(${i})">${dotContent}</div>
+        ${!isLast?'<div class="it-line"></div>':''}
+      </div>
+      <div class="it-body" onclick="focusWp(${i})">
+        <div class="it-type ${lblClass}">${typeLabel}</div>
+        <div class="it-card">
+          <div class="it-name">${w.nom}</div>
+          <div class="it-addr">${w.adresse||'⚠️ Adresse non renseignée'}</div>
+          <div class="it-meta">
+            ${w.heure?`<span class="it-badge heure">🕐 ${w.heure}</span>`:''}
+            ${w.eta?`<span class="it-badge eta">🚗 ~${w.eta}</span>`:''}
+            ${(w.etaDiff!==null&&w.etaDiff!==undefined&&w.etaDiff>5)?`<span class="it-badge warn-badge">⚠️ Retard ~${w.etaDiff}min</span>`:''}
+            ${(w.etaDiff!==null&&w.etaDiff!==undefined&&w.etaDiff<-5)?`<span class="it-badge early-badge">✅ En avance ~${-w.etaDiff}min</span>`:''}
+            ${w.telephone?`<span class="it-badge" style="background:rgba(37,211,102,0.1);color:#25D366">📞 ${w.telephone}</span>`:''}
+            ${w.optimized?`<span class="it-badge" style="background:rgba(124,58,237,0.15);color:#A78BFA">✨ Optimisé</span>`:''}
+            <span class="it-badge geo-badge ${w.lat?'geo-ok':'geo-load'}" data-idx="${i}">${w.lat?'📍 Localisé':'🔄 Géocodage...'}</span>
+            <span class="it-badge dist leg-dist" data-idx="${i}" style="display:none"></span>
+          </div>
+          ${w.notes?`<div style="font-size:11px;color:var(--gray);margin-top:4px">📝 ${w.notes}</div>`:''}
+        </div>
+      </div>
+    </div>`;
+  });
+  html+='</div>';
+  document.getElementById('panel-content').innerHTML=html;
+}
+
+function focusWp(i){
+  const w=currentWaypoints[i];
+  if(!w?.lat){toast('Adresse non géolocalisée','error');return;}
+  map.setView([w.lat,w.lng],15);
+}
+
+// ── MULTI CHAUFFEUR ──
+function showMulti(date,chs,tournees,allPts){
+  const dateF=new Date(date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  let html=`<div style="padding:14px 16px;border-bottom:1px solid var(--border)">
+    <div style="font-weight:700;color:var(--white);font-size:13px">📅 ${dateF}</div>
+    <div style="font-size:11px;color:var(--gray);margin-top:3px">${tournees.length} tournées · ${chs.length} chauffeurs — sélectionne un chauffeur</div>
+  </div><div style="padding:12px 16px">`;
+  chs.forEach(nom=>{
+    const t=tournees.filter(x=>x.chauffeur_nom===nom);
+    const ini=nom.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+    const pts=t.reduce((s,x)=>s+(allPts.filter(p=>p.tournee_id===x.id).length),0);
+    html+=`<div class="multi-ch-card" onclick="selectCh('${nom}')">
+      <div style="width:36px;height:36px;border-radius:9px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;color:white;font-size:14px">${ini}</div>
+      <div style="flex:1">
+        <div style="font-weight:700;color:var(--white)">${nom}</div>
+        <div style="font-size:11px;color:var(--gray)">${t.length} tournée${t.length>1?'s':''} · ${pts} point${pts>1?'s':''} de livraison</div>
+      </div>
+      <div style="color:var(--blue);font-size:18px">→</div>
+    </div>`;
+  });
+  html+='</div>';
+  document.getElementById('panel-content').innerHTML=html;
+}
+function selectCh(nom){document.getElementById('sel-ch').value=nom;generate();}
+
+// ── CHAUFFEUR CARD ──
+function showChauffeurCard(c,tournees,dateF){
+  const v=allVehicules.find(x=>x.chauffeur_nom===c.nom);
+  const ini=c.nom.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+  const totalPts=tournees.reduce((s,t)=>s+t.points.length,0);
+  const el=document.createElement('div');
+  el.innerHTML=`<div class="ch-card">
+    <div class="ch-av">${ini}</div>
+    <div style="flex:1">
+      <div style="font-weight:700;color:var(--white);font-size:14px">${c.nom}</div>
+      <div style="font-size:11px;color:var(--gray);margin-top:2px">
+        📅 ${dateF}<br>
+        🚐 ${v?v.immatriculation+(v.typologie?' ['+v.typologie+']':'')+(v.marque?' — '+v.marque:''):'Véhicule non assigné'}
+        ${c.tel?` · 💬 ${c.tel}`:''}
+      </div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent)">${tournees.length}</div>
+      <div style="font-size:9px;color:var(--gray)">tournée${tournees.length>1?'s':''}</div>
+      <div style="font-size:9px;color:var(--gray)">${totalPts} livraison${totalPts>1?'s':''}</div>
+    </div>
+  </div>`;
+  // Insérer avant le contenu
+  const content=document.getElementById('panel-content');
+  content.innerHTML='';
+  content.appendChild(el);
+  const itDiv=document.createElement('div');
+  itDiv.id='itin-container';
+  content.appendChild(itDiv);
+  // Remplacer panel-content par la structure
+  document.getElementById('panel-content').querySelector('#itin-container').outerHTML='';
+}
+
+// ── WHATSAPP ──
+function sendWA(){
+  if(!currentChauffeur?.tel){toast('Numéro WhatsApp manquant','error');return;}
+  const date=document.getElementById('sel-date').value;
+  const v=allVehicules.find(x=>x.chauffeur_nom===currentChauffeur.nom);
+  const dateF=new Date(date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  let msg=`🗺️ *T SERVICE & CO — Feuille de Route*\nBonjour ${currentChauffeur.nom},\n\n`;
+  msg+=`📅 *${dateF}*\n`;
+  if(v) msg+=`🚐 ${v.immatriculation}${v.typologie?' ['+v.typologie+']':''}${v.marque?' — '+v.marque:''}\n`;
+  msg+=`\n`;
+  let ptNum=0;
+  currentWaypoints.forEach(w=>{
+    if(w.type==='depot'&&w.role==='depart'){msg+=`🏁 *Départ :* ${w.adresse||entreprise.adresse||'Dépôt'}\n\n`;}
+    else if(w.type==='client'){msg+=`🏢 *Enlèvement :* ${w.nom}\n   📍 ${w.adresse||'—'}\n   🕐 ${w.heure||'—'}\n\n`;}
+    else if(w.type==='point'){ptNum++;msg+=`📍 *Livraison ${ptNum} :* ${w.nom}\n   📍 ${w.adresse||'—'}\n${w.heure?'   🕐 '+w.heure+'\n':''}${w.telephone?'   📞 '+w.telephone+'\n':''}${w.notes?'   📝 '+w.notes+'\n':''}\n`;}
+    else if(w.type==='depot'&&w.role==='retour'){msg+=`🏁 *Retour dépôt :* ${w.adresse||'Dépôt'}\n`;}
+  });
+  msg+=`\nBonne journée ! 🚀\n_T SERVICE & CO_`;
+  var _p=currentChauffeur.tel.replace(/[\s\-\.\(\)]/g,'');if(_p.startsWith('+'))_p=_p.substring(1);else if(_p.startsWith('00'))_p=_p.substring(2);else if(_p.startsWith('0')&&_p.length===10)_p='33'+_p.substring(1);_p=_p.replace(/[^0-9]/g,'');var _waUrl=`https://wa.me/${_p}?text=${encodeURIComponent(msg)}`;if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){window.location.href=_waUrl;}else{window.open(_waUrl,'_blank');}
+  toast('💬 WhatsApp ouvert');
+}
+
+// ── MODAL OPTIMISATION ──
+function showOptimModal(){
+  // Pré-remplir heure de départ depuis entreprise si dispo
+  if(entreprise.heure_depart_depot){
+    document.getElementById('optim-heure').value=entreprise.heure_depart_depot.substring(0,5);
+  }
+  document.getElementById('modal-optim').style.display='flex';
+}
+
+function closeOptimModal(){
+  document.getElementById('modal-optim').style.display='none';
+}
+
+async function confirmOptim(){
+  currentOptimConfig={
+    heureDepart: document.getElementById('optim-heure').value||'07:00',
+    tolerance:   parseInt(document.getElementById('optim-tolerance').value)||30,
+    dureeGlobale:parseInt(document.getElementById('optim-service').value)||15,
+  };
+  closeOptimModal();
+  await generate();
+}
+
+// ── HELPERS ──
+function showLoading(msg){document.getElementById('panel-content').innerHTML=`<div class="loading-row"><div class="spinner"></div><span>${msg}</span></div>`;document.getElementById('stats-bar').style.display='none';document.getElementById('btn-print').style.display='none';document.getElementById('btn-wa').style.display='none';}
+function showEmpty(t,s){document.getElementById('panel-content').innerHTML=`<div class="empty"><div class="empty-icon">📋</div><div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">${t}</div><div style="font-size:12px">${s}</div></div>`;document.getElementById('stats-bar').style.display='none';document.getElementById('btn-print').style.display='none';document.getElementById('btn-wa').style.display='none';}
+function clearMap(){if(routeLayer){map.removeLayer(routeLayer);routeLayer=null;}if(markersLayer)markersLayer.clearLayers();}
+function setSI(msg,color){const el=document.getElementById('sync-info');el.textContent=msg;el.style.color=color;}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'❌':'✅'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
+</script>
+
+<script>
+// Raccourci secret Super Admin : Ctrl+Shift+A
+document.addEventListener('keydown', function(e){
+  if(e.ctrlKey && e.shiftKey && e.key === 'A'){
+    window.location.href = 'optimum_trans_superadmin.html';
+  }
+});
+</script>
+
+
+<!-- ══ COOKIE BANNER ══ -->
+<div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+  <div style="flex:1;min-width:200px">
+    <div style="font-size:13px;font-weight:600;color:#F0F4FF;margin-bottom:3px">🍪 Cookies</div>
+    <div style="font-size:11px;color:#8899AA">Nous utilisons uniquement des cookies fonctionnels pour votre connexion. <a href="optimum_trans_legal.html#cookies" style="color:#F5A623;text-decoration:none">En savoir plus</a></div>
+  </div>
+  <div style="display:flex;gap:10px;flex-shrink:0">
+    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8899AA;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
+    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;color:#0A1628;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
+  </div>
+</div>
+<script data-cfasync="false">
+(function(){
+  if(!localStorage.getItem('cookie_consent')){
+    var b=document.getElementById('ot-cookie-banner');
+    if(b){b.style.display='flex';setTimeout(function(){b.style.opacity='1';},500);}
+  }
+  window.otCookieChoice=function(v){
+    localStorage.setItem('cookie_consent',v);
+    var b=document.getElementById('ot-cookie-banner');
+    if(b){b.style.transition='transform 0.3s';b.style.transform='translateY(100%)';setTimeout(function(){b.style.display='none';},300);}
+  };
+})();
+</script>
+<script src="optimum_trans_demo_data.js"></script>
+<script src="/pwa-register.js"></script>
+
+<script src="ot_mobile_nav.js"></script>
+<script src="/ot_finance.js"></script>
+<script src="/ot_infoscroll.js"></script>
+<!-- GPS tracking moved to optimum_trans_gps_chauffeur.html (addon_tracking independent) -->
+<script src="/ot_visibility_pause.js"></script>
+<script src="/ot_messaging.js"></script>
+<script src="ot_decompte_guard.js" defer></script>
+</body>
+</html>

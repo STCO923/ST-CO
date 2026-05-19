@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>T SERVICE & CO — Connexion</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0A1628">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="T.S">
+<meta name="description" content="T SERVICE PILOTE VOTRE LOGISTIQUE — Gestion transport, planning, chauffeurs, tournées.">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--blue2:#2563EB;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--navy);}
+body{display:flex;height:100vh;overflow:hidden;align-items:stretch;}
+.left{flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:0;padding:16px 36px 14px;position:relative;overflow:hidden;background:linear-gradient(145deg,var(--navy) 0%,var(--navy2) 50%,#0D1F40 100%);}
+.bg-circle{position:absolute;border-radius:50%;opacity:0.07;animation:float 8s ease-in-out infinite;}
+.bg-circle:nth-child(1){width:500px;height:500px;background:var(--blue);top:-150px;left:-150px;animation-delay:0s;}
+.bg-circle:nth-child(2){width:350px;height:350px;background:var(--accent);bottom:-100px;right:-80px;animation-delay:-3s;}
+.bg-circle:nth-child(3){width:200px;height:200px;background:var(--purple);top:50%;left:60%;animation-delay:-6s;}
+@keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.logo-zone{position:relative;z-index:1;flex-shrink:0;}
+.logo-tag{font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:600;margin-bottom:3px;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--white);line-height:0.9;letter-spacing:3px;}
+.logo-name span{color:var(--accent);}
+.logo-sub{display:none;}
+.headline{position:relative;z-index:1;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-start;}
+.headline-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.25);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:600;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.headline h1{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--white);line-height:1.05;letter-spacing:2px;margin-bottom:4px;}
+.headline h1 span{color:var(--accent);}
+.headline p{font-size:10.5px;color:var(--gray);line-height:1.5;max-width:420px;margin-bottom:6px;}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;flex:1;min-height:0;grid-auto-rows:1fr;}
+.feat{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:7px 8px;transition:all 0.22s ease;position:relative;overflow:hidden;cursor:default;min-width:0;}
+.feat>div:not(.feat-icon){min-width:0;flex:1;}
+.feat::after{content:'';position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse at 60% 50%,rgba(37,99,235,0.14) 0%,transparent 70%);transition:opacity 0.3s ease;border-radius:10px;}
+.feat:hover{background:rgba(26,79,191,0.1);border-color:rgba(37,99,235,0.45);box-shadow:0 4px 18px rgba(37,99,235,0.18),0 0 0 1px rgba(37,99,235,0.12);transform:translateY(-2px);}
+.feat-ai{border-color:rgba(124,58,237,0.35);background:rgba(124,58,237,0.06);}.feat-ai:hover{border-color:rgba(124,58,237,0.6);box-shadow:0 4px 18px rgba(124,58,237,0.2),0 0 0 1px rgba(124,58,237,0.15);}
+.feat-ai::after{background:radial-gradient(ellipse at 60% 50%,rgba(124,58,237,0.14) 0%,transparent 70%)!important;}
+.feat:hover::after{opacity:1;}
+.feat-icon{font-size:17px;flex-shrink:0;width:30px;height:30px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all 0.22s ease;}
+.feat:hover .feat-icon{background:rgba(37,99,235,0.18);border-color:rgba(37,99,235,0.35);}
+.feat-title{font-size:10.5px;font-weight:700;color:var(--white);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.feat-desc{font-size:8.5px;color:var(--gray);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.plans-strip{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1;}
+.plan-chip{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;text-align:center;}
+.plan-chip.highlight{border-color:rgba(245,166,35,0.35);background:rgba(245,166,35,0.05);}
+.plan-chip-name{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--white);letter-spacing:1px;}
+.plan-chip-price{font-size:16px;font-weight:800;color:var(--accent);}
+.plan-chip-price span{font-size:10px;font-weight:400;color:var(--gray);}
+.plan-chip-users{font-size:10px;color:var(--gray);margin-top:2px;}
+.stats-row{display:flex;gap:18px;position:relative;z-index:1;flex-shrink:0;margin-top:auto;padding-top:8px;}
+.stat-item{text-align:center;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent);line-height:1;}
+.stat-lbl{font-size:8px;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px;}
+.right{width:380px;flex-shrink:0;background:var(--navy2);border-left:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;padding:20px 24px;overflow:hidden;}
+.login-card{width:100%;max-width:340px;}
+.login-header{margin-bottom:18px;}
+.login-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);letter-spacing:3px;margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--gray);}
+.form-group{margin-bottom:10px;}
+.form-group label{display:block;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:6px;}
+.input-wrap{position:relative;}
+.input-wrap input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 14px 10px 42px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--white);outline:none;transition:border-color 0.2s,background 0.2s;}
+.input-wrap input:focus{border-color:var(--blue);background:rgba(26,79,191,0.08);}
+.input-wrap input.err{border-color:var(--error);background:rgba(231,76,60,0.06);}
+.input-wrap input::placeholder{color:var(--gray2);}
+.inp-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;}
+.inp-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--gray);padding:4px;}
+.form-opts{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.remember{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--gray);cursor:pointer;}
+.remember input{accent-color:var(--blue);}
+.forgot-link{font-size:12px;color:var(--blue2);cursor:pointer;text-decoration:none;transition:color 0.2s;}
+.forgot-link:hover{color:var(--accent);}
+.error-box{background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:10px 14px;font-size:12px;color:#FC8181;margin-bottom:14px;display:none;}
+.error-box.show{display:block;}
+.btn-login{width:100%;padding:11px;border-radius:10px;border:none;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-weight:700;transition:all 0.2s;position:relative;overflow:hidden;}
+.btn-login:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 20px rgba(245,166,35,0.35);}
+.btn-login:disabled{opacity:0.7;cursor:not-allowed;}
+.btn-login .loader{display:none;width:18px;height:18px;border:2px solid rgba(10,22,40,0.3);border-top-color:var(--navy);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto;}
+.btn-login.loading span{display:none;}
+.btn-login.loading .loader{display:block;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sep{display:flex;align-items:center;gap:12px;margin:12px 0;}
+.sep-line{flex:1;height:1px;background:rgba(255,255,255,0.07);}
+.sep-txt{font-size:11px;color:var(--gray2);}
+.btn-demo{width:100%;padding:9px;border-radius:10px;background:none;border:1px solid rgba(255,255,255,0.1);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--gray);cursor:pointer;transition:all 0.2s;}
+.btn-demo:hover{border-color:var(--blue);color:var(--light);}
+.login-footer{margin-top:14px;text-align:center;font-size:10px;color:var(--gray2);line-height:1.6;}
+.login-footer a{color:var(--blue2);text-decoration:none;cursor:pointer;}
+.login-footer a:hover{color:var(--accent);}
+
+/* ── MODALS ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--navy2);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:32px;width:420px;max-width:96vw;box-shadow:0 20px 60px rgba(0,0,0,0.6);animation:slideUp 0.3s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;margin-bottom:6px;}
+.modal-sub{font-size:12px;color:var(--gray);margin-bottom:20px;line-height:1.6;}
+.modal-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:11px 14px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;transition:border-color 0.2s;}
+.modal-input:focus{border-color:var(--blue);}
+.modal-input::placeholder{color:var(--gray2);}
+.modal-textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:11px 14px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;resize:vertical;min-height:90px;transition:border-color 0.2s;}
+.modal-textarea:focus{border-color:var(--blue);}
+.modal-textarea::placeholder{color:var(--gray2);}
+.field-lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:5px;margin-top:10px;display:block;}
+.btn-reset{width:100%;padding:12px;border-radius:10px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--blue),var(--blue2));color:var(--white);transition:all 0.2s;}
+.btn-reset:hover:not(:disabled){transform:translateY(-1px);}
+.btn-send{width:100%;padding:12px;border-radius:10px;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);transition:all 0.2s;margin-top:4px;}
+.btn-send:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 14px rgba(245,166,35,0.35);}
+.btn-send:disabled{opacity:0.6;cursor:not-allowed;}
+.modal-cancel{display:block;text-align:center;margin-top:12px;font-size:12px;color:var(--gray);cursor:pointer;}
+.modal-cancel:hover{color:var(--white);}
+.reset-success{display:none;text-align:center;padding:10px;}
+.reset-success .rs-icon{font-size:40px;margin-bottom:10px;}
+.reset-success .rs-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;margin-bottom:6px;}
+.reset-success .rs-sub{font-size:12px;color:var(--gray);line-height:1.6;}
+.success-overlay{position:fixed;inset:0;background:var(--navy);z-index:900;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+.success-overlay.show{display:flex;}
+.s-icon{font-size:56px;animation:popIn 0.4s ease;}
+@keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+.s-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);letter-spacing:3px;}
+.s-sub{font-size:13px;color:var(--gray);}
+.progress-bar{width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-top:8px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--accent));border-radius:2px;animation:progress 1.5s ease forwards;}
+@keyframes progress{from{width:0}to{width:100%}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.shake{animation:shake 0.4s ease;}
+@media(max-width:768px){
+  body{flex-direction:column!important;}
+  .left{display:none!important;}
+  .right{
+    width:100%!important;
+    min-height:100vh!important;
+    padding:40px 20px 32px!important;
+    border-left:none!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+  }
+  .login-card{max-width:100%!important;width:100%!important;}
+
+  /* Logo mobile — géré par le splash screen */
+  .login-header::before{display:none;}
+
+  /* Inputs touch-friendly */
+  input{font-size:16px!important;height:50px!important;}
+  .input-wrap input{padding-left:44px!important;}
+
+  /* Boutons grands */
+  .btn-login{height:54px!important;font-size:16px!important;border-radius:12px!important;}
+  .btn-demo{height:50px!important;font-size:14px!important;}
+
+  /* Modal → bottom-sheet */
+  .modal-overlay{align-items:flex-end!important;}
+  .modal{
+    width:100%!important;
+    max-width:100%!important;
+    border-radius:20px 20px 0 0!important;
+    padding:24px 20px 36px!important;
+    margin:0!important;
+  }
+  .modal-input,.modal-textarea{font-size:16px!important;height:50px!important;}
+  .modal-textarea{height:auto!important;min-height:90px!important;}
+  .btn-reset,.btn-send{height:50px!important;font-size:14px!important;}
+}
+.pwd-strength{height:3px;border-radius:2px;margin-top:6px;background:rgba(255,255,255,0.08);}.pwd-strength-bar{height:100%;border-radius:2px;transition:width 0.3s,background 0.3s;width:0%;}.pwd-hint{font-size:10px;margin-top:4px;color:var(--gray);}
+
+/* ═══════════════════════════════════════════════
+   JUJU — Telegram Bot Interactive Card
+═══════════════════════════════════════════════ */
+.juju-card{position:relative;margin-top:6px;border-radius:14px;padding:2px;cursor:pointer;z-index:1;flex-shrink:0;overflow:visible;animation:juju-float 5s ease-in-out infinite;perspective:800px;}
+.juju-card::before{content:'';position:absolute;inset:-1px;border-radius:15px;background:linear-gradient(270deg,#0088cc,#7C3AED,#F5A623,#0088cc,#7C3AED);background-size:600% 600%;animation:juju-gradient 5s ease infinite;z-index:0;}
+.juju-card::after{content:'';position:absolute;inset:-4px;border-radius:18px;background:linear-gradient(270deg,#0088cc,#7C3AED,#F5A623,#0088cc);background-size:600% 600%;animation:juju-gradient 5s ease infinite;filter:blur(14px);opacity:0.3;z-index:-1;pointer-events:none;transition:opacity 0.3s;}
+.juju-card:hover::after{opacity:0.55;}
+@keyframes juju-gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes juju-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.juju-inner{position:relative;z-index:1;background:linear-gradient(135deg,rgba(10,22,40,0.97) 0%,rgba(15,32,64,0.97) 100%);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;overflow:hidden;transition:box-shadow 0.3s;}
+.juju-inner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(0,136,204,0.06) 1px,transparent 1px);background-size:20px 20px;animation:juju-grid-shift 15s linear infinite;pointer-events:none;}
+@keyframes juju-grid-shift{to{background-position:20px 20px}}
+/* Shimmer sweep */
+.juju-inner::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.04),transparent);animation:juju-shimmer 4s ease-in-out infinite;pointer-events:none;}
+@keyframes juju-shimmer{0%{left:-100%}50%{left:120%}100%{left:120%}}
+/* Left column: avatar + label */
+.juju-left-col{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;position:relative;z-index:2;}
+.juju-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0088cc 0%,#006699 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;box-shadow:0 0 18px rgba(0,136,204,0.45),inset 0 0 8px rgba(255,255,255,0.08);transition:box-shadow 0.3s,transform 0.3s;}
+.juju-tg-logo{width:22px;height:22px;filter:drop-shadow(0 0 4px rgba(255,255,255,0.3));}
+.juju-card:hover .juju-avatar{box-shadow:0 0 28px rgba(0,136,204,0.6),inset 0 0 12px rgba(255,255,255,0.12);transform:scale(1.08);}
+.juju-avatar-ring{position:absolute;inset:-4px;border-radius:50%;border:2px solid transparent;border-top-color:#F5A623;border-right-color:rgba(245,166,35,0.3);animation:ring-cw 3s linear infinite;}
+.juju-avatar-ring-2{position:absolute;inset:-8px;border-radius:50%;border:1px solid transparent;border-bottom-color:rgba(124,58,237,0.5);border-left-color:rgba(124,58,237,0.2);animation:ring-ccw 5s linear infinite;}
+.juju-label{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.juju-name{font-family:'Bebas Neue',sans-serif;font-size:13px;color:#fff;letter-spacing:2px;text-shadow:0 0 8px rgba(0,136,204,0.4);line-height:1;}
+.juju-status{font-size:7px;color:var(--gray);display:flex;align-items:center;gap:3px;}
+.juju-status-dot{width:5px;height:5px;border-radius:50%;background:#2ECC71;box-shadow:0 0 6px rgba(46,204,113,0.6);animation:ai-pulse 1.4s ease-in-out infinite;}
+/* Chat zone — conversation bubbles */
+.juju-chat-zone{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;position:relative;z-index:2;min-height:42px;justify-content:center;}
+.juju-bubble{font-size:10px;line-height:1.35;padding:4px 9px;border-radius:8px;max-width:92%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateY(6px);transition:opacity 0.35s,transform 0.35s;}
+.juju-bubble.visible{opacity:1;transform:translateY(0);}
+.juju-bubble-user{align-self:flex-end;background:rgba(0,136,204,0.18);border:1px solid rgba(0,136,204,0.3);color:rgba(255,255,255,0.9);border-bottom-right-radius:2px;}
+.juju-bubble-bot{align-self:flex-start;background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);color:var(--light);border-bottom-left-radius:2px;}
+/* Typing dots */
+.juju-typing{display:none;align-items:center;gap:3px;padding:2px 0;align-self:flex-start;}
+.juju-typing.active{display:flex;}
+.juju-typing span{width:4px;height:4px;border-radius:50%;background:rgba(124,58,237,0.7);animation:juju-dot-bounce 1.4s ease-in-out infinite;}
+.juju-typing span:nth-child(2){animation-delay:0.2s;}
+.juju-typing span:nth-child(3){animation-delay:0.4s;}
+@keyframes juju-dot-bounce{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-4px);opacity:1}}
+/* CTA */
+.juju-cta{font-size:7px;font-weight:800;padding:3px 8px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);letter-spacing:1.5px;flex-shrink:0;animation:juju-cta-glow 2.5s ease-in-out infinite;white-space:nowrap;}
+@keyframes juju-cta-glow{0%,100%{box-shadow:0 0 0 0 rgba(245,166,35,0.4)}50%{box-shadow:0 0 14px 4px rgba(245,166,35,0.2)}}
+/* Sparkle particles */
+.juju-sparkle{position:absolute;width:3px;height:3px;border-radius:50%;pointer-events:none;z-index:3;}
+@keyframes juju-sparkle-drift{0%{opacity:0;transform:translateY(0) scale(0)}20%{opacity:1;transform:translateY(-5px) scale(1)}100%{opacity:0;transform:translateY(-25px) scale(0)}}
+/* Mobile: hide card on small screens (left panel is hidden) */
+@media(max-width:768px){.juju-card{display:none;}}
+
+/* ── Canvas réseau ── */
+#ot-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+
+/* ═══════════════════════════════════════════════
+   AI INTERACTIVE LOGO — Futuristic animated logo
+═══════════════════════════════════════════════ */
+.ai-logo-zone{display:flex;flex-direction:row;align-items:center;gap:16px;position:relative;z-index:1;padding:4px 0 4px 20px;margin-bottom:8px;}
+.ai-logo-zone .logo-tag{margin-bottom:2px;}
+.ai-logo-wrap{position:relative;width:120px;height:120px;flex-shrink:0;user-select:none;transition:transform 0.15s ease;cursor:pointer;overflow:visible;}
+
+/* Orbital rings */
+.ai-ring{position:absolute;border-radius:50%;top:50%;left:50%;transform-origin:center;}
+.ai-ring-1{width:113px;height:113px;margin:-56.5px 0 0 -56.5px;border:1.5px solid rgba(37,99,235,0.15);border-top-color:rgba(245,166,35,0.85);border-right-color:rgba(245,166,35,0.25);animation:ring-cw 6s linear infinite;}
+.ai-ring-2{width:131px;height:131px;margin:-65.5px 0 0 -65.5px;border:1px solid rgba(26,79,191,0.12);border-bottom-color:rgba(37,99,235,0.75);border-left-color:rgba(37,99,235,0.3);animation:ring-ccw 10s linear infinite;}
+.ai-ring-3{width:150px;height:150px;margin:-75px 0 0 -75px;border:1px dashed rgba(124,58,237,0.18);border-top-color:rgba(124,58,237,0.55);animation:ring-cw 18s linear infinite;}
+@keyframes ring-cw{to{transform:rotate(360deg)}}
+@keyframes ring-ccw{to{transform:rotate(-360deg)}}
+.ai-logo-wrap:hover .ai-ring-1{animation-duration:3s;}
+.ai-logo-wrap:hover .ai-ring-2{animation-duration:5s;}
+
+/* Tracking dots on rings */
+.ring-dot{position:absolute;width:6px;height:6px;border-radius:50%;top:-3px;left:50%;margin-left:-3px;}
+.ring-dot-1{background:var(--accent);box-shadow:0 0 8px 2px rgba(245,166,35,0.8);}
+.ring-dot-2{background:var(--blue2);box-shadow:0 0 7px 2px rgba(37,99,235,0.9);top:auto;bottom:-3px;}
+.ring-dot-3{background:#a78bfa;box-shadow:0 0 7px 2px rgba(167,139,250,0.8);}
+
+/* Radar sweep */
+.ai-radar{position:absolute;width:101px;height:101px;border-radius:50%;top:50%;left:50%;margin:-50.5px 0 0 -50.5px;overflow:hidden;pointer-events:none;}
+.ai-radar::after{content:'';position:absolute;inset:0;background:conic-gradient(from 0deg,transparent 0deg,rgba(37,99,235,0.18) 70deg,transparent 70deg);animation:radar-spin 3.5s linear infinite;}
+@keyframes radar-spin{to{transform:rotate(360deg)}}
+
+/* Logo inner circle */
+.ai-logo-inner{position:absolute;width:79px;height:79px;top:50%;left:50%;margin:-39.5px 0 0 -39.5px;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 40% 35%,rgba(26,79,191,0.18) 0%,rgba(10,22,40,0.92) 70%);border:2px solid rgba(37,99,235,0.45);animation:logo-glow 3.5s ease-in-out infinite;z-index:2;}
+@keyframes logo-glow{
+  0%,100%{box-shadow:0 0 18px rgba(37,99,235,0.3),0 0 40px rgba(37,99,235,0.1),inset 0 0 18px rgba(37,99,235,0.06);}
+  50%{box-shadow:0 0 28px rgba(245,166,35,0.35),0 0 60px rgba(37,99,235,0.2),inset 0 0 24px rgba(245,166,35,0.08);}
+}
+.ai-logo-wrap:hover .ai-logo-inner{box-shadow:0 0 42px rgba(245,166,35,0.45),0 0 80px rgba(37,99,235,0.3),inset 0 0 30px rgba(245,166,35,0.12)!important;}
+
+/* Logo image */
+.ai-logo-img{width:100%;height:100%;object-fit:contain;padding:14px;animation:logo-float 4s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(245,166,35,0.45));}
+@keyframes logo-float{0%,100%{transform:scale(1) translateY(0);}50%{transform:scale(1.04) translateY(-4px);}}
+.ai-logo-wrap:hover .ai-logo-img{filter:drop-shadow(0 0 18px rgba(245,166,35,0.75));}
+
+/* Scan line */
+.ai-scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(37,99,235,0.7) 40%,rgba(245,166,35,0.6) 60%,transparent 100%);box-shadow:0 0 8px rgba(37,99,235,0.6);animation:scan 2.8s ease-in-out infinite;pointer-events:none;}
+@keyframes scan{0%{top:0;opacity:0;}5%{opacity:1;}85%{top:100%;opacity:0.7;}100%{top:100%;opacity:0;}}
+
+/* HUD corner labels */
+.ai-hud{position:absolute;font-size:8px;font-weight:700;letter-spacing:1.5px;line-height:1;animation:hud-fade 2.5s ease-in-out infinite;}
+.ai-hud-tl{top:10px;left:10px;color:rgba(37,99,235,0.7);}
+.ai-hud-tr{top:10px;right:10px;text-align:right;color:rgba(245,166,35,0.7);animation-delay:0.6s;}
+.ai-hud-bl{bottom:10px;left:10px;color:rgba(37,99,235,0.6);animation-delay:1.2s;}
+.ai-hud-br{bottom:10px;right:10px;text-align:right;color:rgba(245,166,35,0.6);animation-delay:1.8s;}
+@keyframes hud-fade{0%,100%{opacity:1;}50%{opacity:0.35;}}
+
+/* Corner bracket decoration */
+.ai-logo-wrap::before,.ai-logo-wrap::after{content:'';position:absolute;width:18px;height:18px;border-color:rgba(245,166,35,0.5);border-style:solid;}
+.ai-logo-wrap::before{top:3px;left:3px;border-width:2px 0 0 2px;}
+.ai-logo-wrap::after{bottom:3px;right:3px;border-width:0 2px 2px 0;}
+
+/* Particle canvas around logo */
+.ai-logo-canvas{position:absolute;top:-20px;left:-20px;width:calc(100% + 40px);height:calc(100% + 40px);pointer-events:none;z-index:0;}
+
+/* Data pulse rings (click ripple) */
+.ai-pulse-ring{position:absolute;border-radius:50%;top:50%;left:50%;border:2px solid rgba(245,166,35,0.6);animation:pulse-expand 1s ease-out forwards;pointer-events:none;z-index:3;}
+@keyframes pulse-expand{0%{width:80px;height:80px;margin:-40px 0 0 -40px;opacity:0.8;}100%{width:260px;height:260px;margin:-130px 0 0 -130px;opacity:0;}}
+
+/* All 10 features visible */
+
+/* Ticker compact */
+.ticker-wrap{margin-top:8px;height:30px;padding:6px 10px;}
+
+/* ── Mobile: hide large logo on small screens ── */
+@media(max-width:768px){.ai-logo-wrap{width:96px;height:96px;}.ai-ring-2,.ai-ring-3{display:none;}.ai-logo-inner{width:63px;height:63px;margin:-31.5px 0 0 -31.5px;}.ai-radar{width:81px;height:81px;margin:-40.5px 0 0 -40.5px;}}
+/* ── Typewriter ── */
+.tw-line{display:inline;}
+.tw-cursor{display:inline-block;width:3px;height:.8em;background:var(--accent);margin-left:2px;vertical-align:middle;animation:blink .75s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+/* ── Badge NEW ── */
+.feat-new::before{content:'NEW';position:absolute;top:4px;right:4px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-size:7px;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:1px;z-index:4;line-height:1;box-shadow:0 2px 6px rgba(245,166,35,0.35);}
+.feat-ai::before{content:'IA';position:absolute;top:4px;right:4px;background:linear-gradient(135deg,#7C3AED,#a78bfa);color:#fff;font-size:7px;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:1px;z-index:4;line-height:1;box-shadow:0 2px 6px rgba(124,58,237,0.35);}
+/* ── AI tag pulsing dot ── */
+.ai-live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#2ECC71;margin-right:5px;animation:ai-pulse 1.4s ease-in-out infinite;}
+@keyframes ai-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.5}}
+/* ── Ticker ── */
+.ticker-wrap{display:flex;align-items:center;gap:10px;margin-top:6px;padding:5px 10px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:8px;overflow:hidden;height:28px;position:relative;z-index:1;}
+.ticker-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+.ticker-sep{width:1px;height:14px;background:rgba(255,255,255,.1);flex-shrink:0;}
+.ticker-slot{flex:1;position:relative;overflow:hidden;height:20px;}
+.tick-item{position:absolute;left:0;right:0;font-size:11px;color:var(--gray);white-space:nowrap;transition:transform .5s ease,opacity .5s ease;}
+.tick-item.show{transform:translateY(0);opacity:1;}
+.tick-item.above{transform:translateY(-20px);opacity:0;}
+.tick-item.below{transform:translateY(20px);opacity:0;}
+/* ── Logo text group (horizontal layout) ── */
+.logo-text-group{display:flex;flex-direction:column;justify-content:center;}
+.logo-tagline{font-size:9px;color:var(--gray);letter-spacing:3px;text-transform:uppercase;margin-top:6px;font-weight:400;}
+/* ── Stat num override ── */
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:20px!important;color:var(--accent);line-height:1;}
+
+/* ══════════════════════════════════════════════
+   MOBILE SPLASH SCREEN
+══════════════════════════════════════════════ */
+.mob-splash{display:none;position:fixed;inset:0;background:radial-gradient(ellipse at 30% 35%,#0F2040 0%,#0A1628 65%);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:28px;overflow:hidden;}
+.mob-splash.exit{animation:splash-ppt-zoom 0.45s cubic-bezier(0.4,0,1,1) forwards;pointer-events:none;}
+.mob-splash{display:flex;}
+/* Canvas bg */
+#mob-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+/* Logo wrap */
+.mob-logo-wrap{position:relative;width:200px;height:200px;animation:splash-appear 0.8s ease both;}
+@keyframes splash-appear{from{opacity:0;transform:scale(0.7) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+/* Rings */
+.mob-ring{position:absolute;border-radius:50%;top:50%;left:50%;transform-origin:center;}
+.mob-ring-1{width:188px;height:188px;margin:-94px 0 0 -94px;border:1.5px solid rgba(37,99,235,0.15);border-top-color:rgba(245,166,35,0.9);border-right-color:rgba(245,166,35,0.3);animation:ring-cw 6s linear infinite;}
+.mob-ring-2{width:218px;height:218px;margin:-109px 0 0 -109px;border:1px solid rgba(26,79,191,0.12);border-bottom-color:rgba(37,99,235,0.8);border-left-color:rgba(37,99,235,0.35);animation:ring-ccw 10s linear infinite;}
+.mob-ring-3{width:252px;height:252px;margin:-126px 0 0 -126px;border:1px dashed rgba(124,58,237,0.2);border-top-color:rgba(124,58,237,0.65);animation:ring-cw 18s linear infinite;}
+.mob-dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-4.5px;left:50%;margin-left:-4.5px;}
+.mob-dot-1{background:var(--accent);box-shadow:0 0 14px 4px rgba(245,166,35,0.9);}
+.mob-dot-2{background:var(--blue2);box-shadow:0 0 12px 3px rgba(37,99,235,0.95);top:auto;bottom:-4.5px;}
+.mob-dot-3{background:#a78bfa;box-shadow:0 0 10px 3px rgba(167,139,250,0.85);}
+/* Radar */
+.mob-radar{position:absolute;width:168px;height:168px;border-radius:50%;top:50%;left:50%;margin:-84px 0 0 -84px;overflow:hidden;}
+.mob-radar::after{content:'';position:absolute;inset:0;background:conic-gradient(from 0deg,transparent 0deg,rgba(37,99,235,0.22) 70deg,transparent 70deg);animation:radar-spin 3.5s linear infinite;}
+/* Inner logo */
+.mob-logo-inner{position:absolute;width:132px;height:132px;top:50%;left:50%;margin:-66px 0 0 -66px;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 40% 35%,rgba(26,79,191,0.2) 0%,rgba(10,22,40,0.95) 70%);border:2px solid rgba(37,99,235,0.5);animation:logo-glow 3.5s ease-in-out infinite;z-index:2;}
+.mob-logo-img{width:100%;height:100%;object-fit:contain;padding:18px;animation:logo-float 4s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(245,166,35,0.55));}
+.mob-scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(37,99,235,0.8) 40%,rgba(245,166,35,0.65) 60%,transparent);box-shadow:0 0 10px rgba(37,99,235,0.7);animation:scan 2.8s ease-in-out infinite;pointer-events:none;}
+/* HUD */
+.mob-hud{position:absolute;font-size:9px;font-weight:700;letter-spacing:1.5px;animation:hud-fade 2.5s ease-in-out infinite;}
+.mob-hud-tl{top:12px;left:12px;color:rgba(37,99,235,0.7);}
+.mob-hud-tr{top:12px;right:12px;color:rgba(245,166,35,0.7);animation-delay:.6s;}
+.mob-hud-bl{bottom:12px;left:12px;color:rgba(37,99,235,0.6);animation-delay:1.2s;}
+.mob-hud-br{bottom:12px;right:12px;color:rgba(245,166,35,0.6);animation-delay:1.8s;}
+/* Brand */
+.mob-brand{text-align:center;animation:splash-appear 0.9s 0.25s ease both;}
+.mob-name{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--white);line-height:0.85;letter-spacing:5px;}
+.mob-name span{color:var(--accent);}
+.mob-devise{font-size:12px;color:var(--gray);letter-spacing:2.5px;text-transform:uppercase;margin-top:14px;font-weight:300;line-height:1.6;max-width:280px;margin-left:auto;margin-right:auto;}
+.mob-devise em{color:rgba(245,166,35,0.8);font-style:normal;}
+/* Progress bar */
+.mob-bar-wrap{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.05);}
+.mob-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--blue2),var(--accent));}
+.mob-bar.run{animation:mob-prog 2.8s linear forwards;}
+@keyframes mob-prog{to{width:100%;}}
+@keyframes splash-ppt-zoom{0%{transform:scale(1);opacity:1;}100%{transform:scale(1.5);opacity:0;}}
+</style>
+<script src="/ot_security.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+(function(){ emailjs.init({ publicKey: 'NTkfjIuoLj_Qg-3i5' }); })();
+async function notifyFirstLogin(companyName, email, plan) {
+  console.log('[FirstLogin] désactivé pour', companyName);
+}
+</script>
+</head>
+<body>
+
+<div class="left">
+  <canvas id="ot-canvas"></canvas>
+  <div class="bg-circle"></div><div class="bg-circle"></div><div class="bg-circle"></div>
+
+  <div class="ai-logo-zone logo-zone">
+
+    <!-- ══ LOGO INTERACTIF IA ══ -->
+    <div class="ai-logo-wrap" id="aiLogoWrap" title="T SERVICE & CO — Logiciel de gestion transport">
+      <!-- Canvas particules orbitales -->
+      <canvas class="ai-logo-canvas" id="aiLogoCanvas"></canvas>
+
+      <!-- Anneaux orbitaux -->
+      <div class="ai-ring ai-ring-1"><span class="ring-dot ring-dot-1"></span></div>
+      <div class="ai-ring ai-ring-2"><span class="ring-dot ring-dot-2"></span></div>
+      <div class="ai-ring ai-ring-3"><span class="ring-dot ring-dot-3"></span></div>
+
+      <!-- Balayage radar -->
+      <div class="ai-radar"></div>
+
+      <!-- Cercle logo + image + scan -->
+      <div class="ai-logo-inner">
+        <img src="/icons/icon-192.png" alt="T SERVICE & CO" class="ai-logo-img" draggable="false">
+        <div class="ai-scan-line"></div>
+      </div>
+
+      <!-- Labels HUD -->
+      <div class="ai-hud ai-hud-tl">T.S·v5.0</div>
+      <div class="ai-hud ai-hud-tr">AI●RDY</div>
+      <div class="ai-hud ai-hud-bl">SYS:ON</div>
+      <div class="ai-hud ai-hud-br">GPS●LNK</div>
+    </div>
+    <!-- ══════════════════════ -->
+
+    <div class="logo-text-group">
+      <div class="logo-tag">Logiciel de gestion transport</div>
+      <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+      <div class="logo-tagline">T SERVICE PILOTE VOTRE LOGISTIQUE</div>
+    </div>
+  </div>
+
+  <div class="headline">
+    <div class="headline-tag"><span class="ai-live-dot"></span>v5.0 — Mis à jour</div>
+    <h1>Pilotez votre activité<br><span id="tw-target">transport en <span style="color:var(--accent)">temps réel</span></span><span class="tw-cursor"></span></h1>
+    <p>De la saisie des tournées à la feuille de route optimisée — chauffeurs, salaires, sous-traitants, véhicules, amendes : tout centralisé, tout en direct. Depuis votre téléphone, 24/24 7/7, en chatant avec <strong style="color:var(--accent)">Juju</strong> sur Telegram.</p>
+    <div class="features-grid">
+      <div class="feat"><div class="feat-icon">📅</div><div><div class="feat-title">Planning semaine</div><div class="feat-desc">Affectation AM/PM, vue par chauffeur, navigation rapide</div></div></div>
+      <div class="feat"><div class="feat-icon">🗺️</div><div><div class="feat-title">Feuille de route</div><div class="feat-desc">Itinéraire optimisé auto, carte interactive OSM</div></div></div>
+      <div class="feat feat-new"><div class="feat-icon">📍</div><div><div class="feat-title">GPS temps réel</div><div class="feat-desc">Position des chauffeurs en direct sur carte</div></div></div>
+      <div class="feat feat-new"><div class="feat-icon">💌</div><div><div class="feat-title">Messagerie pro</div><div class="feat-desc">Chat interne sécurisé chauffeurs/dispatch</div></div></div>
+      <div class="feat"><div class="feat-icon">💬</div><div><div class="feat-title">WhatsApp intégré</div><div class="feat-desc">Envoyez la tournée au chauffeur en 1 clic</div></div></div>
+      <div class="feat"><div class="feat-icon">🚐</div><div><div class="feat-title">Parc véhicules</div><div class="feat-desc">CT, assurance, alertes d'échéance auto</div></div></div>
+      <div class="feat feat-new"><div class="feat-icon">👷</div><div><div class="feat-title">Chauffeurs &amp; Salaires</div><div class="feat-desc">Sous-traitants groupés, marges, soldes</div></div></div>
+      <div class="feat feat-new"><div class="feat-icon">🤝</div><div><div class="feat-title">Réseau sous-traitants</div><div class="feat-desc">Envoyez vos tournées aux ST partenaires, planning auto-rempli</div></div></div>
+      <div class="feat"><div class="feat-icon">📊</div><div><div class="feat-title">Facturation clients</div><div class="feat-desc">Récap mensuel par client, export Excel</div></div></div>
+      <div class="feat"><div class="feat-icon">👔</div><div><div class="feat-title">RH &amp; Contrats</div><div class="feat-desc">Fiches de paie, congés, absences, PDF</div></div></div>
+      <div class="feat feat-new"><div class="feat-icon">🚔</div><div><div class="feat-title">Suivi amendes</div><div class="feat-desc">Infractions, affectation, suivi paiement</div></div></div>
+      <div class="feat"><div class="feat-icon">⛽</div><div><div class="feat-title">Suivi gazole</div><div class="feat-desc">Consommation par véhicule, alertes dépassement</div></div></div>
+      <div class="feat feat-new"><div class="feat-icon">📱</div><div><div class="feat-title">Espace chauffeur</div><div class="feat-desc">App mobile : planning, congés, état véhicule, GPS</div></div></div>
+      <div class="feat"><div class="feat-icon">🔔</div><div><div class="feat-title">Alertes &amp; KPIs</div><div class="feat-desc">Tableaux de bord temps réel, insights auto</div></div></div>
+      <div class="feat feat-ai"><div class="feat-icon">🤖</div><div><div class="feat-title">IA Analyst</div><div class="feat-desc">Rentabilité, performances et coûts par IA</div></div></div>
+      <div class="feat feat-ai"><div class="feat-icon">🧠</div><div><div class="feat-title">IA Dispatch</div><div class="feat-desc">Planning auto : l'IA affecte chauffeurs/véhicules</div></div></div>
+    </div>
+
+    <!-- ══ JUJU — Telegram Bot Card ══ -->
+    <div class="juju-card" id="jujuCard">
+      <div class="juju-inner">
+        <div class="juju-left-col">
+          <div class="juju-avatar">
+            <div class="juju-avatar-ring"></div>
+            <div class="juju-avatar-ring-2"></div>
+            <svg class="juju-tg-logo" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.28-.02-.12.03-2.02 1.28-5.69 3.77-.54.37-1.03.55-1.47.54-.48-.01-1.41-.27-2.1-.5-.85-.28-1.52-.42-1.46-.89.03-.25.38-.5 1.04-.76 4.09-1.78 6.82-2.96 8.2-3.52 3.9-1.63 4.71-1.91 5.24-1.92.12 0 .37.03.54.17.14.12.18.28.2.44-.01.07.01.4-.01.61z" fill="white"/></svg>
+          </div>
+          <div class="juju-label">
+            <span class="juju-name">JUJU</span>
+            <span class="juju-status"><span class="juju-status-dot"></span>En ligne</span>
+          </div>
+        </div>
+        <div class="juju-chat-zone" id="jujuChatZone">
+          <div class="juju-bubble juju-bubble-user" id="jujuUser"></div>
+          <div class="juju-bubble juju-bubble-bot" id="jujuBot"></div>
+          <div class="juju-typing" id="jujuTyping"><span></span><span></span><span></span></div>
+        </div>
+        <div class="juju-cta">NOUVEAU</div>
+      </div>
+    </div>
+
+    <!-- Ticker live -->
+    <div class="ticker-wrap">
+      <span class="ticker-lbl">Live</span>
+      <div class="ticker-sep"></div>
+      <div class="ticker-slot">
+        <div class="tick-item show" id="tick-0"></div>
+        <div class="tick-item below" id="tick-1"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-item"><div class="stat-num" id="cnt-clients">0</div><div class="stat-lbl">Entreprises clientes</div></div>
+    <div class="stat-item"><div class="stat-num" id="cnt-tournees">0</div><div class="stat-lbl">Tournées/mois</div></div>
+    <div class="stat-item"><div class="stat-num" id="cnt-pts">0</div><div class="stat-lbl">Points livrés/mois</div></div>
+    <div class="stat-item"><div class="stat-num" id="cnt-satis">0</div><div class="stat-lbl">% Satisfaction</div></div>
+  </div>
+</div>
+
+<div class="right">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-title">CONNEXION</div>
+      <div class="login-sub">Accédez à votre espace de gestion</div>
+    </div>
+    <div class="error-box" id="error-box">⚠️ Email ou mot de passe incorrect.</div>
+    <div class="form-group">
+      <label>Adresse email</label>
+      <div class="input-wrap"><span class="inp-icon">✉️</span><input type="email" id="f-email" placeholder="votre@email.com" autocomplete="email"></div>
+    </div>
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <div class="input-wrap"><span class="inp-icon">🔒</span><input type="password" id="f-pwd" placeholder="••••••••" autocomplete="current-password"><button class="inp-toggle" onclick="togglePwd()" type="button" id="pwd-toggle">👁️</button></div>
+    </div>
+    <div class="form-opts">
+      <label class="remember"><input type="checkbox" id="remember"> Se souvenir de moi</label>
+      <a class="forgot-link" onclick="openForgot()">Mot de passe oublié ?</a>
+    </div>
+    <button class="btn-login" id="btn-login" type="button" onclick="handleLogin()"><span>SE CONNECTER</span><div class="loader"></div></button>
+    <div class="sep"><div class="sep-line"></div><div class="sep-txt">OU</div><div class="sep-line"></div></div>
+    <button class="btn-demo" type="button" onclick="demoLogin()">🎯 Accès démo — Découvrir sans compte</button>
+    <div class="login-footer">
+      <p>Pas encore client ? <a onclick="openContact()" style="cursor:pointer">📩 Nous contacter</a></p>
+      <p style="margin-top:10px">© 2026 T SERVICE & CO · <a href="optimum_trans_legal.html#mentions">Mentions légales</a> · <a href="optimum_trans_legal.html#cgu">CGU</a> · <a href="optimum_trans_legal.html#rgpd">Confidentialité</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL MOT DE PASSE OUBLIÉ ══ -->
+<div class="modal-overlay" id="modal-forgot">
+  <div class="modal">
+    <div id="forgot-form-zone">
+      <div class="modal-title">🔐 MOT DE PASSE OUBLIÉ</div>
+      <div class="modal-sub">Saisissez votre adresse email. Vous recevrez un lien pour réinitialiser votre mot de passe.</div>
+      <input type="email" class="modal-input" id="forgot-email" placeholder="votre@email.com" autocomplete="email" style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--gray);margin-bottom:14px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;line-height:1.6;">📧 Lien sécurisé valable <strong style="color:var(--white)">30 minutes</strong>. Vérifiez vos <strong style="color:var(--white)">spams</strong>.</div>
+      <button class="btn-reset" type="button" onclick="sendResetEmail()">📧 Envoyer le lien</button>
+      <span class="modal-cancel" onclick="closeForgot()">Annuler</span>
+    </div>
+    <div class="reset-success" id="forgot-success">
+      <div class="rs-icon">📬</div>
+      <div class="rs-title">EMAIL ENVOYÉ !</div>
+      <div class="rs-sub">Lien envoyé à <strong id="sent-to" style="color:var(--white)"></strong>. Expire dans <strong style="color:var(--accent)">30 minutes</strong>.</div>
+      <button class="btn-reset" style="margin-top:20px" onclick="closeForgot()">✅ Retour</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL CONTACT ══ -->
+<div class="modal-overlay" id="modal-contact">
+  <div class="modal">
+
+    <!-- Formulaire -->
+    <div id="contact-form-zone">
+      <div class="modal-title">📩 NOUS CONTACTER</div>
+      <div class="modal-sub">Remplissez ce formulaire, nous vous répondrons sous 24h.</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label class="field-lbl" style="margin-top:0">Nom *</label>
+          <input type="text" class="modal-input" id="c-nom" placeholder="Votre nom" maxlength="80" autocomplete="name">
+        </div>
+        <div>
+          <label class="field-lbl" style="margin-top:0">Société</label>
+          <input type="text" class="modal-input" id="c-societe" placeholder="Votre société" maxlength="120">
+        </div>
+      </div>
+
+      <label class="field-lbl">Email *</label>
+      <input type="email" class="modal-input" id="c-email" placeholder="votre@email.com" maxlength="120" autocomplete="email">
+
+      <label class="field-lbl">Téléphone</label>
+      <input type="tel" class="modal-input" id="c-tel" placeholder="06 xx xx xx xx" maxlength="25" autocomplete="tel">
+
+      <label class="field-lbl">Message *</label>
+      <textarea class="modal-textarea" id="c-message" placeholder="Décrivez votre besoin : nombre de chauffeurs, véhicules, tournées par mois..." maxlength="2000"></textarea>
+      <!-- Honeypot anti-bot : invisible pour les humains -->
+      <input type="text" id="c-hp" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
+
+      <div id="contact-error" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:8px 12px;font-size:12px;color:#FC8181;margin-bottom:8px"></div>
+
+      <button class="btn-send" id="btn-send" onclick="sendContact()">📩 Envoyer le message</button>
+      <span class="modal-cancel" onclick="closeContact()">Annuler</span>
+    </div>
+
+    <!-- Succès -->
+    <div id="contact-success" style="display:none;text-align:center;padding:10px">
+      <div style="font-size:48px;margin-bottom:14px">✅</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;margin-bottom:8px">MESSAGE ENVOYÉ !</div>
+      <div style="font-size:13px;color:var(--gray);line-height:1.8;margin-bottom:20px">Merci pour votre intérêt !<br>Nous vous répondrons sous <strong style="color:var(--white)">24h</strong>.</div>
+      <button class="btn-reset" onclick="closeContact()">✅ Fermer</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MODAL CHANGEMENT MOT DE PASSE ══ -->
+<div class="modal-overlay" id="modal-chgpwd">
+  <div class="modal">
+    <div class="modal-title" id="chgpwd-title">🔐 CRÉER VOTRE MOT DE PASSE</div>
+    <div class="modal-sub" id="chgpwd-sub">Première connexion : vous devez définir un nouveau mot de passe personnel avant de continuer.</div>
+    <div id="chgpwd-error" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:8px 12px;font-size:12px;color:#FC8181;margin-bottom:12px"></div>
+    <label class="field-lbl" style="margin-top:0">Nouveau mot de passe</label>
+    <div class="input-wrap" style="margin-bottom:4px">
+      <span class="inp-icon">🔒</span>
+      <input type="password" class="modal-input" id="chgpwd-new" placeholder="Min. 12 caractères" autocomplete="new-password" minlength="12" maxlength="128" style="padding-left:42px" oninput="updatePwdStrength(this.value)">
+      <button class="inp-toggle" onclick="toggleChgPwd('chgpwd-new','chgpwd-eye1')" type="button" id="chgpwd-eye1">👁️</button>
+    </div>
+    <div class="pwd-strength"><div class="pwd-strength-bar" id="pwd-strength-bar"></div></div>
+    <div class="pwd-hint" id="pwd-hint"></div>
+    <label class="field-lbl">Confirmer le mot de passe</label>
+    <div class="input-wrap" style="margin-bottom:16px">
+      <span class="inp-icon">🔒</span>
+      <input type="password" class="modal-input" id="chgpwd-confirm" placeholder="Répétez le mot de passe" autocomplete="new-password" minlength="12" maxlength="128" style="padding-left:42px">
+      <button class="inp-toggle" onclick="toggleChgPwd('chgpwd-confirm','chgpwd-eye2')" type="button" id="chgpwd-eye2">👁️</button>
+    </div>
+    <div style="font-size:11px;color:var(--gray);margin-bottom:16px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;line-height:1.6;">🔒 Minimum <strong style="color:var(--white)">12 caractères</strong>, dont au moins <strong style="color:var(--white)">1 majuscule</strong>, <strong style="color:var(--white)">1 chiffre</strong> et <strong style="color:var(--white)">1 symbole</strong>.</div>
+    <button class="btn-reset" id="btn-chgpwd" type="button" onclick="submitNewPassword()">🔐 Enregistrer le mot de passe</button>
+  </div>
+</div>
+
+<!-- ══ SUCCESS OVERLAY ══ -->
+<div class="success-overlay" id="success-overlay">
+  <div class="s-icon">✅</div>
+  <div class="s-title">CONNEXION RÉUSSIE</div>
+  <div class="s-sub" id="s-sub-txt">Chargement de votre espace...</div>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+</div>
+
+<!-- ══ MOBILE SPLASH SCREEN ══ -->
+<div class="mob-splash" id="mobSplash">
+  <canvas id="mob-canvas"></canvas>
+
+  <!-- Logo IA animé (grand format) -->
+  <div class="mob-logo-wrap">
+    <div class="mob-ring mob-ring-1"><span class="mob-dot mob-dot-1"></span></div>
+    <div class="mob-ring mob-ring-2"><span class="mob-dot mob-dot-2"></span></div>
+    <div class="mob-ring mob-ring-3"><span class="mob-dot mob-dot-3"></span></div>
+    <div class="mob-radar"></div>
+    <div class="mob-logo-inner">
+      <img src="/icons/icon-192.png" alt="T SERVICE & CO" class="mob-logo-img" draggable="false">
+      <div class="mob-scan"></div>
+    </div>
+    <div class="mob-hud mob-hud-tl">T.S·v5.0</div>
+    <div class="mob-hud mob-hud-tr">AI●RDY</div>
+    <div class="mob-hud mob-hud-bl">SYS:ON</div>
+    <div class="mob-hud mob-hud-br">GPS●LNK</div>
+  </div>
+
+  <!-- Marque + devise -->
+  <div class="mob-brand">
+    <div class="mob-name">T SERVICE<br><span>& CO</span></div>
+    <div class="mob-devise">La route vers l'excellence,<br><em>tracée par l'IA</em></div>
+  </div>
+
+  <!-- Barre de progression -->
+  <div class="mob-bar-wrap"><div class="mob-bar" id="mobBar"></div></div>
+</div>
+
+<script>
+const SB  = 'https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+
+function animCount(id,target,suffix=''){const el=document.getElementById(id);if(!el)return;let n=0;const step=target/50;const t=setInterval(()=>{n=Math.min(n+step,target);el.textContent=Math.floor(n)+suffix;if(n>=target)clearInterval(t);},35);}
+setTimeout(()=>{animCount('cnt-clients',47);animCount('cnt-tournees',3200);animCount('cnt-pts',12800);animCount('cnt-satis',98,'%');},600);
+
+function togglePwd(){const inp=document.getElementById('f-pwd');inp.type=inp.type==='password'?'text':'password';document.getElementById('pwd-toggle').textContent=inp.type==='password'?'👁️':'🙈';}
+
+function showError(msg){const e=document.getElementById('error-box');e.textContent=msg;e.classList.add('show');document.getElementById('btn-login').classList.remove('loading');document.getElementById('btn-login').disabled=false;}
+
+function saveSession(s){const store=document.getElementById('remember').checked?localStorage:sessionStorage;const other=store===localStorage?sessionStorage:localStorage;other.removeItem('ot_session');other.removeItem('ot_logged');store.setItem('ot_session',JSON.stringify(s));store.setItem('ot_logged','1');localStorage.setItem('ot_email',s.email||'');localStorage.removeItem('ot_sa_backup');localStorage.removeItem('ot_sa_company');}
+
+function showSuccess(role){
+  const overlay=document.getElementById('success-overlay');const subTxt=document.getElementById('s-sub-txt');overlay.classList.add('show');
+  const labels={chauffeur:'Chargement de votre planning...',chef_equipe:"Chargement du planning d'équipe...",admin:'Chargement du tableau de bord...'};
+  if(subTxt)subTxt.textContent=labels[role]||'Chargement de votre espace...';
+  setTimeout(()=>{if(role==='chauffeur')window.location.href='optimum_trans_chauffeur_vue.html';else if(role==='chef_equipe')window.location.href='optimum_trans_planning.html';else window.location.href='optimum_trans_dashboard.html';},1500);
+}
+
+async function handleLogin(){
+  const email=(document.getElementById('f-email').value||'').trim();
+  const pwd=(document.getElementById('f-pwd').value||'');
+  const btn=document.getElementById('btn-login');
+  const errBox=document.getElementById('error-box');errBox.classList.remove('show');
+  ['f-email','f-pwd'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('err');});
+  if(!email||!pwd){showError('⚠️ Veuillez saisir votre email et votre mot de passe.');return;}
+  btn.classList.add('loading');btn.disabled=true;
+  try{
+    const r=await fetch(SB+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},body:JSON.stringify({email,password:pwd})});
+    const d=await r.json();
+    if(r.ok&&d.access_token){
+      const token=d.access_token;const uid=d.user&&d.user.id;
+      let plan='business',addonRoute=true,name=email.split('@')[0];
+      let status='active',maxUsers=999,addonSaisie=false,addonMonmarche=false,addonDispatch=false,addonTracking=false,addonDecompteSt=false,addonZone=false,isClient=false;
+      let role=null,chauffeurNom=null,displayName=null,companyId=uid;
+      try{
+        const cu=await fetch(SB+'/rest/v1/company_users?auth_uid=eq.'+uid+'&select=role,chauffeur_nom,nom,company_id,actif',{headers:{'apikey':KEY,'Authorization':'Bearer '+token}});
+        const cuData=await cu.json();
+        if(Array.isArray(cuData)&&cuData[0]){
+          const user=cuData[0];
+          if(!user.actif){showError('⛔ Votre compte est désactivé. Contactez votre administrateur.');btn.classList.remove('loading');btn.disabled=false;return;}
+          role=user.role;chauffeurNom=user.chauffeur_nom;displayName=user.nom;companyId=user.company_id;
+          const coR=await fetch(SB+'/rest/v1/sa_companies?id=eq.'+companyId+'&select=plan,addon_route,addon_saisie,addon_monmarche,addon_dispatch,addon_tracking,addon_decompte_st,addon_zone,status,name,max_users,max_admins,max_chefs,max_chauffeurs',{headers:{'apikey':KEY,'Authorization':'Bearer '+token}});
+          const coData=await coR.json();
+          if(Array.isArray(coData)&&coData[0]){const co=coData[0];if(co.status==='suspended'){showError('⛔ Compte suspendu. Contactez votre administrateur.');btn.classList.remove('loading');btn.disabled=false;return;}plan=co.plan||'starter';addonRoute=co.addon_route===true;addonSaisie=co.addon_saisie===true;addonMonmarche=co.addon_monmarche===true;addonDispatch=co.addon_dispatch===true;addonTracking=co.addon_tracking===true;addonDecompteSt=co.addon_decompte_st===true;addonZone=co.addon_zone===true;name=displayName||co.name||name;status=co.status||'active';maxUsers=co.max_users||3;}
+          isClient=true;
+        }
+      }catch(e){}
+      if(!role){
+        try{const pr=await fetch(SB+'/rest/v1/sa_companies?id=eq.'+uid+'&select=plan,addon_route,addon_saisie,addon_monmarche,addon_dispatch,addon_tracking,addon_decompte_st,addon_zone,status,max_users,name',{headers:{'apikey':KEY,'Authorization':'Bearer '+token}});const pd=await pr.json();if(Array.isArray(pd)&&pd[0]){isClient=true;const co=pd[0];if(co.status==='suspended'){showError('⛔ Compte suspendu. Contactez votre administrateur.');btn.classList.remove('loading');btn.disabled=false;return;}plan=co.plan||'starter';addonRoute=co.addon_route===true;addonSaisie=co.addon_saisie===true;addonMonmarche=co.addon_monmarche===true;addonDispatch=co.addon_dispatch===true;addonTracking=co.addon_tracking===true;addonDecompteSt=co.addon_decompte_st===true;addonZone=co.addon_zone===true;name=co.name||name;status=co.status||'active';maxUsers=co.max_users||3;}}catch(e){}
+        role='admin';
+      }
+      // Rôle chef_equipe : fixe en base via superadmin. Promotion temporaire
+      // pour les chauffeurs désignés "chef du jour" via chef_equipe_jour (admin
+      // peut désigner un remplaçant ponctuel depuis le planning).
+      var baseRole=role;
+      if(role==='chauffeur'&&chauffeurNom){
+        try{
+          var _today=new Date();
+          var _todayStr=_today.getFullYear()+'-'+String(_today.getMonth()+1).padStart(2,'0')+'-'+String(_today.getDate()).padStart(2,'0');
+          var _cdjR=await fetch(SB+'/rest/v1/chef_equipe_jour?company_id=eq.'+companyId+'&date=eq.'+_todayStr+'&chauffeur_nom=eq.'+encodeURIComponent(chauffeurNom)+'&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+token}});
+          if(_cdjR.ok){
+            var _cdjD=await _cdjR.json();
+            if(Array.isArray(_cdjD)&&_cdjD.length>0) role='chef_equipe';
+          }
+        }catch(e){}
+      }
+      const sessionData={id:uid,company_id:companyId,name,email,plan,status,addon_route:addonRoute,addon_saisie:addonSaisie,addon_monmarche:addonMonmarche,addon_dispatch:addonDispatch,addon_tracking:addonTracking,addon_decompte_st:addonDecompteSt,addon_zone:addonZone,max_users:maxUsers,is_client:isClient,token,refresh_token:d.refresh_token,token_expires_at:Date.now()+(d.expires_in||3600)*1000,role,base_role:baseRole,chauffeur_nom:chauffeurNom,display_name:displayName};
+      saveSession(sessionData);
+      if(role!=='superadmin'&&role!=='demo'&&isClient){
+        try{
+          const mpR=await fetch(SB+'/rest/v1/company_users?auth_uid=eq.'+uid+'&select=must_change_password',{headers:{'apikey':KEY,'Authorization':'Bearer '+token}});
+          const mpData=await mpR.json();
+          if(Array.isArray(mpData)&&mpData[0]&&mpData[0].must_change_password===true){
+            btn.classList.remove('loading');btn.disabled=false;
+            openForcedChange(sessionData);return;
+          }
+        }catch(e){}
+      }
+      if(role!=='superadmin'&&role!=='demo'&&companyId){
+        const _K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+        (async()=>{try{const r=await fetch(`${SB}/rest/v1/sa_companies?id=eq.${companyId}&select=first_login_notified`,{headers:{'apikey':_K,'Authorization':'Bearer '+_K}});const data=await r.json();const alreadyNotified=data&&data[0]&&data[0].first_login_notified===true;if(!alreadyNotified){await fetch(`${SB}/rest/v1/sa_companies?id=eq.${companyId}`,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':_K,'Authorization':'Bearer '+token},body:JSON.stringify({first_login_at:new Date().toISOString(),first_login_notified:true})});await notifyFirstLogin(name,email,plan);}}catch(e){}})();
+      }
+      if(typeof OT_SECURITY!=='undefined') OT_SECURITY.recordLoginAttempt(email,true);
+      return showSuccess(role);
+    }
+    const msg=d.error_description||d.msg||d.message||d.error||'';
+    if(typeof OT_SECURITY!=='undefined') OT_SECURITY.recordLoginAttempt(email,false);
+    // Anti-énumération : un seul message générique pour identifiants invalides
+    // ET email non confirmé. Évite à un attaquant de découvrir quels emails existent.
+    document.getElementById('f-email').classList.add('err');
+    document.getElementById('f-pwd').classList.add('err');
+    if(msg.toLowerCase().includes('rate')||msg.toLowerCase().includes('too many')){
+      showError('⏳ Trop de tentatives. Réessayez dans quelques minutes.');
+    }else{
+      showError('⚠️ Email ou mot de passe incorrect.');
+    }
+  }catch(err){showError('❌ Erreur réseau. Vérifiez votre connexion.');}
+}
+
+// ── Démo ──
+function demoLogin(){
+  if(typeof injectDemoData==='function') injectDemoData();
+  saveSession({id:'demo',name:'TRANSIT EXPRESS SARL',email:'demo@tservice-co.fr',plan:'business',status:'active',addon_route:false,addon_saisie:false,max_users:999,role:'admin'});
+  showSuccess('admin');
+}
+
+// ── Mot de passe oublié ──
+function openForgot(){const em=document.getElementById('f-email').value;if(em)document.getElementById('forgot-email').value=em;document.getElementById('forgot-form-zone').style.display='block';document.getElementById('forgot-success').style.display='none';document.getElementById('modal-forgot').classList.add('open');setTimeout(()=>document.getElementById('forgot-email').focus(),100);}
+function closeForgot(){document.getElementById('modal-forgot').classList.remove('open');}
+async function sendResetEmail(){
+  const email=(document.getElementById('forgot-email').value||'').trim();
+  // Regex email stricte (anti-CRLF / injection en-tête)
+  const _emailRe=/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,24}$/;
+  if(!email||!_emailRe.test(email)||email.length>120){
+    document.getElementById('forgot-email').style.borderColor='var(--error)';
+    setTimeout(()=>document.getElementById('forgot-email').style.borderColor='',1500);
+    return;
+  }
+  await fetch(SB+'/auth/v1/recover',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},body:JSON.stringify({email,redirectTo:'https://t-service-co.vercel.app/index.html'})}).catch(()=>{});
+  // Toujours afficher "succès" même si l'email n'existe pas, pour empêcher l'énumération de comptes.
+  document.getElementById('sent-to').textContent=email;
+  document.getElementById('forgot-form-zone').style.display='none';
+  document.getElementById('forgot-success').style.display='block';
+}
+
+// ── Formulaire de contact ──
+var _contactOpenedAt = 0;
+function openContact(){
+  document.getElementById('contact-form-zone').style.display='block';
+  document.getElementById('contact-success').style.display='none';
+  document.getElementById('contact-error').style.display='none';
+  // Réinitialiser les champs
+  ['c-nom','c-societe','c-email','c-tel','c-message','c-hp'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  _contactOpenedAt = Date.now();
+  document.getElementById('modal-contact').classList.add('open');
+  setTimeout(()=>document.getElementById('c-nom').focus(),100);
+}
+function closeContact(){document.getElementById('modal-contact').classList.remove('open');}
+
+async function sendContact(){
+  const nom    = (document.getElementById('c-nom').value||'').trim();
+  const societe= (document.getElementById('c-societe').value||'').trim();
+  const email  = (document.getElementById('c-email').value||'').trim();
+  const tel    = (document.getElementById('c-tel').value||'').trim();
+  const message= (document.getElementById('c-message').value||'').trim();
+
+  const errEl=document.getElementById('contact-error');
+  errEl.style.display='none';
+
+  // ── Protection anti-spam ────────────────────────────────────────
+  // 1. Honeypot : si le champ caché est rempli, c'est un bot
+  if(document.getElementById('c-hp').value){return;}
+  // 2. Timer : soumission trop rapide = bot (< 3 secondes)
+  if(Date.now() - _contactOpenedAt < 3000){return;}
+  // 3. Rate limiting : max 3 envois / heure (compteur dans localStorage + sessionStorage,
+  //    on prend le maximum des deux pour qu'effacer un seul stockage ne suffise pas)
+  var _rateLimited=false;
+  try{
+    var _now=Date.now();
+    var _readTs=function(store){try{var d=JSON.parse(store.getItem('ot_contact_rl')||'{"ts":[]}');return (d.ts||[]).filter(function(t){return _now-t<3600000;});}catch(_){return [];}};
+    var _localTs=_readTs(localStorage), _sessTs=_readTs(sessionStorage);
+    var _count=Math.max(_localTs.length,_sessTs.length);
+    if(_count>=3){_rateLimited=true;}
+    else{
+      _localTs.push(_now);_sessTs.push(_now);
+      try{localStorage.setItem('ot_contact_rl',JSON.stringify({ts:_localTs}));}catch(_){}
+      try{sessionStorage.setItem('ot_contact_rl',JSON.stringify({ts:_sessTs}));}catch(_){}
+    }
+  }catch(_){}
+  if(_rateLimited){errEl.textContent='⚠️ Vous avez atteint la limite d\'envoi. Réessayez dans 1 heure.';errEl.style.display='block';return;}
+  // ───────────────────────────────────────────────────────────────
+
+  // ── Validation + nettoyage anti-injection (CRLF / contrôle) ────
+  // Empêche un attaquant d'injecter des en-têtes Bcc/Cc/etc dans le mail EmailJS.
+  var _stripCtl=function(s){return String(s||'').replace(/[\x00-\x1F\x7F]/g,' ').slice(0,2000).trim();};
+  // Regex email stricte (RFC 5322 simplifiée — pas de \r\n possible)
+  var _emailRe=/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,24}$/;
+
+  var nomClean    = _stripCtl(nom).slice(0,80);
+  var societeClean= _stripCtl(societe).slice(0,120);
+  var emailClean  = _stripCtl(email).slice(0,120);
+  var telClean    = _stripCtl(tel).slice(0,25);
+  var messageClean= _stripCtl(message);
+
+  if(!nomClean){errEl.textContent='⚠️ Veuillez saisir votre nom.';errEl.style.display='block';return;}
+  if(!emailClean||!_emailRe.test(emailClean)){errEl.textContent='⚠️ Veuillez saisir un email valide.';errEl.style.display='block';return;}
+  if(messageClean.length<10){errEl.textContent='⚠️ Veuillez saisir un message (10 caractères minimum).';errEl.style.display='block';return;}
+
+  const btn=document.getElementById('btn-send');
+  btn.disabled=true;btn.textContent='⏳ Envoi en cours...';
+
+  try{
+    // ════════════════════════════════════════════════════
+    // CONFIGURATION EMAILJS — 3 étapes :
+    //
+    // 1. Va sur https://emailjs.com → Sign up gratuit
+    //
+    // 2. Ajoute un Service (ex: Gmail)
+    //    → Email Services → Add New Service → Gmail
+    //    → Copie le "Service ID" et remplace YOUR_SERVICE_ID
+    //
+    // 3. Crée un Email Template :
+    //    → Email Templates → Create New Template
+    //    → Dans le corps du mail, utilise ces variables :
+    //       De : {{from_name}} ({{from_email}})
+    //       Tel : {{phone}}
+    //       Société : {{company}}
+    //       Message : {{message}}
+    //    → Copie le "Template ID" et remplace YOUR_TEMPLATE_ID
+    //
+    // Le mail arrivera automatiquement sur tserviceco5@gmail.com
+    // ════════════════════════════════════════════════════
+    await emailjs.send(
+      'service_71zw1uf',   // ← remplace par ton Service ID
+      'template_nc61p59',  // ← remplace par ton Template ID
+      {
+        from_name : nomClean,
+        from_email: emailClean,
+        phone     : telClean || 'Non renseigné',
+        company   : societeClean || 'Non renseignée',
+        message   : messageClean,
+        to_email  : 'tserviceco5@gmail.com',
+        reply_to  : emailClean,
+      }
+    );
+
+    // ✅ Succès
+    document.getElementById('contact-form-zone').style.display='none';
+    document.getElementById('contact-success').style.display='block';
+
+  }catch(err){
+    // Pas de console.error pour éviter de fuiter les détails techniques en prod.
+    errEl.textContent='❌ Erreur lors de l\'envoi. Réessayez dans quelques instants.';
+    errEl.style.display='block';
+    btn.disabled=false;
+    btn.textContent='📩 Envoyer le message';
+  }
+}
+
+// ── Changement de mot de passe ──
+let _chgToken=null,_chgSession=null,_chgIsRecovery=false;
+function toggleChgPwd(inputId,btnId){const inp=document.getElementById(inputId);inp.type=inp.type==='password'?'text':'password';document.getElementById(btnId).textContent=inp.type==='password'?'👁️':'🙈';}
+function updatePwdStrength(v){const bar=document.getElementById('pwd-strength-bar');const hint=document.getElementById('pwd-hint');if(!v){bar.style.width='0%';hint.textContent='';return;}let score=0;if(v.length>=12)score++;if(v.length>=16)score++;if(/[A-Z]/.test(v)&&/[a-z]/.test(v))score++;if(/[0-9]/.test(v))score++;if(/[^A-Za-z0-9]/.test(v))score++;const levels=[{w:'20%',c:'#E74C3C',t:'Très faible'},{w:'40%',c:'#E67E22',t:'Faible'},{w:'60%',c:'#F5A623',t:'Moyen'},{w:'80%',c:'#2ECC71',t:'Fort'},{w:'100%',c:'#27AE60',t:'Très fort'}];const l=levels[Math.min(score,4)];bar.style.width=l.w;bar.style.background=l.c;hint.textContent=l.t;hint.style.color=l.c;}
+function openForcedChange(session){_chgToken=session.token;_chgSession=session;_chgIsRecovery=false;document.getElementById('chgpwd-title').textContent='🔐 CRÉER VOTRE MOT DE PASSE';document.getElementById('chgpwd-sub').textContent='Première connexion : vous devez définir un nouveau mot de passe personnel avant de continuer.';document.getElementById('chgpwd-new').value='';document.getElementById('chgpwd-confirm').value='';document.getElementById('chgpwd-error').style.display='none';document.getElementById('pwd-strength-bar').style.width='0%';document.getElementById('pwd-hint').textContent='';document.getElementById('modal-chgpwd').classList.add('open');setTimeout(()=>document.getElementById('chgpwd-new').focus(),100);}
+function openSetNewPassword(token){_chgToken=token;_chgSession=null;_chgIsRecovery=true;document.getElementById('chgpwd-title').textContent='🔑 RÉINITIALISER MOT DE PASSE';document.getElementById('chgpwd-sub').textContent='Saisissez votre nouveau mot de passe pour accéder à votre compte.';document.getElementById('chgpwd-new').value='';document.getElementById('chgpwd-confirm').value='';document.getElementById('chgpwd-error').style.display='none';document.getElementById('pwd-strength-bar').style.width='0%';document.getElementById('pwd-hint').textContent='';document.getElementById('modal-chgpwd').classList.add('open');setTimeout(()=>document.getElementById('chgpwd-new').focus(),100);}
+async function submitNewPassword(){
+  const newPwd=document.getElementById('chgpwd-new').value;
+  const confirmPwd=document.getElementById('chgpwd-confirm').value;
+  const errEl=document.getElementById('chgpwd-error');
+  errEl.style.display='none';
+  // ── Politique de mot de passe : 12 chars, 1 majuscule, 1 chiffre, 1 symbole ──
+  if(!newPwd||newPwd.length<12){errEl.textContent='⚠️ Le mot de passe doit contenir au moins 12 caractères.';errEl.style.display='block';return;}
+  if(newPwd.length>128){errEl.textContent='⚠️ Mot de passe trop long (max 128 caractères).';errEl.style.display='block';return;}
+  if(!/[A-Z]/.test(newPwd)){errEl.textContent='⚠️ Ajoutez au moins une majuscule.';errEl.style.display='block';return;}
+  if(!/[0-9]/.test(newPwd)){errEl.textContent='⚠️ Ajoutez au moins un chiffre.';errEl.style.display='block';return;}
+  if(!/[^A-Za-z0-9]/.test(newPwd)){errEl.textContent='⚠️ Ajoutez au moins un symbole (!@#$ ...).';errEl.style.display='block';return;}
+  if(newPwd!==confirmPwd){errEl.textContent='⚠️ Les mots de passe ne correspondent pas.';errEl.style.display='block';return;}
+  const btn=document.getElementById('btn-chgpwd');btn.disabled=true;btn.textContent='⏳ Enregistrement...';
+  try{
+    const r=await fetch(SB+'/auth/v1/user',{method:'PUT',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+_chgToken},body:JSON.stringify({password:newPwd})});
+    const d=await r.json();
+    if(!r.ok){
+      // On masque le message Supabase brut sauf s'il indique clairement une politique de mdp côté serveur.
+      const raw=(d.message||d.error_description||'').toLowerCase();
+      if(raw.includes('password')||raw.includes('weak')||raw.includes('short')){
+        throw new Error('Mot de passe refusé par le serveur (trop faible ou réutilisé). Choisissez-en un autre.');
+      }
+      throw new Error('Impossible de mettre à jour le mot de passe. Réessayez.');
+    }
+    if(_chgIsRecovery){
+      history.replaceState(null,'',window.location.pathname);
+      document.getElementById('modal-chgpwd').classList.remove('open');
+      document.getElementById('error-box').style.background='rgba(39,174,96,0.1)';
+      document.getElementById('error-box').style.borderColor='rgba(39,174,96,0.25)';
+      document.getElementById('error-box').style.color='#6FCF97';
+      showError('✅ Mot de passe mis à jour ! Connectez-vous avec votre nouveau mot de passe.');
+      document.getElementById('error-box').style.display='block';
+    }else{
+      // NOTE SÉCURITÉ : le PATCH must_change_password ci-dessous DOIT être bloqué côté
+      // serveur par RLS — voir security_must_change_password_lock.sql. Le client ne fait
+      // que demander la mise à jour ; le serveur reste seul juge.
+      if(_chgSession){
+        await fetch(SB+'/rest/v1/company_users?auth_uid=eq.'+_chgSession.id,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+_chgToken,'Prefer':'return=minimal'},body:JSON.stringify({must_change_password:false})}).catch(()=>{});
+      }
+      document.getElementById('modal-chgpwd').classList.remove('open');
+      showSuccess(_chgSession.role||'admin');
+    }
+  }catch(err){
+    errEl.textContent='❌ '+err.message;
+    errEl.style.display='block';
+    btn.disabled=false;
+    btn.textContent='🔐 Enregistrer le mot de passe';
+  }
+}
+
+// ── Listeners ──
+document.getElementById('modal-forgot').addEventListener('click',function(e){if(e.target===this)closeForgot();});
+document.getElementById('modal-contact').addEventListener('click',function(e){if(e.target===this)closeContact();});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){closeForgot();closeContact();}
+  if(e.key==='Enter'&&!document.getElementById('modal-forgot').classList.contains('open')&&!document.getElementById('modal-contact').classList.contains('open'))handleLogin();
+});
+window.addEventListener('load',async function(){
+  const saved=localStorage.getItem('ot_email');if(saved)document.getElementById('f-email').value=saved;
+  const hash=window.location.hash;
+  if(hash.includes('type=recovery')&&hash.includes('access_token=')){
+    const params=new URLSearchParams(hash.substring(1));const token=params.get('access_token');if(token)openSetNewPassword(token);
+  } else if(hash.includes('access_token=')&&hash.includes('type=magiclink')){
+    /* ── Impersonation superadmin : magic link redirect ── */
+    history.replaceState(null,'',window.location.pathname);
+    const params=new URLSearchParams(hash.substring(1));
+    const token=params.get('access_token');
+    if(!token) return;
+    try{
+      const userR=await fetch(SB+'/auth/v1/user',{headers:{'apikey':KEY,'Authorization':'Bearer '+token}});
+      const userData=await userR.json();
+      const uid=userData.id,email=userData.email||'';
+      if(!uid) throw new Error('Token invalide');
+      let role='admin',chauffeurNom=null,displayName=null,companyId=uid;
+      let plan='starter',addonRoute=false,addonSaisie=false,addonMonmarche=false,addonDispatch=false,name=email.split('@')[0];
+      const cu=await fetch(SB+'/rest/v1/company_users?auth_uid=eq.'+uid+'&select=role,chauffeur_nom,nom,company_id,actif',{headers:{'apikey':KEY,'Authorization':'Bearer '+token}});
+      const cuData=await cu.json();
+      if(Array.isArray(cuData)&&cuData[0]){const u=cuData[0];role=u.role||'admin';chauffeurNom=u.chauffeur_nom;displayName=u.nom;companyId=u.company_id;}
+      const coR=await fetch(SB+'/rest/v1/sa_companies?id=eq.'+companyId+'&select=plan,addon_route,addon_saisie,addon_monmarche,status,name,max_users',{headers:{'apikey':KEY,'Authorization':'Bearer '+token}});
+      const coData=await coR.json();
+      if(Array.isArray(coData)&&coData[0]){const co=coData[0];plan=co.plan||'starter';addonRoute=co.addon_route===true;addonSaisie=co.addon_saisie===true;addonMonmarche=co.addon_monmarche===true;name=displayName||co.name||name;}
+      const sess={id:uid,company_id:companyId,name,email,plan,status:'active',addon_route:addonRoute,addon_saisie:addonSaisie,addon_monmarche:addonMonmarche,max_users:999,is_client:true,token,role,chauffeur_nom:chauffeurNom,display_name:displayName};
+      localStorage.setItem('ot_session',JSON.stringify(sess));localStorage.setItem('ot_logged','1');
+      if(role==='chauffeur') window.location.href='optimum_trans_chauffeur_vue.html';
+      else if(role==='chef_equipe') window.location.href='optimum_trans_planning.html';
+      else window.location.href='optimum_trans_dashboard.html';
+    }catch(e){showError('❌ Erreur accès compte : '+e.message);}
+  }
+});
+</script>
+<script src="optimum_trans_demo_data.js"></script>
+<script src="/pwa-register.js"></script>
+<script>
+// ══════════════════════════════════════════════════
+//  CANVAS — Réseau de particules interactif
+// ══════════════════════════════════════════════════
+(function(){
+  const canvas = document.getElementById('ot-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [], raf;
+  const mouse = {x:-999, y:-999};
+  const N = 55, DIST = 130, MDIST = 160;
+
+  function resize(){
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function initNodes(){
+    nodes = Array.from({length:N}, ()=>({
+      x: Math.random()*W, y: Math.random()*H,
+      vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35,
+      r: Math.random()*1.5+1,
+      phase: Math.random()*Math.PI*2,
+      accent: Math.random()<.12
+    }));
+  }
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    nodes.forEach(n=>{
+      n.x += n.vx; n.y += n.vy;
+      if(n.x<0||n.x>W) n.vx*=-1;
+      if(n.y<0||n.y>H) n.vy*=-1;
+      n.phase += .018;
+      const pulse = Math.sin(n.phase)*.4+.6;
+      // Node
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r*(1+pulse*.3),0,Math.PI*2);
+      ctx.fillStyle = n.accent
+        ? `rgba(245,166,35,${.5*pulse})`
+        : `rgba(37,99,235,${.35*pulse})`;
+      ctx.fill();
+    });
+
+    // Node↔Node connections
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+        const d=Math.hypot(dx,dy);
+        if(d<DIST){
+          const a=(1-d/DIST)*.12;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x,nodes[i].y);
+          ctx.lineTo(nodes[j].x,nodes[j].y);
+          ctx.strokeStyle=`rgba(37,99,235,${a})`;
+          ctx.lineWidth=1;
+          ctx.stroke();
+        }
+      }
+      // Mouse connections (accent color)
+      const md=Math.hypot(nodes[i].x-mouse.x, nodes[i].y-mouse.y);
+      if(md<MDIST){
+        const a=(1-md/MDIST)*.6;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x,nodes[i].y);
+        ctx.lineTo(mouse.x,mouse.y);
+        ctx.strokeStyle=`rgba(245,166,35,${a})`;
+        ctx.lineWidth=1.2;
+        ctx.stroke();
+        // Highlight node near cursor
+        ctx.beginPath();
+        ctx.arc(nodes[i].x,nodes[i].y,nodes[i].r*2.5,0,Math.PI*2);
+        ctx.fillStyle=`rgba(245,166,35,${a*.8})`;
+        ctx.fill();
+      }
+    }
+    raf = requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('resize',()=>{resize();});
+  document.querySelector('.left').addEventListener('mousemove',e=>{
+    const rect=canvas.getBoundingClientRect();
+    mouse.x=e.clientX-rect.left; mouse.y=e.clientY-rect.top;
+  });
+  document.querySelector('.left').addEventListener('mouseleave',()=>{mouse.x=-999;mouse.y=-999;});
+
+  resize(); initNodes(); frame();
+  window.addEventListener('resize',()=>{cancelAnimationFrame(raf);resize();initNodes();frame();});
+})();
+
+// ══════════════════════════════════════════════════
+//  TYPEWRITER — Rotation des phrases du headline
+// ══════════════════════════════════════════════════
+(function(){
+  const el = document.getElementById('tw-target');
+  if(!el) return;
+  const phrases = [
+    'transport en <span style="color:var(--accent)">temps réel</span>',
+    'chauffeurs en toute <span style="color:var(--accent)">clarté</span>',
+    'vos routes <span style="color:var(--accent)">automatiquement</span>',
+    'vos salaires <span style="color:var(--accent)">sans effort</span>',
+    'vos sous-traitants <span style="color:var(--accent)">par société</span>',
+    'votre flotte sur <span style="color:var(--accent)">carte GPS live</span>',
+    'votre équipe via <span style="color:var(--accent)">messagerie pro</span>',
+    'depuis votre téléphone avec <span style="color:var(--accent)">Juju</span>',
+  ];
+  let pi=0, ci=0, deleting=false, timeout;
+  const SPEED_TYPE=55, SPEED_DEL=28, PAUSE=2600;
+
+  function tick(){
+    const full = phrases[pi];
+    // On travaille sur le texte brut pour compter les caractères
+    const plain = full.replace(/<[^>]+>/g,'');
+    const currentPlain = el.innerText;
+
+    if(!deleting){
+      if(currentPlain.length < plain.length){
+        // Reconstruire le HTML partiel jusqu'au nb de chars voulus
+        el.innerHTML = partialHTML(full, currentPlain.length+1);
+        timeout = setTimeout(tick, SPEED_TYPE);
+      } else {
+        timeout = setTimeout(()=>{deleting=true;tick();}, PAUSE);
+      }
+    } else {
+      if(currentPlain.length > 0){
+        el.innerHTML = partialHTML(full, currentPlain.length-1);
+        timeout = setTimeout(tick, SPEED_DEL);
+      } else {
+        deleting=false; pi=(pi+1)%phrases.length;
+        timeout = setTimeout(tick, 300);
+      }
+    }
+  }
+
+  function partialHTML(html, len){
+    // Retire les tags HTML, coupe au bon nombre de chars, remet les tags
+    let count=0, result='', inTag=false;
+    for(let i=0;i<html.length;i++){
+      const ch=html[i];
+      if(ch==='<'){inTag=true; result+=ch; continue;}
+      if(inTag){result+=ch;if(ch==='>')inTag=false;continue;}
+      if(count<len){result+=ch;count++;}
+      else break;
+    }
+    // Fermer les éventuels spans ouverts
+    const opens=(result.match(/<span[^>]*>/g)||[]).length;
+    const closes=(result.match(/<\/span>/g)||[]).length;
+    for(let i=0;i<opens-closes;i++) result+='</span>';
+    return result;
+  }
+
+  // Démarrer après un court délai
+  setTimeout(()=>{ el.innerHTML=''; tick(); }, 800);
+})();
+
+// ══════════════════════════════════════════════════
+//  TICKER LIVE — Feed d'activité simulée
+// ══════════════════════════════════════════════════
+(function(){
+  const t0=document.getElementById('tick-0');
+  const t1=document.getElementById('tick-1');
+  if(!t0||!t1) return;
+  const activities=[
+    '🚐 DUPONT — Tournée AM validée · Lyon 3ème',
+    '📍 GPS live · MARTIN à 14 Rue de Lyon · 47 km/h',
+    '💌 Nouveau message — RODRIGUEZ : « Arrivé client »',
+    '💶 Salaire calculé — MARTIN · 2 847 €',
+    '✅ Feuille de route générée · 14 points · 38 km',
+    '⚠️ CT expirant dans 12j — Véhicule AB-234-CD',
+    '🤝 4 tournées envoyées à TRANS EXPRESS · reçues dans leur planning',
+    '📊 Facturation CARREFOUR — Export Excel prêt',
+    '👷 Sous-traitant TRANS EXPRESS — Marge +23%',
+    '🔔 Absence validée · BENALI · 2 jours',
+    '🚔 Amende affectée — RODRIGUEZ · 135 €',
+    '🛠️ Check-up véhicule OK — Ford Transit · 0 défaut',
+    '⛽ Plein gazole — Ford Transit · 87L · 131€',
+    '📅 Planning semaine mis à jour · 18 tournées',
+    '💬 WhatsApp envoyé → MOUSSA · Tournée PM',
+  ];
+  let idx=0, active=0;
+
+  function next(){
+    const incoming = active===0 ? t1 : t0;
+    const outgoing  = active===0 ? t0 : t1;
+    idx=(idx+1)%activities.length;
+    incoming.textContent=activities[idx];
+    incoming.className='tick-item below';
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        incoming.className='tick-item show';
+        outgoing.className='tick-item above';
+        active=active===0?1:0;
+        setTimeout(()=>{outgoing.className='tick-item below';}, 520);
+      });
+    });
+  }
+
+  // Init premier texte
+  t0.textContent=activities[0];
+  setInterval(next, 2800);
+})();
+
+// ══════════════════════════════════════════════════
+//  STATS — Compteurs animés
+// ══════════════════════════════════════════════════
+(function(){
+  const targets={
+    'cnt-clients':{val:47, suffix:''},
+    'cnt-tournees':{val:3200, suffix:''},
+    'cnt-pts':{val:28000, suffix:''},
+    'cnt-satis':{val:98, suffix:'%'}
+  };
+  const duration=1800;
+  function animateCounter(el,target,suffix){
+    const start=performance.now();
+    function step(now){
+      const p=Math.min((now-start)/duration,1);
+      const ease=1-Math.pow(1-p,3);
+      el.textContent=Math.round(target*ease)+(suffix&&p>=1?suffix:'');
+      if(p<1) requestAnimationFrame(step);
+      else el.textContent=target+suffix;
+    }
+    requestAnimationFrame(step);
+  }
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      Object.entries(targets).forEach(([id,{val,suffix}])=>{
+        const el=document.getElementById(id);
+        if(el) animateCounter(el,val,suffix);
+      });
+      obs.disconnect();
+    });
+  },{threshold:.3});
+  const row=document.querySelector('.stats-row');
+  if(row) obs.observe(row);
+})();
+
+// ══════════════════════════════════════════════════
+//  AI LOGO — Parallax 3D + Particules orbitales
+// ══════════════════════════════════════════════════
+(function(){
+  const wrap   = document.getElementById('aiLogoWrap');
+  const canvas = document.getElementById('aiLogoCanvas');
+  if(!wrap || !canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let nodes = [], raf, W, H;
+
+  /* ── Taille du canvas ── */
+  function resizeCanvas(){
+    const r = wrap.getBoundingClientRect();
+    W = canvas.width  = r.width  + 40;
+    H = canvas.height = r.height + 40;
+  }
+
+  /* ── Nœuds orbitaux ── */
+  function initNodes(){
+    const cx = W/2, cy = H/2;
+    nodes = Array.from({length:12}, (_, i)=>{
+      const angle = (i / 12) * Math.PI * 2 + Math.random() * 0.4;
+      const dist  = 52 + Math.random() * 28;
+      return {
+        x: cx + Math.cos(angle)*dist,
+        y: cy + Math.sin(angle)*dist,
+        vx: (Math.random()-.5)*0.28,
+        vy: (Math.random()-.5)*0.28,
+        r: Math.random()*1.8 + 0.8,
+        phase: Math.random()*Math.PI*2,
+        accent: i%5===0 || i%7===0,
+        purple: i%11===0
+      };
+    });
+  }
+
+  /* ── Rendu frame ── */
+  function frame(){
+    ctx.clearRect(0, 0, W, H);
+    const cx = W/2, cy = H/2;
+
+    nodes.forEach(n=>{
+      n.x += n.vx; n.y += n.vy;
+      n.phase += 0.022;
+
+      /* Rappel gravitationnel vers l'orbite cible */
+      const dx=n.x-cx, dy=n.y-cy, dist=Math.hypot(dx,dy);
+      const target=65, pull=0.006;
+      if(dist>0){
+        n.vx += (cx + (dx/dist)*target - n.x)*pull;
+        n.vy += (cy + (dy/dist)*target - n.y)*pull;
+      }
+      /* Amortissement */
+      n.vx *= 0.985; n.vy *= 0.985;
+
+      const pulse = Math.sin(n.phase)*0.4 + 0.6;
+      const col = n.purple
+        ? `rgba(167,139,250,${0.55*pulse})`
+        : n.accent
+          ? `rgba(245,166,35,${0.65*pulse})`
+          : `rgba(37,99,235,${0.5*pulse})`;
+
+      /* Ligne vers le centre logo */
+      const lineDist=Math.hypot(n.x-cx, n.y-cy);
+      const a=(1-Math.min(lineDist/90,1))*0.18*pulse;
+      if(a>0.015){
+        ctx.beginPath();
+        ctx.moveTo(n.x, n.y);
+        ctx.lineTo(cx, cy);
+        ctx.strokeStyle = n.accent
+          ? `rgba(245,166,35,${a})`
+          : `rgba(37,99,235,${a})`;
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      }
+
+      /* Point */
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r*(0.8+pulse*0.4), 0, Math.PI*2);
+      ctx.fillStyle = col;
+      ctx.fill();
+
+      /* Halo sur les nœuds accent */
+      if(n.accent && pulse>0.7){
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r*3.5*pulse, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(245,166,35,${0.06*pulse})`;
+        ctx.fill();
+      }
+    });
+
+    /* Connexions nœud↔nœud (proches) */
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const d=Math.hypot(nodes[i].x-nodes[j].x, nodes[i].y-nodes[j].y);
+        if(d<55){
+          const a=(1-d/55)*0.09;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle=`rgba(37,99,235,${a})`;
+          ctx.lineWidth=0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    raf = requestAnimationFrame(frame);
+  }
+
+  /* ── Parallaxe 3D au survol de la souris ── */
+  const left = document.querySelector('.left');
+  if(left){
+    left.addEventListener('mousemove', e=>{
+      const r  = wrap.getBoundingClientRect();
+      const cx = r.left + r.width/2;
+      const cy = r.top  + r.height/2;
+      const maxT = 10;
+      const tx = ((e.clientY-cy) / (window.innerHeight*0.5)) * maxT;
+      const ty = -((e.clientX-cx) / (window.innerWidth*0.5))  * maxT;
+      wrap.style.transition='transform 0.08s ease';
+      wrap.style.transform=`perspective(600px) rotateX(${Math.max(-maxT,Math.min(maxT,tx))}deg) rotateY(${Math.max(-maxT,Math.min(maxT,ty))}deg)`;
+    });
+    left.addEventListener('mouseleave', ()=>{
+      wrap.style.transition='transform 0.6s cubic-bezier(0.34,1.56,0.64,1)';
+      wrap.style.transform='perspective(600px) rotateX(0deg) rotateY(0deg)';
+    });
+  }
+
+  /* ── Clic : ondulation de pulsation ── */
+  wrap.addEventListener('click', ()=>{
+    const ring = document.createElement('div');
+    ring.className='ai-pulse-ring';
+    wrap.appendChild(ring);
+    setTimeout(()=>ring.remove(), 1000);
+  });
+
+  /* ── Init ── */
+  resizeCanvas();
+  initNodes();
+  frame();
+
+  window.addEventListener('resize', ()=>{
+    cancelAnimationFrame(raf);
+    resizeCanvas();
+    initNodes();
+    frame();
+  });
+})();
+
+// ══════════════════════════════════════════════════
+//  MOBILE SPLASH SCREEN
+// ══════════════════════════════════════════════════
+(function(){
+  const splash = document.getElementById('mobSplash');
+  const bar    = document.getElementById('mobBar');
+  if(!splash || !bar) return;
+
+  /* Canvas particules en fond */
+  const cv  = document.getElementById('mob-canvas');
+  const ctx = cv.getContext('2d');
+  let nodes=[], raf2;
+
+  function resize(){ cv.width=window.innerWidth; cv.height=window.innerHeight; }
+
+  function initNodes(){
+    nodes = Array.from({length:40}, ()=>({
+      x:Math.random()*cv.width, y:Math.random()*cv.height,
+      vx:(Math.random()-.5)*.28, vy:(Math.random()-.5)*.28,
+      r:Math.random()*1.4+0.5,
+      phase:Math.random()*Math.PI*2,
+      accent:Math.random()<.12
+    }));
+  }
+
+  function drawFrame(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    nodes.forEach(n=>{
+      n.x+=n.vx; n.y+=n.vy; n.phase+=.018;
+      if(n.x<0||n.x>cv.width)  n.vx*=-1;
+      if(n.y<0||n.y>cv.height) n.vy*=-1;
+      const p=Math.sin(n.phase)*.4+.6;
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r*(1+p*.3),0,Math.PI*2);
+      ctx.fillStyle=n.accent?`rgba(245,166,35,${.5*p})`:`rgba(37,99,235,${.32*p})`;
+      ctx.fill();
+    });
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const d=Math.hypot(nodes[i].x-nodes[j].x, nodes[i].y-nodes[j].y);
+        if(d<110){
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x,nodes[i].y);
+          ctx.lineTo(nodes[j].x,nodes[j].y);
+          ctx.strokeStyle=`rgba(37,99,235,${(1-d/110)*.09})`;
+          ctx.lineWidth=.7;
+          ctx.stroke();
+        }
+      }
+    }
+    raf2=requestAnimationFrame(drawFrame);
+  }
+
+  resize(); initNodes(); drawFrame();
+
+  /* Lancer la barre de progression */
+  setTimeout(()=>{ bar.classList.add('run'); }, 80);
+
+  /* Sortie après 3s */
+  setTimeout(()=>{
+    cancelAnimationFrame(raf2);
+    splash.classList.add('exit');
+    setTimeout(()=>{ splash.style.display='none'; }, 500);
+  }, 3000);
+})();
+
+// ══════════════════════════════════════════════════
+//  JUJU — Telegram Bot Conversation Simulation
+// ══════════════════════════════════════════════════
+(function(){
+  const card     = document.getElementById('jujuCard');
+  const userEl   = document.getElementById('jujuUser');
+  const botEl    = document.getElementById('jujuBot');
+  const typingEl = document.getElementById('jujuTyping');
+  if(!card || !userEl || !botEl || !typingEl) return;
+
+  /* ── Conversations : question utilisateur → réponse Juju ── */
+  var convos = [
+    { user: "C'est quoi le planning demain ?",           bot: "📅 12 tournées, 8 chauffeurs affect\u00E9s, 2 dispo" },
+    { user: "Combien on a factur\u00E9 ce mois ?",       bot: "💶 45 320\u20AC — marge +12% vs mois dernier" },
+    { user: "Il est o\u00F9 Martin l\u00E0 ?",           bot: "📍 GPS live : 14 Rue de Lyon — arriv\u00E9e 14h20" },
+    { user: "Envoie un message \u00E0 Rodriguez",         bot: "💌 Message envoy\u00E9 sur la messagerie pro ✓" },
+    { user: "Envoie 4 tourn\u00E9es \u00E0 Trans Express",     bot: "🤝 Envoy\u00E9es \u2192 affich\u00E9es dans leur planning partenaire \u2713" },
+    { user: "Y a des absences en attente ?",              bot: "⚠️ 2 absences : BENALI (lundi) + DUPONT (mercredi)" },
+    { user: "G\u00E9n\u00E8re la facture Carrefour",     bot: "📊 Facture CARREFOUR g\u00E9n\u00E9r\u00E9e — 8 740\u20AC" },
+    { user: "Qui conduit le AB-234-CD ?",                 bot: "🚐 RODRIGUEZ — CT expire dans 12j, penser au RDV" },
+    { user: "Remplace Dupont demain matin",               bot: "👷 BENALI affect\u00E9 en rempla\u00E7ant — planning mis \u00E0 jour" },
+    { user: "Envoie le planning WhatsApp",                bot: "💬 Planning envoy\u00E9 \u00E0 8 chauffeurs par WhatsApp" },
+    { user: "Des emails importants aujourd'hui ?",        bot: "📧 3 emails : Mon March\u00E9 (sheet), Chronopost, DPD" },
+    { user: "Consommation du Ford Transit ?",             bot: "⛽ 12.8L/100km — +18% vs moyenne, anomalie signal\u00E9e" },
+    { user: "Combien on verse \u00E0 Trans Express ?",    bot: "💶 6 840\u20AC ce mois — 23 tourn\u00E9es, marge 19%" },
+    { user: "Ajoute une amende pour Rodriguez",           bot: "🚔 Amende enregistr\u00E9e — 135\u20AC, exc\u00E8s de vitesse" },
+  ];
+  var ci = 0;
+
+  function runConversation(){
+    var c = convos[ci];
+
+    /* Step 1 — Hide both bubbles */
+    userEl.classList.remove('visible');
+    botEl.classList.remove('visible');
+    typingEl.classList.remove('active');
+
+    /* Step 2 — After brief pause, show user message */
+    setTimeout(function(){
+      userEl.textContent = c.user;
+      userEl.classList.add('visible');
+
+      /* Step 3 — After user msg visible, show typing dots */
+      setTimeout(function(){
+        typingEl.classList.add('active');
+
+        /* Step 4 — After "typing", show Juju's response */
+        setTimeout(function(){
+          typingEl.classList.remove('active');
+          botEl.textContent = c.bot;
+          botEl.classList.add('visible');
+
+          /* Step 5 — Hold, then start next conversation */
+          ci = (ci + 1) % convos.length;
+        }, 1200 + Math.random() * 400);
+      }, 1000);
+    }, 500);
+  }
+
+  /* First run immediately, then cycle every 8s */
+  runConversation();
+  setInterval(runConversation, 8000);
+
+  /* ── 3D Tilt effect on hover ── */
+  card.addEventListener('mousemove', function(e){
+    var rect = card.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width  - 0.5;
+    var y = (e.clientY - rect.top)  / rect.height - 0.5;
+    card.style.animation = 'none';
+    card.style.transform = 'perspective(600px) rotateY(' + (x*12) + 'deg) rotateX(' + (-y*12) + 'deg) translateY(-4px) scale(1.02)';
+  });
+  card.addEventListener('mouseleave', function(){
+    card.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+    card.style.transform = '';
+    setTimeout(function(){ card.style.transition=''; card.style.animation=''; }, 600);
+  });
+
+  /* ── Sparkle particles on hover ── */
+  var sparkleInterval = null;
+  card.addEventListener('mouseenter', function(){
+    sparkleInterval = setInterval(function(){
+      var spark = document.createElement('div');
+      spark.className = 'juju-sparkle';
+      var rect = card.getBoundingClientRect();
+      var cardInner = card.querySelector('.juju-inner');
+      spark.style.left = (Math.random() * 100) + '%';
+      spark.style.top  = (Math.random() * 100) + '%';
+      var colors = ['#0088cc','#F5A623','#7C3AED','#2ECC71','#2563EB'];
+      spark.style.background = colors[Math.floor(Math.random()*colors.length)];
+      spark.style.boxShadow = '0 0 6px ' + spark.style.background;
+      spark.style.animation = 'juju-sparkle-drift 1.2s ease forwards';
+      cardInner.appendChild(spark);
+      setTimeout(function(){ spark.remove(); }, 1200);
+    }, 180);
+  });
+  card.addEventListener('mouseleave', function(){
+    clearInterval(sparkleInterval);
+    sparkleInterval = null;
+  });
+
+  /* ── Click ripple effect ── */
+  card.addEventListener('click', function(e){
+    var rect = card.getBoundingClientRect();
+    var inner = card.querySelector('.juju-inner');
+    var ripple = document.createElement('div');
+    ripple.style.cssText = 'position:absolute;border-radius:50%;background:rgba(0,136,204,0.25);pointer-events:none;z-index:5;transform:scale(0);animation:juju-ripple 0.6s ease forwards;';
+    ripple.style.left = (e.clientX - rect.left - 30) + 'px';
+    ripple.style.top  = (e.clientY - rect.top  - 30) + 'px';
+    ripple.style.width = '60px';
+    ripple.style.height= '60px';
+    inner.appendChild(ripple);
+    setTimeout(function(){ ripple.remove(); }, 600);
+  });
+
+  /* Inject ripple keyframe */
+  var styleSheet = document.createElement('style');
+  styleSheet.textContent = '@keyframes juju-ripple{to{transform:scale(6);opacity:0;}}';
+  document.head.appendChild(styleSheet);
+})();
+</script>
+</body>
+</html>

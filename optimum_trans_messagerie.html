@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>T SERVICE & CO — Messagerie</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0A1628">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:18px 20px;border-bottom:1px solid var(--border);}
+.logo-tag{font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--white);line-height:1;margin-top:3px;}
+.logo-name span{color:var(--accent);}
+.sidebar-nav{flex:1;padding:10px 12px;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);padding:5px 8px 2px;margin-top:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:1px;font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;}
+.nav-item:hover{background:var(--card);color:var(--light);}
+.nav-item.active{background:linear-gradient(135deg,rgba(26,79,191,0.4),rgba(26,79,191,0.2));color:var(--white);border:1px solid rgba(26,79,191,0.3);}
+.nav-icon{font-size:16px;width:20px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--accent);color:var(--navy);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.sidebar-footer{padding:12px 12px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:10px;border:1px solid var(--border);cursor:pointer;}
+.user-card:hover{border-color:var(--blue);}
+.user-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);}
+/* MAIN */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+.topbar{height:60px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0;z-index:50;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;}
+/* MESSAGING LAYOUT */
+.msg-layout{display:flex;flex:1;overflow:hidden;}
+/* LEFT PANEL — Driver list */
+.drivers-panel{width:320px;border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;background:var(--navy2);}
+.drivers-panel-header{padding:16px;border-bottom:1px solid var(--border);}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;margin-bottom:10px;}
+.search-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;}
+.search-input:focus{border-color:var(--blue);}
+.search-input::placeholder{color:var(--gray2);}
+.btn-broadcast{width:100%;margin-top:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);border:none;border-radius:8px;padding:9px 14px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;justify-content:center;transition:all 0.2s;}
+.btn-broadcast:hover{transform:translateY(-1px);}
+.drivers-list{flex:1;overflow-y:auto;}
+.driver-item{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:background 0.15s;position:relative;}
+.driver-item:hover{background:rgba(255,255,255,0.03);}
+.driver-item.active{background:rgba(26,79,191,0.18);border-left:3px solid var(--blue);padding-left:13px;}
+.driver-av{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--accent));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);flex-shrink:0;font-family:'Bebas Neue',sans-serif;}
+.driver-av.broadcast{background:linear-gradient(135deg,var(--accent),var(--accent2));}
+.driver-info{flex:1;min-width:0;}
+.driver-name{font-size:13px;font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.driver-preview{font-size:11px;color:var(--gray);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.driver-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.driver-time{font-size:10px;color:var(--gray2);}
+.unread-badge{background:var(--error);color:var(--white);font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
+.drivers-empty{padding:40px 20px;text-align:center;color:var(--gray);}
+/* RIGHT PANEL — Conversation */
+.conv-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.conv-header{padding:16px 20px;border-bottom:1px solid var(--border);background:var(--navy2);display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.conv-av{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--accent));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);font-family:'Bebas Neue',sans-serif;}
+.conv-av.broadcast{background:linear-gradient(135deg,var(--accent),var(--accent2));}
+.conv-title{font-size:15px;font-weight:700;color:var(--white);}
+.conv-sub{font-size:11px;color:var(--gray);margin-top:2px;}
+.conv-badge-24h{background:rgba(245,166,35,0.15);color:var(--accent);border:1px solid rgba(245,166,35,0.25);border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;margin-left:auto;}
+.conv-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gray);}
+.conv-empty-icon{font-size:56px;margin-bottom:16px;}
+.conv-empty-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px;}
+.conv-empty-sub{font-size:13px;text-align:center;max-width:280px;line-height:1.5;}
+/* MESSAGES */
+.msg-list{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:8px;}
+.msg-bubble{max-width:70%;padding:10px 14px;border-radius:14px;word-break:break-word;}
+.msg-bubble.own{align-self:flex-end;background:linear-gradient(135deg,#1A4FBF,#0D3A9E);}
+.msg-bubble.other{align-self:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);}
+.msg-broadcast-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(245,166,35,0.2);color:var(--accent);border-radius:8px;padding:2px 8px;font-size:10px;font-weight:700;margin-bottom:4px;}
+.msg-content{font-size:13px;color:var(--white);line-height:1.5;}
+.msg-meta{font-size:10px;color:rgba(255,255,255,0.35);margin-top:4px;display:flex;align-items:center;gap:5px;}
+.msg-meta.own{justify-content:flex-end;}
+.msg-read{color:rgba(255,255,255,0.5);}
+.msg-expire{color:rgba(255,166,35,0.5);}
+/* INPUT */
+.msg-input-area{padding:14px 20px;border-top:1px solid var(--border);background:var(--navy2);flex-shrink:0;}
+.msg-input-row{display:flex;gap:10px;align-items:flex-end;}
+.msg-textarea{flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;resize:none;min-height:42px;max-height:120px;line-height:1.5;color-scheme:dark;}
+.msg-textarea:focus{border-color:var(--blue);}
+.msg-textarea::placeholder{color:var(--gray2);}
+.btn-send{background:linear-gradient(135deg,var(--blue),#0D3A9E);border:none;border-radius:10px;width:44px;height:44px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform 0.15s;}
+.btn-send:hover{transform:scale(1.05);}
+.btn-send:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.input-footer{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.char-count{font-size:10px;color:var(--gray);}
+.input-hint{font-size:10px;color:var(--gray2);}
+/* MODAL BROADCAST */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal-box{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:28px;width:min(500px,92vw);box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--white);letter-spacing:2px;margin-bottom:4px;}
+.modal-sub{font-size:12px;color:var(--gray);margin-bottom:20px;}
+.modal-targets{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--accent);}
+.modal-textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;resize:vertical;min-height:100px;color-scheme:dark;}
+.modal-textarea:focus{border-color:var(--blue);}
+.modal-actions{display:flex;gap:10px;margin-top:16px;justify-content:flex-end;}
+.btn-modal-cancel{background:var(--card);border:1px solid var(--border);color:var(--gray);border-radius:8px;padding:10px 18px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;}
+.btn-modal-send{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);border:none;border-radius:8px;padding:10px 22px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
+.btn-modal-send:disabled{opacity:0.5;cursor:not-allowed;}
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:14px 20px;font-size:13px;color:var(--white);z-index:300;transform:translateY(20px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.toast.show{transform:translateY(0);opacity:1;}
+/* SPINNER */
+.spinner{width:20px;height:20px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-row{display:flex;align-items:center;gap:10px;padding:30px;justify-content:center;color:var(--gray);font-size:13px;}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--navy2)}::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:3px}
+/* LIST SECTIONS */
+.list-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 4px;margin-top:2px;}
+.list-section-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);}
+.list-section-empty{padding:8px 16px 12px;font-size:11px;color:var(--gray2);font-style:italic;}
+.btn-section-add{background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);color:var(--purple);border-radius:6px;width:22px;height:22px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-family:inherit;}
+.btn-section-add:hover{background:rgba(124,58,237,0.3);transform:scale(1.1);}
+.btn-group-opts{background:none;border:none;color:var(--gray2);cursor:pointer;font-size:13px;padding:3px 5px;border-radius:5px;transition:all 0.15s;line-height:1;flex-shrink:0;}
+.btn-group-opts:hover{background:rgba(255,255,255,0.08);color:var(--light);}
+.member-chk-row{display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer;border-radius:8px;}
+.member-chk-row input[type=checkbox]{accent-color:var(--purple);width:16px;height:16px;cursor:pointer;flex-shrink:0;}
+.member-chk-av{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--accent));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--white);flex-shrink:0;font-family:'Bebas Neue',sans-serif;}
+.member-chk-name{font-size:13px;color:var(--light);}
+.modal-name-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;margin-bottom:4px;color-scheme:dark;}
+.modal-name-input:focus{border-color:var(--purple);}
+.modal-name-input::placeholder{color:var(--gray2);}
+.msg-sender-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,0.45);margin-bottom:3px;}
+.btn-modal-delete{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.25);color:#FC8181;border-radius:8px;padding:10px 16px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;margin-right:auto;}
+.btn-modal-delete:hover{background:rgba(231,76,60,0.25);}
+/* MOBILE */
+@media(max-width:768px){
+  .sidebar{display:none!important;}
+  .main{margin-left:0!important;}
+  .topbar{padding:0 14px!important;height:52px!important;}
+  .topbar-title{font-size:16px!important;}
+  .msg-layout{flex-direction:column;}
+  .drivers-panel{width:100%;border-right:none;border-bottom:1px solid var(--border);max-height:45vh;}
+  .conv-panel{flex:1;}
+  .drivers-panel.mobile-hidden{display:none;}
+  .conv-panel.mobile-hidden{display:none;}
+  .msg-bubble{max-width:85%;}
+}
+</style>
+<script src="ot_401_guard.js"></script>
+<script>
+const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+const OT=(()=>{
+  const PLAN_MODULES={starter:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,whatsapp:false,vehicules:true,facturation:false,chauffeurs:false,gazole:false,feuille_route:false},pro:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,whatsapp:true,vehicules:true,facturation:true,chauffeurs:true,gazole:false,feuille_route:false},business:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,whatsapp:true,vehicules:true,facturation:true,chauffeurs:true,gazole:true,feuille_route:false}};
+  function getSession(){const raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');if(!raw)return null;try{return JSON.parse(raw);}catch(e){return null;}}
+  function authHeaders(){const s=getSession();const token=(s&&s.token)?s.token:KEY;return{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+token,'Prefer':'return=representation'};}
+  function requireLogin(){const logged=localStorage.getItem('ot_logged')||sessionStorage.getItem('ot_logged');const session=getSession();if(!logged||!session){window.location.href=window.location.origin+'/index.html';return false;}return true;}
+  async function logout(){if(!confirm('Se déconnecter ?'))return;const s=getSession();if(s&&s.token){try{await fetch(SB+'/auth/v1/logout',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+s.token}});}catch(e){}}['ot_session','ot_logged','ot_email'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});window.location.href=window.location.origin+'/index.html';}
+  function getCompanyId(){const s=getSession();if(!s)return null;return s.company_id||s.id;}
+  function can(feature){const s=getSession();if(!s)return false;if(s.id==='demo'){if(feature==='monmarche')return false;return true;}if(feature==='feuille_route')return s.addon_route===true;if(feature==='saisie')return s.addon_saisie===true;if(feature==='monmarche')return s.addon_monmarche===true;if(feature==='dispatch')return s.addon_dispatch===true;if(feature==='tracking')return s.addon_tracking===true;return(PLAN_MODULES[s.plan]||PLAN_MODULES.starter)[feature]===true;}
+  function applyPlanRestrictions(){const s=getSession();if(!s)return;var rules=[{href:'optimum_trans_feuille_route.html',feature:'feuille_route'},{href:'optimum_trans_vehicules.html',feature:'vehicules'},{href:'optimum_trans_chauffeurs.html',feature:'chauffeurs'},{href:'optimum_trans_gazole.html',feature:'gazole'},{href:'optimum_trans_saisie.html',feature:'saisie'},{href:'monmarche.html',feature:'monmarche'},{href:'optimum_trans_dispatch.html',feature:'dispatch'},{href:'optimum_trans_suivi_chauffeurs.html',feature:'tracking'}];rules.forEach(function(rule){document.querySelectorAll('a[href="'+rule.href+'"]').forEach(function(el){el.style.display=can(rule.feature)?'':'none';});});document.querySelectorAll('a[href="optimum_trans_suivi_chauffeurs.html"]').forEach(function(el){el.style.display=(can('tracking')&&(s.role||'admin')!=='chauffeur')?'':'none';});}
+  document.addEventListener('DOMContentLoaded',()=>{
+    if(!requireLogin())return;
+    const s=getSession();
+    if(s&&s.role==='chauffeur'){window.location.href='optimum_trans_chauffeur_vue.html';return;}
+    applyPlanRestrictions();
+    // Update sidebar user info
+    const av=document.getElementById('sidebar-avatar');
+    const nm=document.getElementById('sidebar-name');
+    if(s&&s.name&&av){av.textContent=(s.name||'OT').split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'OT';}
+    if(s&&s.name&&nm){nm.textContent=s.name;}
+  });
+  return{getSession,authHeaders,requireLogin,logout,getCompanyId,can};
+})();
+function logout(){OT.logout();}
+</script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-tag">Gestion Transport</div>
+    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_saisie.html" id="nav-saisie-link"><span class="nav-icon">📝</span> Saisie Tournées</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <div class="nav-section-label">Gestion</div>
+    <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
+    <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients &amp; Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
+    <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+    <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+    <div class="nav-section-label">Communication</div>
+    <a class="nav-item active" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <div class="nav-section-label">Intelligence</div>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+    <div class="nav-section-label">Paramètres</div>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
+      <div class="user-avatar" id="sidebar-avatar">T.S</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)" id="sidebar-name">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;">⏻</button>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">💬 MESSAGERIE</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="font-size:11px;color:var(--gray)">⏱ Historique conservé 1 mois</div>
+      <div id="poll-indicator" style="display:flex;align-items:center;gap:5px;font-size:11px;color:#2ECC71">
+        <div style="width:7px;height:7px;border-radius:50%;background:#2ECC71;animation:pulse 2s infinite"></div>LIVE
+      </div>
+    </div>
+  </div>
+
+  <!-- MESSAGING LAYOUT -->
+  <div class="msg-layout">
+
+    <!-- LEFT: DRIVERS LIST -->
+    <div class="drivers-panel" id="drivers-panel">
+      <div class="drivers-panel-header">
+        <div class="panel-title">CONVERSATIONS</div>
+        <input class="search-input" id="driver-search" placeholder="🔍 Rechercher..." oninput="filterAll(this.value)">
+        <button class="btn-broadcast" onclick="openBroadcast()">
+          📢 Message à TOUS les chauffeurs
+        </button>
+      </div>
+      <div class="drivers-list" id="drivers-list">
+        <div class="loading-row"><div class="spinner"></div>Chargement...</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: CONVERSATION -->
+    <div class="conv-panel" id="conv-panel">
+      <!-- Empty state -->
+      <div class="conv-empty" id="conv-empty">
+        <div class="conv-empty-icon">💬</div>
+        <div class="conv-empty-title">Sélectionnez une conversation</div>
+        <div class="conv-empty-sub">Choisissez un chauffeur dans la liste pour voir les échanges ou envoyer un message.</div>
+      </div>
+
+      <!-- Conversation header (hidden until selected) -->
+      <div class="conv-header" id="conv-header" style="display:none">
+        <div class="conv-av" id="conv-av">?</div>
+        <div>
+          <div class="conv-title" id="conv-title">—</div>
+          <div class="conv-sub" id="conv-sub">Conversation</div>
+        </div>
+        <span class="conv-badge-24h">⏱ 1 mois</span>
+        <button id="btn-back-mobile" onclick="showDriversPanel()" style="display:none;margin-left:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--gray);cursor:pointer;font-family:inherit;font-size:12px;">◀ Retour</button>
+      </div>
+
+      <!-- Messages -->
+      <div class="msg-list" id="msg-list" style="display:none"></div>
+
+      <!-- Input area -->
+      <div class="msg-input-area" id="msg-input-area" style="display:none">
+        <div class="msg-input-row">
+          <textarea class="msg-textarea" id="msg-textarea" placeholder="Votre message..." rows="1"
+            oninput="autoGrow(this);updateCharCount()"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"></textarea>
+          <button class="btn-send" id="btn-send" onclick="sendMsg()" title="Envoyer (Entrée)">✈️</button>
+        </div>
+        <div class="input-footer">
+          <span class="char-count" id="char-count">0 / 2000</span>
+          <span class="input-hint">Entrée pour envoyer · Maj+Entrée pour nouvelle ligne</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- BROADCAST MODAL -->
+<div class="modal-overlay" id="modal-broadcast">
+  <div class="modal-box">
+    <div class="modal-title">📢 MESSAGE GROUPÉ</div>
+    <div class="modal-sub">Ce message sera envoyé à tous vos chauffeurs simultanément.</div>
+    <div class="modal-targets" id="modal-targets">🚐 Chargement des destinataires...</div>
+    <textarea class="modal-textarea" id="broadcast-textarea" placeholder="Réunion demain matin 7h00 au dépôt. Présence obligatoire." rows="4"
+      oninput="updateBroadcastCount()"></textarea>
+    <div style="text-align:right;font-size:11px;color:var(--gray);margin-top:4px" id="broadcast-char-count">0 / 2000</div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeBroadcast()">Annuler</button>
+      <button class="btn-modal-send" id="btn-broadcast-send" onclick="sendBroadcast()">📢 Envoyer à tous</button>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP MODAL -->
+<div class="modal-overlay" id="modal-group">
+  <div class="modal-box" style="max-height:85vh;display:flex;flex-direction:column;gap:0;">
+    <div class="modal-title" id="group-modal-title">👥 NOUVEAU GROUPE</div>
+    <div class="modal-sub">Donnez un nom au groupe et sélectionnez les membres chauffeurs.</div>
+    <input class="modal-name-input" id="group-name-input" placeholder="Nom du groupe (ex: Équipe Matin)" maxlength="100">
+    <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gray2);margin:14px 0 8px;text-transform:uppercase;">Membres chauffeurs</div>
+    <div id="group-members-list" style="flex:1;overflow-y:auto;max-height:260px;padding-right:2px;"></div>
+    <div class="modal-actions" style="margin-top:18px;">
+      <button class="btn-modal-delete" id="btn-group-delete" onclick="deleteGroupAction()" style="display:none;">🗑 Supprimer</button>
+      <button class="btn-modal-cancel" onclick="closeGroupModal()">Annuler</button>
+      <button class="btn-modal-send" id="btn-group-save" onclick="saveGroup()">✅ Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="/ot_gps_persistent.js"></script>
+<script src="/pwa-register.js"></script>
+<script src="/ot_visibility_pause.js"></script>
+<script src="/ot_messaging.js"></script>
+<script>
+// ── STATE ────────────────────────────────────────────────────────
+let allDrivers   = [];
+let convList     = [];
+let groupList    = [];
+let currentDriver   = null;   // chauffeur_name ('_BROADCAST_' | nom | null)
+let currentGroupId  = null;   // UUID groupe ou null
+let currentConvType = null;   // 'driver' | 'broadcast' | 'group'
+let editingGroupId  = null;   // groupe en cours d'édition dans la modal
+
+// ── INIT ─────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  const sidebarNav = document.querySelector('.sidebar-nav');
+  if (sidebarNav) sidebarNav.scrollTop = 0;
+  if (!OT.requireLogin()) return;
+
+  await Promise.all([loadDrivers(), loadConvList(), loadGroupListUI()]);
+
+  OT_MSG.startBadgePolling(count => {
+    const badge = document.getElementById('nav-msg-badge');
+    if (!badge) return;
+    if (count > 0) { badge.textContent = count > 9 ? '9+' : count; badge.style.display = 'block'; }
+    else { badge.style.display = 'none'; }
+  }, null, 10000);
+
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+});
+
+// ── LOADERS ──────────────────────────────────────────────────────
+async function loadDrivers() {
+  allDrivers = await OT_MSG.loadDriversList();
+}
+async function loadConvList() {
+  convList = await OT_MSG.loadConversationList();
+  renderAll(document.getElementById('driver-search').value);
+}
+async function loadGroupListUI() {
+  groupList = await OT_MSG.loadGroupList();
+  renderAll(document.getElementById('driver-search').value);
+}
+
+// ── RENDER LEFT PANEL ─────────────────────────────────────────────
+function renderAll(search) {
+  const el = document.getElementById('drivers-list');
+  if (!el) return;
+  const q = (search || '').toLowerCase().trim();
+  const convMap = {};
+  for (const c of convList) convMap[c.chauffeur_name] = c;
+
+  const session = OT.getSession();
+  const isAdmin = !session || !session.role || session.role === 'admin';
+
+  let html = '';
+
+  // ── Broadcast ──
+  if (!q || 'tous chauffeurs broadcast'.includes(q)) {
+    const bc       = convMap['_BROADCAST_'];
+    const bcUnread  = bc ? bc.unread : 0;
+    const bcPreview = bc ? escHtml(bc.last_message.content.substring(0, 50)) : 'Aucun message diffusé';
+    const bcTime    = bc ? OT_MSG.timeAgo(bc.last_message.created_at) : '';
+    const isActive  = currentConvType === 'broadcast';
+    html += `<div class="driver-item${isActive?' active':''}" onclick="openConv('_BROADCAST_','📢 Tous les chauffeurs','Broadcast','broadcast')">
+      <div class="driver-av broadcast" style="font-size:18px">📢</div>
+      <div class="driver-info">
+        <div class="driver-name">Tous les chauffeurs</div>
+        <div class="driver-preview">${bcPreview}</div>
+      </div>
+      <div class="driver-meta">
+        <span class="driver-time">${bcTime}</span>
+        ${bcUnread > 0 ? `<span class="unread-badge">${bcUnread}</span>` : ''}
+      </div>
+    </div>`;
+  }
+
+  // ── Groupes ──
+  const filteredGroups = groupList.filter(g => !q || g.name.toLowerCase().includes(q));
+  const addGroupBtn = isAdmin
+    ? `<button class="btn-section-add" onclick="openGroupModal(null)" title="Créer un groupe">＋</button>`
+    : '';
+  html += `<div class="list-section-hdr">
+    <span class="list-section-lbl">Groupes</span>${addGroupBtn}
+  </div>`;
+  if (filteredGroups.length === 0) {
+    html += `<div class="list-section-empty">${q ? 'Aucun groupe trouvé' : (isAdmin ? '＋ Créez votre premier groupe' : 'Aucun groupe')}</div>`;
+  } else {
+    for (const g of filteredGroups) {
+      const isActive = currentGroupId === g.id;
+      const preview  = g.last_message ? escHtml(g.last_message.content.substring(0, 50)) : 'Aucun message';
+      const time     = g.last_message ? OT_MSG.timeAgo(g.last_message.created_at) : '';
+      const unread   = g.unread || 0;
+      const editBtn  = isAdmin
+        ? `<button class="btn-group-opts" onclick="event.stopPropagation();openGroupModal('${escAttr(g.id)}')" title="Modifier">⚙</button>`
+        : '';
+      html += `<div class="driver-item${isActive?' active':''}" onclick="openGroup('${escAttr(g.id)}','${escAttr(g.name)}')">
+        <div class="driver-av" style="background:linear-gradient(135deg,var(--purple),#6D28D9);font-size:18px">👥</div>
+        <div class="driver-info">
+          <div class="driver-name">${escHtml(g.name)}</div>
+          <div class="driver-preview">${preview}</div>
+        </div>
+        <div class="driver-meta">
+          <span class="driver-time">${time}</span>
+          ${unread > 0 ? `<span class="unread-badge">${unread}</span>` : ''}
+        </div>
+        ${editBtn}
+      </div>`;
+    }
+  }
+
+  // ── Chauffeurs ──
+  // Tri : non-lus en tête, puis dernier message récent, puis alphabétique
+  const filteredDrivers = allDrivers
+    .filter(d => !q || (d.nom || '').toLowerCase().includes(q))
+    .slice()
+    .sort((a, b) => {
+      const ca = convMap[(a.nom || '').trim()];
+      const cb = convMap[(b.nom || '').trim()];
+      const ua = ca ? ca.unread : 0;
+      const ub = cb ? cb.unread : 0;
+      if (ua !== ub) return ub - ua;
+      const ta = ca ? new Date(ca.last_message.created_at).getTime() : 0;
+      const tb = cb ? new Date(cb.last_message.created_at).getTime() : 0;
+      if (ta !== tb) return tb - ta;
+      return (a.nom || '').localeCompare(b.nom || '');
+    });
+  html += `<div class="list-section-hdr" style="margin-top:4px">
+    <span class="list-section-lbl">Chauffeurs</span>
+  </div>`;
+  if (filteredDrivers.length === 0) {
+    html += `<div class="list-section-empty">${q ? `Aucun résultat pour "${escHtml(q)}"` : 'Aucun chauffeur actif'}</div>`;
+  } else {
+    for (const d of filteredDrivers) {
+      const fullName = (d.nom || '').trim();
+      const conv     = convMap[fullName] || null;
+      const unread   = conv ? conv.unread : 0;
+      const preview  = conv ? escHtml(conv.last_message.content.substring(0, 50)) : 'Aucun message';
+      const time     = conv ? OT_MSG.timeAgo(conv.last_message.created_at) : '';
+      const initials = fullName.split(' ').map(s => s[0] || '').join('').toUpperCase().substring(0, 2);
+      const isActive = currentConvType === 'driver' && currentDriver === fullName;
+      html += `<div class="driver-item${isActive?' active':''}" onclick="openConv('${escAttr(fullName)}','${escAttr(fullName)}','Chauffeur','driver')">
+        <div class="driver-av">${initials||'?'}</div>
+        <div class="driver-info">
+          <div class="driver-name">${escHtml(fullName)}</div>
+          <div class="driver-preview">${preview}</div>
+        </div>
+        <div class="driver-meta">
+          <span class="driver-time">${time}</span>
+          ${unread > 0 ? `<span class="unread-badge">${unread}</span>` : ''}
+        </div>
+      </div>`;
+    }
+  }
+
+  el.innerHTML = html;
+}
+
+function filterAll(q) { renderAll(q); }
+
+// ── CONVERSATION 1:1 ET BROADCAST ─────────────────────────────────
+async function openConv(driverKey, displayName, subTitle, avType) {
+  currentDriver   = driverKey;
+  currentGroupId  = null;
+  currentConvType = avType === 'broadcast' ? 'broadcast' : 'driver';
+
+  _showConvUI();
+  const av = document.getElementById('conv-av');
+  av.style.background = '';
+  av.className = 'conv-av' + (avType === 'broadcast' ? ' broadcast' : '');
+  av.textContent = avType === 'broadcast' ? '📢' : displayName.split(' ').map(w => w[0] || '').join('').toUpperCase().substring(0, 2);
+  document.getElementById('conv-title').textContent = displayName;
+  document.getElementById('conv-sub').textContent   = avType === 'broadcast' ? '📢 Tous les chauffeurs' : subTitle;
+  renderAll(document.getElementById('driver-search').value);
+  showConvPanel();
+
+  OT_MSG.startPolling(driverKey, async (msgs) => {
+    renderMessages(msgs);
+    await OT_MSG.markConversationRead(driverKey);
+    convList = await OT_MSG.loadConversationList();
+    renderAll(document.getElementById('driver-search').value);
+  }, 5000);
+
+  setTimeout(() => document.getElementById('msg-textarea').focus(), 100);
+}
+
+// ── CONVERSATION DE GROUPE ────────────────────────────────────────
+async function openGroup(groupId, groupName) {
+  currentDriver   = null;
+  currentGroupId  = groupId;
+  currentConvType = 'group';
+
+  _showConvUI();
+  const av = document.getElementById('conv-av');
+  av.className = 'conv-av';
+  av.style.background = 'linear-gradient(135deg,var(--purple),#6D28D9)';
+  av.textContent = '👥';
+  document.getElementById('conv-title').textContent = groupName;
+  document.getElementById('conv-sub').textContent   = '⏳ Chargement...';
+  renderAll(document.getElementById('driver-search').value);
+  showConvPanel();
+
+  OT_MSG.loadGroupMembers(groupId).then(members => {
+    if (currentGroupId !== groupId) return;
+    document.getElementById('conv-sub').textContent = `👥 ${members.length} membre${members.length > 1 ? 's' : ''}`;
+  });
+
+  OT_MSG.startGroupPolling(groupId, async (msgs) => {
+    renderMessages(msgs);
+    await OT_MSG.markGroupRead(groupId);
+    await loadGroupListUI();
+  }, 5000);
+
+  setTimeout(() => document.getElementById('msg-textarea').focus(), 100);
+}
+
+function _showConvUI() {
+  document.getElementById('conv-empty').style.display = 'none';
+  document.getElementById('conv-header').style.display = 'flex';
+  document.getElementById('msg-list').style.display = 'flex';
+  document.getElementById('msg-input-area').style.display = 'block';
+}
+
+// ── RENDU MESSAGES ────────────────────────────────────────────────
+function renderMessages(msgs) {
+  const el = document.getElementById('msg-list');
+  if (!el) return;
+  if (msgs.length === 0) {
+    el.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--gray)">
+      <div style="font-size:36px;margin-bottom:10px">💬</div>
+      <div style="font-size:13px">Aucun message dans cette conversation.<br>Les messages sont conservés 1 mois.</div>
+    </div>`;
+    return;
+  }
+  el.innerHTML = msgs.map(m => renderBubble(m)).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+function renderBubble(m) {
+  const session = OT.getSession();
+  const myName  = session ? (session.name || session.chauffeur_nom || '') : '';
+  const isOwn   = m.sender_name === myName;
+  const align       = isOwn ? 'flex-end' : 'flex-start';
+  const bubbleClass = isOwn ? 'msg-bubble own' : 'msg-bubble other';
+  const metaClass   = isOwn ? 'msg-meta own' : 'msg-meta';
+  const time = OT_MSG.timeAgo(m.created_at);
+  const expires  = new Date(m.expires_at);
+  const daysLeft = Math.max(0, Math.round((expires - Date.now()) / 86400000));
+  const expireTip      = daysLeft <= 2 ? `<span class="msg-expire" title="Expire dans ${daysLeft}j">⏱${daysLeft}j</span>` : '';
+  const readIcon       = isOwn ? (m.read_at ? '<span class="msg-read" title="Lu">✓✓</span>' : '<span style="color:rgba(255,255,255,0.3)">✓</span>') : '';
+  const broadcastBadge = m.is_broadcast ? '<div class="msg-broadcast-badge">📢 TOUS LES CHAUFFEURS</div>' : '';
+  const senderLabel    = (currentConvType === 'group' && !isOwn)
+    ? `<div class="msg-sender-lbl">${escHtml(m.sender_name)}${m.sender_role === 'chef_equipe' ? ' · 👔' : m.sender_role === 'admin' ? ' · ⚙️' : ''}</div>`
+    : '';
+  return `<div style="display:flex;flex-direction:column;align-items:${align}">
+    <div class="${bubbleClass}">
+      ${broadcastBadge}${senderLabel}
+      <div class="msg-content">${escHtml(m.content)}</div>
+      <div class="${metaClass}">
+        <span>${escHtml(m.sender_name)}</span><span>·</span><span>${time}</span>
+        ${expireTip}${readIcon}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── ENVOI ─────────────────────────────────────────────────────────
+async function sendMsg() {
+  const ta      = document.getElementById('msg-textarea');
+  const btn     = document.getElementById('btn-send');
+  const content = ta.value.trim();
+  if (!content || (!currentDriver && !currentGroupId)) return;
+  if (content.length > 2000) { showToast('❌ Message trop long (max 2000 caractères)'); return; }
+  ta.disabled = true; btn.disabled = true;
+  const isGroup = currentConvType === 'group';
+  const msg = isGroup
+    ? await OT_MSG.sendGroupMessage(currentGroupId, content)
+    : await OT_MSG.sendMessage(currentDriver, content, false);
+  ta.disabled = false; btn.disabled = false;
+  if (msg) {
+    ta.value = ''; ta.style.height = 'auto'; updateCharCount();
+    showToast('✅ Message envoyé');
+    // Re-render immédiat — ne pas attendre WS/polling (évite le délai visuel)
+    try {
+      if (isGroup && currentGroupId) {
+        const gMsgs = await OT_MSG.loadGroupConversation(currentGroupId);
+        renderMessages(gMsgs);
+        await loadGroupListUI();
+      } else if (currentDriver) {
+        const msgs = await OT_MSG.loadConversation(currentDriver);
+        renderMessages(msgs);
+        convList = await OT_MSG.loadConversationList();
+        renderAll(document.getElementById('driver-search').value);
+      }
+    } catch(e) { /* le polling rattrapera */ }
+  } else {
+    showToast('❌ Erreur lors de l\'envoi');
+  }
+}
+
+// ── BROADCAST ────────────────────────────────────────────────────
+async function openBroadcast() {
+  document.getElementById('modal-broadcast').classList.add('show');
+  const count = allDrivers.length;
+  document.getElementById('modal-targets').textContent = count > 0
+    ? `🚐 ${count} chauffeur${count > 1 ? 's' : ''} destinataire${count > 1 ? 's' : ''}`
+    : '⚠️ Aucun chauffeur actif trouvé';
+  document.getElementById('broadcast-textarea').value = '';
+  document.getElementById('broadcast-char-count').textContent = '0 / 2000';
+  setTimeout(() => document.getElementById('broadcast-textarea').focus(), 100);
+}
+function closeBroadcast() { document.getElementById('modal-broadcast').classList.remove('show'); }
+function updateBroadcastCount() {
+  const ta = document.getElementById('broadcast-textarea');
+  const el = document.getElementById('broadcast-char-count');
+  if (ta && el) { el.textContent = `${ta.value.length} / 2000`; el.style.color = ta.value.length > 1800 ? '#FC8181' : 'var(--gray)'; }
+}
+async function sendBroadcast() {
+  const ta = document.getElementById('broadcast-textarea'), btn = document.getElementById('btn-broadcast-send');
+  const content = ta.value.trim();
+  if (!content) { showToast('⚠️ Veuillez saisir un message'); return; }
+  if (content.length > 2000) { showToast('❌ Message trop long (max 2000)'); return; }
+  if (allDrivers.length === 0) { showToast('⚠️ Aucun chauffeur actif'); return; }
+  btn.disabled = true; btn.textContent = 'Envoi...';
+  const msg = await OT_MSG.sendMessage('_BROADCAST_', content, true);
+  btn.disabled = false; btn.textContent = '📢 Envoyer à tous';
+  if (msg) {
+    closeBroadcast();
+    showToast(`✅ Message envoyé à ${allDrivers.length} chauffeur${allDrivers.length>1?'s':''}`);
+    convList = await OT_MSG.loadConversationList();
+    renderAll(document.getElementById('driver-search').value);
+  } else { showToast('❌ Erreur lors de l\'envoi groupé'); }
+}
+
+// ── MODAL GROUPE ──────────────────────────────────────────────────
+async function openGroupModal(groupId) {
+  editingGroupId = groupId || null;
+  const nameInput = document.getElementById('group-name-input');
+  const saveBtn   = document.getElementById('btn-group-save');
+  const delBtn    = document.getElementById('btn-group-delete');
+  nameInput.value = '';
+  if (groupId) {
+    document.getElementById('group-modal-title').textContent = '⚙️ MODIFIER LE GROUPE';
+    saveBtn.textContent  = '💾 Enregistrer';
+    delBtn.style.display = 'inline-flex';
+    const group = groupList.find(g => g.id === groupId);
+    if (group) nameInput.value = group.name;
+    renderGroupMembersChecklist(await OT_MSG.loadGroupMembers(groupId));
+  } else {
+    document.getElementById('group-modal-title').textContent = '👥 NOUVEAU GROUPE';
+    saveBtn.textContent  = '✅ Créer';
+    delBtn.style.display = 'none';
+    renderGroupMembersChecklist([]);
+  }
+  document.getElementById('modal-group').classList.add('show');
+  setTimeout(() => nameInput.focus(), 150);
+}
+function closeGroupModal() {
+  document.getElementById('modal-group').classList.remove('show');
+  editingGroupId = null;
+}
+function renderGroupMembersChecklist(selectedNames) {
+  const el = document.getElementById('group-members-list');
+  if (!el) return;
+  if (allDrivers.length === 0) {
+    el.innerHTML = '<div style="color:var(--gray2);font-size:12px;padding:8px 0">Aucun chauffeur actif enregistré.</div>';
+    return;
+  }
+  el.innerHTML = allDrivers.map(d => {
+    const checked  = selectedNames.includes(d.nom) ? 'checked' : '';
+    const initials = (d.nom || '?').split(' ').map(s => s[0] || '').join('').toUpperCase().substring(0, 2);
+    return `<label class="member-chk-row">
+      <input type="checkbox" value="${escAttr(d.nom)}" ${checked}>
+      <div class="member-chk-av">${initials}</div>
+      <span class="member-chk-name">${escHtml(d.nom)}</span>
+    </label>`;
+  }).join('');
+}
+async function saveGroup() {
+  const nameInput = document.getElementById('group-name-input');
+  const name = (nameInput.value || '').trim();
+  if (!name) { showToast('⚠️ Nom du groupe requis'); nameInput.focus(); return; }
+  const members = [...document.querySelectorAll('#group-members-list input:checked')].map(cb => cb.value);
+  const btn = document.getElementById('btn-group-save');
+  btn.disabled = true;
+  let success;
+  if (editingGroupId) {
+    success = await OT_MSG.updateGroup(editingGroupId, name, members);
+  } else {
+    success = !!(await OT_MSG.createGroup(name, members));
+  }
+  btn.disabled = false;
+  if (success) {
+    closeGroupModal();
+    showToast(editingGroupId ? '✅ Groupe mis à jour' : '✅ Groupe créé');
+    if (editingGroupId && currentGroupId === editingGroupId) document.getElementById('conv-title').textContent = name;
+    await loadGroupListUI();
+  } else { showToast('❌ Erreur lors de la sauvegarde'); }
+}
+async function deleteGroupAction() {
+  if (!editingGroupId || !confirm('Supprimer ce groupe et tous ses messages ?')) return;
+  const gid = editingGroupId;
+  if (await OT_MSG.deleteGroup(gid)) {
+    closeGroupModal();
+    if (currentGroupId === gid) {
+      currentGroupId = null; currentConvType = null; currentDriver = null;
+      OT_MSG.stopPolling();
+      document.getElementById('conv-empty').style.display = 'flex';
+      document.getElementById('conv-header').style.display = 'none';
+      document.getElementById('msg-list').style.display = 'none';
+      document.getElementById('msg-input-area').style.display = 'none';
+      document.getElementById('conv-av').style.background = '';
+    }
+    showToast('✅ Groupe supprimé');
+    await loadGroupListUI();
+  } else { showToast('❌ Erreur lors de la suppression'); }
+}
+
+// ── UTILS ────────────────────────────────────────────────────────
+function autoGrow(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
+function updateCharCount() {
+  const ta = document.getElementById('msg-textarea'), el = document.getElementById('char-count');
+  if (ta && el) { el.textContent = `${ta.value.length} / 2000`; el.style.color = ta.value.length > 1800 ? '#FC8181' : 'var(--gray)'; }
+}
+function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+function escAttr(str) { return String(str).replace(/'/g,'&#39;').replace(/"/g,'&quot;'); }
+let _toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(_toastTimer); _toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+function checkMobile() {
+  const backBtn = document.getElementById('btn-back-mobile');
+  if (backBtn) backBtn.style.display = window.innerWidth <= 768 ? 'block' : 'none';
+}
+function showConvPanel() {
+  if (window.innerWidth > 768) return;
+  document.getElementById('drivers-panel').classList.add('mobile-hidden');
+  document.getElementById('conv-panel').classList.remove('mobile-hidden');
+}
+function showDriversPanel() {
+  document.getElementById('drivers-panel').classList.remove('mobile-hidden');
+  document.getElementById('conv-panel').classList.add('mobile-hidden');
+  currentDriver = null; currentGroupId = null; currentConvType = null;
+  OT_MSG.stopPolling();
+}
+document.getElementById('modal-broadcast').addEventListener('click', function(e) { if (e.target === this) closeBroadcast(); });
+document.getElementById('modal-group').addEventListener('click', function(e) { if (e.target === this) closeGroupModal(); });
+window.addEventListener('beforeunload', () => { OT_MSG.stopPolling(); OT_MSG.stopBadgePolling(); });
+</script>
+<script src="ot_decompte_guard.js" defer></script>
+</body>
+</html>

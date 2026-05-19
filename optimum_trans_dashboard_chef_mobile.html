@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Tableau de bord — T SERVICE & CO</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0A1628">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="T.S">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{
+  --navy:#0A1628;--navy2:#0F2040;--navy3:#142952;
+  --blue:#1A4FBF;--accent:#F5A623;--light:#E8EDF5;
+  --white:#FFFFFF;--gray:#8A9BB5;--success:#27AE60;
+  --error:#E74C3C;--border:rgba(255,255,255,0.08);--card:rgba(255,255,255,0.04);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:Outfit,sans-serif;background:var(--navy);color:var(--light);min-height:100vh;padding-bottom:70px;}
+
+.topbar{background:var(--navy2);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--white);}
+.logo span{color:var(--accent);}
+.user-info{display:flex;align-items:center;gap:8px;}
+.user-avatar{width:32px;height:32px;background:linear-gradient(135deg,#60A5FA,#1A4FBF);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--white);}
+.user-name{font-size:12px;font-weight:600;color:var(--white);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.user-role{font-size:9px;color:#60A5FA;font-weight:600;}
+.btn-logout{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:6px 8px;cursor:pointer;font-size:12px;color:#FC8181;}
+
+.content{padding:16px;}
+
+/* Bonjour */
+.greeting{margin-bottom:16px;}
+.greeting-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--white);}
+.greeting-sub{font-size:12px;color:var(--gray);margin-top:2px;}
+
+/* KPIs today */
+.section-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:10px;}
+.kpis-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.kpi-card{background:var(--navy2);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.kpi-card.wide{grid-column:1/-1;}
+.kpi-icon{font-size:22px;margin-bottom:6px;}
+.kpi-val{font-size:28px;font-weight:800;color:var(--white);line-height:1;}
+.kpi-lbl{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px;}
+.kpi-sub{font-size:10px;color:var(--accent);margin-top:2px;}
+
+/* Tournées aujourd'hui */
+.tournee-item{background:var(--navy2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.slot-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.slot-am{background:#F5A623;}.slot-pm{background:#60A5FA;}.slot-nuit{background:#A78BFA;}
+.t-info{flex:1;}
+.t-client{font-size:13px;font-weight:700;color:var(--white);}
+.t-meta{font-size:11px;color:var(--gray);margin-top:2px;}
+.t-driver{font-size:11px;color:#60A5FA;font-weight:600;}
+
+/* Chauffeurs actifs */
+.ch-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.ch-row:last-child{border-bottom:none;}
+.ch-av{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--white);flex-shrink:0;}
+.ch-name{font-size:13px;font-weight:600;color:var(--white);flex:1;}
+.ch-tours{font-size:11px;color:var(--gray);}
+.ch-badge{background:rgba(46,204,113,0.12);color:#2ECC71;border-radius:20px;padding:2px 8px;font-size:9px;font-weight:700;}
+
+.card-section{background:var(--navy2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px;}
+
+.empty-state{text-align:center;padding:20px;color:var(--gray);font-size:12px;}
+
+.spinner-wrap{display:flex;justify-content:center;padding:20px;}
+.spinner{width:20px;height:20px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--navy2);border-top:1px solid var(--border);display:flex;z-index:200;padding-bottom:env(safe-area-inset-bottom);}
+.bottom-nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;}
+.bottom-nav a.active{color:var(--accent);}
+.bottom-nav a .ico{font-size:20px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">T SERVICE <span>&amp; CO</span></div>
+  <div class="user-info">
+    <div class="user-avatar" id="av-initials">CE</div>
+    <div>
+      <div class="user-name" id="av-name">Chef</div>
+      <div class="user-role">👷 Chef d'équipe</div>
+    </div>
+    <button class="btn-logout" onclick="logout()">⏻</button>
+  </div>
+</div>
+
+<div class="content">
+  <div class="greeting">
+    <div class="greeting-title" id="greeting-title">Bonjour 👋</div>
+    <div class="greeting-sub" id="greeting-date">—</div>
+  </div>
+
+  <!-- KPIs aujourd'hui -->
+  <div class="section-label">Aujourd'hui</div>
+  <div class="kpis-grid" id="kpis">
+    <div class="kpi-card"><div class="kpi-icon">🚐</div><div class="kpi-val" id="k-today">—</div><div class="kpi-lbl">Tournées</div></div>
+    <div class="kpi-card"><div class="kpi-icon">👷</div><div class="kpi-val" id="k-drivers">—</div><div class="kpi-lbl">Chauffeurs actifs</div></div>
+    <div class="kpi-card"><div class="kpi-icon">🌅</div><div class="kpi-val" id="k-am">—</div><div class="kpi-lbl">Tournées AM</div></div>
+    <div class="kpi-card"><div class="kpi-icon">🌆</div><div class="kpi-val" id="k-pm">—</div><div class="kpi-lbl">Tournées PM</div></div>
+  </div>
+
+  <!-- Tournées du jour -->
+  <div class="section-label">Tournées du jour</div>
+  <div id="today-list"><div class="spinner-wrap"><div class="spinner"></div></div></div>
+
+  <!-- Chauffeurs -->
+  <div class="section-label" style="margin-top:20px">Chauffeurs</div>
+  <div class="card-section" id="chauffeurs-list"><div class="spinner-wrap"><div class="spinner"></div></div></div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="#" class="active"><span class="ico">🏠</span>Accueil</a>
+  <a href="optimum_trans_chef_mobile.html"><span class="ico">📆</span>Planning</a>
+  <a href="javascript:logout()"><span class="ico">⏻</span>Quitter</a>
+</nav>
+
+<script src="ot_401_guard.js"></script>
+<script>
+const SB  = 'https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+const DAYS = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const MONTHS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+
+let session = null;
+
+function H(){ return {'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+(session?.token||KEY)}; }
+function fd(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+
+function getSession(){
+  const raw = localStorage.getItem('ot_session') || sessionStorage.getItem('ot_session');
+  try{ return JSON.parse(raw); }catch(e){ return null; }
+}
+
+function logout(){
+  if(!confirm('Se déconnecter ?')) return;
+  ['ot_session','ot_logged','ot_email'].forEach(k=>{ localStorage.removeItem(k); sessionStorage.removeItem(k); });
+  window.location.href = '/index.html';
+}
+
+async function loadAll(){
+  const today = new Date();
+  const todayStr = fd(today);
+  const cid = session.company_id || session.id;
+
+  // Greeting
+  const hour = today.getHours();
+  const greet = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
+  document.getElementById('greeting-title').textContent = `${greet} 👋`;
+  document.getElementById('greeting-date').textContent = `${DAYS[today.getDay()]} ${today.getDate()} ${MONTHS[today.getMonth()]} ${today.getFullYear()}`;
+
+  try{
+    const [rToday, rChauf] = await Promise.all([
+      fetch(`${SB}/rest/v1/tournees?company_id=eq.${cid}&date=eq.${todayStr}&order=slot,heure`, {headers:H()}),
+      fetch(`${SB}/rest/v1/chauffeurs?company_id=eq.${cid}&order=nom`, {headers:H()})
+    ]);
+
+    const tournees = rToday.ok ? await rToday.json() : [];
+    const chauffeurs = rChauf.ok ? await rChauf.json() : [];
+
+    // KPIs
+    const activeDrivers = new Set(tournees.map(t=>t.chauffeur_nom)).size;
+    document.getElementById('k-today').textContent = tournees.length;
+    document.getElementById('k-drivers').textContent = activeDrivers;
+    document.getElementById('k-am').textContent = tournees.filter(t=>t.slot==='AM').length;
+    document.getElementById('k-pm').textContent = tournees.filter(t=>t.slot==='PM').length;
+
+    // Liste tournées
+    const todayList = document.getElementById('today-list');
+    if(!tournees.length){
+      todayList.innerHTML = `<div class="empty-state">😴 Aucune tournée aujourd'hui</div>`;
+    } else {
+      todayList.innerHTML = tournees.map(t=>{
+        const slotColor = t.slot==='AM'?'slot-am':t.slot==='PM'?'slot-pm':'slot-nuit';
+        return `<div class="tournee-item">
+          <div class="slot-dot ${slotColor}"></div>
+          <div class="t-info">
+            <div class="t-client">${t.client_nom||'—'}</div>
+            <div class="t-meta">${t.slot||''}${t.heure?' · '+t.heure:''}</div>
+          </div>
+          <div class="t-driver">👷 ${t.chauffeur_nom||'—'}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // Chauffeurs
+    const chList = document.getElementById('chauffeurs-list');
+    if(!chauffeurs.length){
+      chList.innerHTML = `<div class="empty-state">Aucun chauffeur</div>`;
+    } else {
+      chList.innerHTML = chauffeurs.map(ch=>{
+        const count = tournees.filter(t=>t.chauffeur_nom===ch.nom).length;
+        const initials = ch.nom.split(' ').map(w=>w[0]).join('').substring(0,2);
+        return `<div class="ch-row">
+          <div class="ch-av">${initials}</div>
+          <div class="ch-name">${ch.nom}</div>
+          ${count>0?`<span class="ch-badge">${count} tournée${count>1?'s':''}</span>`:`<span class="ch-tours">Repos</span>`}
+        </div>`;
+      }).join('');
+    }
+
+  }catch(e){
+    document.getElementById('today-list').innerHTML = `<div class="empty-state">❌ ${e.message}</div>`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async()=>{
+  session = getSession();
+  if(!session){ window.location.href='/index.html'; return; }
+
+  // Récupérer infos depuis company_users (rôle fixé en base, plus de
+  // promotion dynamique chef_equipe depuis le planning).
+  try{
+    const r = await fetch(`${SB}/rest/v1/company_users?auth_uid=eq.${session.id}&select=role,nom,company_id,chauffeur_nom`,{
+      headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+(session.token||KEY)}
+    });
+    if(r.ok){
+      const data = await r.json();
+      if(data[0]){
+        const dbRole = data[0].role;
+        const chauffeurNom = data[0].chauffeur_nom || session.chauffeur_nom;
+        session.base_role = dbRole;
+        session.role = dbRole;
+        session.display_name = data[0].nom;
+        if(data[0].company_id) session.company_id = data[0].company_id;
+        if(chauffeurNom) session.chauffeur_nom = chauffeurNom;
+
+        const store = localStorage.getItem('ot_session')?localStorage:sessionStorage;
+        store.setItem('ot_session', JSON.stringify(session));
+      }
+    }
+  }catch(e){}
+
+  if(session.role && session.role !== 'chef_equipe'){
+    window.location.href = session.role==='chauffeur'?'optimum_trans_chauffeur_vue.html':'optimum_trans_dashboard.html';
+    return;
+  }
+
+  const nom = session.display_name || session.name || 'Chef';
+  document.getElementById('av-name').textContent = nom;
+  document.getElementById('av-initials').textContent = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+
+  await loadAll();
+});
+</script>
+<script src="/ot_gps_persistent.js"></script>
+<script src="/pwa-register.js"></script>
+</body>
+</html>

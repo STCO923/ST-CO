@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>
+// SAISIE GUARD — visibilité basée sur la session en cache (immédiat, sans appel réseau).
+// refreshSession() en arrière-plan met à jour la session pour les visites suivantes.
+(function() {
+  try {
+    var raw = localStorage.getItem('ot_session') || sessionStorage.getItem('ot_session');
+    if (!raw) return;
+    var sess = JSON.parse(raw);
+    if (sess && sess.addon_saisie !== true) {
+      var style = document.createElement('style');
+      style.id = 'saisie-guard-style';
+      style.textContent = 'a[href="optimum_trans_saisie.html"] { display: none !important; }';
+      document.head.appendChild(style);
+    }
+  } catch(e) {}
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>T SERVICE & CO — RH & Contrats</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0A1628">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="T.S">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
+.sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:18px 20px;border-bottom:1px solid var(--border);}
+.logo-tag{font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);line-height:1;margin-top:4px;}
+.logo-name span{color:var(--accent);}
+.sidebar-nav{flex:1;padding:10px 12px;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gray2);padding:5px 8px 2px;margin-top:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:1px;font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;}
+.nav-item:hover{background:var(--card);color:var(--light);}
+.nav-item.active{background:linear-gradient(135deg,rgba(26,79,191,0.4),rgba(26,79,191,0.2));color:var(--white);border:1px solid rgba(26,79,191,0.3);}
+.nav-icon{font-size:16px;width:20px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--accent);color:var(--navy);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.sidebar-footer{padding:12px 12px;border-top:1px solid var(--border);}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--card);border-radius:10px;border:1px solid var(--border);cursor:pointer;}
+.user-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);}
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;}
+.topbar{height:60px;background:var(--navy2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;}
+.content{padding:28px;}
+.btn-sm{padding:7px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+.btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-weight:700;}
+.btn-accent:hover{transform:translateY(-1px);}
+.btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--gray);}
+.btn-ghost:hover{color:var(--white);}
+.btn-primary{background:linear-gradient(135deg,var(--blue),#0D3A9E);color:var(--white);}
+.tabs{display:flex;gap:4px;margin-bottom:22px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content;flex-wrap:wrap;}
+.tab{padding:9px 18px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;color:var(--gray);transition:all 0.2s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.tab.active{background:var(--blue);color:var(--white);}
+.tab-badge{background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:10px;font-size:10px;font-weight:700;}
+.tab-badge-red{background:rgba(231,76,60,0.8);padding:1px 6px;border-radius:10px;font-size:10px;font-weight:700;color:var(--white);}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:18px;}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;margin-bottom:4px;}
+.card-sub{font-size:12px;color:var(--gray);margin-bottom:16px;}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-green{background:rgba(39,174,96,0.15);color:#2ECC71;}
+.badge-orange{background:rgba(245,166,35,0.15);color:var(--accent);}
+.badge-red{background:rgba(231,76,60,0.15);color:#FC8181;}
+.badge-blue{background:rgba(26,79,191,0.2);color:#60A5FA;}
+.badge-gray{background:rgba(255,255,255,0.06);color:var(--gray);}
+.params-table{width:100%;border-collapse:collapse;}
+.params-table th{padding:10px 14px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);text-align:left;border-bottom:1px solid var(--border);background:var(--navy3);}
+.params-table td{padding:11px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
+.params-table tr:hover td{background:rgba(255,255,255,0.02);}
+.icon-btn{background:none;border:none;cursor:pointer;padding:5px 8px;border-radius:6px;font-size:13px;color:var(--gray);transition:all 0.2s;}
+.icon-btn:hover{background:rgba(255,255,255,0.06);color:var(--white);}
+.lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:5px;display:block;}
+.ii{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;width:100%;transition:border-color 0.2s;}
+.ii::placeholder{color:var(--gray2);}
+.ii:focus{border-color:var(--blue);}
+.is{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--light);outline:none;cursor:pointer;width:100%;}
+.is option{background:var(--navy2);}
+.fg{display:grid;gap:12px;margin-bottom:12px;}
+.fg-2{grid-template-columns:1fr 1fr;}
+/* UPLOAD PDF */
+.pdf-upload-zone{border:2px dashed rgba(26,79,191,0.4);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(26,79,191,0.04);position:relative;}
+.pdf-upload-zone:hover,.pdf-upload-zone.dragover{border-color:var(--blue);background:rgba(26,79,191,0.10);}
+.pdf-upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.pdf-upload-icon{font-size:28px;margin-bottom:8px;}
+.pdf-upload-label{font-size:13px;font-weight:600;color:var(--light);}
+.pdf-upload-hint{font-size:11px;color:var(--gray);margin-top:4px;}
+.pdf-preview-strip{display:flex;align-items:center;gap:10px;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.25);border-radius:10px;padding:10px 14px;margin-top:10px;}
+.pdf-preview-strip .pdf-icon{font-size:22px;flex-shrink:0;}
+.pdf-preview-strip .pdf-name{flex:1;font-size:12px;font-weight:600;color:var(--white);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pdf-preview-strip .pdf-size{font-size:10px;color:var(--gray);}
+.pdf-preview-strip .pdf-remove{background:none;border:none;cursor:pointer;font-size:14px;color:#FC8181;padding:3px 6px;border-radius:5px;}
+.pdf-preview-strip .pdf-remove:hover{background:rgba(231,76,60,0.15);}
+/* PDF viewer in card */
+.pdf-card-viewer{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.pdf-card-header{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);}
+.pdf-card-body{background:#fff;min-height:200px;display:flex;align-items:center;justify-content:center;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.modal-overlay.show{opacity:1;pointer-events:all;}
+.modal{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:28px;width:520px;max-width:96vw;transform:translateY(20px);transition:transform 0.3s;max-height:90vh;overflow-y:auto;}
+.modal-overlay.show .modal{transform:translateY(0);}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;margin-bottom:4px;}
+.modal-sub{font-size:12px;color:var(--gray);margin-bottom:20px;}
+/* PDF full view modal */
+.modal-pdf{background:var(--navy2);border:1px solid var(--border);border-radius:16px;width:90vw;max-width:900px;height:90vh;display:flex;flex-direction:column;transform:scale(0.95);transition:transform 0.3s;}
+.modal-overlay.show .modal-pdf{transform:scale(1);}
+.modal-pdf-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.modal-pdf-body{flex:1;overflow:hidden;background:#fff;border-radius:0 0 14px 14px;}
+.spinner{width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.alert-card{background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.25);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.progress-bar-wrap{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:3px;transition:width 0.5s;}
+.toast{position:fixed;bottom:28px;right:28px;background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:14px 20px;font-size:13px;color:var(--white);z-index:300;transform:translateY(20px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.toast.show{transform:translateY(0);opacity:1;}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--navy2)}::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:3px}
+
+/* ═══════════════════════════════════════════
+   T SERVICE & CO — RESPONSIVE MOBILE
+   Barre de navigation en bas (≤ 768px)
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Masquer la sidebar sur mobile */
+  .sidebar { display: none !important; }
+
+  /* Contenu plein écran */
+  .main { margin-left: 0 !important; width: 100% !important; }
+  .content, .main-content, [class*="content"] {
+    margin-left: 0 !important;
+    padding: 12px 14px 80px 14px !important;
+    width: 100% !important;
+  }
+
+  /* Topbar mobile */
+  .topbar, .page-header {
+    padding: 0 14px !important;
+    height: 52px !important;
+  }
+  .topbar-title { font-size: 16px !important; }
+
+  /* Cartes KPI en 2 colonnes */
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* Tables scrollables horizontalement */
+  table { min-width: 600px; }
+  .table-wrap, [style*="overflow-x:auto"], [style*="overflow-x: auto"] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Cards plein largeur */
+  .card { padding: 14px !important; margin-bottom: 12px !important; }
+
+  /* Modals plein écran */
+  .modal, .modal-overlay .modal {
+    width: 96vw !important;
+    max-width: 96vw !important;
+    max-height: 92vh !important;
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Formulaires grille → 1 colonne */
+  .fg-2, .fg-3, .fg-4 { grid-template-columns: 1fr !important; }
+  .fg { grid-template-columns: 1fr !important; }
+
+  /* Drawers plein écran */
+  [id*="drawer"] {
+    width: 100vw !important;
+    right: -100vw !important;
+  }
+  [id*="drawer"][style*="right: 0"] {
+    right: 0 !important;
+  }
+
+  /* Boutons plus grands (zone tactile) */
+  .btn, .btn-sm, .btn-accent, .btn-ghost, button[class*="btn"] {
+    min-height: 40px !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+
+  /* Inputs plus grands */
+  .ii, input[class*="ii"], select[class*="ii"] {
+    height: 44px !important;
+    font-size: 14px !important;
+  }
+
+  /* Plan cards en colonne */
+  #plan-selector { flex-direction: column !important; }
+  .plan-card { width: 100% !important; min-width: unset !important; }
+
+  /* Week nav planning */
+  .week-nav { flex-wrap: wrap !important; gap: 6px !important; }
+  .week-grid { overflow-x: auto !important; min-width: 700px; }
+
+  /* Cacher certains labels sur mobile */
+  .nav-section-label { display: none; }
+
+  /* Onglets scrollables */
+  .tabs {
+    width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    flex-wrap: nowrap !important;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex-shrink: 0 !important; font-size: 12px !important; padding: 8px 14px !important; }
+
+  /* Table contrats */
+  .params-table { min-width: 640px; }
+  table { min-width: 600px; }
+
+  /* KPI grille */
+  .kpi-grid { grid-template-columns: repeat(2,1fr) !important; gap: 10px !important; }
+}
+
+/* ═══════════════════════════════════
+   BARRE DE NAVIGATION EN BAS
+═══════════════════════════════════ */
+.mobile-navbar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 62px;
+  background: var(--navy2, #0F1E3C);
+  border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+  z-index: 200;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
+}
+.mobile-navbar-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 2px;
+}
+.mobile-navbar-inner::-webkit-scrollbar { display: none; }
+.mob-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  flex: 0 0 62px;
+  height: 100%;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--gray, #8A9BB5);
+  transition: color 0.2s;
+  border-radius: 10px;
+  padding: 4px 2px;
+  -webkit-tap-highlight-color: transparent;
+}
+.mob-nav-item.active {
+  color: var(--blue, #1A4FBF);
+  background: rgba(26,79,191,0.12);
+}
+.mob-nav-item .mob-icon { font-size: 20px; line-height: 1; }
+.mob-nav-item .mob-label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .mobile-navbar { display: flex !important; }
+  .toast { bottom: 76px !important; right: 14px !important; left: 14px !important; }
+}
+
+</style>
+<script src="ot_401_guard.js"></script>
+<script>
+const OT = (() => {
+  const SB  = 'https://kfdyqcbclueppmvkccdz.supabase.co';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+  const PUBLIC_PAGES = ['index.html', 'optimum_trans_legal.html'];
+  function getSession() { const raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session'); if(!raw) return null; try{return JSON.parse(raw);}catch(e){return null;} }
+  function authHeaders() { const s=getSession(); const token=(s&&s.token)?s.token:KEY; return{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+token}; }
+  function anonHeaders() { return{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY}; }
+  const PLAN_MODULES={starter:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,vehicules:true,whatsapp:false,facturation:false,chauffeurs:false,gazole:false},pro:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,vehicules:true,whatsapp:true,facturation:true,chauffeurs:true,gazole:false},business:{planning:true,saisie:true,dashboard:true,clients:true,parametres:true,rh:true,whatsapp:true,vehicules:true,facturation:true,chauffeurs:true,gazole:true}};
+  function can(f){const s=getSession();if(!s)return false;if(s.id==='demo'){if(f==='saisie'||f==='feuille_route'||f==='monmarche')return false;return true;}if(f==='feuille_route')return s.addon_route===true;if(f==='saisie')return s.addon_saisie===true;if(f==='monmarche')return s.addon_monmarche===true;if(f==='dispatch')return s.addon_dispatch===true;if(f==='tracking')return s.addon_tracking===true;if(f==='etat_vehicule')return s.addon_etat_vehicule===true;return(PLAN_MODULES[s.plan]||PLAN_MODULES.starter)[f]===true;}
+  function applyPlanRestrictions(){
+    const s=getSession();if(!s)return;
+    var avatarEl=document.querySelector('.user-avatar');var nameEl=document.querySelector('.user-card > div > div:first-child');var planEl=document.querySelector('.user-card > div > div:last-child');
+    if(avatarEl&&s.name)avatarEl.textContent=s.name.substring(0,2).toUpperCase();
+    if(nameEl&&s.name)nameEl.textContent=s.name.length>18?s.name.substring(0,16)+'...':s.name;
+    if(planEl&&s.plan){var labels={starter:'Essentiel',pro:'Pro',business:'Business'};var colors={starter:'var(--gray)',pro:'#60A5FA',business:'#F5A623'};planEl.textContent=labels[s.plan]||s.plan;planEl.style.color=colors[s.plan]||'var(--gray)';}
+    [
+      {href:'optimum_trans_saisie.html',feature:'saisie'},
+      {href:'monmarche.html',feature:'monmarche'},
+      {href:'optimum_trans_feuille_route.html',feature:'feuille_route'},
+      {href:'optimum_trans_chauffeurs.html',feature:'chauffeurs'},
+      {href:'optimum_trans_gazole.html',feature:'gazole'},
+      {href:'optimum_trans_vehicules.html',feature:'vehicules'},
+      {href:'optimum_trans_dispatch.html',feature:'dispatch'},
+      {href:'optimum_trans_suivi_chauffeurs.html',feature:'tracking'},
+      {href:'optimum_trans_gps_chauffeur.html',feature:'tracking'},{href:'optimum_trans_etat_vehicule.html',feature:'etat_vehicule'},
+    ].forEach(function(rule){document.querySelectorAll('a[href="'+rule.href+'"]').forEach(function(el){el.style.display=can(rule.feature)?'':'none';});});
+
+    // Suivi/GPS : visibilité selon le rôle
+    var _tr=getSession();var _trRole=(_tr&&(_tr.role||'admin'))||'admin';
+    document.querySelectorAll('a[href="optimum_trans_suivi_chauffeurs.html"]').forEach(function(el){el.style.display=(can('tracking')&&_trRole!=='chauffeur')?'':'none';});
+    document.querySelectorAll('a[href="optimum_trans_gps_chauffeur.html"]').forEach(function(el){el.style.display=(can('tracking')&&_trRole==='chauffeur')?'':'none';});
+  }
+  async function refreshSession(){var s=getSession();if(!s||!s.id||s.id==='demo')return;try{var ctrl=new AbortController();var tid=setTimeout(()=>ctrl.abort(),4000);var cid=s.company_id||s.id;var r=await fetch(SB+'/rest/v1/sa_companies?id=eq.'+cid+'&select=plan,addon_route,addon_saisie,addon_monmarche,addon_dispatch,addon_tracking,addon_etat_vehicule,status,name',{headers:authHeaders(),signal:ctrl.signal});clearTimeout(tid);if(!r.ok)return;var d=await r.json();if(d[0]){var u=Object.assign({},s,{plan:d[0].plan||s.plan,addon_route:d[0].addon_route===true,addon_saisie:d[0].addon_saisie===true,addon_monmarche:d[0].addon_monmarche===true,addon_dispatch:d[0].addon_dispatch===true,addon_tracking:d[0].addon_tracking===true,addon_etat_vehicule:d[0].addon_etat_vehicule===true,status:d[0].status||s.status,name:d[0].name||s.name});(localStorage.getItem('ot_session')?localStorage:sessionStorage).setItem('ot_session',JSON.stringify(u));}}catch(e){}}
+  async function logout(){if(!confirm('Se déconnecter ?'))return;var s=getSession();if(s&&s.token){try{await fetch(SB+'/auth/v1/logout',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+s.token}});}catch(e){}}['ot_session','ot_logged','ot_email'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});window.location.href=window.location.origin+'/index.html';}
+  function getCompanyId(){var s=getSession();if(!s)return null;return s.company_id||s.id;}
+  document.addEventListener('DOMContentLoaded', async function() {
+    if (!requireLogin()) return;
+    // Affichage immédiat avec session en cache ; refresh en arrière-plan.
+    applyPlanRestrictions();
+    refreshSession().then(function(){ applyPlanRestrictions(); }).catch(function(){});
+    startSessionSync();
+  });
+  function requireLogin() {
+    var logged = localStorage.getItem('ot_logged') || sessionStorage.getItem('ot_logged');
+    var session = getSession();
+    if (!logged || !session) {
+      var currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      var isPublic = PUBLIC_PAGES.some(function(p) { return currentPage.indexOf(p) >= 0; });
+      if (!isPublic) {
+        var hash = window.location.hash;
+        if (hash && hash.indexOf('access_token') >= 0) return true;
+        window.location.href = window.location.origin + '/index.html';
+      }
+      return false;
+    }
+    return true;
+  }
+  return{getSession,authHeaders,anonHeaders,can,logout,requireLogin,getCompanyId,refreshSession};
+})();
+function logout(){OT.logout();}
+async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?'⚠️ Votre compte a été supprimé. Vous allez être déconnecté.':'⚠️ Votre compte a été suspendu. Contactez votre administrateur.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#1A4FBF;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
+if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionSync;}
+</script>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+    <div class="logo-tag">Gestion Transport</div>
+    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_saisie.html" id="nav-saisie-link"><span class="nav-icon">📝</span> Saisie Tournées</a>
+        <div class="nav-section-label">Gestion</div>
+    <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
+    <a class="nav-item active" href="#"><span class="nav-icon">👔</span> RH & Contrats</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
+    <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+    <div class="nav-section-label">Communication</div>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <div class="nav-section-label">Intelligence</div>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <div class="nav-section-label">Paramètres</div>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
+      <div class="user-avatar">T.S</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">👔 RH & CONTRATS</div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <span id="sync-info" style="font-size:11px;color:#2ECC71">✅ Connecté</span>
+      <button class="btn-sm btn-ghost" onclick="switchTabByName('fiches')">💶 Fiches de paie</button>
+      <button class="btn-sm btn-accent" onclick="openContratModal()">+ Nouveau contrat</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('demandes',this)">📥 Demandes <span class="tab-badge-red" id="badge-dem" style="display:none">0</span></div>
+      <div class="tab" onclick="switchTab('absences',this)">📅 Absences & Congés</div>
+      <div class="tab" onclick="switchTab('soldes',this)">🏖️ Soldes Congés</div>
+      <div class="tab" onclick="switchTab('contrats',this)">📄 Contrats <span class="tab-badge" id="badge-contrats">0</span></div>
+      <div class="tab" onclick="switchTab('fiches',this)">💶 Fiches de paie <span class="tab-badge" id="badge-fiches">0</span></div>
+      <div class="tab" onclick="switchTab('calendrier',this)">📆 Calendrier</div>
+    </div>
+
+    <!-- ══ DEMANDES ══ -->
+    <div id="tab-demandes">
+      <div class="card">
+        <div class="card-title">📥 DEMANDES EN ATTENTE</div>
+        <div class="card-sub">Approuvez ou refusez les demandes d'absence de vos chauffeurs</div>
+        <div id="demandes-list"><div style="text-align:center;padding:40px;display:flex;gap:12px;justify-content:center;align-items:center"><div class="spinner"></div><span style="color:var(--gray);font-size:12px">Chargement...</span></div></div>
+      </div>
+    </div>
+
+    <!-- ══ ABSENCES ══ -->
+    <div id="tab-absences" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div><div class="card-title">📅 ABSENCES & CONGÉS</div><div class="card-sub">Historique des absences validées</div></div>
+          <div style="display:flex;gap:8px">
+            <select id="abs-filter-type" class="is" style="width:160px" onchange="renderAbsences()"><option value="">Tous les types</option><option value="conge_paye">Congé payé</option><option value="maladie">Maladie</option><option value="absence_injustifiee">Abs. non justifiée</option><option value="jour_ferie">Jour férié</option><option value="formation">Formation</option><option value="autre">Autre</option></select>
+            <select id="abs-filter-ch" class="is" style="width:170px" onchange="renderAbsences()"><option value="">Tous les chauffeurs</option></select>
+          </div>
+        </div>
+        <div style="overflow-x:auto"><table class="params-table"><thead><tr><th>Chauffeur</th><th>Type</th><th>Du</th><th>Au</th><th>Durée</th><th>Statut</th><th>Note</th></tr></thead><tbody id="abs-tbody"><tr><td colspan="7" style="text-align:center;padding:30px"><div class="spinner" style="margin:0 auto"></div></td></tr></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ══ SOLDES CONGÉS ══ -->
+    <div id="tab-soldes" style="display:none">
+      <div class="card">
+        <div class="card-title">🏖️ SOLDES CONGÉS</div>
+        <div class="card-sub">Acquis automatiquement à 2.08 jours/mois (25 jours/an)</div>
+        <div id="soldes-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:14px"></div>
+      </div>
+    </div>
+
+    <!-- ══ CONTRATS ══ -->
+    <div id="tab-contrats" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div><div class="card-title">📄 CONTRATS</div><div class="card-sub">Contrats de travail — cliquez sur 📄 pour voir le document PDF</div></div>
+          <button class="btn-sm btn-accent" onclick="openContratModal()">+ Nouveau contrat</button>
+        </div>
+        <!-- Alertes CDD -->
+        <div id="cdd-alerts"></div>
+        <div style="overflow-x:auto">
+          <table class="params-table">
+            <thead><tr><th>Chauffeur</th><th>Type</th><th>Début</th><th>Fin</th><th>Salaire</th><th>Document PDF</th><th>Notes</th><th>Actions</th></tr></thead>
+            <tbody id="contrats-tbody"><tr><td colspan="8" style="text-align:center;padding:30px"><div class="spinner" style="margin:0 auto"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FICHES DE PAIE ══ -->
+    <div id="tab-fiches" style="display:none">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="card-title">💶 FICHES DE PAIE</div>
+            <div class="card-sub">Importez les fiches de paie — visibles par les chauffeurs dans "Mes Documents"</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select id="fp-filter-ch" class="is" style="width:180px" onchange="renderFiches()"><option value="">Tous les chauffeurs</option></select>
+            <select id="fp-filter-an" class="is" style="width:110px" onchange="renderFiches()"><option value="">Toutes années</option></select>
+            <button class="btn-sm btn-accent" onclick="openFicheModal()">+ Ajouter fiche</button>
+          </div>
+        </div>
+        <div id="fiches-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px"></div>
+      </div>
+    </div>
+
+    <!-- ══ CALENDRIER ══ -->
+    <div id="tab-calendrier" style="display:none">
+      <div class="card">
+        <div class="card-title">📆 CALENDRIER DES ABSENCES</div>
+        <div class="card-sub">Vue mensuelle par chauffeur</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <button onclick="calMonth(-1)" style="background:none;border:1px solid var(--border);border-radius:6px;padding:5px 12px;cursor:pointer;color:var(--gray);font-size:16px">◀</button>
+          <div id="cal-label" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;flex:1;text-align:center"></div>
+          <button onclick="calMonth(1)" style="background:none;border:1px solid var(--border);border-radius:6px;padding:5px 12px;cursor:pointer;color:var(--gray);font-size:16px">▶</button>
+        </div>
+        <div id="cal-grid"></div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#27AE60;display:inline-block"></span>Congé payé</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#E74C3C;display:inline-block"></span>Maladie</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#F5A623;display:inline-block"></span>Absence</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#7C3AED;display:inline-block"></span>Formation</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#0891B2;display:inline-block"></span>Férié</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ══ MODAL FICHE DE PAIE ══ -->
+<div class="modal-overlay" id="modal-fiche" onclick="if(event.target===this)closeFiche()">
+  <div class="modal">
+    <div class="modal-title" id="modal-fiche-title">💶 AJOUTER UNE FICHE DE PAIE</div>
+    <div class="modal-sub">Le chauffeur pourra la consulter dans "Mes Documents"</div>
+
+    <div style="margin-bottom:12px"><label class="lbl">Chauffeur *</label><select id="fp-chauffeur" class="is"><option value="">— Sélectionner —</option></select></div>
+
+    <div class="fg fg-2" style="margin-bottom:12px">
+      <div>
+        <label class="lbl">Mois *</label>
+        <select id="fp-mois" class="is">
+          <option value="1">Janvier</option><option value="2">Février</option><option value="3">Mars</option>
+          <option value="4">Avril</option><option value="5">Mai</option><option value="6">Juin</option>
+          <option value="7">Juillet</option><option value="8">Août</option><option value="9">Septembre</option>
+          <option value="10">Octobre</option><option value="11">Novembre</option><option value="12">Décembre</option>
+        </select>
+      </div>
+      <div><label class="lbl">Année *</label><input type="number" id="fp-annee" class="ii" value="2026" min="2020" max="2099"></div>
+    </div>
+
+    <div style="margin-bottom:10px">
+      <button type="button" onclick="autoCalculBrut()" style="background:linear-gradient(135deg,#1A4FBF,#3B82F6);border:none;border-radius:9px;padding:8px 16px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px">⚡ Calculer le brut automatiquement</button>
+      <div id="fp-calcul-info" style="display:none;margin-top:6px;font-size:11px;color:var(--gray)"></div>
+    </div>
+    <div class="fg fg-2" style="margin-bottom:12px">
+      <div><label class="lbl">Salaire net (€)</label><input type="number" id="fp-net" class="ii" placeholder="ex: 1650" min="0"></div>
+      <div><label class="lbl">Salaire brut (€)</label><input type="number" id="fp-brut" class="ii" placeholder="ex: 2100" min="0"></div>
+    </div>
+
+    <!-- Upload PDF -->
+    <div style="margin-bottom:12px">
+      <label class="lbl">📎 Fiche de paie PDF *</label>
+      <div class="pdf-upload-zone" id="fp-drop-zone" ondragover="fpDragOver(event)" ondragleave="fpDragLeave(event)" ondrop="fpDrop(event)">
+        <input type="file" id="fp-pdf-input" accept=".pdf,application/pdf" onchange="fpPdfSelected(this)">
+        <div class="pdf-upload-icon">💶</div>
+        <div class="pdf-upload-label">Cliquez ou glissez la fiche de paie PDF ici</div>
+        <div class="pdf-upload-hint">PDF uniquement · max 5 Mo</div>
+      </div>
+      <div id="fp-preview-strip" style="display:none" class="pdf-preview-strip">
+        <span class="pdf-icon">📄</span>
+        <div>
+          <div class="pdf-name" id="fp-filename">—</div>
+          <div class="pdf-size" id="fp-filesize">—</div>
+        </div>
+        <button class="pdf-remove" onclick="fpRemovePdf()">✕</button>
+      </div>
+      <div id="fp-existing" style="display:none;margin-top:8px">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:8px;padding:9px 12px">
+          <span style="font-size:16px">📄</span>
+          <span style="font-size:12px;color:var(--light);flex:1" id="fp-existing-name">Fiche existante</span>
+          <button onclick="fpViewExisting()" style="background:var(--blue);border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--white);cursor:pointer">👁 Voir</button>
+          <button onclick="fpReplace()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--gray);cursor:pointer">🔄 Remplacer</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px"><label class="lbl">Notes</label><input type="text" id="fp-notes" class="ii" placeholder="ex: Incluant prime de décembre"></div>
+
+    <div id="fp-upload-progress" style="display:none;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--gray);margin-bottom:5px">⏳ Enregistrement...</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="fp-progress-fill" style="width:0%;background:linear-gradient(90deg,var(--blue),var(--accent))"></div></div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border)">
+      <button class="btn-sm btn-ghost" onclick="closeFiche()">Annuler</button>
+      <button class="btn-sm btn-accent" id="btn-save-fiche" onclick="saveFiche()">✅ Enregistrer</button>
+    </div>
+    <input type="hidden" id="fp-edit-id">
+  </div>
+</div>
+
+<!-- ══ MODAL CONTRAT ══ -->
+<div class="modal-overlay" id="modal-contrat" onclick="if(event.target===this)closeContrat()">
+  <div class="modal">
+    <div class="modal-title" id="modal-contrat-title">📄 NOUVEAU CONTRAT</div>
+    <div class="modal-sub">Ajouter ou modifier un contrat chauffeur</div>
+
+    <div style="margin-bottom:12px"><label class="lbl">Chauffeur</label><select id="c-chauffeur" class="is"><option value="">— Sélectionner —</option></select></div>
+
+    <div style="margin-bottom:12px"><label class="lbl">Type de contrat</label>
+      <select id="c-type" class="is">
+        <option value="CDI">CDI — Contrat à durée indéterminée</option>
+        <option value="CDD">CDD — Contrat à durée déterminée</option>
+        <option value="interim">Intérim</option>
+        <option value="sous-traitance">Sous-traitance</option>
+        <option value="apprentissage">Apprentissage</option>
+      </select>
+    </div>
+
+    <div class="fg fg-2" style="margin-bottom:12px">
+      <div><label class="lbl">Date début</label><input type="date" id="c-debut" class="ii"></div>
+      <div><label class="lbl">Date fin (CDD/Intérim)</label><input type="date" id="c-fin" class="ii"></div>
+    </div>
+
+    <div style="margin-bottom:12px;padding:10px 12px;background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.15);border-radius:9px;font-size:11px;color:var(--gray)">💡 La rémunération est calculée automatiquement à partir des tarifs définis dans les paramètres de chaque client (semaine / dimanche / jour férié).</div>
+
+    <!-- ── UPLOAD PDF ── -->
+    <div style="margin-bottom:12px">
+      <label class="lbl">📎 Document PDF du contrat</label>
+      <div class="pdf-upload-zone" id="pdf-drop-zone" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+        <input type="file" id="c-pdf-input" accept=".pdf,application/pdf" onchange="onPdfSelected(this)">
+        <div class="pdf-upload-icon">📄</div>
+        <div class="pdf-upload-label">Cliquez ou glissez votre contrat PDF ici</div>
+        <div class="pdf-upload-hint">PDF uniquement · max 5 Mo</div>
+      </div>
+      <div id="pdf-preview-strip" style="display:none" class="pdf-preview-strip">
+        <span class="pdf-icon">📄</span>
+        <div>
+          <div class="pdf-name" id="pdf-filename">—</div>
+          <div class="pdf-size" id="pdf-filesize">—</div>
+        </div>
+        <button class="pdf-remove" onclick="removePdf()" title="Supprimer">✕</button>
+      </div>
+      <div id="pdf-existing" style="display:none;margin-top:8px">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:8px;padding:9px 12px">
+          <span style="font-size:16px">📄</span>
+          <span style="font-size:12px;color:var(--light);flex:1" id="pdf-existing-name">Contrat existant</span>
+          <button onclick="viewPdfModal()" style="background:var(--blue);border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--white);cursor:pointer">👁 Voir</button>
+          <button onclick="replacePdf()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--gray);cursor:pointer">🔄 Remplacer</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px"><label class="lbl">Notes</label><textarea id="c-notes" class="ii" rows="2" placeholder="Notes optionnelles..." style="resize:vertical"></textarea></div>
+
+    <div id="pdf-upload-progress" style="display:none;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--gray);margin-bottom:5px">⏳ Enregistrement du PDF...</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%;background:linear-gradient(90deg,var(--blue),var(--accent))"></div></div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border)">
+      <button class="btn-sm btn-ghost" onclick="closeContrat()">Annuler</button>
+      <button class="btn-sm btn-accent" id="btn-save-contrat" onclick="saveContrat()">✅ Enregistrer</button>
+    </div>
+    <input type="hidden" id="c-edit-id">
+  </div>
+</div>
+
+<!-- ══ MODAL PDF VIEWER ══ -->
+<div class="modal-overlay" id="modal-pdf-view" onclick="if(event.target===this)closePdfView()">
+  <div class="modal-pdf">
+    <div class="modal-pdf-header">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:20px">📄</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--white)" id="pdf-view-title">Contrat</div>
+          <div style="font-size:11px;color:var(--gray)" id="pdf-view-sub">—</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button onclick="downloadCurrentPdf()" style="background:var(--blue);border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;color:var(--white);cursor:pointer;">⬇ Télécharger</button>
+        <button onclick="closePdfView()" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:7px 12px;font-size:13px;color:#FC8181;cursor:pointer;">✕</button>
+      </div>
+    </div>
+    <div class="modal-pdf-body">
+      <iframe id="pdf-iframe" style="width:100%;height:100%;border:none;display:none"></iframe>
+      <div id="pdf-loading" style="display:flex;align-items:center;justify-content:center;height:100%;gap:12px;background:#f5f5f5">
+        <div class="spinner" style="border-top-color:#1A4FBF;border-color:#ddd"></div>
+        <span style="color:#555;font-size:13px">Chargement du PDF...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+function H(extra={}){ return {...OT.authHeaders(),...extra}; }
+
+let allChauffeurs=[], allAbsences=[], allContrats=[], allSoldes=[];
+
+function fmtDate(d){if(!d)return '—';const s=String(d).substring(0,10);const[y,m,j]=s.split('-');if(!y||!m||!j)return s;return`${j}/${m}/${y}`;}
+
+// ── Jours fériés & type de jour (pour calcul brut) ──
+const _JF={};
+function _getJF(y){if(_JF[y])return _JF[y];const f=[`${y}-01-01`,`${y}-05-01`,`${y}-05-08`,`${y}-07-14`,`${y}-08-15`,`${y}-11-01`,`${y}-11-11`,`${y}-12-25`];const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,ff=Math.floor((b+8)/25),g=Math.floor((b-ff+1)/3),h=(19*a+b-d-g+15)%30;const i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451);const mo=Math.floor((h+l-7*m+114)/31),dy=((h+l-7*m+114)%31)+1;const ea=new Date(y,mo-1,dy);const ad=(dt,n)=>{const r=new Date(dt);r.setDate(r.getDate()+n);return `${r.getFullYear()}-${String(r.getMonth()+1).padStart(2,'0')}-${String(r.getDate()).padStart(2,'0')}`;};return _JF[y]=new Set([...f,ad(ea,1),ad(ea,39),ad(ea,49),ad(ea,50)]);}
+function getDayType(dateStr){if(!dateStr)return'semaine';const s=dateStr.substring(0,10);const y=parseInt(s);if(_getJF(y).has(s))return'ferie';const dow=new Date(s+'T12:00:00').getDay();return dow===0?'dimanche':'semaine';}
+function getTarifRH(cl,driverType,dayType){if(!cl)return 0;if(driverType==='salarié'){if(dayType==='ferie')return parseFloat(cl.salaire_ch_ferie)||0;if(dayType==='dimanche')return parseFloat(cl.salaire_ch_dim)||0;return parseFloat(cl.salaire_ch_sem)||0;}else{if(dayType==='ferie')return parseFloat(cl.salaire_st_ferie)||0;if(dayType==='dimanche')return parseFloat(cl.salaire_st_dim)||0;return parseFloat(cl.salaire_st_sem)||0;}}
+
+async function autoCalculBrut(){
+  const nom=document.getElementById('fp-chauffeur').value;
+  const mois=parseInt(document.getElementById('fp-mois').value);
+  const annee=parseInt(document.getElementById('fp-annee').value);
+  if(!nom){toast('Sélectionner un chauffeur','error');return;}
+  const info=document.getElementById('fp-calcul-info');
+  info.style.display='block';info.textContent='⏳ Calcul en cours...';
+  try{
+    const cid=OT.getCompanyId();
+    const debut=`${annee}-${String(mois).padStart(2,'0')}-01`;
+    const _finD=new Date(annee,mois,0);const fin=`${_finD.getFullYear()}-${String(_finD.getMonth()+1).padStart(2,'0')}-${String(_finD.getDate()).padStart(2,'0')}`;
+    const[rT,rCl]=await Promise.all([
+      fetch(`${SB}/rest/v1/tournees?company_id=eq.${cid}&chauffeur_nom=eq.${encodeURIComponent(nom)}&date=gte.${debut}&date=lte.${fin}`,{headers:H()}),
+      fetch(`${SB}/rest/v1/clients?company_id=eq.${cid}`,{headers:H()})
+    ]);
+    const tournees=await rT.json();const clients=await rCl.json();
+    const clMap={};clients.forEach(c=>{clMap[c.nom]=c;});
+    const ch=allChauffeurs.find(c=>c.nom===nom);
+    const driverType=ch?ch.type:'salarié';
+    let brut=0;const details=[];
+    tournees.forEach(t=>{
+      const cl=clMap[t.client_nom];const dayType=getDayType(t.date);
+      const trf=getTarifRH(cl,driverType,dayType);
+      brut+=trf;
+      details.push(`${t.date} · ${t.client_nom||'?'} (${dayType}) → ${trf}€`);
+    });
+    document.getElementById('fp-brut').value=Math.round(brut);
+    info.innerHTML=`✅ <strong>${tournees.length} tournées</strong> → Brut calculé : <strong>${Math.round(brut)}€</strong><br><small style="color:var(--gray2)">${details.slice(0,5).join(' | ')}${details.length>5?` … +${details.length-5} autres`:''}</small>`;
+  }catch(e){info.textContent='❌ Erreur : '+e.message;toast('Erreur calcul : '+e.message,'error');}
+}
+let calYear=new Date().getFullYear(), calMonth2=new Date().getMonth();
+
+// PDF state
+let currentPdfBase64=null; // base64 string of PDF being uploaded
+let currentPdfName='';
+let viewingPdfBase64=null; // currently viewed in modal
+let viewingPdfName='';
+let existingPdfBase64=null; // when editing an existing contrat
+let viewingPdfBlobUrl=null; // Blob URL used for iframe src (CSP frame-src doesn't allow data:)
+function pdfBase64ToBlobUrl(b64){
+  const raw=b64.startsWith('data:')?b64.slice(b64.indexOf(',')+1):b64;
+  const bin=atob(raw);
+  const bytes=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  return URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+}
+function revokeViewingPdfBlobUrl(){
+  if(viewingPdfBlobUrl){ URL.revokeObjectURL(viewingPdfBlobUrl); viewingPdfBlobUrl=null; }
+}
+
+document.addEventListener('DOMContentLoaded',async()=>{
+  await Promise.all([loadChauffeurs(),loadAll()]);
+});
+
+async function loadChauffeurs(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/chauffeurs?company_id=eq.${OT.getCompanyId()}&order=nom&select=nom,type`,{headers:H()});
+    allChauffeurs=await r.json();
+    const sel=document.getElementById('c-chauffeur');
+    const selF=document.getElementById('abs-filter-ch');
+    allChauffeurs.forEach(c=>{
+      [sel,selF].forEach(s=>{const o=document.createElement('option');o.value=c.nom;o.textContent=c.nom;s.appendChild(o);});
+      // also populate fiches filter + modal select
+      ['fp-chauffeur','fp-filter-ch'].forEach(id=>{
+        const s2=document.getElementById(id);
+        if(s2){const o=document.createElement('option');o.value=c.nom;o.textContent=c.nom;s2.appendChild(o);}
+      });
+    });
+  }catch(e){}
+}
+
+async function loadAll(){
+  await Promise.all([loadDemandes(), loadAbsences(), loadSoldes(), loadContrats(), loadFiches()]);
+}
+
+// ── DEMANDES ──
+async function loadDemandes(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/absences?company_id=eq.${OT.getCompanyId()}&statut=eq.en_attente&order=created_at.desc`,{headers:H()});
+    const data=await r.json();
+    const badge=document.getElementById('badge-dem');
+    if(data.length>0){badge.textContent=data.length;badge.style.display='';}else{badge.style.display='none';}
+    const el=document.getElementById('demandes-list');
+    if(!data.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px">✅</div>Aucune demande en attente</div>';return;}
+    el.innerHTML='';
+    data.forEach(d=>{
+      const div=document.createElement('div');
+      div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;';
+      const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:'⚠️ Abs. non justifiée',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
+      div.innerHTML=`<div style="flex:1"><div style="font-weight:700;color:var(--white);font-size:13px">${d.chauffeur_nom}</div><div style="font-size:11px;color:var(--gray);margin-top:2px">${typeL[d.type]||d.type} · Du ${fmtDate(d.date_debut)} au ${fmtDate(d.date_fin)}</div>${d.note?`<div style="font-size:11px;color:var(--gray2);margin-top:3px;font-style:italic">"${d.note}"</div>`:''}</div><div style="display:flex;gap:8px"><button onclick="approuver('${d.id}')" style="background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#2ECC71;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit">✅ Approuver</button><button onclick="refuser('${d.id}')" style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#FC8181;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit">❌ Refuser</button></div>`;
+      el.appendChild(div);
+    });
+  }catch(e){document.getElementById('demandes-list').innerHTML='<div style="color:var(--error);padding:20px">Erreur: '+e.message+'</div>';}
+}
+
+async function approuver(id){
+  await fetch(`${SB}/rest/v1/absences?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H(),body:JSON.stringify({statut:'approuve'})});
+  toast('✅ Demande approuvée'); loadAll();
+}
+async function refuser(id){
+  await fetch(`${SB}/rest/v1/absences?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H(),body:JSON.stringify({statut:'refuse'})});
+  toast('❌ Demande refusée'); loadAll();
+}
+
+// ── ABSENCES ──
+async function loadAbsences(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/absences?company_id=eq.${OT.getCompanyId()}&order=date_debut.desc`,{headers:H()});
+    allAbsences=await r.json();
+    renderAbsences();
+  }catch(e){}
+}
+function renderAbsences(){
+  const typeF=document.getElementById('abs-filter-type').value;
+  const chF=document.getElementById('abs-filter-ch').value;
+  const data=allAbsences.filter(a=>(typeF?a.type===typeF:true)&&(chF?a.chauffeur_nom===chF:true));
+  const tbody=document.getElementById('abs-tbody');
+  if(!data.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--gray)">Aucune absence</td></tr>';return;}
+  const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:'⚠️ Absence NJ',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
+  const statL={approuve:'badge-green',en_attente:'badge-orange',refuse:'badge-red'};
+  const statTxt={approuve:'✅ Approuvé',en_attente:'⏳ En attente',refuse:'❌ Refusé'};
+  tbody.innerHTML='';
+  data.forEach(a=>{
+    const tr=document.createElement('tr');
+    const d1=new Date(a.date_debut+'T12:00:00'),d2=new Date(a.date_fin+'T12:00:00');
+    const dur=Math.round((d2-d1)/86400000)+1;
+    tr.innerHTML=`<td style="font-weight:600;color:var(--white)">${a.chauffeur_nom}</td><td>${typeL[a.type]||a.type}</td><td>${fmtDate(a.date_debut)}</td><td>${fmtDate(a.date_fin)}</td><td><strong>${dur}j</strong></td><td><span class="badge ${statL[a.statut]||'badge-gray'}">${statTxt[a.statut]||a.statut}</span></td><td style="color:var(--gray);font-size:11px">${a.note||'—'}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── SOLDES CONGÉS ──
+async function loadSoldes(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/soldes_conges?company_id=eq.${OT.getCompanyId()}`,{headers:H()});
+    allSoldes=await r.json();
+    renderSoldes();
+  }catch(e){}
+}
+function renderSoldes(){
+  const grid=document.getElementById('soldes-grid');
+  if(!allSoldes.length){grid.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray);grid-column:1/-1">Aucun solde congé</div>';return;}
+  grid.innerHTML='';
+  allSoldes.forEach(s=>{
+    const pct=Math.min((s.solde_actuel/25)*100,100);
+    const div=document.createElement('div');
+    div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:16px;';
+    div.innerHTML=`<div style="font-weight:700;color:var(--white);font-size:13px;margin-bottom:8px">${s.chauffeur_nom}</div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray);margin-bottom:6px"><span>Solde actuel</span><span style="font-weight:700;color:${s.solde_actuel>=5?'#2ECC71':s.solde_actuel>=2?'#F5A623':'#FC8181'};font-size:16px">${s.solde_actuel||0}<span style="font-size:11px;font-weight:400"> j</span></span></div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%;background:${pct>=50?'#27AE60':pct>=25?'#F5A623':'#E74C3C'}"></div></div><div style="font-size:10px;color:var(--gray2);margin-top:6px">Acquis: ${s.jours_acquis||0}j · Pris: ${s.jours_pris||0}j · Mis à jour: ${s.updated_at?fmtDate(s.updated_at.split('T')[0]):'—'}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+// ── CONTRATS (avec PDF upload) ──
+async function loadContrats(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/contrats?company_id=eq.${OT.getCompanyId()}&order=date_debut.desc`,{headers:H()});
+    allContrats=await r.json();
+    renderContrats();
+    document.getElementById('badge-contrats').textContent=allContrats.length;
+  }catch(e){}
+}
+
+function renderContrats(){
+  const tbody=document.getElementById('contrats-tbody');
+  if(!allContrats.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px">📄</div>Aucun contrat — cliquez "+ Nouveau contrat"</td></tr>';return;}
+  // CDD alerts
+  const today=new Date(); today.setHours(0,0,0,0);
+  const alerts=allContrats.filter(c=>c.date_fin&&c.type_contrat!=='CDI').map(c=>{
+    const fin=new Date(c.date_fin+'T12:00:00'); const diff=Math.round((fin-today)/86400000);
+    return{...c,daysLeft:diff};
+  }).filter(c=>c.daysLeft<=30&&c.daysLeft>=0).sort((a,b)=>a.daysLeft-b.daysLeft);
+  const alertsEl=document.getElementById('cdd-alerts');
+  alertsEl.innerHTML='';
+  alerts.forEach(c=>{
+    const div=document.createElement('div');
+    div.className='alert-card';
+    div.innerHTML=`<span style="font-size:18px">${c.daysLeft<=7?'🔴':'🟠'}</span><div><strong style="color:var(--white)">${c.chauffeur_nom}</strong> — ${c.type_contrat} expire dans <strong style="color:${c.daysLeft<=7?'#FC8181':'#F5A623'}">${c.daysLeft} jour${c.daysLeft>1?'s':''}</strong> (${fmtDate(c.date_fin)})</div>`;
+    alertsEl.appendChild(div);
+  });
+  tbody.innerHTML='';
+  const typeColors={CDI:'badge-green',CDD:'badge-orange',interim:'badge-blue','sous-traitance':'badge-gray',apprentissage:'badge-blue'};
+  allContrats.forEach(c=>{
+    const hasPdf=!!(c.document_pdf_base64||c.document_pdf);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td style="font-weight:700;color:var(--white)">${c.chauffeur_nom}</td>
+      <td><span class="badge ${typeColors[c.type_contrat]||'badge-gray'}">${c.type_contrat}</span></td>
+      <td>${c.date_debut?fmtDate(c.date_debut):'—'}</td>
+      <td>${c.date_fin?`<span style="color:${daysUntil(c.date_fin)<=30?'#FC8181':'var(--light)'}">${fmtDate(c.date_fin)}</span>`:'<span style="color:var(--gray)">—</span>'}</td>
+      <td style="color:#2ECC71;font-weight:600">${c.salaire_base?c.salaire_base+'€/mois':'—'}</td>
+      <td>
+        ${hasPdf
+          ? `<button onclick="viewContratPdf('${c.id}')" style="background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#60A5FA;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit">📄 Voir PDF</button>`
+          : `<span style="color:var(--gray2);font-size:11px;font-style:italic">Pas de document</span>`
+        }
+      </td>
+      <td style="color:var(--gray);font-size:11px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.notes||'—'}</td>
+      <td style="white-space:nowrap">
+        <button class="icon-btn" onclick="editContrat('${c.id}')" title="Modifier">✏️</button>
+        <button class="icon-btn" onclick="delContrat('${c.id}','${(c.chauffeur_nom||'').replace(/'/g,"\\'")}','${c.type_contrat}')" title="Supprimer" style="color:rgba(231,76,60,0.7)">🗑</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function daysUntil(dateStr){
+  const t=new Date();t.setHours(0,0,0,0);
+  const d=new Date(dateStr+'T12:00:00');
+  return Math.round((d-t)/86400000);
+}
+
+// ── MODAL CONTRAT ──
+function openContratModal(){
+  resetPdfState();
+  document.getElementById('c-edit-id').value='';
+  document.getElementById('modal-contrat-title').textContent='📄 NOUVEAU CONTRAT';
+  document.getElementById('btn-save-contrat').textContent='✅ Enregistrer';
+  document.getElementById('c-chauffeur').value='';
+  document.getElementById('c-type').value='CDI';
+  document.getElementById('c-debut').value='';
+  document.getElementById('c-fin').value='';
+  document.getElementById('c-notes').value='';
+  document.getElementById('modal-contrat').classList.add('show');
+}
+function closeContrat(){ document.getElementById('modal-contrat').classList.remove('show'); resetPdfState(); }
+
+function editContrat(id){
+  const c=allContrats.find(x=>x.id===id); if(!c) return;
+  resetPdfState();
+  document.getElementById('c-edit-id').value=id;
+  document.getElementById('modal-contrat-title').textContent='✏️ MODIFIER CONTRAT';
+  document.getElementById('btn-save-contrat').textContent='💾 Enregistrer';
+  document.getElementById('c-chauffeur').value=c.chauffeur_nom||'';
+  document.getElementById('c-type').value=c.type_contrat||'CDI';
+  document.getElementById('c-debut').value=c.date_debut||'';
+  document.getElementById('c-fin').value=c.date_fin||'';
+  document.getElementById('c-notes').value=c.notes||'';
+  // Show existing PDF if any
+  const pdfData=c.document_pdf_base64||c.document_pdf||null;
+  if(pdfData){
+    existingPdfBase64=pdfData;
+    document.getElementById('pdf-existing').style.display='block';
+    document.getElementById('pdf-existing-name').textContent=c.document_nom||'Contrat existant.pdf';
+    document.getElementById('pdf-drop-zone').style.display='none';
+  }
+  document.getElementById('modal-contrat').classList.add('show');
+}
+
+async function delContrat(id,nom,type){
+  if(!confirm(`Supprimer le contrat ${type} de ${nom} ?`)) return;
+  await fetch(`${SB}/rest/v1/contrats?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'DELETE',headers:H()});
+  toast('🗑 Contrat supprimé');
+  loadContrats();
+}
+
+// ── PDF HANDLING ──
+function resetPdfState(){
+  currentPdfBase64=null; currentPdfName='';
+  existingPdfBase64=null;
+  document.getElementById('pdf-preview-strip').style.display='none';
+  document.getElementById('pdf-existing').style.display='none';
+  document.getElementById('pdf-drop-zone').style.display='block';
+  document.getElementById('c-pdf-input').value='';
+  document.getElementById('pdf-upload-progress').style.display='none';
+}
+
+function onDragOver(e){ e.preventDefault(); document.getElementById('pdf-drop-zone').classList.add('dragover'); }
+function onDragLeave(e){ document.getElementById('pdf-drop-zone').classList.remove('dragover'); }
+function onDrop(e){
+  e.preventDefault();
+  document.getElementById('pdf-drop-zone').classList.remove('dragover');
+  const file=e.dataTransfer.files[0];
+  if(file) processPdfFile(file);
+}
+function onPdfSelected(input){
+  const file=input.files[0];
+  if(file) processPdfFile(file);
+}
+function processPdfFile(file){
+  if(file.type!=='application/pdf'&&!file.name.endsWith('.pdf')){ toast('Fichier PDF uniquement','error'); return; }
+  if(file.size>5*1024*1024){ toast('PDF trop lourd (max 5 Mo)','error'); return; }
+  currentPdfName=file.name;
+  const sizeFmt=file.size>1024*1024?(file.size/1024/1024).toFixed(1)+' Mo':(file.size/1024).toFixed(0)+' Ko';
+  const reader=new FileReader();
+  reader.onload=function(e){
+    currentPdfBase64=e.target.result; // data:application/pdf;base64,...
+    document.getElementById('pdf-filename').textContent=file.name;
+    document.getElementById('pdf-filesize').textContent=sizeFmt;
+    document.getElementById('pdf-preview-strip').style.display='flex';
+    document.getElementById('pdf-drop-zone').style.display='none';
+    document.getElementById('pdf-existing').style.display='none';
+  };
+  reader.readAsDataURL(file);
+}
+function removePdf(){
+  currentPdfBase64=null; currentPdfName='';
+  document.getElementById('pdf-preview-strip').style.display='none';
+  document.getElementById('pdf-drop-zone').style.display='block';
+  document.getElementById('c-pdf-input').value='';
+}
+function replacePdf(){
+  existingPdfBase64=null;
+  document.getElementById('pdf-existing').style.display='none';
+  document.getElementById('pdf-drop-zone').style.display='block';
+}
+
+async function saveContrat(){
+  const chauffeur=document.getElementById('c-chauffeur').value;
+  const type=document.getElementById('c-type').value;
+  const debut=document.getElementById('c-debut').value;
+  if(!chauffeur||!debut){ toast('Chauffeur et date de début obligatoires','error'); return; }
+  const btn=document.getElementById('btn-save-contrat');
+  btn.disabled=true; btn.textContent='⏳...';
+
+  // Determine PDF to save
+  let pdfToSave=null, nomToSave=null;
+  if(currentPdfBase64){
+    pdfToSave=currentPdfBase64;
+    nomToSave=currentPdfName;
+  } else if(existingPdfBase64){
+    pdfToSave=existingPdfBase64;
+    const existing=allContrats.find(c=>c.id===document.getElementById('c-edit-id').value);
+    nomToSave=existing?.document_nom||null;
+  }
+
+  if(pdfToSave){
+    document.getElementById('pdf-upload-progress').style.display='block';
+    // Animate progress bar
+    let prog=0;
+    const interval=setInterval(()=>{ prog=Math.min(prog+15,85); document.getElementById('progress-fill').style.width=prog+'%'; },80);
+    await new Promise(r=>setTimeout(r,600));
+    clearInterval(interval);
+    document.getElementById('progress-fill').style.width='100%';
+    await new Promise(r=>setTimeout(r,300));
+  }
+
+  const payload={
+    chauffeur_nom:chauffeur,
+    type_contrat:type,
+    date_debut:debut||null,
+    date_fin:document.getElementById('c-fin').value||null,
+    salaire_base:null,
+    notes:document.getElementById('c-notes').value.trim()||null,
+    document_pdf_base64:pdfToSave,
+    document_nom:nomToSave,
+    company_id:OT.getCompanyId()
+  };
+
+  const id=document.getElementById('c-edit-id').value;
+  try{
+    if(id){
+      const r=await fetch(`${SB}/rest/v1/contrats?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H(),body:JSON.stringify(payload)});
+      if(!r.ok) throw new Error(await r.text());
+    } else {
+      const r=await fetch(`${SB}/rest/v1/contrats`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(payload)});
+      if(!r.ok) throw new Error(await r.text());
+    }
+    toast(`✅ Contrat ${id?'modifié':'ajouté'}${pdfToSave?' avec PDF':''}`);
+    closeContrat();
+    await loadContrats();
+    switchTabByName('contrats');
+  }catch(e){
+    toast('❌ '+e.message,'error');
+  }finally{
+    btn.disabled=false; btn.textContent=id?'💾 Enregistrer':'✅ Enregistrer';
+    document.getElementById('pdf-upload-progress').style.display='none';
+  }
+}
+
+// ── PDF VIEWER ──
+function viewContratPdf(id){
+  const c=allContrats.find(x=>x.id===id);
+  if(!c) return;
+  const pdfData=c.document_pdf_base64||c.document_pdf||null;
+  if(!pdfData){ toast('Aucun PDF pour ce contrat','error'); return; }
+  viewingPdfBase64=pdfData;
+  viewingPdfName=c.document_nom||`Contrat_${c.chauffeur_nom}_${c.type_contrat}.pdf`;
+  document.getElementById('pdf-view-title').textContent=`${c.chauffeur_nom} — ${c.type_contrat}`;
+  document.getElementById('pdf-view-sub').textContent=viewingPdfName;
+  document.getElementById('pdf-loading').style.display='flex';
+  document.getElementById('pdf-iframe').style.display='none';
+  document.getElementById('modal-pdf-view').classList.add('show');
+  // Load PDF in iframe via Blob URL (CSP frame-src doesn't allow data:)
+  const iframe=document.getElementById('pdf-iframe');
+  revokeViewingPdfBlobUrl();
+  viewingPdfBlobUrl=pdfBase64ToBlobUrl(pdfData);
+  iframe.src=viewingPdfBlobUrl;
+  iframe.onload=()=>{ document.getElementById('pdf-loading').style.display='none'; iframe.style.display='block'; };
+  // Fallback if iframe doesn't fire onload
+  setTimeout(()=>{ document.getElementById('pdf-loading').style.display='none'; iframe.style.display='block'; },2000);
+}
+function viewPdfModal(){
+  // Called from "Voir" button in edit modal (existing PDF)
+  if(!existingPdfBase64) return;
+  const id=document.getElementById('c-edit-id').value;
+  if(id) viewContratPdf(id);
+}
+function closePdfView(){
+  document.getElementById('modal-pdf-view').classList.remove('show');
+  document.getElementById('pdf-iframe').src='';
+  revokeViewingPdfBlobUrl();
+  viewingPdfBase64=null;
+}
+function downloadCurrentPdf(){
+  if(!viewingPdfBase64) return;
+  let src=viewingPdfBase64;
+  if(!src.startsWith('data:')) src='data:application/pdf;base64,'+src;
+  const a=document.createElement('a');
+  a.href=src;
+  a.download=viewingPdfName||'contrat.pdf';
+  a.click();
+  toast('⬇ Téléchargement démarré');
+}
+
+// ── CALENDRIER ──
+async function loadCalendrier(){
+  renderCalendrier();
+}
+function calMonth(dir){ calMonth2+=dir; if(calMonth2<0){calMonth2=11;calYear--;}if(calMonth2>11){calMonth2=0;calYear++;}renderCalendrier(); }
+function renderCalendrier(){
+  const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  document.getElementById('cal-label').textContent=`${MONTHS[calMonth2]} ${calYear}`;
+  const daysInMonth=new Date(calYear,calMonth2+1,0).getDate();
+  const start=`${calYear}-${String(calMonth2+1).padStart(2,'0')}-01`;
+  const end=`${calYear}-${String(calMonth2+1).padStart(2,'0')}-${daysInMonth}`;
+  const absences=allAbsences.filter(a=>a.statut==='approuve'&&a.date_fin>=start&&a.date_debut<=end);
+  const chauffeurs=[...new Set(absences.map(a=>a.chauffeur_nom))].sort();
+  const colors={conge_paye:'#27AE60',maladie:'#E74C3C',absence_injustifiee:'#F5A623',jour_ferie:'#0891B2',formation:'#7C3AED',autre:'#F5A623'};
+  const grid=document.getElementById('cal-grid');
+  if(!chauffeurs.length){grid.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray)">Aucune absence ce mois</div>';return;}
+  const days=Array.from({length:daysInMonth},(_,i)=>i+1);
+  let html=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:600px"><thead><tr><th style="padding:6px 10px;font-size:10px;color:var(--gray);text-align:left;border-bottom:1px solid var(--border);background:var(--navy3)">Chauffeur</th>`;
+  days.forEach(d=>{
+    const date=new Date(calYear,calMonth2,d);
+    const isWE=date.getDay()===0||date.getDay()===6;
+    html+=`<th style="padding:4px 2px;font-size:9px;color:${isWE?'var(--accent)':'var(--gray)'};text-align:center;border-bottom:1px solid var(--border);background:var(--navy3);min-width:22px">${d}</th>`;
+  });
+  html+='</tr></thead><tbody>';
+  chauffeurs.forEach(nom=>{
+    html+=`<tr><td style="padding:7px 10px;font-size:12px;font-weight:600;color:var(--white);border-bottom:1px solid rgba(255,255,255,0.04);white-space:nowrap">${nom}</td>`;
+    days.forEach(d=>{
+      const dateStr=`${calYear}-${String(calMonth2+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const abs=absences.find(a=>a.chauffeur_nom===nom&&a.date_debut<=dateStr&&a.date_fin>=dateStr);
+      html+=`<td style="padding:2px;border-bottom:1px solid rgba(255,255,255,0.04);text-align:center">${abs?`<div style="width:18px;height:18px;border-radius:4px;background:${colors[abs.type]||'#F5A623'};margin:0 auto" title="${abs.type}"></div>`:''}  </td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  grid.innerHTML=html;
+}
+
+function switchTabByName(t){
+  const tabs=document.querySelectorAll('.tab');
+  tabs.forEach(el=>{ if(el.getAttribute('onclick')&&el.getAttribute('onclick').includes("'"+t+"'")){el.click();} });
+}
+
+function switchTab(t,el){
+  ['demandes','absences','soldes','contrats','fiches','calendrier'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  if(t==='calendrier') renderCalendrier();
+  if(t==='fiches') renderFiches();
+}
+
+// ══ FICHES DE PAIE ══
+let allFiches=[];
+let fpCurrentPdf=null, fpCurrentPdfName='', fpExistingPdf=null, fpExistingPdfName='';
+const MOIS_NOM=['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+async function loadFiches(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/fiches_paie?company_id=eq.${OT.getCompanyId()}&order=annee.desc,mois.desc&select=id,chauffeur_nom,mois,annee,periode,salaire_net,salaire_brut,notes,document_nom`,{headers:H()});
+    allFiches=await r.json();
+    document.getElementById('badge-fiches').textContent=allFiches.length;
+    // Populate year filter
+    const years=[...new Set(allFiches.map(f=>f.annee))].sort((a,b)=>b-a);
+    const sel=document.getElementById('fp-filter-an');
+    sel.innerHTML='<option value="">Toutes années</option>';
+    years.forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;sel.appendChild(o);});
+    renderFiches();
+  }catch(e){ console.warn('loadFiches:',e); }
+}
+
+function renderFiches(){
+  const chF=document.getElementById('fp-filter-ch').value;
+  const anF=document.getElementById('fp-filter-an').value;
+  const data=allFiches.filter(f=>(chF?f.chauffeur_nom===chF:true)&&(anF?String(f.annee)===anF:true));
+  const grid=document.getElementById('fiches-grid');
+  if(!data.length){
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--gray)"><div style="font-size:36px;margin-bottom:8px">💶</div>Aucune fiche de paie — cliquez "+ Ajouter fiche"</div>`;
+    return;
+  }
+  grid.innerHTML='';
+  data.forEach(f=>{
+    const hasPdf=!!(f.document_nom);
+    const div=document.createElement('div');
+    div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color 0.2s;';
+    div.onmouseover=()=>div.style.borderColor='rgba(26,79,191,0.4)';
+    div.onmouseout=()=>div.style.borderColor='var(--border)';
+    div.innerHTML=`
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--white)">${f.chauffeur_nom}</div>
+          <div style="font-size:11px;color:var(--accent);font-weight:600;margin-top:2px">${MOIS_NOM[f.mois]} ${f.annee}</div>
+        </div>
+        <div style="display:flex;gap:4px">
+          <button class="icon-btn" onclick="editFiche('${f.id}')" title="Modifier">✏️</button>
+          <button class="icon-btn" onclick="delFiche('${f.id}','${f.chauffeur_nom.replace(/'/g,"\\'")}','${MOIS_NOM[f.mois]} ${f.annee}')" style="color:rgba(231,76,60,0.7)" title="Supprimer">🗑</button>
+        </div>
+      </div>
+      ${f.salaire_net||f.salaire_brut?`<div style="display:flex;gap:16px;margin-bottom:10px">
+        ${f.salaire_net?`<div><div style="font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:1px">Net</div><div style="font-size:16px;font-weight:700;color:#2ECC71">${f.salaire_net.toLocaleString('fr-FR')}€</div></div>`:''}
+        ${f.salaire_brut?`<div><div style="font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:1px">Brut</div><div style="font-size:16px;font-weight:700;color:var(--light)">${f.salaire_brut.toLocaleString('fr-FR')}€</div></div>`:''}
+      </div>`:''}
+      ${f.notes?`<div style="font-size:11px;color:var(--gray2);margin-bottom:10px;font-style:italic">${f.notes}</div>`:''}
+      <div style="display:flex;gap:8px">
+        ${hasPdf
+          ? `<button onclick="viewFichePdf('${f.id}')" style="flex:1;background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#60A5FA;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit">📄 Voir la fiche</button>`
+          : `<span style="flex:1;font-size:11px;color:var(--gray2);font-style:italic;display:flex;align-items:center">Pas de PDF</span>`
+        }
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+
+function openFicheModal(){
+  fpResetState();
+  document.getElementById('fp-edit-id').value='';
+  document.getElementById('modal-fiche-title').textContent='💶 AJOUTER UNE FICHE DE PAIE';
+  document.getElementById('btn-save-fiche').textContent='✅ Enregistrer';
+  document.getElementById('fp-chauffeur').value='';
+  const now=new Date();
+  document.getElementById('fp-mois').value=now.getMonth()===0?12:now.getMonth();
+  document.getElementById('fp-annee').value=now.getMonth()===0?now.getFullYear()-1:now.getFullYear();
+  document.getElementById('fp-net').value='';
+  document.getElementById('fp-brut').value='';
+  document.getElementById('fp-notes').value='';
+  document.getElementById('modal-fiche').classList.add('show');
+}
+function closeFiche(){ document.getElementById('modal-fiche').classList.remove('show'); fpResetState(); }
+
+async function editFiche(id){
+  const f=allFiches.find(x=>x.id===id); if(!f) return;
+  fpResetState();
+  document.getElementById('fp-edit-id').value=id;
+  document.getElementById('modal-fiche-title').textContent='✏️ MODIFIER FICHE DE PAIE';
+  document.getElementById('btn-save-fiche').textContent='💾 Enregistrer';
+  document.getElementById('fp-chauffeur').value=f.chauffeur_nom||'';
+  document.getElementById('fp-mois').value=f.mois||1;
+  document.getElementById('fp-annee').value=f.annee||new Date().getFullYear();
+  document.getElementById('fp-net').value=f.salaire_net||'';
+  document.getElementById('fp-brut').value=f.salaire_brut||'';
+  document.getElementById('fp-notes').value=f.notes||'';
+  if(f.document_nom){
+    fpExistingPdfName=f.document_nom;
+    document.getElementById('fp-existing').style.display='block';
+    document.getElementById('fp-existing-name').textContent=fpExistingPdfName;
+    document.getElementById('fp-drop-zone').style.display='none';
+    // Charger le PDF en arrière-plan pour fpViewExisting/saveFiche
+    fetch(`${SB}/rest/v1/fiches_paie?id=eq.${id}&company_id=eq.${OT.getCompanyId()}&select=document_pdf_base64`,{headers:H()})
+      .then(r=>r.json()).then(data=>{ fpExistingPdf=data[0]?.document_pdf_base64||null; }).catch(()=>{});
+  }
+  document.getElementById('modal-fiche').classList.add('show');
+}
+
+async function delFiche(id,nom,periode){
+  if(!confirm(`Supprimer la fiche de ${nom} — ${periode} ?`)) return;
+  await fetch(`${SB}/rest/v1/fiches_paie?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'DELETE',headers:H()});
+  toast('🗑 Fiche supprimée');
+  loadFiches();
+}
+
+// PDF handlers for fiches
+function fpDragOver(e){ e.preventDefault(); document.getElementById('fp-drop-zone').classList.add('dragover'); }
+function fpDragLeave(){ document.getElementById('fp-drop-zone').classList.remove('dragover'); }
+function fpDrop(e){ e.preventDefault(); document.getElementById('fp-drop-zone').classList.remove('dragover'); const f=e.dataTransfer.files[0]; if(f) fpProcessPdf(f); }
+function fpPdfSelected(input){ const f=input.files[0]; if(f) fpProcessPdf(f); }
+function fpProcessPdf(file){
+  if(file.type!=='application/pdf'&&!file.name.endsWith('.pdf')){ toast('Fichier PDF uniquement','error'); return; }
+  if(file.size>5*1024*1024){ toast('PDF trop lourd (max 5 Mo)','error'); return; }
+  fpCurrentPdfName=file.name;
+  const sz=file.size>1024*1024?(file.size/1024/1024).toFixed(1)+' Mo':(file.size/1024).toFixed(0)+' Ko';
+  const reader=new FileReader();
+  reader.onload=e=>{ fpCurrentPdf=e.target.result; document.getElementById('fp-filename').textContent=file.name; document.getElementById('fp-filesize').textContent=sz; document.getElementById('fp-preview-strip').style.display='flex'; document.getElementById('fp-drop-zone').style.display='none'; document.getElementById('fp-existing').style.display='none'; };
+  reader.readAsDataURL(file);
+}
+function fpRemovePdf(){ fpCurrentPdf=null; fpCurrentPdfName=''; document.getElementById('fp-preview-strip').style.display='none'; document.getElementById('fp-drop-zone').style.display='block'; document.getElementById('fp-pdf-input').value=''; }
+function fpReplace(){ fpExistingPdf=null; document.getElementById('fp-existing').style.display='none'; document.getElementById('fp-drop-zone').style.display='block'; }
+function fpViewExisting(){
+  const id=document.getElementById('fp-edit-id').value;
+  if(id) viewFichePdf(id);
+}
+function fpResetState(){
+  fpCurrentPdf=null; fpCurrentPdfName=''; fpExistingPdf=null; fpExistingPdfName='';
+  document.getElementById('fp-preview-strip').style.display='none';
+  document.getElementById('fp-existing').style.display='none';
+  document.getElementById('fp-drop-zone').style.display='block';
+  document.getElementById('fp-pdf-input').value='';
+  document.getElementById('fp-upload-progress').style.display='none';
+}
+
+async function saveFiche(){
+  const chauffeur=document.getElementById('fp-chauffeur').value;
+  const mois=parseInt(document.getElementById('fp-mois').value);
+  const annee=parseInt(document.getElementById('fp-annee').value);
+  if(!chauffeur||!mois||!annee){ toast('Chauffeur, mois et année obligatoires','error'); return; }
+  const pdfToSave = fpCurrentPdf || fpExistingPdf || null;
+  const nomToSave = fpCurrentPdf ? fpCurrentPdfName : (fpExistingPdf ? fpExistingPdfName : null);
+  const btn=document.getElementById('btn-save-fiche');
+  btn.disabled=true; btn.textContent='⏳...';
+  if(pdfToSave){
+    document.getElementById('fp-upload-progress').style.display='block';
+    let p=0; const iv=setInterval(()=>{ p=Math.min(p+20,85); document.getElementById('fp-progress-fill').style.width=p+'%'; },80);
+    await new Promise(r=>setTimeout(r,500));
+    clearInterval(iv); document.getElementById('fp-progress-fill').style.width='100%';
+    await new Promise(r=>setTimeout(r,200));
+  }
+  const payload={
+    chauffeur_nom:chauffeur, mois, annee,
+    periode:`${MOIS_NOM[mois]} ${annee}`,
+    salaire_net:parseFloat(document.getElementById('fp-net').value)||null,
+    salaire_brut:parseFloat(document.getElementById('fp-brut').value)||null,
+    notes:document.getElementById('fp-notes').value.trim()||null,
+    document_pdf_base64:pdfToSave,
+    document_nom:nomToSave,
+    company_id:OT.getCompanyId()
+  };
+  const id=document.getElementById('fp-edit-id').value;
+  try{
+    if(id){
+      const r=await fetch(`${SB}/rest/v1/fiches_paie?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H(),body:JSON.stringify(payload)});
+      if(!r.ok) throw new Error(await r.text());
+    } else {
+      const r=await fetch(`${SB}/rest/v1/fiches_paie`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(payload)});
+      if(!r.ok) throw new Error(await r.text());
+    }
+    toast(`✅ Fiche de ${chauffeur} — ${MOIS_NOM[mois]} ${annee} ${id?'modifiée':'ajoutée'}${pdfToSave?' avec PDF':''}`);
+    closeFiche();
+    loadFiches();
+  }catch(e){ toast('❌ '+e.message,'error'); }
+  finally{ btn.disabled=false; btn.textContent=document.getElementById('fp-edit-id').value?'💾 Enregistrer':'✅ Enregistrer'; document.getElementById('fp-upload-progress').style.display='none'; }
+}
+
+async function viewFichePdf(id){
+  const f=allFiches.find(x=>x.id===id);
+  if(!f||!f.document_nom){ toast('Aucun PDF pour cette fiche','error'); return; }
+  viewingPdfName=f.document_nom||`Fiche_${f.chauffeur_nom}_${MOIS_NOM[f.mois]}_${f.annee}.pdf`;
+  document.getElementById('pdf-view-title').textContent=`${f.chauffeur_nom} — ${MOIS_NOM[f.mois]} ${f.annee}`;
+  document.getElementById('pdf-view-sub').textContent=viewingPdfName;
+  document.getElementById('pdf-loading').style.display='flex';
+  document.getElementById('pdf-iframe').style.display='none';
+  document.getElementById('modal-pdf-view').classList.add('show');
+  try{
+    const r=await fetch(`${SB}/rest/v1/fiches_paie?id=eq.${id}&company_id=eq.${OT.getCompanyId()}&select=document_pdf_base64,document_nom`,{headers:H()});
+    const data=await r.json();
+    const pdfB64=data[0]?.document_pdf_base64;
+    if(!pdfB64){ toast('PDF introuvable','error'); return; }
+    viewingPdfBase64=pdfB64;
+    const iframe=document.getElementById('pdf-iframe');
+    revokeViewingPdfBlobUrl();
+    viewingPdfBlobUrl=pdfBase64ToBlobUrl(pdfB64);
+    iframe.src=viewingPdfBlobUrl;
+    iframe.onload=()=>{ document.getElementById('pdf-loading').style.display='none'; iframe.style.display='block'; };
+    setTimeout(()=>{ document.getElementById('pdf-loading').style.display='none'; iframe.style.display='block'; },2000);
+  }catch(e){ toast('❌ Erreur chargement PDF','error'); }
+}
+
+
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'❌':'✅'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
+</script>
+
+
+<div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+  <div style="flex:1;min-width:200px"><div style="font-size:13px;font-weight:600;color:#F0F4FF;margin-bottom:3px">🍪 Cookies</div><div style="font-size:11px;color:#8899AA">Nous utilisons uniquement des cookies fonctionnels.</div></div>
+  <div style="display:flex;gap:10px;flex-shrink:0">
+    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8899AA;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
+    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;color:#0A1628;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
+  </div>
+</div>
+<script data-cfasync="false">
+(function(){if(!localStorage.getItem('cookie_consent')){var b=document.getElementById('ot-cookie-banner');if(b)b.style.display='flex';}window.otCookieChoice=function(v){localStorage.setItem('cookie_consent',v);var b=document.getElementById('ot-cookie-banner');if(b){b.style.transition='transform 0.3s';b.style.transform='translateY(100%)';setTimeout(function(){b.style.display='none';},300);}};})();
+document.addEventListener('keydown',function(e){if(e.ctrlKey&&e.shiftKey&&e.key==='A'){window.location.href='optimum_trans_superadmin.html';}});
+</script>
+<script src="optimum_trans_demo_data.js"></script> 
+<script src="/pwa-register.js"></script>
+<script src="ot_mobile_nav.js"></script>
+<script src="/ot_finance.js"></script>
+<script src="/ot_infoscroll.js"></script>
+<script src="/ot_visibility_pause.js"></script>
+<script src="/ot_messaging.js"></script>
+<script src="ot_decompte_guard.js" defer></script>
+</body>
+</html>

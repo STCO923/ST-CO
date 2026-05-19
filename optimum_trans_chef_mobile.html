@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<!-- T SERVICE & CO CHEF MOBILE v2.0 - 2026-03-16 -->
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>T SERVICE & CO — Chef d'équipe</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0A1628">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="T.S">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;max-width:480px;margin:0 auto;padding-bottom:80px;}
+
+/* HEADER */
+.app-header{background:var(--navy2);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.header-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;}
+.header-logo span{color:var(--accent);}
+.header-role{background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:700;color:#A78BFA;letter-spacing:1px;}
+.ch-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--white);}
+.logout-btn{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:12px;color:#FC8181;font-family:inherit;}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--navy2);border-top:1px solid var(--border);display:flex;z-index:50;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px;cursor:pointer;border:none;background:none;color:var(--gray);font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;gap:3px;transition:color 0.2s;}
+.nav-btn.active{color:var(--accent);}
+.nav-btn .nav-icon{font-size:20px;}
+.nav-badge{background:var(--error);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;margin-left:3px;}
+
+/* SCREENS */
+.screen{display:none;padding:14px 14px 8px;}
+.screen.active{display:block;}
+
+/* WEEK NAV */
+.week-nav{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:12px;}
+.wk-btn{background:none;border:none;color:var(--gray);cursor:pointer;font-size:18px;padding:2px 8px;border-radius:6px;}
+.wk-label{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--white);letter-spacing:1px;flex:1;text-align:center;}
+.wk-sub{font-size:10px;color:var(--gray);text-align:center;margin-top:1px;}
+
+/* KPIs */
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;text-align:center;}
+.kpi-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);}
+.kpi-lbl{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+
+/* DAYS STRIP */
+.days-strip{display:flex;gap:5px;margin-bottom:12px;overflow-x:auto;padding-bottom:3px;}
+.days-strip::-webkit-scrollbar{display:none;}
+.day-pill{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:7px 10px;border-radius:9px;cursor:pointer;border:1px solid var(--border);background:var(--card);transition:all 0.2s;min-width:44px;}
+.day-pill.active{background:var(--blue);border-color:var(--blue);}
+.day-pill.today{border-color:var(--accent);}
+.day-pill.has-tournee::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);display:block;margin-top:2px;}
+.day-pill .dp-name{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--gray);}
+.day-pill.active .dp-name,.day-pill.active .dp-num{color:var(--white);}
+.day-pill .dp-num{font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--white);line-height:1;}
+
+/* CHAUFFEUR SECTIONS */
+.ch-section{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+.ch-section-header{padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s;}
+.ch-section-header:hover{background:rgba(255,255,255,0.03);}
+.ch-section-header.expanded{border-bottom:1px solid var(--border);}
+.ch-avatar-sm{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--white);flex-shrink:0;font-family:'Bebas Neue',sans-serif;}
+.ch-name-m{font-size:13px;font-weight:700;color:var(--white);flex:1;}
+.ch-meta-m{font-size:10px;color:var(--gray);}
+.ch-count{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--accent);}
+.ch-body{padding:10px 12px;display:none;}
+.ch-body.open{display:block;}
+
+/* TOURNEE CARDS */
+.t-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;position:relative;overflow:hidden;}
+.t-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
+.t-card.am::before{background:var(--accent);}
+.t-card.pm::before{background:#60A5FA;}
+.t-card.ampm::before{background:#2ECC71;}
+.t-client{font-size:13px;font-weight:700;color:var(--white);}
+.t-meta{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;}
+.t-chip{background:rgba(255,255,255,0.06);border-radius:5px;padding:2px 7px;font-size:10px;color:var(--gray);}
+.t-chip.am{background:rgba(245,166,35,0.15);color:var(--accent);}
+.t-chip.pm{background:rgba(26,79,191,0.2);color:#60A5FA;}
+.t-chip.ampm{background:rgba(39,174,96,0.2);color:#2ECC71;}
+
+/* VALIDATION ACTIONS */
+.val-actions{display:flex;gap:6px;margin-top:8px;}
+.btn-val{flex:1;border:none;border-radius:7px;padding:7px 8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.btn-ok{background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#2ECC71;}
+.btn-ok:active{background:rgba(39,174,96,0.3);}
+.btn-pen{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.25);color:#FC8181;}
+.btn-pen:active{background:rgba(231,76,60,0.25);}
+.btn-reset{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:var(--gray2);font-size:10px;}
+.val-badge{display:inline-flex;align-items:center;gap:4px;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;margin-top:5px;}
+.val-badge.ok{background:rgba(39,174,96,0.15);color:#2ECC71;}
+.val-badge.pen{background:rgba(231,76,60,0.12);color:#FC8181;}
+
+/* VEHICULE SELECT */
+.veh-select-m{width:100%;background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:7px;padding:5px 8px;font-size:11px;color:var(--white);font-family:'Outfit',sans-serif;outline:none;margin-top:6px;}
+.veh-select-m option{background:var(--navy2);}
+
+/* EMPTY */
+.empty-day{text-align:center;padding:30px 16px;color:var(--gray);}
+.empty-icon{font-size:36px;margin-bottom:8px;}
+
+/* MODAL PÉNALITÉ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(5px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.modal-overlay.show{opacity:1;pointer-events:all;}
+.modal-sheet{background:var(--navy2);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:20px 20px 32px;width:100%;max-width:480px;transform:translateY(100%);transition:transform 0.35s cubic-bezier(.4,0,.2,1);}
+.modal-overlay.show .modal-sheet{transform:translateY(0);}
+.sheet-handle{width:36px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:0 auto 18px;}
+.sheet-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;margin-bottom:4px;}
+.sheet-sub{font-size:11px;color:var(--gray);margin-bottom:16px;}
+.pen-opt{display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:8px;transition:all 0.2s;}
+.pen-opt.selected{border-color:rgba(231,76,60,0.5);background:rgba(231,76,60,0.08);}
+.pen-opt-icon{font-size:18px;width:28px;text-align:center;}
+.pen-opt-label{flex:1;font-size:13px;font-weight:600;color:var(--white);}
+.pen-opt-amount{font-size:13px;font-weight:700;color:#FC8181;}
+.btn-primary-m{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);border:none;border-radius:10px;padding:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;}
+.btn-secondary-m{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--gray);border-radius:10px;padding:11px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;margin-top:8px;}
+
+/* SPINNER */
+.spinner{width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-wrap{padding:40px;text-align:center;}
+
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy3);border:1px solid var(--border);border-radius:12px;padding:11px 18px;font-size:13px;color:var(--white);z-index:300;opacity:0;transition:all 0.3s;white-space:nowrap;max-width:90vw;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+.badge{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;}
+.badge-green{background:rgba(39,174,96,0.15);color:#2ECC71;}
+.badge-orange{background:rgba(245,166,35,0.15);color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="ch-avatar" id="ch-avatar">CE</div>
+    <div>
+      <div id="chef-name-hdr" style="font-size:13px;font-weight:700;color:var(--white)">—</div>
+      <div class="header-role">👔 CHEF D'ÉQUIPE</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div style="font-size:10px;color:var(--gray)" id="sync-info">⏳</div>
+    <button class="logout-btn" onclick="logout()">⏻</button>
+  </div>
+</div>
+
+<!-- ══ PLANNING ══ -->
+<div class="screen active" id="screen-planning">
+  <div class="week-nav">
+    <button class="wk-btn" onclick="changeWeek(-1)">◀</button>
+    <div style="flex:1;text-align:center">
+      <div class="wk-label" id="wk-label">—</div>
+      <div class="wk-sub" id="wk-sub">—</div>
+    </div>
+    <button class="wk-btn" onclick="changeWeek(1)">▶</button>
+    <button onclick="goToday()" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;color:var(--accent);cursor:pointer;font-family:inherit;margin-left:4px">Auj.</button>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-val" id="k-total">—</div><div class="kpi-lbl">Tournées</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-actifs">—</div><div class="kpi-lbl">Chauffeurs</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-valid">—</div><div class="kpi-lbl">Validées</div></div>
+  </div>
+
+  <div class="days-strip" id="days-strip"></div>
+  <div id="day-content"><div class="loading-wrap"><div class="spinner"></div></div></div>
+</div>
+
+<!-- ══ VÉHICULES ══ -->
+<div class="screen" id="screen-vehicules">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--white);letter-spacing:2px;margin-bottom:14px">🚐 PARC VÉHICULES</div>
+  <div id="vehicules-list"><div class="loading-wrap"><div class="spinner"></div></div></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-planning" onclick="showScreen('planning')">
+    <span class="nav-icon">📆</span>Planning
+  </button>
+  <button class="nav-btn" onclick="window.location.href='optimum_trans_gazole.html'">
+    <span class="nav-icon">⛽</span>Gazole
+  </button>
+  <button class="nav-btn" id="nav-vehicules" onclick="showScreen('vehicules');loadVehicules()">
+    <span class="nav-icon">🚐</span>Véhicules
+  </button>
+</nav>
+
+<!-- MODAL PÉNALITÉ -->
+<div class="modal-overlay" id="modal-pen" onclick="if(event.target===this)closePenModal()">
+  <div class="modal-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">⚠️ PÉNALITÉ</div>
+    <div class="sheet-sub" id="pen-sub">Sélectionnez le motif</div>
+    <div id="pen-options"></div>
+    <div id="pen-custom-block" style="display:none;margin-bottom:10px">
+      <label style="font-size:10px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px">Montant personnalisé (€)</label>
+      <input type="number" id="pen-custom-amount" min="0" value="0" style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--white);outline:none;width:100%">
+    </div>
+    <button class="btn-primary-m" onclick="confirmPenalty()">⚠️ Appliquer la pénalité</button>
+    <button class="btn-secondary-m" onclick="closePenModal()">Annuler</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
+
+const DAYS_SHORT=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+const DAYS_FULL=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const MONTHS_S=['jan','fév','mar','avr','mai','jun','jul','aoû','sep','oct','nov','déc'];
+const COLORS=['#1A4FBF','#27AE60','#7C3AED','#F5A623','#E74C3C','#0891B2','#D97706','#059669','#DC2626','#7C3AED'];
+
+let weekOffset=0, selectedDayIdx=0;
+let allChauffeurs=[], allTournees=[], allVehicules=[], allAbsences=[];
+let affectationsVehicule={}, chefsJour={};
+let companyId='', chefNom='';
+let penModal_tourneeId=null, penModal_chauffeurNom=null, penModal_selectedMotif=null;
+
+function H(){
+  const raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
+  try{ const s=JSON.parse(raw); return {'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+s.token}; }
+  catch(e){ return {'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY}; }
+}
+function fd(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function isToday(d){return fd(d)===fd(new Date());}
+
+// INIT
+document.addEventListener('DOMContentLoaded',async()=>{
+  const raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
+  if(!raw){window.location.href='index.html';return;}
+  let sess; try{sess=JSON.parse(raw);}catch(e){window.location.href='index.html';return;}
+  if(!sess||(sess.role!=='chef_equipe'&&sess.role!=='admin')){window.location.href='optimum_trans_dashboard.html';return;}
+  companyId=sess.company_id||sess.id;
+  chefNom=sess.name||sess.chauffeur_nom||'Chef';
+  const av=document.getElementById('ch-avatar');
+  av.textContent=chefNom.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+  const nameHdr=document.getElementById('chef-name-hdr');
+  if(nameHdr) nameHdr.textContent=chefNom.length>18?chefNom.substring(0,16)+'…':chefNom;
+
+  const today=new Date();
+  const dow=today.getDay()===0?6:today.getDay()-1;
+  selectedDayIdx=dow;
+
+  await Promise.all([loadChauffeurs(),loadVehiculesList()]);
+  await loadWeek();
+  loadDemandesCount();
+});
+
+function logout(){
+  if(!confirm('Se déconnecter ?'))return;
+  ['ot_session','ot_logged','ot_email'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});
+  window.location.href='index.html';
+}
+
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+}
+
+// ── SEMAINE ──
+function getWeekDates(){
+  const now=new Date(),day=now.getDay();
+  const diff=(day===0?-6:1-day)+weekOffset*7;
+  const mon=new Date(now); mon.setDate(now.getDate()+diff);
+  return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d;});
+}
+function getWeekNum(d){const s=new Date(d.getFullYear(),0,1);return Math.ceil(((d-s)/86400000+s.getDay()+1)/7);}
+function goToday(){weekOffset=0;const today=new Date();selectedDayIdx=today.getDay()===0?6:today.getDay()-1;loadWeek();}
+function changeWeek(dir){weekOffset+=dir;loadWeek();}
+
+async function loadChauffeurs(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/chauffeurs?company_id=eq.${companyId}&order=nom`,{headers:H()});
+    if(r.ok) allChauffeurs=await r.json();
+  }catch(e){}
+}
+async function loadVehiculesList(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/vehicules?company_id=eq.${companyId}&order=immatriculation`,{headers:H()});
+    if(r.ok) allVehicules=await r.json();
+  }catch(e){}
+}
+
+async function loadWeek(){
+  const dates=getWeekDates();
+  const mon=dates[0],sun=dates[6];
+  document.getElementById('wk-label').textContent=`SEM ${getWeekNum(mon)} — ${mon.getFullYear()}`;
+  document.getElementById('wk-sub').textContent=`${mon.getDate()} ${MONTHS_S[mon.getMonth()]} → ${sun.getDate()} ${MONTHS_S[sun.getMonth()]}`;
+  document.getElementById('sync-info').textContent='⏳';
+  document.getElementById('day-content').innerHTML='<div class="loading-wrap"><div class="spinner"></div></div>';
+
+  const start=fd(dates[0]),end=fd(dates[6]);
+  try{
+    const [rT,rA,rV,rC]=await Promise.all([
+      fetch(`${SB}/rest/v1/tournees?company_id=eq.${companyId}&date=gte.${start}&date=lte.${end}&order=date,chauffeur_nom`,{headers:H()}),
+      fetch(`${SB}/rest/v1/absences?company_id=eq.${companyId}&date_debut=lte.${end}&date_fin=gte.${start}&statut=eq.approuve`,{headers:H()}),
+      fetch(`${SB}/rest/v1/affectations_vehicule?company_id=eq.${companyId}&date=gte.${start}&date=lte.${end}`,{headers:H()}),
+      fetch(`${SB}/rest/v1/chef_equipe_jour?company_id=eq.${companyId}&date=gte.${start}&date=lte.${end}`,{headers:H()}),
+      OT_SYNC.loadValidationsForPeriod(start, end)
+    ]);
+    allTournees=rT.ok?await rT.json():[];
+    allAbsences=rA.ok?await rA.json():[];
+    const affData=rV.ok?await rV.json():[];
+    affectationsVehicule={};
+    affData.forEach(row=>{ affectationsVehicule[row.chauffeur_nom+'|||'+row.date]=row.vehicule_id; });
+    const chefData=rC.ok?await rC.json():[];
+    chefsJour={};
+    chefData.forEach(row=>{ chefsJour[row.date]=row.chauffeur_nom; });
+
+    updateKPIs();
+    buildDaysStrip(dates);
+    renderDay(dates[selectedDayIdx]);
+    document.getElementById('sync-info').textContent=`✅ ${allTournees.length}t`;
+  }catch(e){
+    document.getElementById('sync-info').textContent='❌';
+    document.getElementById('day-content').innerHTML=`<div class="empty-day"><div class="empty-icon">❌</div>${e.message}</div>`;
+  }
+}
+
+function updateKPIs(){
+  const valMap=getValidationMap();
+  document.getElementById('k-total').textContent=allTournees.length;
+  document.getElementById('k-actifs').textContent=new Set(allTournees.map(t=>t.chauffeur_nom)).size;
+  document.getElementById('k-valid').textContent=allTournees.filter(t=>valMap[t.id]).length;
+}
+
+function buildDaysStrip(dates){
+  const strip=document.getElementById('days-strip');
+  strip.innerHTML='';
+  const byDate={};
+  allTournees.forEach(t=>{byDate[t.date]=(byDate[t.date]||0)+1;});
+  dates.forEach((d,i)=>{
+    const pill=document.createElement('div');
+    pill.className='day-pill'+(isToday(d)?' today':'')+(i===selectedDayIdx?' active':'')+(byDate[fd(d)]?' has-tournee':'');
+    pill.innerHTML=`<span class="dp-name">${DAYS_SHORT[i]}</span><span class="dp-num">${d.getDate()}</span>`;
+    pill.onclick=()=>{
+      selectedDayIdx=i;
+      buildDaysStrip(dates);
+      renderDay(d);
+      pill.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+    };
+    strip.appendChild(pill);
+  });
+  setTimeout(()=>{const a=strip.querySelector('.active');if(a)a.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});},50);
+}
+
+function renderDay(date){
+  const dateStr=fd(date);
+  const dayLabel=`${DAYS_FULL[date.getDay()===0?6:date.getDay()-1]} ${date.getDate()} ${MONTHS[date.getMonth()]}`;
+  const tours=allTournees.filter(t=>t.date===dateStr);
+  const cont=document.getElementById('day-content');
+
+  if(!tours.length&&!allAbsences.filter(a=>a.date_debut<=dateStr&&a.date_fin>=dateStr).length){
+    cont.innerHTML=`<div class="empty-day"><div class="empty-icon">📋</div><div style="font-size:13px">${dayLabel}</div><div style="font-size:11px;color:var(--gray2);margin-top:4px">Aucune tournée ce jour</div></div>`;
+    return;
+  }
+
+  // Chef du jour ce jour
+  const chefDuJour=chefsJour[dateStr]||'';
+
+  // Grouper par chauffeur
+  const byChauffeur={};
+  tours.forEach(t=>{
+    if(!byChauffeur[t.chauffeur_nom]) byChauffeur[t.chauffeur_nom]=[];
+    byChauffeur[t.chauffeur_nom].push(t);
+  });
+
+  // Absences ce jour
+  const absMap={};
+  const absLabels={conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'⚠️ Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'};
+  allAbsences.filter(a=>a.date_debut<=dateStr&&a.date_fin>=dateStr).forEach(a=>{absMap[a.chauffeur_nom]=a.type;});
+
+  cont.innerHTML=`<div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:10px">${dayLabel} · ${tours.length} tournée${tours.length>1?'s':''}</div>`;
+
+  // Chauffeurs avec tournées
+  const chauffeursSorted=Object.keys(byChauffeur).sort();
+  chauffeursSorted.forEach((nom,idx)=>{
+    const section=buildChauffeurSection(nom,byChauffeur[nom],dateStr,idx,chefDuJour,absMap[nom]);
+    cont.appendChild(section);
+  });
+
+  // Chauffeurs sans tournée (absents)
+  allChauffeurs.filter(c=>!byChauffeur[c.nom]&&absMap[c.nom]).forEach((c,idx)=>{
+    const section=buildChauffeurSection(c.nom,[],dateStr,chauffeursSorted.length+idx,chefDuJour,absMap[c.nom]);
+    cont.appendChild(section);
+  });
+}
+
+function buildChauffeurSection(nom,tours,dateStr,idx,chefDuJour,absType){
+  const valMap=getValidationMap();
+  const nbVal=tours.filter(t=>valMap[t.id]).length;
+  const isChef=nom===chefDuJour;
+  const color=COLORS[idx%COLORS.length];
+  const ini=nom.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+
+  const section=document.createElement('div');
+  section.className='ch-section';
+
+  const header=document.createElement('div');
+  header.className='ch-section-header expanded';
+  header.innerHTML=`
+    <div class="ch-avatar-sm" style="background:${color}">${ini}</div>
+    <div style="flex:1;min-width:0">
+      <div class="ch-name-m">${nom}${isChef?' <span style="font-size:9px;background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);border-radius:5px;padding:1px 5px;color:#A78BFA;vertical-align:middle">👔</span>':''}</div>
+      <div class="ch-meta-m">${absType?`<span style="color:#FC8181">${{conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'⚠️ Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'}[absType]||'Absent'}</span>`:tours.length>0?`${tours.length} tournée${tours.length>1?'s':''} · ${nbVal} validée${nbVal>1?'s':''}`:''}</div>
+    </div>
+    <div class="ch-count">${tours.length||''}</div>
+    <div style="font-size:16px;color:var(--gray);margin-left:6px" class="chevron">▾</div>`;
+
+  const body=document.createElement('div');
+  body.className='ch-body open';
+
+  if(absType&&!tours.length){
+    body.innerHTML=`<div style="padding:8px 4px;font-size:12px;color:#FC8181;text-align:center">{{absLabels[absType]||'Absent ce jour'}}</div>`;
+  } else if(!tours.length){
+    body.innerHTML='<div style="padding:8px 4px;font-size:11px;color:var(--gray2);text-align:center">Aucune tournée</div>';
+  }
+
+  // Affectation véhicule
+  const vehKey=nom+'|||'+dateStr;
+  const vehId=affectationsVehicule[vehKey]||'';
+  const vehWrap=document.createElement('div');
+  vehWrap.style.marginBottom='8px';
+  const vehSel=document.createElement('select');
+  vehSel.className='veh-select-m';
+  const vOptEmpty=document.createElement('option');vOptEmpty.value='';vOptEmpty.textContent=allVehicules.length?'🚐 Véhicule...':'— Pas de véhicule —';vehSel.appendChild(vOptEmpty);
+  allVehicules.forEach(v=>{const o=document.createElement('option');o.value=v.id;o.textContent=v.immatriculation+(v.typologie?' ['+v.typologie+']':'')+(v.marque?' · '+v.marque:'');if(v.id===vehId)o.selected=true;vehSel.appendChild(o);});
+  vehSel.onchange=async function(){
+    this.disabled=true;
+    const val=this.value;
+    if(val){
+      await fetch(`${SB}/rest/v1/affectations_vehicule`,{method:'POST',headers:{...H(),'Prefer':'resolution=merge-duplicates'},body:JSON.stringify({company_id:companyId,chauffeur_nom:nom,date:dateStr,vehicule_id:val})});
+      affectationsVehicule[vehKey]=val;
+    } else {
+      await fetch(`${SB}/rest/v1/affectations_vehicule?company_id=eq.${companyId}&chauffeur_nom=eq.${encodeURIComponent(nom)}&date=eq.${dateStr}`,{method:'DELETE',headers:H()});
+      delete affectationsVehicule[vehKey];
+    }
+    toast(val?'🚐 Véhicule affecté':'🚐 Véhicule retiré');
+    this.disabled=false;
+  };
+  if(tours.length){vehWrap.appendChild(vehSel);body.appendChild(vehWrap);}
+
+  tours.forEach(t=>{
+    const cls=t.slot==='AM'?'am':t.slot==='PM'?'pm':'ampm';
+    const valInfo=valMap[t.id]||null;
+    const card=document.createElement('div');
+    card.className=`t-card ${cls}`;
+    let valHtml='';
+    if(valInfo){
+      if(valInfo.statut==='validee') valHtml=`<div class="val-badge ok">✅ Validée</div>`;
+      else if(valInfo.statut==='penalisee') valHtml=`<div class="val-badge pen">⚠️ ${valInfo.motif}${valInfo.montant>0?' (-'+valInfo.montant+'€)':''}</div>`;
+    }
+    card.innerHTML=`
+      <div class="t-client">${t.client_nom}</div>
+      <div class="t-meta">
+        <span class="t-chip ${cls}">${t.slot}</span>
+        ${t.heure?`<span class="t-chip">🕐 ${t.heure}</span>`:''}
+      </div>
+      ${valHtml}`;
+
+    // Actions validation
+    const actDiv=document.createElement('div');
+    actDiv.className='val-actions';
+    if(!valInfo||valInfo.statut==='penalisee'){
+      const btnV=document.createElement('button');
+      btnV.className='btn-val btn-ok';
+      btnV.textContent='✅ Valider';
+      btnV.onclick=()=>{ validateTournee(t.id,nom); };
+      actDiv.appendChild(btnV);
+    }
+    if(!valInfo||valInfo.statut==='validee'){
+      const btnP=document.createElement('button');
+      btnP.className='btn-val btn-pen';
+      btnP.textContent='⚠️ Pénalité';
+      btnP.onclick=()=>{ openPenModal(t.id,nom,t.client_nom); };
+      actDiv.appendChild(btnP);
+    }
+    if(valInfo){
+      const btnR=document.createElement('button');
+      btnR.className='btn-val btn-reset';
+      btnR.textContent='↩ Reset';
+      btnR.onclick=()=>{ resetValidation(t.id); };
+      actDiv.appendChild(btnR);
+    }
+    card.appendChild(actDiv);
+    body.appendChild(card);
+  });
+
+  header.onclick=()=>{
+    const open=body.classList.toggle('open');
+    header.classList.toggle('expanded',open);
+    header.querySelector('.chevron').textContent=open?'▾':'▸';
+  };
+
+  section.appendChild(header);
+  section.appendChild(body);
+  return section;
+}
+
+// CHEF DU JOUR
+async function saveChefJour(dateStr,chauffeurNom){
+  try{
+    if(chauffeurNom){
+      await fetch(`${SB}/rest/v1/chef_equipe_jour`,{method:'POST',headers:{...H(),'Prefer':'resolution=merge-duplicates'},body:JSON.stringify({company_id:companyId,date:dateStr,chauffeur_nom:chauffeurNom})});
+      chefsJour[dateStr]=chauffeurNom;
+      toast(`👔 ${chauffeurNom} — Chef du jour`);
+    } else {
+      await fetch(`${SB}/rest/v1/chef_equipe_jour?company_id=eq.${companyId}&date=eq.${dateStr}`,{method:'DELETE',headers:H()});
+      delete chefsJour[dateStr];
+      toast('Chef du jour retiré');
+    }
+    renderDay(getWeekDates()[selectedDayIdx]);
+  }catch(e){ toast('❌ '+e.message,'error'); }
+}
+
+// VALIDATION
+// ── Migrés vers OT_SYNC (Supabase) ──
+function getValidationMap(){ return OT_SYNC.getValidationMap(); }
+
+async function validateTournee(tourneeId,chauffeurNom){
+  await OT_SYNC.validateTournee(tourneeId,chauffeurNom);
+  toast('✅ Tournée validée');
+  updateKPIs();
+  renderDay(getWeekDates()[selectedDayIdx]);
+}
+
+async function resetValidation(tourneeId){
+  const t=allTournees.find(x=>x.id===tourneeId);
+  await OT_SYNC.resetValidation(tourneeId,t?t.chauffeur_nom:'');
+  toast('↩ Validation réinitialisée');
+  updateKPIs();
+  renderDay(getWeekDates()[selectedDayIdx]);
+}
+
+let penalitesConfig=[];
+async function loadPenalites(){
+  penalitesConfig = await OT_SYNC.loadPenalitesConfig();
+}
+function defaultPen(){return [{id:'retard',label:'Retard',icon:'⏰',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}];}
+
+async function openPenModal(tourneeId,chauffeurNom,clientNom){
+  await loadPenalites();
+  penModal_tourneeId=tourneeId;
+  penModal_chauffeurNom=chauffeurNom;
+  penModal_selectedMotif=null;
+  document.getElementById('pen-sub').textContent=`${chauffeurNom} — ${clientNom}`;
+  const container=document.getElementById('pen-options');
+  container.innerHTML='';
+  penalitesConfig.forEach(p=>{
+    const div=document.createElement('div');
+    div.className='pen-opt';
+    div.innerHTML=`<div class="pen-opt-icon">${p.icon}</div><div class="pen-opt-label">${p.label}</div><div class="pen-opt-amount">${p.montant>0?'-'+p.montant+'€':'Libre'}</div>`;
+    div.onclick=()=>{
+      container.querySelectorAll('.pen-opt').forEach(x=>x.classList.remove('selected'));
+      div.classList.add('selected');
+      penModal_selectedMotif=p;
+      document.getElementById('pen-custom-block').style.display=p.montant===0?'block':'none';
+    };
+    container.appendChild(div);
+  });
+  document.getElementById('pen-custom-block').style.display='none';
+  document.getElementById('modal-pen').classList.add('show');
+}
+function closePenModal(){document.getElementById('modal-pen').classList.remove('show');penModal_tourneeId=null;penModal_selectedMotif=null;}
+async function confirmPenalty(){
+  if(!penModal_selectedMotif){toast('Sélectionnez un motif','error');return;}
+  let montant=penModal_selectedMotif.montant;
+  if(montant===0) montant=parseFloat(document.getElementById('pen-custom-amount').value)||0;
+  await OT_SYNC.penalizeTournee(penModal_tourneeId,penModal_chauffeurNom,penModal_selectedMotif.label,penModal_selectedMotif.id,montant);
+  toast(`⚠️ Pénalité ${penModal_selectedMotif.label} — -${montant}€`);
+  closePenModal();
+  updateKPIs();
+  renderDay(getWeekDates()[selectedDayIdx]);
+}
+
+// DEMANDES
+async function loadDemandesCount(){
+  try{
+    const r=await fetch(`${SB}/rest/v1/absences?company_id=eq.${companyId}&statut=eq.en_attente`,{headers:H()});
+    if(r.ok){
+      const data=await r.json();
+      const badge=document.getElementById('badge-dem');
+      if(data.length>0){badge.textContent=data.length;badge.style.display='inline-flex';}
+      else badge.style.display='none';
+    }
+  }catch(e){}
+}
+
+async function loadDemandes(){
+  document.getElementById('demandes-list').innerHTML='<div class="loading-wrap"><div class="spinner"></div></div>';
+  try{
+    const r=await fetch(`${SB}/rest/v1/absences?company_id=eq.${companyId}&statut=eq.en_attente&order=created_at.desc`,{headers:H()});
+    const data=r.ok?await r.json():[];
+    const el=document.getElementById('demandes-list');
+    const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',formation:'📚 Formation',autre:'📌 Autre',absence_injustifiee:'⚠️ Abs. NJ',jour_ferie:'🎉 Férié'};
+    if(!data.length){el.innerHTML='<div class="empty-day"><div class="empty-icon">✅</div><div style="font-size:13px">Aucune demande en attente</div></div>';return;}
+    el.innerHTML='';
+    data.forEach(d=>{
+      const div=document.createElement('div');
+      div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;';
+      div.innerHTML=`
+        <div style="font-weight:700;color:var(--white);font-size:13px">${d.chauffeur_nom}</div>
+        <div style="font-size:11px;color:var(--gray);margin:3px 0">${typeL[d.type]||d.type} · ${fmtDate(d.date_debut)} → ${fmtDate(d.date_fin)}</div>
+        ${d.note?`<div style="font-size:11px;color:var(--gray2);font-style:italic;margin-bottom:8px">"${d.note}"</div>`:'<div style="margin-bottom:8px"></div>'}
+        <div style="display:flex;gap:8px">
+          <button onclick="actionDemande('${d.id}','approuve')" style="flex:1;background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#2ECC71;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✅ Approuver</button>
+          <button onclick="actionDemande('${d.id}','refuse')" style="flex:1;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#FC8181;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">❌ Refuser</button>
+        </div>`;
+      el.appendChild(div);
+    });
+  }catch(e){document.getElementById('demandes-list').innerHTML=`<div style="color:#FC8181;padding:20px;text-align:center">❌ ${e.message}</div>`;}
+}
+
+async function actionDemande(id,statut){
+  await fetch(`${SB}/rest/v1/absences?id=eq.${id}`,{method:'PATCH',headers:H(),body:JSON.stringify({statut})});
+  toast(statut==='approuve'?'✅ Approuvée':'❌ Refusée');
+  loadDemandes();loadDemandesCount();
+}
+
+// VÉHICULES
+async function loadVehicules(){
+  document.getElementById('vehicules-list').innerHTML='<div class="loading-wrap"><div class="spinner"></div></div>';
+  try{
+    const r=await fetch(`${SB}/rest/v1/vehicules?company_id=eq.${companyId}&order=immatriculation`,{headers:H()});
+    const data=r.ok?await r.json():[];
+    const el=document.getElementById('vehicules-list');
+    if(!data.length){el.innerHTML='<div class="empty-day"><div class="empty-icon">🚐</div><div style="font-size:13px">Aucun véhicule</div></div>';return;}
+    el.innerHTML='';
+    const statColors={disponible:'#2ECC71',en_mission:'#F5A623',maintenance:'#FC8181',hors_service:'#4A5568'};
+    const statLabels={disponible:'✅ Disponible',en_mission:'🟠 En mission',maintenance:'🔧 Maintenance',hors_service:'⛔ Hors service'};
+    data.forEach(v=>{
+      const today=new Date();today.setHours(0,0,0,0);
+      const ctDays=v.date_ct?Math.round((new Date(v.date_ct)-today)/86400000):null;
+      const assurDays=v.date_assurance?Math.round((new Date(v.date_assurance)-today)/86400000):null;
+      const alertCT=ctDays!==null&&ctDays<=30?`<span style="font-size:10px;color:${ctDays<=0?'#FC8181':'#F5A623'}">⚠️ CT ${ctDays<=0?'expiré':'dans '+ctDays+'j'}</span>`:'';
+      const alertAssur=assurDays!==null&&assurDays<=30?`<span style="font-size:10px;color:${assurDays<=0?'#FC8181':'#F5A623'}">⚠️ Assur. ${assurDays<=0?'expirée':'dans '+assurDays+'j'}</span>`:'';
+      const div=document.createElement('div');
+      div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;';
+      div.innerHTML=`
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div style="font-weight:700;color:var(--white);font-size:14px">🚐 ${v.immatriculation}${v.typologie?' <span style="font-size:10px;color:#60A5FA;font-weight:600">['+v.typologie+']</span>':''}</div>
+          <span style="font-size:11px;font-weight:700;color:${statColors[v.statut]||'var(--gray)'}">${statLabels[v.statut]||v.statut}</span>
+        </div>
+        <div style="font-size:11px;color:var(--gray)">${v.marque||''} ${v.modele||''}</div>
+        ${alertCT||alertAssur?`<div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap">${alertCT}${alertAssur}</div>`:''}`;
+      el.appendChild(div);
+    });
+  }catch(e){document.getElementById('vehicules-list').innerHTML=`<div style="color:#FC8181;padding:20px;text-align:center">❌ ${e.message}</div>`;}
+}
+
+function fmtDate(d){if(!d)return '—';const[y,m,j]=d.split('-');return`${j}/${m}/${y}`;}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',3500);}
+</script>
+<script src="/ot_gps_persistent.js"></script>
+<script src="/pwa-register.js"></script>
+<script src="/ot_sync.js"></script>
+</body>
+</html>

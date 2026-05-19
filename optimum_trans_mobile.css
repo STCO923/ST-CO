@@ -1,0 +1,378 @@
+/* T SERVICE & CO — mobile.css v3.0 — Thumb-Friendly */
+
+/* ── Bouton déconnexion (global) ── */
+button[onclick*="logout"] {
+  background: rgba(231,76,60,0.12) !important;
+  border: 1px solid rgba(231,76,60,0.2) !important;
+  border-radius: 10px !important;
+  padding: 6px 9px !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  color: #FC8181 !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  width: auto !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* ════════════════════════════════════════
+   MOBILE — Breakpoint 768px
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── Layout de base ── */
+  :root { --sidebar-w: 0px !important; }
+  body { overflow-x: hidden !important; }
+  .sidebar { display: none !important; width: 0 !important; }
+  .main { margin-left: 0 !important; width: 100% !important; max-width: 100vw !important; }
+
+  /* ── Contenu — espace pour la nav en bas ── */
+  .content,
+  .main-content {
+    padding: 12px 14px !important;
+    padding-bottom: max(90px, calc(72px + env(safe-area-inset-bottom, 16px))) !important;
+  }
+
+  /* ── Topbar ── */
+  .topbar {
+    padding: 0 14px !important;
+    height: 52px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+  }
+  .topbar-title { font-size: 15px !important; letter-spacing: 1px !important; }
+  .topbar-date, .topbar-sub { font-size: 10px !important; }
+  .topbar .btn-ghost:not([data-mobile-show]) { display: none !important; }
+  .topbar-right { gap: 6px !important; }
+  .topbar-right .btn-accent,
+  .topbar-right .btn-sm {
+    font-size: 13px !important;
+    padding: 10px 14px !important;
+    min-height: 40px !important;
+  }
+
+  /* ── KPI grids ── */
+  .kpi-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .kpi { padding: 14px !important; }
+  .kpi-val { font-size: 24px !important; }
+  .kpi-label { font-size: 9px !important; }
+  .kpi-card { padding: 14px !important; }
+  .kpi-card .kpi-val { font-size: 24px !important; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+
+  /* ── Grilles layout ── */
+  .fg-2, .fg-3, .fg-4, .fg { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .two-col, .three-col { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .quick-actions { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .today-grid { grid-template-columns: 1fr !important; gap: 8px !important; }
+  .plan-cards { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+  /* ── Cards ── */
+  .card { margin-bottom: 12px !important; border-radius: 16px !important; }
+  .card-body { padding: 14px 16px !important; }
+  .card-header { padding: 14px 16px !important; }
+
+  /* ── Quick actions (dashboard) ── */
+  .qa { min-height: 72px !important; padding: 14px !important; border-radius: 14px !important; }
+  .today-item { padding: 12px !important; min-height: 56px !important; border-radius: 12px !important; }
+  .recent-item { padding: 12px 0 !important; min-height: 52px !important; }
+
+  /* ── Period bar ── */
+  .period-bar {
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    padding: 8px 10px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .period-label { font-size: 14px !important; }
+  .period-select {
+    font-size: 16px !important;
+    padding: 10px 12px !important;
+    min-height: 44px !important;
+    border-radius: 10px !important;
+  }
+
+  /* ── Filtres & recherche ── */
+  .filters-bar { flex-wrap: wrap !important; gap: 8px !important; }
+  .search-input {
+    width: 100% !important;
+    font-size: 16px !important;
+    min-height: 48px !important;
+    border-radius: 10px !important;
+  }
+  .filter-select {
+    width: 100% !important;
+    font-size: 16px !important;
+    min-height: 48px !important;
+    border-radius: 10px !important;
+  }
+
+  /* ── Tabs (scrollables horizontalement) ── */
+  .tabs, .inner-tabs, [class*="tab-bar"], .tabs-row {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    scrollbar-width: none !important;
+  }
+  .tabs::-webkit-scrollbar,
+  .inner-tabs::-webkit-scrollbar { display: none !important; }
+  .tab, .inner-tab, .tab-btn, .sa-tab {
+    font-size: 12px !important;
+    padding: 10px 14px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    min-height: 42px !important;
+  }
+  .com-tab {
+    font-size: 12px !important;
+    padding: 9px 14px !important;
+    white-space: nowrap !important;
+    min-height: 42px !important;
+    border-radius: 10px !important;
+  }
+
+  /* ── Tableaux ── */
+  .table-wrap {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  table { min-width: 480px !important; font-size: 12px !important; }
+  th { padding: 10px 12px !important; white-space: nowrap !important; font-size: 11px !important; }
+  td { padding: 12px 10px !important; white-space: nowrap !important; }
+
+  /* ── Formulaires — Thumb zone minimum 48px ── */
+  .ii, .is,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  input[type="tel"],
+  input[type="time"],
+  input[type="search"],
+  select {
+    min-height: 48px !important;
+    height: 48px !important;
+    font-size: 16px !important;  /* 16px = pas de zoom auto iOS */
+    padding: 0 14px !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+  }
+  textarea {
+    min-height: 88px !important;
+    font-size: 16px !important;
+    height: auto !important;
+    padding: 12px 14px !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+  }
+  .avance-input {
+    font-size: 15px !important;
+    min-height: 44px !important;
+  }
+
+  /* Labels */
+  .lbl { font-size: 11px !important; margin-bottom: 6px !important; display: block !important; }
+
+  /* ── Boutons — Thumb zone 48px ── */
+  .btn-sm,
+  .btn-accent,
+  .btn-ghost,
+  .btn-primary,
+  .btn-save,
+  .btn-fuel,
+  .btn-wa,
+  .btn-excel,
+  .btn-green,
+  .btn-cancel-f,
+  button[type="submit"],
+  button[type="button"] {
+    min-height: 48px !important;
+    padding: 10px 18px !important;
+    font-size: 14px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Boutons icône — cible 44×44px ── */
+  .action-btn, .icon-btn {
+    font-size: 18px !important;
+    padding: 0 !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* ── Modals → bottom-sheet ── */
+  .modal-overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+  .modal,
+  .modal-overlay .modal,
+  .modal-overlay > div:last-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 92vh !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 0 16px 32px !important;
+    margin: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  /* Drag handle */
+  .modal::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    margin: 14px auto 20px;
+    flex-shrink: 0;
+  }
+  .modal-title { font-size: 18px !important; }
+
+  /* ── Véhicules grid ── */
+  .v-grid { grid-template-columns: 1fr !important; }
+  .v-card { padding: 16px !important; border-radius: 16px !important; }
+
+  /* ── Carte de recherche (feuille route) ── */
+  .search-card { padding: 16px !important; border-radius: 16px !important; }
+  .search-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+  .field-input {
+    width: 100% !important;
+    font-size: 16px !important;
+    min-height: 48px !important;
+    border-radius: 10px !important;
+  }
+  .field-group { width: 100% !important; }
+
+  /* ── Toasts ── */
+  .toast, [id*="toast"] {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 82px !important;
+    font-size: 13px !important;
+    padding: 12px 16px !important;
+    border-radius: 14px !important;
+  }
+
+  /* ── Cookie banner ── */
+  #ot-cookie-banner, #cookie-banner {
+    padding: 14px 16px !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    bottom: 74px !important;
+  }
+  .cookie-actions { flex-wrap: wrap !important; width: 100% !important; gap: 8px !important; }
+  .btn-cookie-accept, .btn-cookie-refuse {
+    flex: 1 !important;
+    text-align: center !important;
+    min-height: 48px !important;
+    border-radius: 12px !important;
+  }
+
+  /* ── Inline forms (véhicules) ── */
+  .inline-form { padding: 16px !important; border-radius: 16px !important; }
+  .inline-form .form-grid { gap: 12px !important; }
+
+  /* ── Planning ── */
+  .planning-wrap {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .planning-table { min-width: 600px !important; font-size: 11px !important; }
+  .add-slot {
+    min-height: 44px !important;
+    font-size: 13px !important;
+    border-radius: 8px !important;
+  }
+  .btn-val-ok, .btn-val-pen {
+    min-height: 40px !important;
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+  }
+  .week-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    border-radius: 10px !important;
+  }
+  .slot-inner { padding: 8px !important; }
+  .ch-wa-week {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    border-radius: 10px !important;
+  }
+
+  /* ── Saisie — constructeur de route ── */
+  .form-card { position: static !important; width: 100% !important; }
+  .point-block {
+    padding: 14px !important;
+    margin-bottom: 10px !important;
+    border-radius: 14px !important;
+  }
+  .point-del {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+  }
+  .btn-add-pt {
+    min-height: 52px !important;
+    font-size: 15px !important;
+    border-radius: 14px !important;
+  }
+  .preset-tag {
+    min-height: 40px !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+    border-radius: 20px !important;
+  }
+  .pf, .pf-2 { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .btn-submit { min-height: 52px !important; font-size: 15px !important; }
+
+  /* ── Chauffeurs / salaires ── */
+  .pen-item { padding: 10px !important; border-radius: 10px !important; }
+
+  /* ── Badges ── */
+  .badge {
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+  }
+
+  /* ── Safe area ── */
+  .main,
+  .content,
+  .main-content {
+    padding-bottom: max(90px, calc(72px + env(safe-area-inset-bottom, 16px))) !important;
+  }
+}
+
+/* ════════════════════════════════════════
+   Legacy mobile-navbar — masqué (remplacé par ot_mobile_nav.js)
+════════════════════════════════════════ */
+.mobile-navbar { display: none !important; }
+.mob-more-menu { display: none !important; }
+.mob-overlay   { display: none !important; }
