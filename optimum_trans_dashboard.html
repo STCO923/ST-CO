@@ -409,16 +409,17 @@ const OT = (() => {
 
     // 2. Modules conditionnels
     var rules = [
-      { href: 'optimum_trans_feuille_route.html', feature: 'feuille_route' },
-      { href: 'optimum_trans_vehicules.html',     feature: 'vehicules' },
-      { href: 'optimum_trans_chauffeurs.html',    feature: 'chauffeurs' },
-      { href: 'optimum_trans_gazole.html',        feature: 'gazole' },
-      { href: 'optimum_trans_saisie.html',        feature: 'saisie' },
-      { href: 'monmarche.html',                   feature: 'monmarche' },
-      { href: 'optimum_trans_dispatch.html',             feature: 'dispatch' },
-      { href: 'optimum_trans_suivi_chauffeurs.html',     feature: 'tracking' },
-      { href: 'optimum_trans_gps_chauffeur.html',        feature: 'tracking' },
-      { href: 'optimum_trans_etat_vehicule.html',    feature: 'etat_vehicule' },
+      { href: 'optimum_trans_feuille_route.html',   feature: 'feuille_route'  },
+      { href: 'optimum_trans_vehicules.html',        feature: 'vehicules'      },
+      { href: 'optimum_trans_chauffeurs.html',       feature: 'chauffeurs'     },
+      { href: 'optimum_trans_gazole.html',           feature: 'gazole'         },
+      { href: 'optimum_trans_saisie.html',           feature: 'saisie'         },
+      { href: 'monmarche.html',                      feature: 'monmarche'      },
+      { href: 'optimum_trans_dispatch.html',         feature: 'dispatch'       },
+      { href: 'optimum_trans_suivi_chauffeurs.html', feature: 'tracking'       },
+      { href: 'optimum_trans_gps_chauffeur.html',    feature: 'tracking'       },
+      { href: 'optimum_trans_etat_vehicule.html',    feature: 'etat_vehicule'  },
+      { href: 'optimum_trans_decompte_st.html',      feature: 'decompte_st'    },
     ];
 
     rules.forEach(function(rule) {
@@ -635,16 +636,17 @@ const OT = (() => {
 
   // API publique
   return {
-    getSession:          getSession,
-    authHeaders:         authHeaders,
-    anonHeaders:         anonHeaders,
-    can:                 can,
-    logout:              logout,
-    requireLogin:        requireLogin,
-    requireAddon:        requireAddon,
-    companyFilter:       companyFilter,
-    getCompanyId:        getCompanyId,
-    refreshSession:      refreshSession,
+    getSession:            getSession,
+    authHeaders:           authHeaders,
+    anonHeaders:           anonHeaders,
+    can:                   can,
+    logout:                logout,
+    requireLogin:          requireLogin,
+    requireAddon:          requireAddon,
+    companyFilter:         companyFilter,
+    getCompanyId:          getCompanyId,
+    refreshSession:        refreshSession,
+    applyPlanRestrictions: applyPlanRestrictions,
   };
 
 })();
@@ -954,6 +956,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   loadAll();
+  OT.applyPlanRestrictions();
   (window.OT_VIS && OT_VIS.setManagedInterval)
     ? OT_VIS.setManagedInterval(loadAll,120000)
     : setInterval(loadAll,120000);
