@@ -473,7 +473,8 @@ const OT = (() => {
       planEl.style.color = colors[s.plan] || 'var(--gray)';
     }
 
-    // 5. Banniere "compte suspendu" if (s.status === 'suspended') {
+    // 5. Banniere "compte suspendu"
+    if (s.status === 'suspended') {
       _showSuspendedBanner();
     }
   }
