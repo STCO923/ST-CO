@@ -279,6 +279,7 @@ const OT = (() => {
   };
   function can(feature){
     const s=getSession();if(!s)return false;if(s.id==='demo'){if(feature==='saisie'||feature==='feuille_route'||feature==='monmarche')return false;return true;}
+    if(s.role==='superadmin')return true;
     if(feature==='feuille_route')return s.addon_route===true;
     // ── FIX : addon_saisie override ──
     if(feature==='saisie')return s.addon_saisie===true;
