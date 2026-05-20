@@ -286,39 +286,38 @@ textarea.inp{resize:vertical;min-height:70px;}
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-      <div class="logo-tag">Gestion Transport</div>
-      <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+      <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Principal</div>
-      <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+      <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
       <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine</a>
       <a class="nav-item" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
-      <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+      <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
       <div class="nav-section-label">Gestion</div>
       <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
       <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats</a>
-      <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-      <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients &amp; Facturation</a>
+      <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"></span> Suivi Gazole</a>
+      <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients &amp; Facturation</a>
       <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
       <a class="nav-item active" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
     <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
-      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
       <div class="nav-section-label">Communication</div>
-    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-      <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+      <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"></span> Mon GPS (Chauffeur)</a>
       <div class="nav-section-label">Paramètres</div>
-      <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+      <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"></span> Paramètres</a>
     </nav>
     <div class="sidebar-footer">
       <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
         <div class="user-avatar" id="user-av">T.S</div>
-        <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)" id="user-name">Mon compte</div><div style="font-size:10px;color:var(--gray)" id="user-role"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+        <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)" id="user-name">Mon compte</div><div style="font-size:10px;color:var(--gray)" id="user-role"> Paramètres</div></div>
         <button onclick="event.stopPropagation();OT.logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
       </div>
     </div>
@@ -328,7 +327,7 @@ textarea.inp{resize:vertical;min-height:70px;}
 
   <main class="main">
     <div id="demo-banner" class="demo-banner" style="display:none">
-      🔒 Mode démo — données simulées
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Mode démo — données simulées
       <button onclick="OT.logout()">Quitter</button>
     </div>
 
@@ -348,9 +347,9 @@ textarea.inp{resize:vertical;min-height:70px;}
 
   <!-- TABS -->
   <div class="tabs">
-    <div class="tab active" id="tab-btn-recherche" onclick="switchTab('recherche',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Recherche conducteur</div>
-    <div class="tab" id="tab-btn-amendes" onclick="switchTab('amendes',this)">📋 Suivi amendes</div>
-    <div class="tab" id="tab-btn-stats" onclick="switchTab('stats',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Statistiques</div>
+    <div class="tab active" id="tab-btn-recherche" onclick="switchTab('recherche',this)"> Recherche conducteur</div>
+    <div class="tab" id="tab-btn-amendes" onclick="switchTab('amendes',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Suivi amendes</div>
+    <div class="tab" id="tab-btn-stats" onclick="switchTab('stats',this)"> Statistiques</div>
   </div>
 
   <!-- TAB: RECHERCHE -->
@@ -388,11 +387,11 @@ textarea.inp{resize:vertical;min-height:70px;}
 
     <!-- SEARCH CARD -->
     <div class="search-card">
-      <div class="search-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> QUI CONDUISAIT CE VÉHICULE ?</div>
+      <div class="search-title"> QUI CONDUISAIT CE VÉHICULE ?</div>
       <div class="search-sub">Saisissez la date et l'immatriculation pour identifier le chauffeur au volant — même si le véhicule a changé de chauffeur dans la journée (AM / PM)</div>
       <div class="search-row">
         <div class="field-group">
-          <label class="field-label"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Date de l'infraction</label>
+          <label class="field-label"> Date de l'infraction</label>
           <input type="date" class="field-input" id="s-date">
         </div>
         <div class="field-group">
@@ -400,17 +399,17 @@ textarea.inp{resize:vertical;min-height:70px;}
           <input type="text" class="field-input" id="s-immat" placeholder="Ex: AB-123-CD" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')searchDriver()">
         </div>
         <div class="field-group">
-          <label class="field-label"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Heure (optionnel)</label>
+          <label class="field-label"> Heure (optionnel)</label>
           <input type="time" class="field-input" id="s-heure" style="width:130px">
         </div>
-        <button class="btn-search" id="btn-search" onclick="searchDriver()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher</button>
+        <button class="btn-search" id="btn-search" onclick="searchDriver()"> Rechercher</button>
       </div>
       <div id="search-result"></div>
     </div>
 
     <!-- INFO -->
     <div style="background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:10px;padding:14px 18px;font-size:12px;color:var(--light);line-height:1.6">
-      💡 <strong>Comment ça marche :</strong> Le système croise les <strong>affectations véhicule</strong> (planning) avec les <strong>tournées</strong> du jour pour identifier qui conduisait l'immatriculation à la date donnée. Si l'heure est précisée, le slot AM ou PM est déduit automatiquement pour les cas de double affectation.
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> <strong>Comment ça marche :</strong> Le système croise les <strong>affectations véhicule</strong> (planning) avec les <strong>tournées</strong> du jour pour identifier qui conduisait l'immatriculation à la date donnée. Si l'heure est précisée, le slot AM ou PM est déduit automatiquement pour les cas de double affectation.
     </div>
   </div>
 
@@ -423,16 +422,16 @@ textarea.inp{resize:vertical;min-height:70px;}
           <div class="table-sub" id="amendes-count">Chargement...</div>
         </div>
         <div class="table-actions">
-          <button class="btn-ghost" onclick="exportCSV()">⬇️ Export CSV</button>
+          <button class="btn-ghost" onclick="exportCSV()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg> Export CSV</button>
           <button class="btn-primary" onclick="openAddModal()">+ Ajouter</button>
         </div>
       </div>
       <div class="filters-bar">
-        <input type="text" class="search-input" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher..." oninput="filterAmendes(this.value)" id="filter-search">
+        <input type="text" class="search-input" placeholder=" Rechercher..." oninput="filterAmendes(this.value)" id="filter-search">
         <select class="filter-select" id="filter-statut" onchange="filterAmendes(document.getElementById('filter-search').value)">
           <option value="">Tous les statuts</option>
           <option value="en_attente">⏳ En attente</option>
-          <option value="payee"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Payée</option>
+          <option value="payee"> Payée</option>
           <option value="contestee">⚖️ Contestée</option>
           <option value="classee">📁 Classée</option>
         </select>
@@ -478,11 +477,11 @@ textarea.inp{resize:vertical;min-height:70px;}
     </div>
     <div class="chart-row">
       <div class="chart-card">
-        <div class="chart-title">📋 MOTIFS LES PLUS FRÉQUENTS</div>
+        <div class="chart-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> MOTIFS LES PLUS FRÉQUENTS</div>
         <div id="chart-motifs"><div style="text-align:center;padding:30px;color:var(--gray);font-size:12px">Aucune donnée</div></div>
       </div>
       <div class="chart-card">
-        <div class="chart-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> AMENDES PAR MOIS</div>
+        <div class="chart-title"> AMENDES PAR MOIS</div>
         <div id="chart-mois"><div style="text-align:center;padding:30px;color:var(--gray);font-size:12px">Aucune donnée</div></div>
       </div>
     </div>
@@ -498,15 +497,15 @@ textarea.inp{resize:vertical;min-height:70px;}
 
 <div class="modal-overlay" id="modal-add" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="modal-title" id="modal-title">➕ NOUVELLE AMENDE</div>
+    <div class="modal-title" id="modal-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> NOUVELLE AMENDE</div>
     <div class="modal-sub" id="modal-sub">Renseignez les informations de l'infraction</div>
     <div class="fg fg-2">
       <div>
-        <label class="lbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Date infraction</label>
+        <label class="lbl"> Date infraction</label>
         <input type="date" class="inp" id="m-date">
       </div>
       <div>
-        <label class="lbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Heure (optionnel)</label>
+        <label class="lbl"> Heure (optionnel)</label>
         <input type="time" class="inp" id="m-heure">
       </div>
     </div>
@@ -524,7 +523,7 @@ textarea.inp{resize:vertical;min-height:70px;}
     </div>
     <div class="fg fg-2">
       <div>
-        <label class="lbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Client / Tournée</label>
+        <label class="lbl"> Client / Tournée</label>
         <input type="text" class="inp" id="m-client" placeholder="Ex: CARREFOUR">
       </div>
       <div>
@@ -534,7 +533,7 @@ textarea.inp{resize:vertical;min-height:70px;}
     </div>
     <div class="fg fg-2">
       <div>
-        <label class="lbl">📋 Motif</label>
+        <label class="lbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Motif</label>
         <select class="inp" id="m-motif">
           <option value="">— Sélectionner —</option>
           <option value="Excès de vitesse">🚨 Excès de vitesse</option>
@@ -549,17 +548,17 @@ textarea.inp{resize:vertical;min-height:70px;}
         </select>
       </div>
       <div>
-        <label class="lbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Statut</label>
+        <label class="lbl"> Statut</label>
         <select class="inp" id="m-statut">
           <option value="en_attente">⏳ En attente</option>
-          <option value="payee"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Payée</option>
+          <option value="payee"> Payée</option>
           <option value="contestee">⚖️ Contestée</option>
           <option value="classee">📁 Classée</option>
         </select>
       </div>
     </div>
     <div class="fg">
-      <label class="lbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Lieu de l'infraction</label>
+      <label class="lbl"> Lieu de l'infraction</label>
       <input type="text" class="inp" id="m-lieu" placeholder="Ex: A86 sortie 12 Créteil">
     </div>
     <div class="fg">
@@ -579,11 +578,11 @@ textarea.inp{resize:vertical;min-height:70px;}
 
 <nav class="mobile-nav">
   <div class="mobile-nav-items">
-    <a href="optimum_trans_dashboard.html" class="mobile-nav-item"><span class="mobile-nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Dashboard</a>
-    <a href="optimum_trans_planning.html" class="mobile-nav-item"><span class="mobile-nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Planning</a>
+    <a href="optimum_trans_dashboard.html" class="mobile-nav-item"><span class="mobile-nav-icon"></span>Dashboard</a>
+    <a href="optimum_trans_planning.html" class="mobile-nav-item"><span class="mobile-nav-icon"></span>Planning</a>
     <a href="optimum_trans_amendes.html" class="mobile-nav-item active"><span class="mobile-nav-icon">🚔</span>Amendes</a>
     <a href="optimum_trans_chauffeurs.html" class="mobile-nav-item"><span class="mobile-nav-icon">👷</span>Chauffeurs</a>
-    <a href="optimum_trans_parametres.html" class="mobile-nav-item"><span class="mobile-nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>Config</a>
+    <a href="optimum_trans_parametres.html" class="mobile-nav-item"><span class="mobile-nav-icon"></span>Config</a>
   </div>
 </nav>
 
@@ -627,7 +626,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
   await loadAmendes();
   updateKPIs();
   renderCharts();
-  document.getElementById('sync-info').textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${allAmendes.length} amende${allAmendes.length>1?'s':''}`;
+  document.getElementById('sync-info').textContent=` ${allAmendes.length} amende${allAmendes.length>1?'s':''}`;
 });
 
 // ─── ENSURE TABLE ─────────────────────────────────────────────
@@ -726,10 +725,10 @@ async function searchDriver(){
     renderSearchResult(date,immat,matchedVeh,results,heure);
 
   }catch(e){
-    document.getElementById('search-result').innerHTML=`<div class="result-empty"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur: ${e.message}</div>`;
+    document.getElementById('search-result').innerHTML=`<div class="result-empty"> Erreur: ${e.message}</div>`;
   }finally{
     btn.disabled=false;
-    btn.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher';
+    btn.textContent=' Rechercher';
   }
 }
 
@@ -749,7 +748,7 @@ async function searchByFreeText(date,immat,heure){
       renderSearchResult(date,immat,null,Object.values(grouped),heure);
     }
   }catch(e){
-    document.getElementById('search-result').innerHTML=`<div class="result-empty"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;
+    document.getElementById('search-result').innerHTML=`<div class="result-empty"> ${e.message}</div>`;
   }
 }
 
@@ -761,7 +760,7 @@ function renderSearchResult(date,immat,vehicule,results,heure){
     <div class="result-header">
       <div>
         <div class="result-immat">🚐 ${immat}</div>
-        <div class="result-date"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${dateF}${vehicule?` · ${vehicule.marque||''} ${vehicule.modele||''}`.trim():''}</div>
+        <div class="result-date"> ${dateF}${vehicule?` · ${vehicule.marque||''} ${vehicule.modele||''}`.trim():''}</div>
       </div>`;
 
   // Bouton créer amende pré-rempli
@@ -771,7 +770,7 @@ function renderSearchResult(date,immat,vehicule,results,heure){
   html+=`<div class="result-slots">`;
 
   if(!results.length){
-    html+=`<div class="no-affectation"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Aucune affectation trouvée pour ce véhicule à cette date. Le véhicule n'était peut-être pas planifié ce jour-là, ou l'affectation n'a pas été saisie dans le planning.</div>`;
+    html+=`<div class="no-affectation"> Aucune affectation trouvée pour ce véhicule à cette date. Le véhicule n'était peut-être pas planifié ce jour-là, ou l'affectation n'a pas été saisie dans le planning.</div>`;
   }else{
     results.forEach(r=>{
       const tours=r.tours||[];
@@ -802,7 +801,7 @@ function renderSearchResult(date,immat,vehicule,results,heure){
             <span class="slot-badge ${cls}">${t.slot}</span>
             <div class="slot-info">
               <div class="slot-chauffeur">👷 ${r.chauffeur_nom}</div>
-              <div class="slot-client"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> ${t.client_nom||'—'}${t.heure?' · 🕐 '+t.heure:''}</div>
+              <div class="slot-client"> ${t.client_nom||'—'}${t.heure?' · 🕐 '+t.heure:''}</div>
               ${r.vehicule?.marque?`<div class="slot-veh">🚐 ${r.vehicule.marque} ${r.vehicule.modele||''}</div>`:''}
             </div>
             ${renderActionBtn(date,immat,r.chauffeur_nom,t.client_nom,heure)}
@@ -818,7 +817,7 @@ function renderSearchResult(date,immat,vehicule,results,heure){
               <span class="slot-badge ${cls}">${t.slot}</span>
               <div class="slot-info">
                 <div class="slot-chauffeur">👷 ${r.chauffeur_nom} <span style="font-size:10px;color:var(--gray)">(autre créneau)</span></div>
-                <div class="slot-client"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> ${t.client_nom||'—'}${t.heure?' · 🕐 '+t.heure:''}</div>
+                <div class="slot-client"> ${t.client_nom||'—'}${t.heure?' · 🕐 '+t.heure:''}</div>
               </div>
             </div>`;
           });
@@ -930,17 +929,17 @@ async function saveAmende(){
     }
     if(!r.ok) throw new Error(await r.text());
     closeModal();
-    toast(editingId?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Amende modifiée':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Amende enregistrée');
+    toast(editingId?' Amende modifiée':' Amende enregistrée');
     await loadAmendes();
     updateKPIs();
     renderCharts();
-    document.getElementById('sync-info').textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${allAmendes.length} amende${allAmendes.length>1?'s':''}`;
+    document.getElementById('sync-info').textContent=` ${allAmendes.length} amende${allAmendes.length>1?'s':''}`;
   }catch(e){
     // Table n'existe peut-être pas encore
     if(e.message.includes('relation')||e.message.includes('does not exist')||e.message.includes('42P01')){
-      toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> La table amendes n\'existe pas encore — appliquez la migration SQL','error');
+      toast(' La table amendes n\'existe pas encore — appliquez la migration SQL','error');
     }else{
-      toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
+      toast(' '+e.message,'error');
     }
   }finally{
     btn.disabled=false;btn.textContent='💾 Enregistrer';
@@ -956,7 +955,7 @@ async function deleteAmende(id){
     await loadAmendes();
     updateKPIs();
     renderCharts();
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+  }catch(e){toast(' '+e.message,'error');}
 }
 
 // ─── RENDER TABLE ─────────────────────────────────────────────
@@ -972,7 +971,7 @@ function renderAmendes(list){
 
   const statutMap={
     en_attente:{label:'⏳ En attente',cls:'badge-orange'},
-    payee:{label:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Payée',cls:'badge-green'},
+    payee:{label:' Payée',cls:'badge-green'},
     contestee:{label:'⚖️ Contestée',cls:'badge-blue'},
     classee:{label:'📁 Classée',cls:'badge'},
   };
@@ -984,8 +983,7 @@ function renderAmendes(list){
     const s=statutMap[a.statut]||{label:a.statut,cls:'badge'};
     const dateF=a.date_infraction?new Date(a.date_infraction+'T12:00:00').toLocaleDateString('fr-FR'):'—';
     const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td style="color:var(--gray);font-size:11px">${i+1}</td>
+    tr.innerHTML=` <td style="color:var(--gray);font-size:11px">${i+1}</td>
       <td><span style="font-weight:600;color:var(--white)">${dateF}</span>${a.heure_infraction?`<span style="font-size:10px;color:var(--gray);display:block">${a.heure_infraction}</span>`:''}</td>
       <td><span style="font-family:'Bebas Neue';font-size:14px;letter-spacing:1px;color:var(--accent)">${a.immatriculation||'—'}</span></td>
       <td style="font-weight:600;color:var(--white)">${a.chauffeur_nom||'<span style="color:var(--gray)">—</span>'}</td>
@@ -994,7 +992,7 @@ function renderAmendes(list){
       <td class="r" style="font-weight:700;color:${a.montant>0?'#D88888':'var(--gray)'}">${a.montant>0?a.montant.toLocaleString('fr-FR',{minimumFractionDigits:2})+'€':'—'}</td>
       <td><span class="badge ${s.cls}" style="font-size:10px">${s.label}</span></td>
       <td class="r" style="white-space:nowrap">
-        <button class="icon-btn" onclick="openEditModal(${JSON.stringify(a).replace(/"/g,'&quot;')})">✏️</button>
+        <button class="icon-btn" onclick="openEditModal(${JSON.stringify(a).replace(/"/g,'&quot;')})"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
         <button class="icon-btn" onclick="deleteAmende('${a.id}')">🗑</button>
       </td>`;
     tbody.appendChild(tr);
@@ -1067,8 +1065,7 @@ function renderBarChart(containerId,entries,color){
   const el=document.getElementById(containerId);
   if(!entries.length){el.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray);font-size:12px">Aucune donnée</div>';return;}
   const max=entries[0][1];
-  el.innerHTML=entries.map(([name,val])=>`
-    <div class="bar-row">
+  el.innerHTML=entries.map(([name,val])=>` <div class="bar-row">
       <div class="bar-name" title="${name}">${name||'—'}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${Math.round(val/max*100)}%;background:${color}"></div></div>
       <div class="bar-val">${val}</div>
@@ -1104,8 +1101,7 @@ function exportCSV(){
   const rows=allAmendes.map(a=>[
     a.date_infraction||'',a.heure_infraction||'',a.immatriculation||'',
     a.chauffeur_nom||'',a.client_nom||'',a.motif||'',
-    a.montant||0,a.statut||'',a.lieu||'',a.notes||''
-  ].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
+    a.montant||0,a.statut||'',a.lieu||'',a.notes||'' ].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
   const csv=[headers.join(','),...rows].join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
   const url=URL.createObjectURL(blob);

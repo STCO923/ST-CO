@@ -311,15 +311,15 @@ document.getElementById('f-email').addEventListener('keydown',e=>{ if(e.key==='E
       <div class="modal-title">🔐 MOT DE PASSE OUBLIÉ</div>
       <div class="modal-sub">Saisissez votre adresse email. Vous recevrez un lien pour réinitialiser votre mot de passe.</div>
       <input type="email" class="modal-input" id="forgot-email" placeholder="votre@email.com" autocomplete="email" style="margin-bottom:12px">
-      <div style="font-size:11px;color:var(--gray);margin-bottom:14px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;line-height:1.6;">📧 Lien sécurisé valable <strong style="color:var(--white)">30 minutes</strong>. Vérifiez vos <strong style="color:var(--white)">spams</strong>.</div>
-      <button class="btn-reset" type="button" onclick="sendResetEmail()">📧 Envoyer le lien</button>
+      <div style="font-size:11px;color:var(--gray);margin-bottom:14px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;line-height:1.6;"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Lien sécurisé valable <strong style="color:var(--white)">30 minutes</strong>. Vérifiez vos <strong style="color:var(--white)">spams</strong>.</div>
+      <button class="btn-reset" type="button" onclick="sendResetEmail()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Envoyer le lien</button>
       <span class="modal-cancel" onclick="closeForgot()">Annuler</span>
     </div>
     <div class="reset-success" id="forgot-success">
       <div class="rs-icon">📬</div>
       <div class="rs-title">EMAIL ENVOYÉ !</div>
       <div class="rs-sub">Lien envoyé à <strong id="sent-to" style="color:var(--white)"></strong>. Expire dans <strong style="color:var(--accent)">30 minutes</strong>.</div>
-      <button class="btn-reset" style="margin-top:20px" onclick="closeForgot()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Retour</button>
+      <button class="btn-reset" style="margin-top:20px" onclick="closeForgot()"> Retour</button>
     </div>
   </div>
 </div>
@@ -333,7 +333,7 @@ document.getElementById('f-email').addEventListener('keydown',e=>{ if(e.key==='E
     <div id="chgpwd-error" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:8px 12px;font-size:12px;color:#D88888;margin-bottom:12px"></div>
     <label class="field-lbl" style="margin-top:0">Nouveau mot de passe</label>
     <div class="input-wrap" style="margin-bottom:4px">
-      <span class="inp-icon">🔒</span>
+      <span class="inp-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
       <input type="password" class="modal-input" id="chgpwd-new" placeholder="Min. 12 caractères" autocomplete="new-password" minlength="12" maxlength="128" style="padding-left:42px" oninput="updatePwdStrength(this.value)">
       <button class="inp-toggle" onclick="toggleChgPwd('chgpwd-new','chgpwd-eye1')" type="button" id="chgpwd-eye1">👁️</button>
     </div>
@@ -341,11 +341,11 @@ document.getElementById('f-email').addEventListener('keydown',e=>{ if(e.key==='E
     <div class="pwd-hint" id="pwd-hint"></div>
     <label class="field-lbl">Confirmer le mot de passe</label>
     <div class="input-wrap" style="margin-bottom:16px">
-      <span class="inp-icon">🔒</span>
+      <span class="inp-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
       <input type="password" class="modal-input" id="chgpwd-confirm" placeholder="Répétez le mot de passe" autocomplete="new-password" minlength="12" maxlength="128" style="padding-left:42px">
       <button class="inp-toggle" onclick="toggleChgPwd('chgpwd-confirm','chgpwd-eye2')" type="button" id="chgpwd-eye2">👁️</button>
     </div>
-    <div style="font-size:11px;color:var(--gray);margin-bottom:16px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;line-height:1.6;">🔒 Minimum <strong style="color:var(--white)">12 caractères</strong>, dont au moins <strong style="color:var(--white)">1 majuscule</strong>, <strong style="color:var(--white)">1 chiffre</strong> et <strong style="color:var(--white)">1 symbole</strong>.</div>
+    <div style="font-size:11px;color:var(--gray);margin-bottom:16px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;line-height:1.6;"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Minimum <strong style="color:var(--white)">12 caractères</strong>, dont au moins <strong style="color:var(--white)">1 majuscule</strong>, <strong style="color:var(--white)">1 chiffre</strong> et <strong style="color:var(--white)">1 symbole</strong>.</div>
     <button class="btn-reset" id="btn-chgpwd" type="button" onclick="submitNewPassword()">🔐 Enregistrer le mot de passe</button>
   </div>
 </div>
@@ -390,10 +390,10 @@ document.getElementById('f-email').addEventListener('keydown',e=>{ if(e.key==='E
 
     <!-- Succès -->
     <div id="contact-success" style="display:none;text-align:center;padding:10px">
-      <div style="font-size:48px;margin-bottom:14px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>
+      <div style="font-size:48px;margin-bottom:14px"></div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;margin-bottom:8px">MESSAGE ENVOYÉ !</div>
       <div style="font-size:13px;color:var(--gray);line-height:1.8;margin-bottom:20px">Merci pour votre intérêt !<br>Nous vous répondrons sous <strong style="color:var(--white)">24h</strong>.</div>
-      <button class="btn-reset" onclick="closeContact()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Fermer</button>
+      <button class="btn-reset" onclick="closeContact()"> Fermer</button>
     </div>
 
   </div>
@@ -402,7 +402,7 @@ document.getElementById('f-email').addEventListener('keydown',e=>{ if(e.key==='E
 <!-- ══ MODAL CHANGEMENT MOT DE PASSE ══ -->
 
 <div class="success-overlay" id="success-overlay">
-  <div class="s-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>
+  <div class="s-icon"></div>
   <div class="s-title">CONNEXION RÉUSSIE</div>
   <div class="s-sub" id="s-sub-txt">Chargement de votre espace...</div>
   <div class="progress-bar"><div class="progress-fill"></div></div>
@@ -474,7 +474,7 @@ async function handleLogin(){
   const btn=document.getElementById('btn-login');
   const errBox=document.getElementById('error-box');errBox.classList.remove('show');
   ['f-email','f-pwd'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('err');});
-  if(!email||!pwd){showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir votre email et votre mot de passe.');return;}
+  if(!email||!pwd){showError(' Veuillez saisir votre email et votre mot de passe.');return;}
   btn.classList.add('loading');btn.disabled=true;
   try{
     const r=await fetch(SB+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},body:JSON.stringify({email,password:pwd})});
@@ -544,9 +544,9 @@ async function handleLogin(){
     if(msg.toLowerCase().includes('rate')||msg.toLowerCase().includes('too many')){
       showError('⏳ Trop de tentatives. Réessayez dans quelques minutes.');
     }else{
-      showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Email ou mot de passe incorrect.');
+      showError(' Email ou mot de passe incorrect.');
     }
-  }catch(err){showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur réseau. Vérifiez votre connexion.');}
+  }catch(err){showError(' Erreur réseau. Vérifiez votre connexion.');}
 }
 
 // ── Démo ──
@@ -619,7 +619,7 @@ async function sendContact(){
       try{sessionStorage.setItem('ot_contact_rl',JSON.stringify({ts:_sessTs}));}catch(_){}
     }
   }catch(_){}
-  if(_rateLimited){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Vous avez atteint la limite d\'envoi. Réessayez dans 1 heure.';errEl.style.display='block';return;}
+  if(_rateLimited){errEl.textContent=' Vous avez atteint la limite d\'envoi. Réessayez dans 1 heure.';errEl.style.display='block';return;}
   // ───────────────────────────────────────────────────────────────
 
   // ── Validation + nettoyage anti-injection (CRLF / contrôle) ────
@@ -634,9 +634,9 @@ async function sendContact(){
   var telClean    = _stripCtl(tel).slice(0,25);
   var messageClean= _stripCtl(message);
 
-  if(!nomClean){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir votre nom.';errEl.style.display='block';return;}
-  if(!emailClean||!_emailRe.test(emailClean)){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir un email valide.';errEl.style.display='block';return;}
-  if(messageClean.length<10){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir un message (10 caractères minimum).';errEl.style.display='block';return;}
+  if(!nomClean){errEl.textContent=' Veuillez saisir votre nom.';errEl.style.display='block';return;}
+  if(!emailClean||!_emailRe.test(emailClean)){errEl.textContent=' Veuillez saisir un email valide.';errEl.style.display='block';return;}
+  if(messageClean.length<10){errEl.textContent=' Veuillez saisir un message (10 caractères minimum).';errEl.style.display='block';return;}
 
   const btn=document.getElementById('btn-send');
   btn.disabled=true;btn.textContent='⏳ Envoi en cours...';
@@ -682,7 +682,7 @@ async function sendContact(){
 
   }catch(err){
     // Pas de console.error pour éviter de fuiter les détails techniques en prod.
-    errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de l\'envoi. Réessayez dans quelques instants.';
+    errEl.textContent=' Erreur lors de l\'envoi. Réessayez dans quelques instants.';
     errEl.style.display='block';
     btn.disabled=false;
     btn.textContent='📩 Envoyer le message';
@@ -701,12 +701,12 @@ async function submitNewPassword(){
   const errEl=document.getElementById('chgpwd-error');
   errEl.style.display='none';
   // ── Politique de mot de passe : 12 chars, 1 majuscule, 1 chiffre, 1 symbole ──
-  if(!newPwd||newPwd.length<12){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Le mot de passe doit contenir au moins 12 caractères.';errEl.style.display='block';return;}
-  if(newPwd.length>128){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Mot de passe trop long (max 128 caractères).';errEl.style.display='block';return;}
-  if(!/[A-Z]/.test(newPwd)){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ajoutez au moins une majuscule.';errEl.style.display='block';return;}
-  if(!/[0-9]/.test(newPwd)){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ajoutez au moins un chiffre.';errEl.style.display='block';return;}
-  if(!/[^A-Za-z0-9]/.test(newPwd)){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ajoutez au moins un symbole (!@#$ ...).';errEl.style.display='block';return;}
-  if(newPwd!==confirmPwd){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Les mots de passe ne correspondent pas.';errEl.style.display='block';return;}
+  if(!newPwd||newPwd.length<12){errEl.textContent=' Le mot de passe doit contenir au moins 12 caractères.';errEl.style.display='block';return;}
+  if(newPwd.length>128){errEl.textContent=' Mot de passe trop long (max 128 caractères).';errEl.style.display='block';return;}
+  if(!/[A-Z]/.test(newPwd)){errEl.textContent=' Ajoutez au moins une majuscule.';errEl.style.display='block';return;}
+  if(!/[0-9]/.test(newPwd)){errEl.textContent=' Ajoutez au moins un chiffre.';errEl.style.display='block';return;}
+  if(!/[^A-Za-z0-9]/.test(newPwd)){errEl.textContent=' Ajoutez au moins un symbole (!@#$ ...).';errEl.style.display='block';return;}
+  if(newPwd!==confirmPwd){errEl.textContent=' Les mots de passe ne correspondent pas.';errEl.style.display='block';return;}
   const btn=document.getElementById('btn-chgpwd');btn.disabled=true;btn.textContent='⏳ Enregistrement...';
   try{
     const r=await fetch(SB+'/auth/v1/user',{method:'PUT',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+_chgToken},body:JSON.stringify({password:newPwd})});
@@ -725,7 +725,7 @@ async function submitNewPassword(){
       document.getElementById('error-box').style.background='rgba(39,174,96,0.1)';
       document.getElementById('error-box').style.borderColor='rgba(39,174,96,0.25)';
       document.getElementById('error-box').style.color='#6FCF97';
-      showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Mot de passe mis à jour ! Connectez-vous avec votre nouveau mot de passe.');
+      showError(' Mot de passe mis à jour ! Connectez-vous avec votre nouveau mot de passe.');
       document.getElementById('error-box').style.display='block';
     }else{
       // NOTE SÉCURITÉ : le PATCH must_change_password ci-dessous DOIT être bloqué côté
@@ -738,7 +738,7 @@ async function submitNewPassword(){
       showSuccess(_chgSession.role||'admin');
     }
   }catch(err){
-    errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+err.message;
+    errEl.textContent=' '+err.message;
     errEl.style.display='block';
     btn.disabled=false;
     btn.textContent='🔐 Enregistrer le mot de passe';
@@ -781,7 +781,7 @@ window.addEventListener('load',async function(){
       if(role==='chauffeur') window.location.href='optimum_trans_chauffeur_vue.html';
       else if(role==='chef_equipe') window.location.href='optimum_trans_planning.html';
       else window.location.href='optimum_trans_dashboard.html';
-    }catch(e){showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur accès compte : '+e.message);}
+    }catch(e){showError(' Erreur accès compte : '+e.message);}
   }
 });
 </script>
@@ -826,8 +826,7 @@ window.addEventListener('load',async function(){
       ctx.beginPath();
       ctx.arc(n.x,n.y,n.r*(1+pulse*.3),0,Math.PI*2);
       ctx.fillStyle = n.accent
-        ? `rgba(245,166,35,${.5*pulse})`
-        : `rgba(37,99,235,${.35*pulse})`;
+        ? `rgba(245,166,35,${.5*pulse})` : `rgba(37,99,235,${.35*pulse})`;
       ctx.fill();
     });
 
@@ -951,19 +950,19 @@ window.addEventListener('load',async function(){
   if(!t0||!t1) return;
   const activities=[
     '🚐 DUPONT — Tournée AM validée · Lyon 3ème',
-    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> GPS live · MARTIN à 14 Rue de Lyon · 47 km/h',
+    ' GPS live · MARTIN à 14 Rue de Lyon · 47 km/h',
     '💌 Nouveau message — RODRIGUEZ : « Arrivé client »',
     '💶 Salaire calculé — MARTIN · 2 847 €',
-    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Feuille de route générée · 14 points · 38 km',
-    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> CT expirant dans 12j — Véhicule AB-234-CD',
-    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> 4 tournées envoyées à TRANS EXPRESS · reçues dans leur planning',
-    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Facturation CARREFOUR — Export Excel prêt',
+    ' Feuille de route générée · 14 points · 38 km',
+    ' CT expirant dans 12j — Véhicule AB-234-CD',
+    ' 4 tournées envoyées à TRANS EXPRESS · reçues dans leur planning',
+    ' Facturation CARREFOUR — Export Excel prêt',
     '👷 Sous-traitant TRANS EXPRESS — Marge +23%',
-    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Absence validée · BENALI · 2 jours',
+    ' Absence validée · BENALI · 2 jours',
     '🚔 Amende affectée — RODRIGUEZ · 135 €',
     '🛠️ Check-up véhicule OK — Ford Transit · 0 défaut',
-    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Plein gazole — Ford Transit · 87L · 131€',
-    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Planning semaine mis à jour · 18 tournées',
+    ' Plein gazole — Ford Transit · 87L · 131€',
+    ' Planning semaine mis à jour · 18 tournées',
     '💬 WhatsApp envoyé → MOUSSA · Tournée PM',
   ];
   let idx=0, active=0;
@@ -1083,10 +1082,8 @@ window.addEventListener('load',async function(){
 
       const pulse = Math.sin(n.phase)*0.4 + 0.6;
       const col = n.purple
-        ? `rgba(167,139,250,${0.55*pulse})`
-        : n.accent
-          ? `rgba(245,166,35,${0.65*pulse})`
-          : `rgba(37,99,235,${0.5*pulse})`;
+        ? `rgba(167,139,250,${0.55*pulse})` : n.accent
+          ? `rgba(245,166,35,${0.65*pulse})` : `rgba(37,99,235,${0.5*pulse})`;
 
       /* Ligne vers le centre logo */
       const lineDist=Math.hypot(n.x-cx, n.y-cy);
@@ -1096,8 +1093,7 @@ window.addEventListener('load',async function(){
         ctx.moveTo(n.x, n.y);
         ctx.lineTo(cx, cy);
         ctx.strokeStyle = n.accent
-          ? `rgba(245,166,35,${a})`
-          : `rgba(37,99,235,${a})`;
+          ? `rgba(245,166,35,${a})` : `rgba(37,99,235,${a})`;
         ctx.lineWidth = 0.7;
         ctx.stroke();
       }
@@ -1254,18 +1250,18 @@ window.addEventListener('load',async function(){
 
   /* ── Conversations : question utilisateur → réponse Juju ── */
   var convos = [
-    { user: "C'est quoi le planning demain ?",           bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 12 tournées, 8 chauffeurs affect\u00E9s, 2 dispo" },
+    { user: "C'est quoi le planning demain ?",           bot: " 12 tournées, 8 chauffeurs affect\u00E9s, 2 dispo" },
     { user: "Combien on a factur\u00E9 ce mois ?",       bot: "💶 45 320\u20AC — marge +12% vs mois dernier" },
-    { user: "Il est o\u00F9 Martin l\u00E0 ?",           bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> GPS live : 14 Rue de Lyon — arriv\u00E9e 14h20" },
+    { user: "Il est o\u00F9 Martin l\u00E0 ?",           bot: " GPS live : 14 Rue de Lyon — arriv\u00E9e 14h20" },
     { user: "Envoie un message \u00E0 Rodriguez",         bot: "💌 Message envoy\u00E9 sur la messagerie pro ✓" },
-    { user: "Envoie 4 tourn\u00E9es \u00E0 Trans Express",     bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Envoy\u00E9es \u2192 affich\u00E9es dans leur planning partenaire \u2713" },
-    { user: "Y a des absences en attente ?",              bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 2 absences : BENALI (lundi) + DUPONT (mercredi)" },
-    { user: "G\u00E9n\u00E8re la facture Carrefour",     bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Facture CARREFOUR g\u00E9n\u00E9r\u00E9e — 8 740\u20AC" },
+    { user: "Envoie 4 tourn\u00E9es \u00E0 Trans Express",     bot: " Envoy\u00E9es \u2192 affich\u00E9es dans leur planning partenaire \u2713" },
+    { user: "Y a des absences en attente ?",              bot: " 2 absences : BENALI (lundi) + DUPONT (mercredi)" },
+    { user: "G\u00E9n\u00E8re la facture Carrefour",     bot: " Facture CARREFOUR g\u00E9n\u00E9r\u00E9e — 8 740\u20AC" },
     { user: "Qui conduit le AB-234-CD ?",                 bot: "🚐 RODRIGUEZ — CT expire dans 12j, penser au RDV" },
     { user: "Remplace Dupont demain matin",               bot: "👷 BENALI affect\u00E9 en rempla\u00E7ant — planning mis \u00E0 jour" },
     { user: "Envoie le planning WhatsApp",                bot: "💬 Planning envoy\u00E9 \u00E0 8 chauffeurs par WhatsApp" },
     { user: "Des emails importants aujourd'hui ?",        bot: "📧 3 emails : Mon March\u00E9 (sheet), Chronopost, DPD" },
-    { user: "Consommation du Ford Transit ?",             bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> 12.8L/100km — +18% vs moyenne, anomalie signal\u00E9e" },
+    { user: "Consommation du Ford Transit ?",             bot: " 12.8L/100km — +18% vs moyenne, anomalie signal\u00E9e" },
     { user: "Combien on verse \u00E0 Trans Express ?",    bot: "💶 6 840\u20AC ce mois — 23 tourn\u00E9es, marge 19%" },
     { user: "Ajoute une amende pour Rodriguez",           bot: "🚔 Amende enregistr\u00E9e — 135\u20AC, exc\u00E8s de vitesse" },
   ];

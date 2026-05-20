@@ -38,8 +38,7 @@
         'a[href="optimum_trans_chauffeurs.html"]',
         'a[href="optimum_trans_ia.html"]',
         'a[href="optimum_trans_dispatch.html"]',
-        '.sidebar-footer .user-card'
-      ].join(',')+'{display:none!important}';
+        '.sidebar-footer .user-card' ].join(',')+'{display:none!important}';
       document.head.appendChild(_st);
     }
   }catch(e){}
@@ -569,7 +568,7 @@ const OT = (() => {
   return{getSession,authHeaders,anonHeaders,can,logout,requireLogin,requireAddon,companyFilter,getCompanyId,refreshSession};
 })();
 function logout(){OT.logout();}
-async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Compte supprimé.':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Compte suspendu.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
+async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?' Compte supprimé.':' Compte suspendu.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
 if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionSync;}
 </script>
 <link rel="stylesheet" href="optimum_trans_mobile.css">
@@ -583,39 +582,38 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <body>
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
     <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
     <a class="nav-item" id="nav-saisie-link" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats</a>
-    <a class="nav-item active" href="#"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients &amp; Facturation</a>
+    <a class="nav-item active" href="#"><span class="nav-icon"></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients &amp; Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
     <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
-      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
-    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'">
       <div class="user-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"> Paramètres</div></div>
       <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
     </div>
   </div>
@@ -623,11 +621,11 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
 <main class="main">
   <div class="topbar">
-    <div class="topbar-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> SUIVI GAZOLE</div>
+    <div class="topbar-title"> SUIVI GAZOLE</div>
     <div class="topbar-right">
-      <span id="sync-info" style="font-size:11px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Connecté</span>
-      <button class="btn-sm btn-ghost" onclick="exportExcel()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Export Excel</button>
-      <button class="btn-sm btn-fuel" onclick="openAddModal()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> + Ajouter un plein</button>
+      <span id="sync-info" style="font-size:11px;color:var(--gray)"> Connecté</span>
+      <button class="btn-sm btn-ghost" onclick="exportExcel()"> Export Excel</button>
+      <button class="btn-sm btn-fuel" onclick="openAddModal()"> + Ajouter un plein</button>
     </div>
   </div>
 
@@ -640,21 +638,21 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi-card green"><div class="kpi-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></div><div class="kpi-val" id="kpi-pleins">—</div><div class="kpi-label">Pleins du mois</div></div>
+      <div class="kpi-card green"><div class="kpi-icon"></div><div class="kpi-val" id="kpi-pleins">—</div><div class="kpi-label">Pleins du mois</div></div>
       <div class="kpi-card orange"><div class="kpi-icon">💶</div><div class="kpi-val" id="kpi-cout">—</div><div class="kpi-label">Coût total</div></div>
       <div class="kpi-card blue"><div class="kpi-icon">🧴</div><div class="kpi-val" id="kpi-litres">—</div><div class="kpi-label">Litres total</div></div>
       <div class="kpi-card purple"><div class="kpi-icon">🚐</div><div class="kpi-val" id="kpi-chauffeurs">—</div><div class="kpi-label">Véhicules actifs</div></div>
-      <div class="kpi-card orange"><div class="kpi-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="kpi-val" id="kpi-moy">—</div><div class="kpi-label">Coût moyen / plein</div></div>
+      <div class="kpi-card orange"><div class="kpi-icon"></div><div class="kpi-val" id="kpi-moy">—</div><div class="kpi-label">Coût moyen / plein</div></div>
     </div>
 
     <div class="inner-tabs">
       <div class="inner-tab active" id="tab-btn-recap" onclick="switchInnerTab('recap',this)">🚐 Récap par véhicule</div>
-      <div class="inner-tab" id="tab-btn-historique" onclick="switchInnerTab('historique',this)">📋 Historique complet</div>
+      <div class="inner-tab" id="tab-btn-historique" onclick="switchInnerTab('historique',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Historique complet</div>
     </div>
 
     <div id="view-recap">
       <div class="filters-bar">
-        <input type="text" class="search-input" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher un véhicule..." oninput="filterRecap(this.value)">
+        <input type="text" class="search-input" placeholder=" Rechercher un véhicule..." oninput="filterRecap(this.value)">
         <div style="margin-left:auto;font-size:12px;color:var(--gray)" id="recap-info"></div>
       </div>
       <div id="recap-grid" class="ch-recap-grid">
@@ -666,7 +664,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
     <div id="view-historique" style="display:none">
       <div class="filters-bar">
-        <input type="text" class="search-input" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher..." oninput="filterHistorique(this.value)">
+        <input type="text" class="search-input" placeholder=" Rechercher..." oninput="filterHistorique(this.value)">
         <select class="filter-select" id="filter-vehicule" onchange="filterHistorique(document.querySelector('.search-input').value)">
           <option value="">Tous les véhicules</option>
         </select>
@@ -676,7 +674,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         <div class="table-header">
           <div>
             <div class="table-title" id="histo-title">HISTORIQUE DES PLEINS</div>
-            <div class="table-sub">Tous les enregistrements · cliquez ✏️ pour modifier</div>
+            <div class="table-sub">Tous les enregistrements · cliquez <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> pour modifier</div>
           </div>
         </div>
         <div style="overflow-x:auto">
@@ -685,7 +683,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
             <tbody id="histo-tbody"><tr><td colspan="10" style="text-align:center;padding:40px"><div class="spinner" style="margin:0 auto"></div></td></tr></tbody>
             <tfoot>
               <tr class="totals-row" id="histo-totals" style="display:none">
-                <td colspan="4" style="font-family:'Bebas Neue',sans-serif;letter-spacing:1px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> TOTAUX</td>
+                <td colspan="4" style="font-family:'Bebas Neue',sans-serif;letter-spacing:1px"> TOTAUX</td>
                 <td class="r" id="tot-litres">—</td><td class="r" id="tot-cout">—</td><td class="r" id="tot-prixl">—</td><td colspan="3"></td>
               </tr>
             </tfoot>
@@ -698,11 +696,11 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
 <div class="modal-overlay" id="modal-plein" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="modal-title" id="modal-plein-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> AJOUTER UN PLEIN</div>
+    <div class="modal-title" id="modal-plein-title"> AJOUTER UN PLEIN</div>
     <div class="modal-sub">Saisissez les informations du ticket de gazole</div>
     <div class="fg fg-2">
       <div><label class="lbl">🚐 Véhicule *</label><select id="p-vehicule" class="is" onchange="calcPrixLitre()"><option value="">— Sélectionner —</option></select></div>
-      <div><label class="lbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Date *</label><input type="date" id="p-date" class="ii"></div>
+      <div><label class="lbl"> Date *</label><input type="date" id="p-date" class="ii"></div>
     </div>
     <div class="fg">
       <div><label class="lbl">👷 Chauffeur ayant fait le plein <span style="color:var(--gray);font-weight:400;text-transform:none;letter-spacing:0">(optionnel)</span></label><select id="p-chauffeur" class="is" onchange="calcPrixLitre()"><option value="">— Non renseigné —</option></select></div>
@@ -710,7 +708,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     <div class="fg fg-3">
       <div><label class="lbl">💶 Montant (€) *</label><input type="number" id="p-montant" class="ii" placeholder="72.50" min="0" step="0.01" oninput="calcPrixLitre()"></div>
       <div><label class="lbl">🧴 Litres</label><input type="number" id="p-litres" class="ii" placeholder="45.2" min="0" step="0.01" oninput="calcPrixLitre()"></div>
-      <div><label class="lbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Prix / litre</label><input type="number" id="p-prix-litre" class="ii" placeholder="Auto" step="0.001" readonly style="color:var(--gray2);background:rgba(255,255,255,0.02)"></div>
+      <div><label class="lbl"> Prix / litre</label><input type="number" id="p-prix-litre" class="ii" placeholder="Auto" step="0.001" readonly style="color:var(--gray2);background:rgba(255,255,255,0.02)"></div>
     </div>
     <div class="fg"><div><label class="lbl">🏪 Station / Note</label><input type="text" id="p-note" class="ii" placeholder="Station Total A6..."></div></div>
     <div class="fg">
@@ -722,7 +720,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
           <div id="p-ticket-current" style="display:none;flex:1">
             <img id="p-ticket-thumb" style="max-height:80px;border-radius:6px;cursor:pointer;border:1px solid rgba(22,163,74,0.3)" onclick="viewAdminTicket()" alt="ticket">
             <div style="margin-top:4px;display:flex;gap:6px">
-              <span style="font-size:10px;color:var(--fuel2)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ticket présent</span>
+              <span style="font-size:10px;color:var(--fuel2)"> Ticket présent</span>
               <button onclick="removeAdminTicket()" style="background:none;border:none;cursor:pointer;font-size:10px;color:#D88888;font-family:inherit">🗑 Retirer</button>
             </div>
           </div>
@@ -731,12 +729,12 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       </div>
     </div>
     <div id="modal-preview" style="display:none;background:rgba(22,163,74,0.07);border:1px solid rgba(22,163,74,0.2);border-radius:10px;padding:12px 14px;margin-bottom:4px;font-size:12px;color:var(--light)">
-      <div style="font-weight:700;color:var(--fuel2);margin-bottom:4px">📋 Récapitulatif</div>
+      <div style="font-weight:700;color:var(--fuel2);margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Récapitulatif</div>
       <div id="modal-preview-content"></div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel-m" onclick="closeModal()">Annuler</button>
-      <button class="btn-submit" id="btn-plein-submit" onclick="savePlein()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Enregistrer le plein</button>
+      <button class="btn-submit" id="btn-plein-submit" onclick="savePlein()"> Enregistrer le plein</button>
     </div>
     <input type="hidden" id="p-edit-id">
   </div>
@@ -744,7 +742,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
 <div class="modal-overlay" id="modal-detail" onclick="if(event.target===this)closeDetailModal()">
   <div class="modal" style="width:600px">
-    <div class="modal-title" id="detail-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> DÉTAIL VÉHICULE</div>
+    <div class="modal-title" id="detail-title"> DÉTAIL VÉHICULE</div>
     <div class="modal-sub" id="detail-sub"></div>
     <div style="overflow-x:auto">
       <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px"><div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px"><table>
@@ -754,7 +752,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       </table></div></div>
     </div>
     <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
-      <button class="btn-sm btn-fuel" onclick="closeDetailModal();openAddModal(currentDetailVehicule)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Ajouter un plein</button>
+      <button class="btn-sm btn-fuel" onclick="closeDetailModal();openAddModal(currentDetailVehicule)"> Ajouter un plein</button>
       <button class="btn-sm btn-ghost" onclick="closeDetailModal()">Fermer</button>
     </div>
   </div>
@@ -840,10 +838,10 @@ async function loadPage(){
     // Populate vehicle filter in history
     const fsel=document.getElementById('filter-vehicule');fsel.innerHTML='<option value="">Tous les véhicules</option>';
     allVehicules.forEach(v=>{const o=document.createElement('option');o.value=v.immatriculation;o.textContent=v.immatriculation+(v.marque?' · '+v.marque:'');fsel.appendChild(o);});
-    document.getElementById('sync-info').textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${allVehicules.length} véhicules`;document.getElementById('sync-info').style.color='#6B8E23';
+    document.getElementById('sync-info').textContent=` ${allVehicules.length} véhicules`;document.getElementById('sync-info').style.color='#6B8E23';
     // Migration one-shot depuis localStorage
     await migrateLocalStorage();
-  }catch(e){document.getElementById('sync-info').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message;document.getElementById('sync-info').style.color='#D88888';}
+  }catch(e){document.getElementById('sync-info').textContent=' '+e.message;document.getElementById('sync-info').style.color='#D88888';}
   updateKPIs();if(currentView==='recap')renderRecap();else renderHistorique();
 }
 async function migrateLocalStorage(){
@@ -855,7 +853,7 @@ async function migrateLocalStorage(){
   if(!toMigrate.length){setStorage([]);return;}
   try{
     const r=await fetch(`${SB}/rest/v1/gazole_pleins`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(toMigrate)});
-    if(r.ok){setStorage([]);toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${toMigrate.length} plein${toMigrate.length>1?'s':''} migrés`);loadPage();}
+    if(r.ok){setStorage([]);toast(` ${toMigrate.length} plein${toMigrate.length>1?'s':''} migrés`);loadPage();}
   }catch(e){console.error('Migration gazole:',e);}
 }
 function updateKPIs(){const nb=allPleins.length,cout=allPleins.reduce((s,p)=>s+p.montant,0),litres=allPleins.reduce((s,p)=>s+(p.litres||0),0),vehs=new Set(allPleins.map(p=>p.vehicule||p.chauffeur)).size,moy=nb>0?cout/nb:0;document.getElementById('kpi-pleins').textContent=nb;document.getElementById('kpi-cout').textContent=fc(cout);document.getElementById('kpi-litres').textContent=litres>0?litres.toFixed(1)+' L':'—';document.getElementById('kpi-chauffeurs').textContent=vehs;document.getElementById('kpi-moy').textContent=nb>0?fc(moy):'—';}
@@ -869,7 +867,7 @@ function renderRecap(q=''){
   const maxCout=Math.max(...entries.map(([,v])=>v.cout),1);
   const topVeh=entries.length>0&&entries[0][1].cout>0?entries[0][0]:null;
   grid.innerHTML='';
-  if(!entries.length){grid.innerHTML='<div style="grid-column:1/-1"><div class="empty-state"><div class="empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></div><div class="empty-title">Aucun plein ce mois</div><div class="empty-sub">Cliquez "+ Ajouter un plein"</div></div></div>';document.getElementById('recap-info').textContent='';return;}
+  if(!entries.length){grid.innerHTML='<div style="grid-column:1/-1"><div class="empty-state"><div class="empty-icon"></div><div class="empty-title">Aucun plein ce mois</div><div class="empty-sub">Cliquez "+ Ajouter un plein"</div></div></div>';document.getElementById('recap-info').textContent='';return;}
   entries.forEach(([key,data])=>{
     const pct=maxCout>0?Math.round((data.cout/maxCout)*100):0;
     const isTop=key===topVeh&&data.cout>0;
@@ -880,10 +878,10 @@ function renderRecap(q=''){
     card.className='ch-recap-card';
     if(isTop)card.style.cssText='background:rgba(22,163,74,0.07);border-color:rgba(22,163,74,0.5)';
     card.onclick=()=>showDetail(key);
-    const topBadge=isTop?`<span style="display:inline-block;background:linear-gradient(135deg,var(--fuel),var(--fuel2));color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px">🏆 TOP CONSO</span>`:'';
+    const topBadge=isTop?`<span style="display:inline-block;background:linear-gradient(135deg,var(--fuel),var(--fuel2));color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> TOP CONSO</span>`:'';
     const coutPL=data.litres>0?(data.cout/data.litres).toFixed(3):'—';
     const chauffeurLine=chs.length>0?`<div style="font-size:11px;color:var(--gray);margin-top:2px">👷 ${chs.join(', ')}</div>`:'';
-    card.innerHTML=`<div class="ch-recap-name">🚐 ${vehLabel}${topBadge}</div><div class="ch-recap-meta">${data.list.length} plein${data.list.length>1?'s':''} ce mois</div>${chauffeurLine}<div class="ch-recap-total">${fc(data.cout)}</div><div class="ch-recap-litres">${data.litres>0?data.litres.toFixed(1)+' L · '+coutPL+'€/L':'— L'}</div><div class="ch-recap-bar-label"><span>Coût mensuel</span><span>${pct}% du max</span></div><div class="fuel-bar-wrap"><div class="fuel-bar" style="width:${pct}%"></div></div><div class="ch-recap-actions"><button class="btn-sm btn-fuel" style="flex:1;font-size:11px" onclick="event.stopPropagation();openAddModal('${key.replace(/'/g,"\\'")}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> + Plein</button>${data.list.length>0?`<button class="btn-sm btn-ghost" style="font-size:11px" onclick="event.stopPropagation();showDetail('${key.replace(/'/g,"\\'")}')">👁 Détail</button>`:''}</div>`;
+    card.innerHTML=`<div class="ch-recap-name">🚐 ${vehLabel}${topBadge}</div><div class="ch-recap-meta">${data.list.length} plein${data.list.length>1?'s':''} ce mois</div>${chauffeurLine}<div class="ch-recap-total">${fc(data.cout)}</div><div class="ch-recap-litres">${data.litres>0?data.litres.toFixed(1)+' L · '+coutPL+'€/L':'— L'}</div><div class="ch-recap-bar-label"><span>Coût mensuel</span><span>${pct}% du max</span></div><div class="fuel-bar-wrap"><div class="fuel-bar" style="width:${pct}%"></div></div><div class="ch-recap-actions"><button class="btn-sm btn-fuel" style="flex:1;font-size:11px" onclick="event.stopPropagation();openAddModal('${key.replace(/'/g,"\\'")}')"> + Plein</button>${data.list.length>0?`<button class="btn-sm btn-ghost" style="font-size:11px" onclick="event.stopPropagation();showDetail('${key.replace(/'/g,"\\'")}')">👁 Détail</button>`:''}</div>`;
     grid.appendChild(card);
   });
   document.getElementById('recap-info').textContent=`${entries.length} véhicule${entries.length>1?'s':''}`;
@@ -894,13 +892,13 @@ function renderHistorique(){
   if(lastFilterQ)data=data.filter(p=>(p.vehicule||p.chauffeur||'').toLowerCase().includes(lastFilterQ.toLowerCase())||(p.chauffeur||'').toLowerCase().includes(lastFilterQ.toLowerCase())||(p.note||'').toLowerCase().includes(lastFilterQ.toLowerCase()));
   if(lastFilterVeh)data=data.filter(p=>(p.vehicule||p.chauffeur)===lastFilterVeh);
   data.sort((a,b)=>b.date.localeCompare(a.date));filteredPleins=data;tbody.innerHTML='';
-  if(!data.length){tbody.innerHTML=`<tr><td colspan="10"><div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">Aucun plein enregistré</div><div class="empty-sub">Cliquez "+ Ajouter un plein"</div></div></td></tr>`;document.getElementById('histo-totals').style.display='none';document.getElementById('histo-info').textContent='';return;}
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="10"><div class="empty-state"><div class="empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div><div class="empty-title">Aucun plein enregistré</div><div class="empty-sub">Cliquez "+ Ajouter un plein"</div></div></td></tr>`;document.getElementById('histo-totals').style.display='none';document.getElementById('histo-info').textContent='';return;}
   let totL=0,totC=0;
-  data.forEach((p,i)=>{totL+=p.litres||0;totC+=p.montant;const prixL=p.litres>0?(p.montant/p.litres).toFixed(3):'—';const vehLabel=p.vehicule||p.chauffeur||'—';const saisiBadge=p.saisie_par==='chauffeur'?`<span style="display:inline-flex;align-items:center;gap:2px;background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.2);border-radius:10px;padding:1px 6px;font-size:9px;font-weight:700;color:var(--fuel2);margin-left:4px">📱 Chauffeur</span>`:'';const ticketCell=p.has_ticket?`<button class="action-btn" onclick="openTicketPhotoModal('${p.id}')" title="Voir ticket">📷</button>`:'<span style="color:var(--gray2);font-size:11px">—</span>';const trEl=document.createElement('tr');trEl.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td style="font-weight:600">${new Date(p.date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'})}</td><td><span style="font-weight:700;color:var(--white)">🚐 ${vehLabel}</span></td><td style="font-size:12px;color:var(--gray)">${p.chauffeur?'👷 '+p.chauffeur+saisiBadge:'<span style="color:var(--gray2)">—</span>'}</td><td class="r" style="color:#6B8E23">${p.litres>0?p.litres.toFixed(1)+' L':'—'}</td><td class="r" style="font-weight:700;color:var(--accent)">${fc(p.montant)}</td><td class="r" style="color:var(--gray);font-size:11px">${prixL!=='—'?prixL+'€/L':'—'}</td><td style="font-size:12px;color:var(--gray)">${p.note||'—'}</td><td style="text-align:center">${ticketCell}</td><td class="r"><button class="action-btn" onclick="editPlein('${p.id}')" title="Modifier">✏️</button><button class="action-btn del" onclick="deletePlein('${p.id}')" title="Supprimer">🗑</button></td>`;tbody.appendChild(trEl);});
+  data.forEach((p,i)=>{totL+=p.litres||0;totC+=p.montant;const prixL=p.litres>0?(p.montant/p.litres).toFixed(3):'—';const vehLabel=p.vehicule||p.chauffeur||'—';const saisiBadge=p.saisie_par==='chauffeur'?`<span style="display:inline-flex;align-items:center;gap:2px;background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.2);border-radius:10px;padding:1px 6px;font-size:9px;font-weight:700;color:var(--fuel2);margin-left:4px">📱 Chauffeur</span>`:'';const ticketCell=p.has_ticket?`<button class="action-btn" onclick="openTicketPhotoModal('${p.id}')" title="Voir ticket">📷</button>`:'<span style="color:var(--gray2);font-size:11px">—</span>';const trEl=document.createElement('tr');trEl.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td style="font-weight:600">${new Date(p.date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'})}</td><td><span style="font-weight:700;color:var(--white)">🚐 ${vehLabel}</span></td><td style="font-size:12px;color:var(--gray)">${p.chauffeur?'👷 '+p.chauffeur+saisiBadge:'<span style="color:var(--gray2)">—</span>'}</td><td class="r" style="color:#6B8E23">${p.litres>0?p.litres.toFixed(1)+' L':'—'}</td><td class="r" style="font-weight:700;color:var(--accent)">${fc(p.montant)}</td><td class="r" style="color:var(--gray);font-size:11px">${prixL!=='—'?prixL+'€/L':'—'}</td><td style="font-size:12px;color:var(--gray)">${p.note||'—'}</td><td style="text-align:center">${ticketCell}</td><td class="r"><button class="action-btn" onclick="editPlein('${p.id}')" title="Modifier"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="action-btn del" onclick="deletePlein('${p.id}')" title="Supprimer">🗑</button></td>`;tbody.appendChild(trEl);});
   document.getElementById('tot-litres').textContent=totL>0?totL.toFixed(1)+' L':'—';document.getElementById('tot-cout').textContent=fc(totC);document.getElementById('tot-prixl').textContent=totL>0?(totC/totL).toFixed(3)+'€/L':'—';document.getElementById('histo-totals').style.display='';document.getElementById('histo-info').textContent=`${data.length} plein${data.length>1?'s':''} · ${fc(totC)}`;
 }
 function filterHistorique(q){lastFilterQ=q||'';lastFilterVeh=document.getElementById('filter-vehicule').value||'';renderHistorique();}
-function openAddModal(vehicule=''){document.getElementById('p-edit-id').value='';{const _d=new Date();document.getElementById('p-date').value=`${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`;}document.getElementById('p-vehicule').value=vehicule||'';document.getElementById('p-chauffeur').value='';document.getElementById('p-montant').value='';document.getElementById('p-litres').value='';document.getElementById('p-prix-litre').value='';document.getElementById('p-note').value='';document.getElementById('modal-plein-title').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> AJOUTER UN PLEIN';document.getElementById('btn-plein-submit').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Enregistrer le plein';document.getElementById('modal-preview').style.display='none';resetAdminTicketPhoto();document.getElementById('p-ticket-origin').style.display='none';document.getElementById('modal-plein').classList.add('show');setTimeout(()=>document.getElementById('p-vehicule').focus(),100);}
+function openAddModal(vehicule=''){document.getElementById('p-edit-id').value='';{const _d=new Date();document.getElementById('p-date').value=`${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`;}document.getElementById('p-vehicule').value=vehicule||'';document.getElementById('p-chauffeur').value='';document.getElementById('p-montant').value='';document.getElementById('p-litres').value='';document.getElementById('p-prix-litre').value='';document.getElementById('p-note').value='';document.getElementById('modal-plein-title').textContent=' AJOUTER UN PLEIN';document.getElementById('btn-plein-submit').textContent=' Enregistrer le plein';document.getElementById('modal-preview').style.display='none';resetAdminTicketPhoto();document.getElementById('p-ticket-origin').style.display='none';document.getElementById('modal-plein').classList.add('show');setTimeout(()=>document.getElementById('p-vehicule').focus(),100);}
 // Charge la photo du ticket à la demande (pas dans la liste).
 // Met le résultat en cache sur l'objet plein pour éviter de re-télécharger.
 async function _fetchTicketPhoto(id){
@@ -935,12 +933,12 @@ async function savePlein(){const vehicule=document.getElementById('p-vehicule').
 const finalPhoto=_adminTicketPhoto||((_adminKeepExistingPhoto&&editId)?undefined:null);
 const payload={vehicule,chauffeur:chauffeur||null,date,montant,litres,note,saisie_par:'admin'};
 if(finalPhoto!==undefined)payload.ticket_photo=finalPhoto||null;
-try{if(editId){const r=await fetch(`${SB}/rest/v1/gazole_pleins?id=eq.${editId}&company_id=eq.${cid}`,{method:'PATCH',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,updated_at:new Date().toISOString()})});if(!r.ok){toast('Erreur lors de la modification','error');return;}toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Plein modifié — 🚐 ${vehicule} · ${fc(montant)}`);}else{const r=await fetch(`${SB}/rest/v1/gazole_pleins`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,company_id:cid})});if(!r.ok){toast('Erreur lors de l\'enregistrement','error');return;}toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Plein enregistré — 🚐 ${vehicule} · ${fc(montant)}`);}closeModal();loadPage();}catch(e){toast('Erreur réseau','error');}}
+try{if(editId){const r=await fetch(`${SB}/rest/v1/gazole_pleins?id=eq.${editId}&company_id=eq.${cid}`,{method:'PATCH',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,updated_at:new Date().toISOString()})});if(!r.ok){toast('Erreur lors de la modification','error');return;}toast(` Plein modifié — 🚐 ${vehicule} · ${fc(montant)}`);}else{const r=await fetch(`${SB}/rest/v1/gazole_pleins`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,company_id:cid})});if(!r.ok){toast('Erreur lors de l\'enregistrement','error');return;}toast(` Plein enregistré — 🚐 ${vehicule} · ${fc(montant)}`);}closeModal();loadPage();}catch(e){toast('Erreur réseau','error');}}
 async function deletePlein(id){const p=allPleins.find(x=>x.id===id);if(!p)return;if(!confirm(`Supprimer ce plein ?\n🚐 ${p.vehicule||p.chauffeur||'?'} · ${new Date(p.date+'T12:00:00').toLocaleDateString('fr-FR')} · ${fc(p.montant)}`))return;const cid=OT.getCompanyId();try{const r=await fetch(`${SB}/rest/v1/gazole_pleins?id=eq.${id}&company_id=eq.${cid}`,{method:'DELETE',headers:H()});if(!r.ok){toast('Erreur lors de la suppression','error');return;}toast('🗑 Plein supprimé');loadPage();}catch(e){toast('Erreur réseau','error');}}
 function showDetail(vehKey){currentDetailVehicule=vehKey;const list=allPleins.filter(p=>(p.vehicule||p.chauffeur)===vehKey).sort((a,b)=>b.date.localeCompare(a.date));const vehInfo=allVehicules.find(v=>v.immatriculation===vehKey);const vehLabel=vehInfo?(vehKey+(vehInfo.marque?' · '+vehInfo.marque:'')+(vehInfo.modele?' '+vehInfo.modele:'')):vehKey;document.getElementById('detail-title').textContent=`🚐 ${vehLabel}`;document.getElementById('detail-sub').textContent=`${list.length} plein${list.length>1?'s':''} — ${getPeriodLabel()}`;const tbody=document.getElementById('detail-tbody');tbody.innerHTML='';let totL=0,totC=0;if(!list.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--gray)">Aucun plein ce mois</td></tr>';document.getElementById('detail-totals').style.display='none';}else{list.forEach(p=>{totL+=p.litres||0;totC+=p.montant;const prixL=p.litres>0?(p.montant/p.litres).toFixed(3)+'€/L':'—';const chLabel=p.chauffeur||p.chauffeur_optionnel||'';const trEl=document.createElement('tr');trEl.innerHTML=`<td>${new Date(p.date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'})}</td><td style="font-size:12px;color:var(--gray)">${chLabel?'👷 '+chLabel:'<span style="color:var(--gray2)">—</span>'}</td><td class="r" style="color:#6B8E23">${p.litres>0?p.litres.toFixed(1)+' L':'—'}</td><td class="r" style="font-weight:700;color:var(--accent)">${fc(p.montant)}</td><td class="r" style="font-size:11px;color:var(--gray)">${prixL}</td><td style="font-size:11px;color:var(--gray)">${p.note||'—'}</td>`;tbody.appendChild(trEl);});document.getElementById('det-tot-litres').textContent=totL>0?totL.toFixed(1)+' L':'—';document.getElementById('det-tot-cout').textContent=fc(totC);document.getElementById('detail-totals').style.display='';}document.getElementById('modal-detail').classList.add('show');}
 function closeDetailModal(){document.getElementById('modal-detail').classList.remove('show');}
 function switchInnerTab(view,el){currentView=view;document.querySelectorAll('.inner-tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('view-recap').style.display=view==='recap'?'block':'none';document.getElementById('view-historique').style.display=view==='historique'?'block':'none';if(view==='historique')renderHistorique();else renderRecap(lastFilterQ);}
-function exportExcel(){const data=[...allPleins].sort((a,b)=>(a.vehicule||a.chauffeur||'').localeCompare(b.vehicule||b.chauffeur||'')||a.date.localeCompare(b.date));const rows=[['SUIVI GAZOLE — T SERVICE & CO'],[`Export du ${new Date().toLocaleDateString('fr-FR')} · Période : ${getPeriodLabel()}`],[],['Date','Véhicule','Chauffeur','Montant (€)','Litres','Prix/Litre (€/L)','Station / Note']];let grandTotC=0,grandTotL=0;data.forEach(p=>{const prixL=p.litres>0?(p.montant/p.litres).toFixed(3):'';rows.push([new Date(p.date+'T12:00:00').toLocaleDateString('fr-FR'),p.vehicule||p.chauffeur||'',p.chauffeur||p.chauffeur_optionnel||'',p.montant.toFixed(2),p.litres>0?p.litres.toFixed(2):'',prixL,p.note||'']);grandTotC+=p.montant;grandTotL+=p.litres||0;});rows.push([],['TOTAL','','',grandTotC.toFixed(2),grandTotL>0?grandTotL.toFixed(2):'','',''],[],[],['RÉCAPITULATIF PAR VÉHICULE — '+getPeriodLabel()],['Véhicule','Pleins','Montant Total (€)','Litres Total','Coût Moyen/L (€/L)','Chauffeurs']);const byVeh={};data.forEach(p=>{const key=p.vehicule||p.chauffeur||'?';if(!byVeh[key])byVeh[key]={nb:0,cout:0,litres:0,chs:new Set()};byVeh[key].nb++;byVeh[key].cout+=p.montant;byVeh[key].litres+=p.litres||0;if(p.chauffeur)byVeh[key].chs.add(p.chauffeur);});Object.entries(byVeh).sort((a,b)=>b[1].cout-a[1].cout).forEach(([veh,v])=>{rows.push([veh,v.nb,v.cout.toFixed(2),v.litres>0?v.litres.toFixed(2):'',v.litres>0?(v.cout/v.litres).toFixed(3):'',[...v.chs].join(', ')]);});const csv=rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(';')).join('\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`gazole_${currentYear}_${String(currentMonth+1).padStart(2,'0')}_${getPeriodLabel().replace(/ /g,'_')}.csv`;a.click();toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Export Excel téléchargé');}
+function exportExcel(){const data=[...allPleins].sort((a,b)=>(a.vehicule||a.chauffeur||'').localeCompare(b.vehicule||b.chauffeur||'')||a.date.localeCompare(b.date));const rows=[['SUIVI GAZOLE — T SERVICE & CO'],[`Export du ${new Date().toLocaleDateString('fr-FR')} · Période : ${getPeriodLabel()}`],[],['Date','Véhicule','Chauffeur','Montant (€)','Litres','Prix/Litre (€/L)','Station / Note']];let grandTotC=0,grandTotL=0;data.forEach(p=>{const prixL=p.litres>0?(p.montant/p.litres).toFixed(3):'';rows.push([new Date(p.date+'T12:00:00').toLocaleDateString('fr-FR'),p.vehicule||p.chauffeur||'',p.chauffeur||p.chauffeur_optionnel||'',p.montant.toFixed(2),p.litres>0?p.litres.toFixed(2):'',prixL,p.note||'']);grandTotC+=p.montant;grandTotL+=p.litres||0;});rows.push([],['TOTAL','','',grandTotC.toFixed(2),grandTotL>0?grandTotL.toFixed(2):'','',''],[],[],['RÉCAPITULATIF PAR VÉHICULE — '+getPeriodLabel()],['Véhicule','Pleins','Montant Total (€)','Litres Total','Coût Moyen/L (€/L)','Chauffeurs']);const byVeh={};data.forEach(p=>{const key=p.vehicule||p.chauffeur||'?';if(!byVeh[key])byVeh[key]={nb:0,cout:0,litres:0,chs:new Set()};byVeh[key].nb++;byVeh[key].cout+=p.montant;byVeh[key].litres+=p.litres||0;if(p.chauffeur)byVeh[key].chs.add(p.chauffeur);});Object.entries(byVeh).sort((a,b)=>b[1].cout-a[1].cout).forEach(([veh,v])=>{rows.push([veh,v.nb,v.cout.toFixed(2),v.litres>0?v.litres.toFixed(2):'',v.litres>0?(v.cout/v.litres).toFixed(3):'',[...v.chs].join(', ')]);});const csv=rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(';')).join('\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`gazole_${currentYear}_${String(currentMonth+1).padStart(2,'0')}_${getPeriodLabel().replace(/ /g,'_')}.csv`;a.click();toast(' Export Excel téléchargé');}
 // ══ ADMIN TICKET PHOTO ══
 let _adminTicketPhoto='', _adminKeepExistingPhoto=false, _adminViewPhotoSrc='';
 function resetAdminTicketPhoto(){_adminTicketPhoto='';_adminKeepExistingPhoto=false;document.getElementById('p-ticket-current').style.display='none';document.getElementById('p-ticket-thumb').src='';document.getElementById('p-ticket-input').value='';}
@@ -986,7 +984,7 @@ async function openTicketPhotoModal(id,src,label){
 function closeTicketPhotoModal(){document.getElementById('modal-ticket-photo').classList.remove('show');document.getElementById('ticket-photo-viewer-img').src='';_adminViewPhotoSrc='';}
 function downloadAdminTicketPhoto(){if(!_adminViewPhotoSrc)return;const a=document.createElement('a');a.href=_adminViewPhotoSrc;a.download='ticket_gazole.jpg';a.click();toast('⬇ Téléchargement démarré');}
 function fc(n){return(Math.round(n*100)/100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€';}
-function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4000);}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'':''}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4000);}
 </script>
 <script>document.addEventListener('keydown',function(e){if(e.ctrlKey&&e.shiftKey&&e.key==='A')window.location.href='optimum_trans_superadmin.html';});</script>
 <div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">

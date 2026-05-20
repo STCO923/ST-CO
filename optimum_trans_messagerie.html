@@ -185,38 +185,37 @@ function logout(){OT.logout();}
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-logo">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
     <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_saisie.html" id="nav-saisie-link"><span class="nav-icon">📝</span> Saisie Tournées</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients &amp; Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients &amp; Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
     <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
-    <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+    <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
-    <a class="nav-item active" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item active" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar" id="sidebar-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)" id="sidebar-name">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)" id="sidebar-name">Mon compte</div><div style="font-size:10px;color:var(--gray)"> Paramètres</div></div>
       <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;">⏻</button>
     </div>
   </div>
@@ -225,7 +224,7 @@ function logout(){OT.logout();}
 <!-- MAIN -->
 <main class="main">
   <div class="topbar">
-    <div class="topbar-title">💬 MESSAGERIE</div>
+    <div class="topbar-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> MESSAGERIE</div>
     <div style="display:flex;align-items:center;gap:12px">
       <div style="font-size:11px;color:var(--gray)">⏱ Historique conservé 1 mois</div>
       <div id="poll-indicator" style="display:flex;align-items:center;gap:5px;font-size:11px;color:#6B8E23">
@@ -241,7 +240,7 @@ function logout(){OT.logout();}
     <div class="drivers-panel" id="drivers-panel">
       <div class="drivers-panel-header">
         <div class="panel-title">CONVERSATIONS</div>
-        <input class="search-input" id="driver-search" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher..." oninput="filterAll(this.value)">
+        <input class="search-input" id="driver-search" placeholder=" Rechercher..." oninput="filterAll(this.value)">
         <button class="btn-broadcast" onclick="openBroadcast()">
           📢 Message à TOUS les chauffeurs
         </button>
@@ -255,7 +254,7 @@ function logout(){OT.logout();}
     <div class="conv-panel" id="conv-panel">
       <!-- Empty state -->
       <div class="conv-empty" id="conv-empty">
-        <div class="conv-empty-icon">💬</div>
+        <div class="conv-empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <div class="conv-empty-title">Sélectionnez une conversation</div>
         <div class="conv-empty-sub">Choisissez un chauffeur dans la liste pour voir les échanges ou envoyer un message.</div>
       </div>
@@ -277,9 +276,7 @@ function logout(){OT.logout();}
       <!-- Input area -->
       <div class="msg-input-area" id="msg-input-area" style="display:none">
         <div class="msg-input-row">
-          <textarea class="msg-textarea" id="msg-textarea" placeholder="Votre message..." rows="1"
-            oninput="autoGrow(this);updateCharCount()"
-            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"></textarea>
+          <textarea class="msg-textarea" id="msg-textarea" placeholder="Votre message..." rows="1" oninput="autoGrow(this);updateCharCount()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"></textarea>
           <button class="btn-send" id="btn-send" onclick="sendMsg()" title="Envoyer (Entrée)">✈️</button>
         </div>
         <div class="input-footer">
@@ -297,8 +294,7 @@ function logout(){OT.logout();}
     <div class="modal-title">📢 MESSAGE GROUPÉ</div>
     <div class="modal-sub">Ce message sera envoyé à tous vos chauffeurs simultanément.</div>
     <div class="modal-targets" id="modal-targets">🚐 Chargement des destinataires...</div>
-    <textarea class="modal-textarea" id="broadcast-textarea" placeholder="Réunion demain matin 7h00 au dépôt. Présence obligatoire." rows="4"
-      oninput="updateBroadcastCount()"></textarea>
+    <textarea class="modal-textarea" id="broadcast-textarea" placeholder="Réunion demain matin 7h00 au dépôt. Présence obligatoire." rows="4" oninput="updateBroadcastCount()"></textarea>
     <div style="text-align:right;font-size:11px;color:var(--gray);margin-top:4px" id="broadcast-char-count">0 / 2000</div>
     <div class="modal-actions">
       <button class="btn-modal-cancel" onclick="closeBroadcast()">Annuler</button>
@@ -310,7 +306,7 @@ function logout(){OT.logout();}
 <!-- GROUP MODAL -->
 <div class="modal-overlay" id="modal-group">
   <div class="modal-box" style="max-height:85vh;display:flex;flex-direction:column;gap:0;">
-    <div class="modal-title" id="group-modal-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> NOUVEAU GROUPE</div>
+    <div class="modal-title" id="group-modal-title"> NOUVEAU GROUPE</div>
     <div class="modal-sub">Donnez un nom au groupe et sélectionnez les membres chauffeurs.</div>
     <input class="modal-name-input" id="group-name-input" placeholder="Nom du groupe (ex: Équipe Matin)" maxlength="100">
     <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gray2);margin:14px 0 8px;text-transform:uppercase;">Membres chauffeurs</div>
@@ -318,7 +314,7 @@ function logout(){OT.logout();}
     <div class="modal-actions" style="margin-top:18px;">
       <button class="btn-modal-delete" id="btn-group-delete" onclick="deleteGroupAction()" style="display:none;">🗑 Supprimer</button>
       <button class="btn-modal-cancel" onclick="closeGroupModal()">Annuler</button>
-      <button class="btn-modal-send" id="btn-group-save" onclick="saveGroup()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer</button>
+      <button class="btn-modal-send" id="btn-group-save" onclick="saveGroup()"> Créer</button>
     </div>
   </div>
 </div>
@@ -408,8 +404,7 @@ function renderAll(search) {
   // ── Groupes ──
   const filteredGroups = groupList.filter(g => !q || g.name.toLowerCase().includes(q));
   const addGroupBtn = isAdmin
-    ? `<button class="btn-section-add" onclick="openGroupModal(null)" title="Créer un groupe">＋</button>`
-    : '';
+    ? `<button class="btn-section-add" onclick="openGroupModal(null)" title="Créer un groupe">＋</button>` : '';
   html += `<div class="list-section-hdr">
     <span class="list-section-lbl">Groupes</span>${addGroupBtn}
   </div>`;
@@ -422,10 +417,9 @@ function renderAll(search) {
       const time     = g.last_message ? OT_MSG.timeAgo(g.last_message.created_at) : '';
       const unread   = g.unread || 0;
       const editBtn  = isAdmin
-        ? `<button class="btn-group-opts" onclick="event.stopPropagation();openGroupModal('${escAttr(g.id)}')" title="Modifier">⚙</button>`
-        : '';
+        ? `<button class="btn-group-opts" onclick="event.stopPropagation();openGroupModal('${escAttr(g.id)}')" title="Modifier">⚙</button>` : '';
       html += `<div class="driver-item${isActive?' active':''}" onclick="openGroup('${escAttr(g.id)}','${escAttr(g.name)}')">
-        <div class="driver-av" style="background:linear-gradient(135deg,var(--purple),#6D28D9);font-size:18px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="driver-av" style="background:linear-gradient(135deg,var(--purple),#6D28D9);font-size:18px"></div>
         <div class="driver-info">
           <div class="driver-name">${escHtml(g.name)}</div>
           <div class="driver-preview">${preview}</div>
@@ -524,7 +518,7 @@ async function openGroup(groupId, groupName) {
   const av = document.getElementById('conv-av');
   av.className = 'conv-av';
   av.style.background = 'linear-gradient(135deg,var(--purple),#6D28D9)';
-  av.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';
+  av.textContent = '';
   document.getElementById('conv-title').textContent = groupName;
   document.getElementById('conv-sub').textContent   = '⏳ Chargement...';
   renderAll(document.getElementById('driver-search').value);
@@ -532,7 +526,7 @@ async function openGroup(groupId, groupName) {
 
   OT_MSG.loadGroupMembers(groupId).then(members => {
     if (currentGroupId !== groupId) return;
-    document.getElementById('conv-sub').textContent = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${members.length} membre${members.length > 1 ? 's' : ''}`;
+    document.getElementById('conv-sub').textContent = ` ${members.length} membre${members.length > 1 ? 's' : ''}`;
   });
 
   OT_MSG.startGroupPolling(groupId, async (msgs) => {
@@ -557,7 +551,7 @@ function renderMessages(msgs) {
   if (!el) return;
   if (msgs.length === 0) {
     el.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--gray)">
-      <div style="font-size:36px;margin-bottom:10px">💬</div>
+      <div style="font-size:36px;margin-bottom:10px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
       <div style="font-size:13px">Aucun message dans cette conversation.<br>Les messages sont conservés 1 mois.</div>
     </div>`;
     return;
@@ -580,8 +574,7 @@ function renderBubble(m) {
   const readIcon       = isOwn ? (m.read_at ? '<span class="msg-read" title="Lu">✓✓</span>' : '<span style="color:rgba(255,255,255,0.3)">✓</span>') : '';
   const broadcastBadge = m.is_broadcast ? '<div class="msg-broadcast-badge">📢 TOUS LES CHAUFFEURS</div>' : '';
   const senderLabel    = (currentConvType === 'group' && !isOwn)
-    ? `<div class="msg-sender-lbl">${escHtml(m.sender_name)}${m.sender_role === 'chef_equipe' ? ' · 👔' : m.sender_role === 'admin' ? ' · <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' : ''}</div>`
-    : '';
+    ? `<div class="msg-sender-lbl">${escHtml(m.sender_name)}${m.sender_role === 'chef_equipe' ? ' · 👔' : m.sender_role === 'admin' ? ' · <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' : ''}</div>` : '';
   return `<div style="display:flex;flex-direction:column;align-items:${align}">
     <div class="${bubbleClass}">
       ${broadcastBadge}${senderLabel}
@@ -600,7 +593,7 @@ async function sendMsg() {
   const btn     = document.getElementById('btn-send');
   const content = ta.value.trim();
   if (!content || (!currentDriver && !currentGroupId)) return;
-  if (content.length > 2000) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Message trop long (max 2000 caractères)'); return; }
+  if (content.length > 2000) { showToast(' Message trop long (max 2000 caractères)'); return; }
   ta.disabled = true; btn.disabled = true;
   const isGroup = currentConvType === 'group';
   const msg = isGroup
@@ -609,7 +602,7 @@ async function sendMsg() {
   ta.disabled = false; btn.disabled = false;
   if (msg) {
     ta.value = ''; ta.style.height = 'auto'; updateCharCount();
-    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Message envoyé');
+    showToast(' Message envoyé');
     // Re-render immédiat — ne pas attendre WS/polling (évite le délai visuel)
     try {
       if (isGroup && currentGroupId) {
@@ -624,7 +617,7 @@ async function sendMsg() {
       }
     } catch(e) { /* le polling rattrapera */ }
   } else {
-    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de l\'envoi');
+    showToast(' Erreur lors de l\'envoi');
   }
 }
 
@@ -633,8 +626,7 @@ async function openBroadcast() {
   document.getElementById('modal-broadcast').classList.add('show');
   const count = allDrivers.length;
   document.getElementById('modal-targets').textContent = count > 0
-    ? `🚐 ${count} chauffeur${count > 1 ? 's' : ''} destinataire${count > 1 ? 's' : ''}`
-    : '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Aucun chauffeur actif trouvé';
+    ? `🚐 ${count} chauffeur${count > 1 ? 's' : ''} destinataire${count > 1 ? 's' : ''}` : ' Aucun chauffeur actif trouvé';
   document.getElementById('broadcast-textarea').value = '';
   document.getElementById('broadcast-char-count').textContent = '0 / 2000';
   setTimeout(() => document.getElementById('broadcast-textarea').focus(), 100);
@@ -648,18 +640,18 @@ function updateBroadcastCount() {
 async function sendBroadcast() {
   const ta = document.getElementById('broadcast-textarea'), btn = document.getElementById('btn-broadcast-send');
   const content = ta.value.trim();
-  if (!content) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir un message'); return; }
-  if (content.length > 2000) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Message trop long (max 2000)'); return; }
-  if (allDrivers.length === 0) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Aucun chauffeur actif'); return; }
+  if (!content) { showToast(' Veuillez saisir un message'); return; }
+  if (content.length > 2000) { showToast(' Message trop long (max 2000)'); return; }
+  if (allDrivers.length === 0) { showToast(' Aucun chauffeur actif'); return; }
   btn.disabled = true; btn.textContent = 'Envoi...';
   const msg = await OT_MSG.sendMessage('_BROADCAST_', content, true);
   btn.disabled = false; btn.textContent = '📢 Envoyer à tous';
   if (msg) {
     closeBroadcast();
-    showToast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Message envoyé à ${allDrivers.length} chauffeur${allDrivers.length>1?'s':''}`);
+    showToast(` Message envoyé à ${allDrivers.length} chauffeur${allDrivers.length>1?'s':''}`);
     convList = await OT_MSG.loadConversationList();
     renderAll(document.getElementById('driver-search').value);
-  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de l\'envoi groupé'); }
+  } else { showToast(' Erreur lors de l\'envoi groupé'); }
 }
 
 // ── MODAL GROUPE ──────────────────────────────────────────────────
@@ -670,15 +662,15 @@ async function openGroupModal(groupId) {
   const delBtn    = document.getElementById('btn-group-delete');
   nameInput.value = '';
   if (groupId) {
-    document.getElementById('group-modal-title').textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> MODIFIER LE GROUPE';
+    document.getElementById('group-modal-title').textContent = ' MODIFIER LE GROUPE';
     saveBtn.textContent  = '💾 Enregistrer';
     delBtn.style.display = 'inline-flex';
     const group = groupList.find(g => g.id === groupId);
     if (group) nameInput.value = group.name;
     renderGroupMembersChecklist(await OT_MSG.loadGroupMembers(groupId));
   } else {
-    document.getElementById('group-modal-title').textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> NOUVEAU GROUPE';
-    saveBtn.textContent  = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer';
+    document.getElementById('group-modal-title').textContent = ' NOUVEAU GROUPE';
+    saveBtn.textContent  = ' Créer';
     delBtn.style.display = 'none';
     renderGroupMembersChecklist([]);
   }
@@ -709,7 +701,7 @@ function renderGroupMembersChecklist(selectedNames) {
 async function saveGroup() {
   const nameInput = document.getElementById('group-name-input');
   const name = (nameInput.value || '').trim();
-  if (!name) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Nom du groupe requis'); nameInput.focus(); return; }
+  if (!name) { showToast(' Nom du groupe requis'); nameInput.focus(); return; }
   const members = [...document.querySelectorAll('#group-members-list input:checked')].map(cb => cb.value);
   const btn = document.getElementById('btn-group-save');
   btn.disabled = true;
@@ -722,10 +714,10 @@ async function saveGroup() {
   btn.disabled = false;
   if (success) {
     closeGroupModal();
-    showToast(editingGroupId ? '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Groupe mis à jour' : '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Groupe créé');
+    showToast(editingGroupId ? ' Groupe mis à jour' : ' Groupe créé');
     if (editingGroupId && currentGroupId === editingGroupId) document.getElementById('conv-title').textContent = name;
     await loadGroupListUI();
-  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de la sauvegarde'); }
+  } else { showToast(' Erreur lors de la sauvegarde'); }
 }
 async function deleteGroupAction() {
   if (!editingGroupId || !confirm('Supprimer ce groupe et tous ses messages ?')) return;
@@ -741,9 +733,9 @@ async function deleteGroupAction() {
       document.getElementById('msg-input-area').style.display = 'none';
       document.getElementById('conv-av').style.background = '';
     }
-    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Groupe supprimé');
+    showToast(' Groupe supprimé');
     await loadGroupListUI();
-  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de la suppression'); }
+  } else { showToast(' Erreur lors de la suppression'); }
 }
 
 // ── UTILS ────────────────────────────────────────────────────────

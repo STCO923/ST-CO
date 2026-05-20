@@ -144,8 +144,7 @@ tr:hover{background:rgba(255,255,255,0.02);}
 <body>
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
@@ -477,8 +476,7 @@ function parseFrNum(val){
 function parseDate(val){
   if(!val)return '';
   var s=val.toString().trim();
-  // Already a date string like "10/03/2026" or "2026-03-10"
-  if(s.includes('/')&&s.length>=8)return s;
+  // Already a date string like "10/03/2026" or "2026-03-10" if(s.includes('/')&&s.length>=8)return s;
   if(s.includes('-')&&s.length>=8){
     var parts=s.split('-');
     if(parts.length===3&&parts[0].length===4)return parts[2]+'/'+parts[1]+'/'+parts[0];

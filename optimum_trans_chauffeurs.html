@@ -219,7 +219,7 @@ const OT = (() => {
   function applyPlanRestrictions(){const s=getSession();if(!s)return;document.querySelectorAll('a[href="'+SUPERADMIN_PAGE+'"]').forEach(function(el){el.style.display='none';});var rules=[{href:'optimum_trans_feuille_route.html',feature:'feuille_route'},{href:'optimum_trans_vehicules.html',feature:'vehicules'},{href:'optimum_trans_chauffeurs.html',feature:'chauffeurs'},{href:'optimum_trans_gazole.html',feature:'gazole'},{href:'optimum_trans_saisie.html',feature:'saisie'},{href:'monmarche.html',feature:'monmarche'},{href:'optimum_trans_dispatch.html',feature:'dispatch'},{href:'optimum_trans_suivi_chauffeurs.html',feature:'tracking'},{href:'optimum_trans_gps_chauffeur.html',feature:'tracking'},{href:'optimum_trans_etat_vehicule.html',feature:'etat_vehicule'}];rules.forEach(function(rule){document.querySelectorAll('a[href="'+rule.href+'"]').forEach(function(el){el.style.display=can(rule.feature)?'':'none';});});if(!can('whatsapp')){document.querySelectorAll('.btn-wa').forEach(function(el){el.style.display='none';});}var avatarEl=document.querySelector('.user-avatar');var nameEl=document.querySelector('.user-card > div > div:first-child');var planEl=document.querySelector('.user-card > div > div:last-child');if(avatarEl&&s.name)avatarEl.textContent=s.name.substring(0,2).toUpperCase();if(nameEl&&s.name)nameEl.textContent=s.name.length>18?s.name.substring(0,16)+'...':s.name;if(planEl&&s.plan){var labels={starter:'Essentiel',pro:'Pro',business:'Business'};var colors={starter:'var(--gray)',pro:'#E8C66E',business:'#C9A961'};planEl.textContent=labels[s.plan]||s.plan;planEl.style.color=colors[s.plan]||'var(--gray)';}if(s.status==='suspended')_showSuspendedBanner();}
   function _showSuspendedBanner(){if(document.getElementById('ot-suspended-banner'))return;var banner=document.createElement('div');banner.id='ot-suspended-banner';banner.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fecaca;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;border-bottom:2px solid #8B2C2C;';banner.innerHTML='<div>Compte suspendu.</div><button onclick="OT.logout()" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;min-width:30px;min-height:30px;">⏻</button>';document.body.prepend(banner);var main=document.querySelector('.main');if(main)main.style.marginTop='52px';}
   function requireLogin(){var logged=localStorage.getItem('ot_logged')||sessionStorage.getItem('ot_logged');var session=getSession();if(!logged||!session){var hash=window.location.hash;if(hash&&hash.indexOf('access_token')>=0)return true;window.location.href=window.location.origin+'/index.html';return false;}return true;}
-  function requireAddon(feature){if(!can(feature)){var labels={feuille_route:'Feuille de Route (Addon +59,99EUR/mois)',vehicules:'Parc Vehicules (Plan Pro)',chauffeurs:'Chauffeurs & Salaires (Plan Business)',gazole:'Suivi Gazole (Plan Business)',whatsapp:'WhatsApp (Plan Pro)',saisie:'Saisie Tournees (desactive)'};document.body.innerHTML='<div style="font-family:Outfit,sans-serif;background:#0A0A0A;color:#F5F5F0;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;"><div><div style="font-size:64px">🔒</div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:28px;color:#fff;letter-spacing:2px;margin:10px 0">ACCES RESTREINT</div><div style="color:#C9A961;font-weight:600;margin:16px 0">'+labels[feature]+'</div><button onclick="window.history.back()" style="background:linear-gradient(135deg,#C9A961,#C9A961);color:#fff;border:none;border-radius:10px;padding:12px 28px;cursor:pointer;font-size:14px;font-weight:600">Retour</button></div></div>';return false;}return true;}
+  function requireAddon(feature){if(!can(feature)){var labels={feuille_route:'Feuille de Route (Addon +59,99EUR/mois)',vehicules:'Parc Vehicules (Plan Pro)',chauffeurs:'Chauffeurs & Salaires (Plan Business)',gazole:'Suivi Gazole (Plan Business)',whatsapp:'WhatsApp (Plan Pro)',saisie:'Saisie Tournees (desactive)'};document.body.innerHTML='<div style="font-family:Outfit,sans-serif;background:#0A0A0A;color:#F5F5F0;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;"><div><div style="font-size:64px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div style="font-family:\'Bebas Neue\',sans-serif;font-size:28px;color:#fff;letter-spacing:2px;margin:10px 0">ACCES RESTREINT</div><div style="color:#C9A961;font-weight:600;margin:16px 0">'+labels[feature]+'</div><button onclick="window.history.back()" style="background:linear-gradient(135deg,#C9A961,#C9A961);color:#fff;border:none;border-radius:10px;padding:12px 28px;cursor:pointer;font-size:14px;font-weight:600">Retour</button></div></div>';return false;}return true;}
   async function refreshSession(){var s=getSession();if(!s||!s.id||s.id==='demo')return;try{var ctrl=new AbortController();var tid=setTimeout(function(){ctrl.abort();},4000);var cid=s.company_id||s.id;var r=await fetch(SB+'/rest/v1/sa_companies?id=eq.'+cid+'&select=plan,addon_route,addon_saisie,addon_monmarche,addon_dispatch,addon_tracking,addon_etat_vehicule,addon_zone,addon_decompte_st,status,max_users,name',{headers:authHeaders(),signal:ctrl.signal});clearTimeout(tid);if(!r.ok)return;var data=await r.json();if(Array.isArray(data)&&data[0]){var co=data[0];var updated=Object.assign({},s,{plan:co.plan||s.plan,addon_route:co.addon_route===true,addon_saisie:co.addon_saisie===true,addon_monmarche:co.addon_monmarche===true,addon_dispatch:co.addon_dispatch===true,addon_tracking:co.addon_tracking===true,addon_etat_vehicule:co.addon_etat_vehicule===true,addon_zone:co.addon_zone===true,addon_decompte_st:co.addon_decompte_st===true,status:co.status||s.status,max_users:co.max_users||s.max_users,name:co.name||s.name});var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;store.setItem('ot_session',JSON.stringify(updated));}}catch(e){console.warn('[OT] refresh skipped:',e.name);}}
   async function logout(){if(!confirm('Se deconnecter ?'))return;var s=getSession();if(s&&s.token){try{await fetch(SB+'/auth/v1/logout',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+s.token}});}catch(e){}}['ot_session','ot_logged','ot_email'].forEach(function(k){localStorage.removeItem(k);sessionStorage.removeItem(k);});window.location.href=window.location.origin+'/index.html';}
   function companyFilter(){var s=getSession();if(!s||s.id==='demo')return '';return 'company_id=eq.'+(s.company_id||s.id);}
@@ -229,7 +229,7 @@ const OT = (() => {
   return{getSession,authHeaders,anonHeaders,can,logout,requireLogin,requireAddon,companyFilter,getCompanyId,refreshSession,getRole};
 })();
 function logout(){OT.logout();}
-async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a ete supprime.':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a ete suspendu.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a ete mis a jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
+async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?' Votre compte a ete supprime.':' Votre compte a ete suspendu.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a ete mis a jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
 if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionSync;}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -253,34 +253,33 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 </script>
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
     <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
     <a class="nav-item" id="nav-saisie-link" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item active" href="#"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients &amp; Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients &amp; Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
     <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
-      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
-    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
@@ -295,10 +294,10 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
   <div class="topbar">
     <div class="topbar-title">👷 CHAUFFEURS &amp; SALAIRES</div>
     <div class="topbar-right">
-      <span id="sync-info" style="font-size:11px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Connecté</span>
+      <span id="sync-info" style="font-size:11px;color:var(--gray)"> Connecté</span>
       <button class="btn-sm btn-ghost" onclick="exportCSV()">📥 Export CSV</button>
-      <button class="btn-sm btn-green" onclick="openExportDetailModal()" title="Export Excel/PDF détaillé jour par jour"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Export détaillé</button>
-      <button class="btn-sm" style="background:linear-gradient(135deg,#16A34A,#6B8E23);color:var(--white);font-weight:700" onclick="window.location.href='optimum_trans_gazole.html'"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Suivi Gazole</button>
+      <button class="btn-sm btn-green" onclick="openExportDetailModal()" title="Export Excel/PDF détaillé jour par jour"> Export détaillé</button>
+      <button class="btn-sm" style="background:linear-gradient(135deg,#16A34A,#6B8E23);color:var(--white);font-weight:700" onclick="window.location.href='optimum_trans_gazole.html'"> Suivi Gazole</button>
       <button class="btn-sm btn-primary" onclick="saveAvances()">💾 Sauvegarder avances</button>
     </div>
   </div>
@@ -319,21 +318,21 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <div class="kpi-card blue"><div class="kpi-icon">👷</div><div class="kpi-val" id="kpi-total">—</div><div class="kpi-label">Chauffeurs actifs</div></div>
       <div class="kpi-card green"><div class="kpi-icon">🚐</div><div class="kpi-val" id="kpi-tournees">—</div><div class="kpi-label">Tournées total</div></div>
       <div class="kpi-card orange"><div class="kpi-icon">💶</div><div class="kpi-val" id="kpi-brut">—</div><div class="kpi-label">Masse salariale</div></div>
-      <div class="kpi-card red"><div class="kpi-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="kpi-val" id="kpi-penalites">—</div><div class="kpi-label">Total pénalités</div></div>
+      <div class="kpi-card red"><div class="kpi-icon"></div><div class="kpi-val" id="kpi-penalites">—</div><div class="kpi-label">Total pénalités</div></div>
       <div class="kpi-card purple"><div class="kpi-icon">💳</div><div class="kpi-val" id="kpi-avances">—</div><div class="kpi-label">Total avances</div></div>
       <div class="kpi-card red"><div class="kpi-icon">⛔</div><div class="kpi-val" id="kpi-negatifs">—</div><div class="kpi-label">Soldes négatifs</div></div>
     </div>
 
     <div class="kpi-grid kpi-insights">
-      <div class="kpi-card green"><div class="kpi-icon">🏆</div><div class="kpi-name" id="ins-best-st">—</div><div class="kpi-subval" id="ins-best-st-val" style="color:#A8C078">—</div><div class="kpi-label">Meilleur S/T (marge)</div></div>
+      <div class="kpi-card green"><div class="kpi-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div><div class="kpi-name" id="ins-best-st">—</div><div class="kpi-subval" id="ins-best-st-val" style="color:#A8C078">—</div><div class="kpi-label">Meilleur S/T (marge)</div></div>
       <div class="kpi-card red"><div class="kpi-icon">📉</div><div class="kpi-name" id="ins-worst-st">—</div><div class="kpi-subval" id="ins-worst-st-val" style="color:#D88888">—</div><div class="kpi-label">S/T moins rentable</div></div>
-      <div class="kpi-card teal"><div class="kpi-icon">⭐</div><div class="kpi-name" id="ins-best-sal">—</div><div class="kpi-subval" id="ins-best-sal-val" style="color:#2DD4BF">—</div><div class="kpi-label">Meilleur salarié (CA)</div></div>
+      <div class="kpi-card teal"><div class="kpi-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg></div><div class="kpi-name" id="ins-best-sal">—</div><div class="kpi-subval" id="ins-best-sal-val" style="color:#2DD4BF">—</div><div class="kpi-label">Meilleur salarié (CA)</div></div>
       <div class="kpi-card orange"><div class="kpi-icon">🔻</div><div class="kpi-name" id="ins-worst-sal">—</div><div class="kpi-subval" id="ins-worst-sal-val" style="color:#C9A961">—</div><div class="kpi-label">Salarié moins actif</div></div>
-      <div class="kpi-card purple"><div class="kpi-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="kpi-name" id="ins-most-pen">—</div><div class="kpi-subval" id="ins-most-pen-val" style="color:#9F67FA">—</div><div class="kpi-label">Plus pénalisé</div></div>
+      <div class="kpi-card purple"><div class="kpi-icon"></div><div class="kpi-name" id="ins-most-pen">—</div><div class="kpi-subval" id="ins-most-pen-val" style="color:#9F67FA">—</div><div class="kpi-label">Plus pénalisé</div></div>
     </div>
 
     <div class="filters-bar">
-      <input type="text" class="search-input" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher un chauffeur..." oninput="filterTable(this.value)">
+      <input type="text" class="search-input" placeholder=" Rechercher un chauffeur..." oninput="filterTable(this.value)">
       <select class="filter-select" onchange="filterType(this.value)">
         <option value="tous">Tous les types</option>
         <option value="salarié">Salariés</option>
@@ -341,9 +340,9 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       </select>
       <select class="filter-select" onchange="filterStatut(this.value)">
         <option value="tous">Tous les statuts</option>
-        <option value="ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> OK</option>
+        <option value="ok"> OK</option>
         <option value="avance">💳 Avec avance</option>
-        <option value="penalite"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Avec pénalité</option>
+        <option value="penalite"> Avec pénalité</option>
         <option value="negatif">⛔ Négatif</option>
       </select>
       <div style="margin-left:auto;font-size:12px;color:var(--gray)" id="filter-info"></div>
@@ -376,7 +375,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
           </tbody>
           <tfoot>
             <tr class="totals-row" id="totals-row" style="display:none">
-              <td colspan="3" style="font-family:'Bebas Neue',sans-serif;letter-spacing:1px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> TOTAUX</td>
+              <td colspan="3" style="font-family:'Bebas Neue',sans-serif;letter-spacing:1px"> TOTAUX</td>
               <td class="r" id="tot-t">—</td>
               <td class="r" id="tot-b">—</td>
               <td class="r" id="tot-ca" style="color:#7AB3FF">—</td>
@@ -396,7 +395,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL EXPORT DÉTAILLÉ -->
 <div class="modal-overlay" id="modal-export-detail" onclick="if(event.target===this)closeExportDetail()">
   <div class="modal">
-    <div class="modal-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> EXPORT DÉTAILLÉ — SALAIRES</div>
+    <div class="modal-title"> EXPORT DÉTAILLÉ — SALAIRES</div>
     <div class="modal-sub">Détail jour par jour, tournée par tournée, avec calcul du salaire, CA, marge et pénalités. Idéal pour rapprochement paie & contrôle interne.</div>
     <div class="fg fg-2">
       <div><label class="lbl">Chauffeur</label>
@@ -430,12 +429,12 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <div><label class="lbl">Format de sortie</label>
         <select id="exp-format" class="is">
           <option value="excel">📥 Excel (.xlsx)</option>
-          <option value="pdf"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> PDF (impression)</option>
+          <option value="pdf"> PDF (impression)</option>
         </select>
       </div>
     </div>
     <div style="background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.25);border-radius:10px;padding:12px;font-size:11px;color:var(--light);line-height:1.7;margin-top:6px">
-      <strong style="color:#6B8E23">📋 Contenu de l'export :</strong><br>
+      <strong style="color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Contenu de l'export :</strong><br>
       • 1 ligne par tournée (date, jour, client, AM/PM, type prestation, qté, salaire, CA, marge)<br>
       • Sous-totaux par jour (AM, PM, Jour) et par client<br>
       • Récap pénalités, avance, prime, reste à verser<br>
@@ -458,7 +457,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <tbody id="detail-tbody"></tbody>
     </table>
     <div id="pen-recap" style="display:none;margin-top:14px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:#D88888;letter-spacing:1px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> PÉNALITÉS DU MOIS</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:#D88888;letter-spacing:1px;margin-bottom:8px"> PÉNALITÉS DU MOIS</div>
       <div id="pen-recap-list" class="pen-list"></div>
       <div id="pen-recap-total" style="text-align:right;font-weight:700;color:#D88888;font-size:13px;margin-top:6px"></div>
     </div>
@@ -491,7 +490,7 @@ function getTarifCh(client,driverType,dayType){if(!client)return 0;if(driverType
 function getValidationMap(){ return OT_SYNC.getValidationMap(); }
 async function getPenalitesMois(year,month){ return await OT_SYNC.getPenalitesMois(year,month); }
 
-document.addEventListener('DOMContentLoaded',()=>{try{if(!OT.requireAddon('chauffeurs'))return;if(OT.can('whatsapp_recap')){var thWa=document.getElementById('th-whatsapp-recap');if(thWa)thWa.style.display='';}goCurrentPeriod();}catch(e){const tb=document.getElementById('salaires-tbody');if(tb)tb.innerHTML=`<tr><td colspan="14"><div style="text-align:center;padding:40px;color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur init: ${e.message}</div></td></tr>`;console.error('[Chauffeurs] init error:',e);}});
+document.addEventListener('DOMContentLoaded',()=>{try{if(!OT.requireAddon('chauffeurs'))return;if(OT.can('whatsapp_recap')){var thWa=document.getElementById('th-whatsapp-recap');if(thWa)thWa.style.display='';}goCurrentPeriod();}catch(e){const tb=document.getElementById('salaires-tbody');if(tb)tb.innerHTML=`<tr><td colspan="14"><div style="text-align:center;padding:40px;color:#D88888"> Erreur init: ${e.message}</div></td></tr>`;console.error('[Chauffeurs] init error:',e);}});
 function goCurrentPeriod(){const n=new Date();currentYear=n.getFullYear();currentMonth=n.getMonth();currentWeek=0;loadData();}
 function changePeriod(dir){
   if(document.getElementById('period-type').value==='month'){currentMonth+=dir;if(currentMonth<0){currentMonth=11;currentYear--;}if(currentMonth>11){currentMonth=0;currentYear++;}}
@@ -528,10 +527,10 @@ async function loadData(){
     allChauffeurs=await r1.json();allTournees=await r2.json();const cl3=await r3.json();allClients=Array.isArray(cl3)?cl3:[];
     if(r4.ok){const ed=await r4.json();if(ed.length)entreprise=ed[0];}
     await compute();
-    setSyncOk(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${allChauffeurs.length} chauffeurs · ${allTournees.length} tournées`);
+    setSyncOk(` ${allChauffeurs.length} chauffeurs · ${allTournees.length} tournées`);
   }catch(e){
     setSyncErr(e.message);
-    if(tbody)tbody.innerHTML=`<tr><td colspan="14"><div style="text-align:center;padding:40px;color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur chargement: ${e.message}</div></td></tr>`;
+    if(tbody)tbody.innerHTML=`<tr><td colspan="14"><div style="text-align:center;padding:40px;color:#D88888"> Erreur chargement: ${e.message}</div></td></tr>`;
     console.error('[Chauffeurs] loadData error:',e);
   }
 }
@@ -564,19 +563,19 @@ async function compute(){
 
 function renderTable(data){
   const tbody=document.getElementById('salaires-tbody');tbody.innerHTML='';
-  if(!data.length){tbody.innerHTML=`<tr><td colspan="14"><div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px">📋</div>Aucune donnée</div></td></tr>`;document.getElementById('totals-row').style.display='none';updateKPIs([]);return;}
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="14"><div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div>Aucune donnée</div></td></tr>`;document.getElementById('totals-row').style.display='none';updateKPIs([]);return;}
   let totT=0,totB=0,totCA=0,totMarge=0,totPen=0,totA=0,totP=0,totR=0;
   data.forEach((c,i)=>{
     const r=c.brut-c.avance+c.prime-c.penalites;const hasPen=c.penalites>0;
-    const stat=r<0?{l:'⛔ Négatif',cl:'badge-red'}:hasPen?{l:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité',cl:'badge-purple'}:c.avance>0?{l:'💳 Avance',cl:'badge-blue'}:{l:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> OK',cl:'badge-green'};
+    const stat=r<0?{l:'⛔ Négatif',cl:'badge-red'}:hasPen?{l:' Pénalité',cl:'badge-purple'}:c.avance>0?{l:'💳 Avance',cl:'badge-blue'}:{l:' OK',cl:'badge-green'};
     const marge=c.marge;
     const margePct=c.ca>0?Math.round(marge/c.ca*100):null;
     const margeColor=marge>0?'#A8C078':marge<0?'#D88888':'var(--gray)';
-    const margeIcon=marge>0?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>':marge<0?'📉':'➡️';
+    const margeIcon=marge>0?'':marge<0?'📉':'➡️';
     const margePctStr=margePct!==null?` <span style="font-size:9px;opacity:0.75">(${margePct}%)</span>`:'';
     totT+=c.tournees;totB+=c.brut;totCA+=c.ca||0;totMarge+=marge;totPen+=c.penalites;totA+=c.avance;totP+=c.prime;totR+=r;
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td><div style="font-weight:700;color:var(--white)">${c.nom}</div>${c.tel?`<div style="font-size:10px;color:var(--gray)">${c.tel}</div>`:''}</td><td><span class="badge ${c.type==='salarié'?'badge-green':'badge-orange'}" style="font-size:10px">${c.type==='salarié'?'Salarié':'S/T'}</span></td><td class="r" style="font-weight:700;color:var(--white)">${c.tournees}</td><td class="r" style="font-weight:700;color:#6B8E23">${fe(c.brut)}</td><td class="r" style="font-weight:700;color:#7AB3FF">${c.ca>0?fe(c.ca):'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r" style="font-weight:700;color:${margeColor}">${c.ca>0?`${margeIcon} ${fe(marge)}${margePctStr}`:'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r" style="font-weight:700;color:${hasPen?'#D88888':'var(--gray2)'}"> ${hasPen?`<span title="${c.penList.map(p=>p.motif+' -'+p.montant+'€').join(', ')}" style="cursor:help">-${fe(c.penalites)} <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>`:'—'} </td><td class="r"><input class="avance-input" type="number" value="${c.avance}" min="0" onchange="updA('${c.nom}','avance',this.value)"></td><td class="r"><input class="avance-input" type="number" value="${c.prime}" min="0" style="color:${c.prime>0?'#6B8E23':'var(--light)'}" onchange="updA('${c.nom}','prime',this.value)"></td><td class="r" style="font-weight:700;color:${r<0?'#D88888':r===0?'var(--gray)':'#6B8E23'}">${fe(r)}</td><td><span class="badge ${stat.cl}">${stat.l}</span></td><td class="r td-wa-recap" style="${OT.can('whatsapp_recap')?'':'display:none'}">${c.tel&&OT.can('whatsapp_recap')?`<button class="action-btn" onclick="sendWA('${c.nom}',${c.tournees},${c.brut},${c.avance},${c.prime},${c.penalites},${r})">💬</button>`:'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r">${c.tournees>0?`<button class="action-btn" onclick="showDetail('${c.nom}')">👁</button>`:'—'}</td>`;
+    tr.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td><div style="font-weight:700;color:var(--white)">${c.nom}</div>${c.tel?`<div style="font-size:10px;color:var(--gray)">${c.tel}</div>`:''}</td><td><span class="badge ${c.type==='salarié'?'badge-green':'badge-orange'}" style="font-size:10px">${c.type==='salarié'?'Salarié':'S/T'}</span></td><td class="r" style="font-weight:700;color:var(--white)">${c.tournees}</td><td class="r" style="font-weight:700;color:#6B8E23">${fe(c.brut)}</td><td class="r" style="font-weight:700;color:#7AB3FF">${c.ca>0?fe(c.ca):'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r" style="font-weight:700;color:${margeColor}">${c.ca>0?`${margeIcon} ${fe(marge)}${margePctStr}`:'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r" style="font-weight:700;color:${hasPen?'#D88888':'var(--gray2)'}"> ${hasPen?`<span title="${c.penList.map(p=>p.motif+' -'+p.montant+'€').join(', ')}" style="cursor:help">-${fe(c.penalites)} <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>`:'—'} </td><td class="r"><input class="avance-input" type="number" value="${c.avance}" min="0" onchange="updA('${c.nom}','avance',this.value)"></td><td class="r"><input class="avance-input" type="number" value="${c.prime}" min="0" style="color:${c.prime>0?'#6B8E23':'var(--light)'}" onchange="updA('${c.nom}','prime',this.value)"></td><td class="r" style="font-weight:700;color:${r<0?'#D88888':r===0?'var(--gray)':'#6B8E23'}">${fe(r)}</td><td><span class="badge ${stat.cl}">${stat.l}</span></td><td class="r td-wa-recap" style="${OT.can('whatsapp_recap')?'':'display:none'}">${c.tel&&OT.can('whatsapp_recap')?`<button class="action-btn" onclick="sendWA('${c.nom}',${c.tournees},${c.brut},${c.avance},${c.prime},${c.penalites},${r})"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>`:'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r">${c.tournees>0?`<button class="action-btn" onclick="showDetail('${c.nom}')">👁</button>`:'—'}</td>`;
     tbody.appendChild(tr);
   });
   document.getElementById('tot-t').textContent=totT;document.getElementById('tot-b').textContent=fe(totB);document.getElementById('tot-ca').textContent=totCA>0?fe(totCA):'—';const tmEl=document.getElementById('tot-marge');tmEl.textContent=totCA>0?fe(totMarge)+'('+Math.round(totMarge/totCA*100)+'%)':'—';tmEl.style.color=totMarge>0?'#A8C078':totMarge<0?'#D88888':'var(--gray)';document.getElementById('tot-pen').textContent=totPen>0?'-'+fe(totPen):'—';document.getElementById('tot-a').textContent=fe(totA);document.getElementById('tot-p').textContent=fe(totP);document.getElementById('tot-r').textContent=fe(totR);
@@ -628,7 +627,7 @@ async function updA(nom,field,val){
     toast(`💾 ${field==='prime'?'Prime':'Avance'} enregistrée — ${nom}`);
   }catch(e){
     console.warn('[Chauffeurs] auto-save avance failed:',e);
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Sauvegarde impossible, réessayez');
+    toast(' Sauvegarde impossible, réessayez');
   }
 }
 
@@ -657,7 +656,7 @@ function renderGroupedST(data){
   const tbody=document.getElementById('salaires-tbody');
   tbody.innerHTML='';
   if(!data.length){
-    tbody.innerHTML=`<tr><td colspan="14"><div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg></div>Aucun sous-traitant trouvé</div></td></tr>`;
+    tbody.innerHTML=`<tr><td colspan="14"><div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"></div>Aucun sous-traitant trouvé</div></td></tr>`;
     document.getElementById('totals-row').style.display='none';
     updateKPIs([]);
     return;
@@ -675,22 +674,22 @@ function renderGroupedST(data){
     // ── En-tête société ──
     const hTr=document.createElement('tr');
     hTr.className='company-header-row';
-    hTr.innerHTML=`<td colspan="14"><span style="font-family:'Bebas Neue',sans-serif;font-size:15px;color:#4FD1E0;letter-spacing:1.5px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> ${company}</span><span style="font-size:11px;color:var(--gray);margin-left:14px">${drivers.length} chauffeur${drivers.length>1?'s':''}</span></td>`;
+    hTr.innerHTML=`<td colspan="14"><span style="font-family:'Bebas Neue',sans-serif;font-size:15px;color:#4FD1E0;letter-spacing:1.5px"> ${company}</span><span style="font-size:11px;color:var(--gray);margin-left:14px">${drivers.length} chauffeur${drivers.length>1?'s':''}</span></td>`;
     tbody.appendChild(hTr);
     let stT=0,stB=0,stCA=0,stMarge=0,stPen=0,stA=0,stP=0,stR=0;
     drivers.forEach(c=>{
       rowIdx++;
       const r=c.brut-c.avance+c.prime-c.penalites;
       const hasPen=c.penalites>0;
-      const stat=r<0?{l:'⛔ Négatif',cl:'badge-red'}:hasPen?{l:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité',cl:'badge-purple'}:c.avance>0?{l:'💳 Avance',cl:'badge-blue'}:{l:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> OK',cl:'badge-green'};
+      const stat=r<0?{l:'⛔ Négatif',cl:'badge-red'}:hasPen?{l:' Pénalité',cl:'badge-purple'}:c.avance>0?{l:'💳 Avance',cl:'badge-blue'}:{l:' OK',cl:'badge-green'};
       const marge=c.ca-c.brut;
       const margePct=c.ca>0?Math.round(marge/c.ca*100):null;
       const margeColor=marge>0?'#A8C078':marge<0?'#D88888':'var(--gray)';
-      const margeIcon=marge>0?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>':marge<0?'📉':'➡️';
+      const margeIcon=marge>0?'':marge<0?'📉':'➡️';
       const margePctStr=margePct!==null?` <span style="font-size:9px;opacity:0.75">(${margePct}%)</span>`:'';
       stT+=c.tournees;stB+=c.brut;stCA+=c.ca||0;stMarge+=marge;stPen+=c.penalites;stA+=c.avance;stP+=c.prime;stR+=r;
       const tr=document.createElement('tr');
-      tr.innerHTML=`<td style="color:var(--gray);font-size:11px;padding-left:22px">${rowIdx}</td><td><div style="font-weight:700;color:var(--white)">${c.nom}</div>${c.tel?`<div style="font-size:10px;color:var(--gray)">${c.tel}</div>`:''}</td><td><span class="badge badge-orange" style="font-size:10px">S/T</span></td><td class="r" style="font-weight:700;color:var(--white)">${c.tournees}</td><td class="r" style="font-weight:700;color:#6B8E23">${fe(c.brut)}</td><td class="r" style="font-weight:700;color:#7AB3FF">${c.ca>0?fe(c.ca):'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r" style="font-weight:700;color:${margeColor}">${c.ca>0?`${margeIcon} ${fe(marge)}${margePctStr}`:'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r" style="font-weight:700;color:${hasPen?'#D88888':'var(--gray2)'}"> ${hasPen?`<span title="${c.penList.map(p=>p.motif+' -'+p.montant+'€').join(', ')}" style="cursor:help">-${fe(c.penalites)} <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>`:'—'} </td><td class="r"><input class="avance-input" type="number" value="${c.avance}" min="0" onchange="updA('${c.nom}','avance',this.value)"></td><td class="r"><input class="avance-input" type="number" value="${c.prime}" min="0" style="color:${c.prime>0?'#6B8E23':'var(--light)'}" onchange="updA('${c.nom}','prime',this.value)"></td><td class="r" style="font-weight:700;color:${r<0?'#D88888':r===0?'var(--gray)':'#6B8E23'}">${fe(r)}</td><td><span class="badge ${stat.cl}">${stat.l}</span></td><td class="r td-wa-recap" style="${OT.can('whatsapp_recap')?'':'display:none'}">${c.tel&&OT.can('whatsapp_recap')?`<button class="action-btn" onclick="sendWA('${c.nom}',${c.tournees},${c.brut},${c.avance},${c.prime},${c.penalites},${r})">💬</button>`:'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r">${c.tournees>0?`<button class="action-btn" onclick="showDetail('${c.nom}')">👁</button>`:'—'}</td>`;
+      tr.innerHTML=`<td style="color:var(--gray);font-size:11px;padding-left:22px">${rowIdx}</td><td><div style="font-weight:700;color:var(--white)">${c.nom}</div>${c.tel?`<div style="font-size:10px;color:var(--gray)">${c.tel}</div>`:''}</td><td><span class="badge badge-orange" style="font-size:10px">S/T</span></td><td class="r" style="font-weight:700;color:var(--white)">${c.tournees}</td><td class="r" style="font-weight:700;color:#6B8E23">${fe(c.brut)}</td><td class="r" style="font-weight:700;color:#7AB3FF">${c.ca>0?fe(c.ca):'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r" style="font-weight:700;color:${margeColor}">${c.ca>0?`${margeIcon} ${fe(marge)}${margePctStr}`:'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r" style="font-weight:700;color:${hasPen?'#D88888':'var(--gray2)'}"> ${hasPen?`<span title="${c.penList.map(p=>p.motif+' -'+p.montant+'€').join(', ')}" style="cursor:help">-${fe(c.penalites)} <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>`:'—'} </td><td class="r"><input class="avance-input" type="number" value="${c.avance}" min="0" onchange="updA('${c.nom}','avance',this.value)"></td><td class="r"><input class="avance-input" type="number" value="${c.prime}" min="0" style="color:${c.prime>0?'#6B8E23':'var(--light)'}" onchange="updA('${c.nom}','prime',this.value)"></td><td class="r" style="font-weight:700;color:${r<0?'#D88888':r===0?'var(--gray)':'#6B8E23'}">${fe(r)}</td><td><span class="badge ${stat.cl}">${stat.l}</span></td><td class="r td-wa-recap" style="${OT.can('whatsapp_recap')?'':'display:none'}">${c.tel&&OT.can('whatsapp_recap')?`<button class="action-btn" onclick="sendWA('${c.nom}',${c.tournees},${c.brut},${c.avance},${c.prime},${c.penalites},${r})"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>`:'<span style="color:var(--gray2);font-size:11px">—</span>'}</td><td class="r">${c.tournees>0?`<button class="action-btn" onclick="showDetail('${c.nom}')">👁</button>`:'—'}</td>`;
       tbody.appendChild(tr);
     });
     // ── Sous-total société ──
@@ -726,14 +725,14 @@ function showDetail(nom){
   const tbody=document.getElementById('detail-tbody');tbody.innerHTML='';
   c.list.sort((a,b)=>a.date.localeCompare(b.date)).forEach(t=>{
     const val=valMap[t.id];let valLabel='<span style="color:var(--gray2);font-size:10px">Non validée</span>';
-    if(val&&val.statut==='validee')valLabel='<span style="color:#6B8E23;font-size:10px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Validée</span>';
-    if(val&&val.statut==='penalisee')valLabel=`<span style="color:#D88888;font-size:10px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${val.motif||''} (-${val.montant}€)</span>`;
+    if(val&&val.statut==='validee')valLabel='<span style="color:#6B8E23;font-size:10px"> Validée</span>';
+    if(val&&val.statut==='penalisee')valLabel=`<span style="color:#D88888;font-size:10px"> ${val.motif||''} (-${val.montant}€)</span>`;
     const tr=document.createElement('tr');
     tr.innerHTML=`<td>${new Date(t.date+'T12:00:00').toLocaleDateString('fr-FR')}</td><td style="font-weight:600">${t.client_nom}</td><td><span style="background:rgba(245,166,35,0.15);color:var(--accent);font-size:10px;padding:2px 8px;border-radius:10px">${t.slot}</span></td><td style="font-family:'Courier New',monospace;color:var(--accent)">${t.heure||'—'}</td><td style="font-size:11px;color:var(--gray)">${t.vehicule||'—'}</td><td>${valLabel}</td>`;
     tbody.appendChild(tr);
   });
   const penBlock=document.getElementById('pen-recap');const penList=c.penList||[];
-  if(penList.length>0){penBlock.style.display='block';const listEl=document.getElementById('pen-recap-list');listEl.innerHTML='';penList.forEach(p=>{const d=document.createElement('div');d.className='pen-item';d.innerHTML=`<span class="pen-motif"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${p.motif}</span><span class="pen-amount">-${p.montant}€</span>`;listEl.appendChild(d);});document.getElementById('pen-recap-total').textContent=`Total pénalités : -${fe(c.penalites)}`;}
+  if(penList.length>0){penBlock.style.display='block';const listEl=document.getElementById('pen-recap-list');listEl.innerHTML='';penList.forEach(p=>{const d=document.createElement('div');d.className='pen-item';d.innerHTML=`<span class="pen-motif"> ${p.motif}</span><span class="pen-amount">-${p.montant}€</span>`;listEl.appendChild(d);});document.getElementById('pen-recap-total').textContent=`Total pénalités : -${fe(c.penalites)}`;}
   else{penBlock.style.display='none';}
   document.getElementById('modal-detail').classList.add('show');
 }
@@ -870,7 +869,7 @@ function _buildChauffeurSheet(c,tournees,label,clMap){
     const list=byDate[date].slice().sort((a,b)=>(a.slot||'').localeCompare(b.slot||''));
     const dayName=_dayFR(date);const dt=getDayType(date);
     const dayBadge=dt==='ferie'?' · 🎉 Férié':dt==='dimanche'?' · Dimanche':'';
-    rows.push([{v:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${dayName} ${_dateFR(date)}${dayBadge}`,s:_XS.DAY_HDR},...Array(NCOLS-1).fill({v:'',s:_XS.DAY_HDR})]);
+    rows.push([{v:` ${dayName} ${_dateFR(date)}${dayBadge}`,s:_XS.DAY_HDR},...Array(NCOLS-1).fill({v:'',s:_XS.DAY_HDR})]);
     merges.push({s:{r:rows.length-1,c:0},e:{r:rows.length-1,c:NCOLS-1}});
     let dAM=0,dPM=0,dSal=0,dCA=0;
     list.forEach(t=>{
@@ -882,7 +881,7 @@ function _buildChauffeurSheet(c,tournees,label,clMap){
       byClient[t.client_nom||'—']=byClient[t.client_nom||'—']||{n:0,sal:0,ca:0};
       byClient[t.client_nom||'—'].n++;byClient[t.client_nom||'—'].sal+=d.salaire;byClient[t.client_nom||'—'].ca+=d.ca;
       const v=valMap[t.id];
-      const valLbl=v?(v.statut==='penalisee'?`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${v.motif||''} (-${v.montant||0}€)`:v.statut==='validee'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Validée':'—'):'—';
+      const valLbl=v?(v.statut==='penalisee'?` ${v.motif||''} (-${v.montant||0}€)`:v.statut==='validee'?' Validée':'—'):'—';
       rows.push([
         {v:_dateFR(t.date),s:_XS.CELL_C},
         {v:dayName,s:_XS.CELL_C},
@@ -898,7 +897,7 @@ function _buildChauffeurSheet(c,tournees,label,clMap){
     });
     if(dAM>0){rows.push([{v:''},{v:''},{v:''},{v:''},{v:'Total AM du jour',s:_XS.SUBT_AM},{v:'',s:_XS.SUBT_AM},{v:dAM,t:'n',s:_XS.SUBT_AM},{v:'',s:_XS.SUBT_AM},{v:'',s:_XS.SUBT_AM},{v:'',s:_XS.SUBT_AM}]);}
     if(dPM>0){rows.push([{v:''},{v:''},{v:''},{v:''},{v:'Total PM du jour',s:_XS.SUBT_PM},{v:'',s:_XS.SUBT_PM},{v:dPM,t:'n',s:_XS.SUBT_PM},{v:'',s:_XS.SUBT_PM},{v:'',s:_XS.SUBT_PM},{v:'',s:_XS.SUBT_PM}]);}
-    rows.push([{v:''},{v:''},{v:''},{v:''},{v:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> TOTAL JOUR',s:_XS.SUBT_DAY},{v:'',s:_XS.SUBT_DAY},{v:dSal,t:'n',s:_XS.SUBT_DAY},{v:dCA,t:'n',s:_XS.SUBT_DAY},{v:dCA-dSal,t:'n',s:_XS.SUBT_DAY},{v:'',s:_XS.SUBT_DAY}]);
+    rows.push([{v:''},{v:''},{v:''},{v:''},{v:' TOTAL JOUR',s:_XS.SUBT_DAY},{v:'',s:_XS.SUBT_DAY},{v:dSal,t:'n',s:_XS.SUBT_DAY},{v:dCA,t:'n',s:_XS.SUBT_DAY},{v:dCA-dSal,t:'n',s:_XS.SUBT_DAY},{v:'',s:_XS.SUBT_DAY}]);
     rows.push(blank());
   });
   // Récap par client
@@ -1027,7 +1026,7 @@ function generateExportDetailExcel(){
     closeExportDetail();
   }catch(e){
     console.error('[exportDetailChauffeurs]',e);
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur export : '+e.message,'error');
+    toast(' Erreur export : '+e.message,'error');
   }
 }
 
@@ -1053,7 +1052,7 @@ function exportSalairesPDF(){
           const d=_detailTourneeCh(c,t,clMap);
           sal+=d.salaire;ca+=d.ca;
           const v=valMap[t.id];
-          const valLbl=v?(v.statut==='penalisee'?`<span style="color:#C0392B"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${v.motif||''} -${v.montant||0}€</span>`:v.statut==='validee'?'<span style="color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Validée</span>':'—'):'—';
+          const valLbl=v?(v.statut==='penalisee'?`<span style="color:#C0392B"> ${v.motif||''} -${v.montant||0}€</span>`:v.statut==='validee'?'<span style="color:#6B8E23"> Validée</span>':'—'):'—';
           dayRows.push({date,t,d,valLbl});
         });
       });
@@ -1114,7 +1113,7 @@ body{font-family:'Outfit','Helvetica Neue',Arial,sans-serif;font-size:11px;color
   <div class="header">
     <div>
       <div class="co-name">${_esc(entNom)}</div>
-      <div class="co-info">${_esc(ent.adresse||'')} ${_esc(ent.code_postal||'')} ${_esc(ent.ville||'')}<br>${ent.telephone?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> '+_esc(ent.telephone)+' · ':''}${ent.email?_esc(ent.email):''}<br>${ent.siret?'SIRET : '+_esc(ent.siret):''}</div>
+      <div class="co-info">${_esc(ent.adresse||'')} ${_esc(ent.code_postal||'')} ${_esc(ent.ville||'')}<br>${ent.telephone?' '+_esc(ent.telephone)+' · ':''}${ent.email?_esc(ent.email):''}<br>${ent.siret?'SIRET : '+_esc(ent.siret):''}</div>
     </div>
     <div>
       <div class="doc-title">RAPPORT SALAIRES</div>
@@ -1124,7 +1123,7 @@ body{font-family:'Outfit','Helvetica Neue',Arial,sans-serif;font-size:11px;color
     </div>
   </div>
 
-  <div class="section-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> SYNTHÈSE GLOBALE</div>
+  <div class="section-title"> SYNTHÈSE GLOBALE</div>
   <table class="synthesis">
     <thead><tr>
       <th>Chauffeur</th><th>Type</th><th>Société</th>
@@ -1162,13 +1161,13 @@ body{font-family:'Outfit','Helvetica Neue',Arial,sans-serif;font-size:11px;color
   </table>`;
 
     // ── Détail par chauffeur ──
-    html+=`<div class="section-title">📋 DÉTAIL PAR CHAUFFEUR</div>`;
+    html+=`<div class="section-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> DÉTAIL PAR CHAUFFEUR</div>`;
     chData.forEach(x=>{
       const c=x.c;
       const typeLbl=c.type==='salarié'?'Salarié':'Sous-traitant';
       html+=`<div class="driver-block">
         <div class="driver-head">
-          <div class="name"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ${_esc(c.nom)}</div>
+          <div class="name"> ${_esc(c.nom)}</div>
           <div class="badge">${typeLbl}</div>
         </div>
         <div class="driver-info">
@@ -1215,22 +1214,22 @@ body{font-family:'Outfit','Helvetica Neue',Arial,sans-serif;font-size:11px;color
 </div></body></html>`;
 
     const win=window.open('','_pdfprint','width=1100,height=1200');
-    if(!win){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Pop-up bloqué — autorisez les pop-ups','error');return;}
+    if(!win){toast(' Pop-up bloqué — autorisez les pop-ups','error');return;}
     win.document.write(html);
     win.document.close();win.focus();
     setTimeout(()=>{try{win.print();}catch(e){console.warn('[exportPDF print]',e);}},800);
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> PDF généré — utilisez « Enregistrer en PDF » dans la boîte d\'impression');
+    toast(' PDF généré — utilisez « Enregistrer en PDF » dans la boîte d\'impression');
     closeExportDetail();
   }catch(e){
     console.error('[exportSalairesPDF]',e);
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur export PDF : '+e.message,'error');
+    toast(' Erreur export PDF : '+e.message,'error');
   }
 }
 
 function fe(n){return(n<0?'-':'')+Math.abs(Math.round(n)).toLocaleString('fr-FR')+'€';}
 function setSyncOk(msg){const el=document.getElementById('sync-info');if(el){el.textContent=msg;el.style.color='#6B8E23';}}
-function setSyncErr(msg){const el=document.getElementById('sync-info');if(el){el.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+msg;el.style.color='#D88888';}}
-function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4000);}
+function setSyncErr(msg){const el=document.getElementById('sync-info');if(el){el.textContent=' '+msg;el.style.color='#D88888';}}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'':''}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4000);}
 </script>
 <script>document.addEventListener('keydown',function(e){if(e.ctrlKey&&e.shiftKey&&e.key==='A'){window.location.href='optimum_trans_superadmin.html';}});</script>
 <div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">

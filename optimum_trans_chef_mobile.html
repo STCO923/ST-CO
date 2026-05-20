@@ -191,7 +191,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
     <span class="nav-icon">📆</span>Planning
   </button>
   <button class="nav-btn" onclick="window.location.href='optimum_trans_gazole.html'">
-    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span>Gazole
+    <span class="nav-icon"></span>Gazole
   </button>
   <button class="nav-btn" id="nav-vehicules" onclick="showScreen('vehicules');loadVehicules()">
     <span class="nav-icon">🚐</span>Véhicules
@@ -202,14 +202,14 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 <div class="modal-overlay" id="modal-pen" onclick="if(event.target===this)closePenModal()">
   <div class="modal-sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> PÉNALITÉ</div>
+    <div class="sheet-title"> PÉNALITÉ</div>
     <div class="sheet-sub" id="pen-sub">Sélectionnez le motif</div>
     <div id="pen-options"></div>
     <div id="pen-custom-block" style="display:none;margin-bottom:10px">
       <label style="font-size:10px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px">Montant personnalisé (€)</label>
       <input type="number" id="pen-custom-amount" min="0" value="0" style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--white);outline:none;width:100%">
     </div>
-    <button class="btn-primary-m" onclick="confirmPenalty()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Appliquer la pénalité</button>
+    <button class="btn-primary-m" onclick="confirmPenalty()"> Appliquer la pénalité</button>
     <button class="btn-secondary-m" onclick="closePenModal()">Annuler</button>
   </div>
 </div>
@@ -328,10 +328,10 @@ async function loadWeek(){
     updateKPIs();
     buildDaysStrip(dates);
     renderDay(dates[selectedDayIdx]);
-    document.getElementById('sync-info').textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${allTournees.length}t`;
+    document.getElementById('sync-info').textContent=` ${allTournees.length}t`;
   }catch(e){
-    document.getElementById('sync-info').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
-    document.getElementById('day-content').innerHTML=`<div class="empty-day"><div class="empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>${e.message}</div>`;
+    document.getElementById('sync-info').textContent='';
+    document.getElementById('day-content').innerHTML=`<div class="empty-day"><div class="empty-icon"></div>${e.message}</div>`;
   }
 }
 
@@ -369,7 +369,7 @@ function renderDay(date){
   const cont=document.getElementById('day-content');
 
   if(!tours.length&&!allAbsences.filter(a=>a.date_debut<=dateStr&&a.date_fin>=dateStr).length){
-    cont.innerHTML=`<div class="empty-day"><div class="empty-icon">📋</div><div style="font-size:13px">${dayLabel}</div><div style="font-size:11px;color:var(--gray2);margin-top:4px">Aucune tournée ce jour</div></div>`;
+    cont.innerHTML=`<div class="empty-day"><div class="empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div><div style="font-size:13px">${dayLabel}</div><div style="font-size:11px;color:var(--gray2);margin-top:4px">Aucune tournée ce jour</div></div>`;
     return;
   }
 
@@ -385,7 +385,7 @@ function renderDay(date){
 
   // Absences ce jour
   const absMap={};
-  const absLabels={conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'};
+  const absLabels={conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:' Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'};
   allAbsences.filter(a=>a.date_debut<=dateStr&&a.date_fin>=dateStr).forEach(a=>{absMap[a.chauffeur_nom]=a.type;});
 
   cont.innerHTML=`<div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:10px">${dayLabel} · ${tours.length} tournée${tours.length>1?'s':''}</div>`;
@@ -416,11 +416,10 @@ function buildChauffeurSection(nom,tours,dateStr,idx,chefDuJour,absType){
 
   const header=document.createElement('div');
   header.className='ch-section-header expanded';
-  header.innerHTML=`
-    <div class="ch-avatar-sm" style="background:${color}">${ini}</div>
+  header.innerHTML=` <div class="ch-avatar-sm" style="background:${color}">${ini}</div>
     <div style="flex:1;min-width:0">
       <div class="ch-name-m">${nom}${isChef?' <span style="font-size:9px;background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);border-radius:5px;padding:1px 5px;color:#4FD1E0;vertical-align:middle">👔</span>':''}</div>
-      <div class="ch-meta-m">${absType?`<span style="color:#D88888">${{conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'}[absType]||'Absent'}</span>`:tours.length>0?`${tours.length} tournée${tours.length>1?'s':''} · ${nbVal} validée${nbVal>1?'s':''}`:''}</div>
+      <div class="ch-meta-m">${absType?`<span style="color:#D88888">${{conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:' Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'}[absType]||'Absent'}</span>`:tours.length>0?`${tours.length} tournée${tours.length>1?'s':''} · ${nbVal} validée${nbVal>1?'s':''}`:''}</div>
     </div>
     <div class="ch-count">${tours.length||''}</div>
     <div style="font-size:16px;color:var(--gray);margin-left:6px" class="chevron">▾</div>`;
@@ -465,11 +464,10 @@ function buildChauffeurSection(nom,tours,dateStr,idx,chefDuJour,absType){
     card.className=`t-card ${cls}`;
     let valHtml='';
     if(valInfo){
-      if(valInfo.statut==='validee') valHtml=`<div class="val-badge ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Validée</div>`;
-      else if(valInfo.statut==='penalisee') valHtml=`<div class="val-badge pen"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${valInfo.motif}${valInfo.montant>0?' (-'+valInfo.montant+'€)':''}</div>`;
+      if(valInfo.statut==='validee') valHtml=`<div class="val-badge ok"> Validée</div>`;
+      else if(valInfo.statut==='penalisee') valHtml=`<div class="val-badge pen"> ${valInfo.motif}${valInfo.montant>0?' (-'+valInfo.montant+'€)':''}</div>`;
     }
-    card.innerHTML=`
-      <div class="t-client">${t.client_nom}</div>
+    card.innerHTML=` <div class="t-client">${t.client_nom}</div>
       <div class="t-meta">
         <span class="t-chip ${cls}">${t.slot}</span>
         ${t.heure?`<span class="t-chip">🕐 ${t.heure}</span>`:''}
@@ -482,14 +480,14 @@ function buildChauffeurSection(nom,tours,dateStr,idx,chefDuJour,absType){
     if(!valInfo||valInfo.statut==='penalisee'){
       const btnV=document.createElement('button');
       btnV.className='btn-val btn-ok';
-      btnV.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valider';
+      btnV.textContent=' Valider';
       btnV.onclick=()=>{ validateTournee(t.id,nom); };
       actDiv.appendChild(btnV);
     }
     if(!valInfo||valInfo.statut==='validee'){
       const btnP=document.createElement('button');
       btnP.className='btn-val btn-pen';
-      btnP.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité';
+      btnP.textContent=' Pénalité';
       btnP.onclick=()=>{ openPenModal(t.id,nom,t.client_nom); };
       actDiv.appendChild(btnP);
     }
@@ -528,7 +526,7 @@ async function saveChefJour(dateStr,chauffeurNom){
       toast('Chef du jour retiré');
     }
     renderDay(getWeekDates()[selectedDayIdx]);
-  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error'); }
+  }catch(e){ toast(' '+e.message,'error'); }
 }
 
 // VALIDATION
@@ -537,7 +535,7 @@ function getValidationMap(){ return OT_SYNC.getValidationMap(); }
 
 async function validateTournee(tourneeId,chauffeurNom){
   await OT_SYNC.validateTournee(tourneeId,chauffeurNom);
-  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée validée');
+  toast(' Tournée validée');
   updateKPIs();
   renderDay(getWeekDates()[selectedDayIdx]);
 }
@@ -554,7 +552,7 @@ let penalitesConfig=[];
 async function loadPenalites(){
   penalitesConfig = await OT_SYNC.loadPenalitesConfig();
 }
-function defaultPen(){return [{id:'retard',label:'Retard',icon:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}];}
+function defaultPen(){return [{id:'retard',label:'Retard',icon:'',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}];}
 
 async function openPenModal(tourneeId,chauffeurNom,clientNom){
   await loadPenalites();
@@ -585,7 +583,7 @@ async function confirmPenalty(){
   let montant=penModal_selectedMotif.montant;
   if(montant===0) montant=parseFloat(document.getElementById('pen-custom-amount').value)||0;
   await OT_SYNC.penalizeTournee(penModal_tourneeId,penModal_chauffeurNom,penModal_selectedMotif.label,penModal_selectedMotif.id,montant);
-  toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité ${penModal_selectedMotif.label} — -${montant}€`);
+  toast(` Pénalité ${penModal_selectedMotif.label} — -${montant}€`);
   closePenModal();
   updateKPIs();
   renderDay(getWeekDates()[selectedDayIdx]);
@@ -610,28 +608,27 @@ async function loadDemandes(){
     const r=await fetch(`${SB}/rest/v1/absences?company_id=eq.${companyId}&statut=eq.en_attente&order=created_at.desc`,{headers:H()});
     const data=r.ok?await r.json():[];
     const el=document.getElementById('demandes-list');
-    const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',formation:'📚 Formation',autre:'📌 Autre',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Abs. NJ',jour_ferie:'🎉 Férié'};
-    if(!data.length){el.innerHTML='<div class="empty-day"><div class="empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div><div style="font-size:13px">Aucune demande en attente</div></div>';return;}
+    const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',formation:'📚 Formation',autre:'📌 Autre',absence_injustifiee:' Abs. NJ',jour_ferie:'🎉 Férié'};
+    if(!data.length){el.innerHTML='<div class="empty-day"><div class="empty-icon"></div><div style="font-size:13px">Aucune demande en attente</div></div>';return;}
     el.innerHTML='';
     data.forEach(d=>{
       const div=document.createElement('div');
       div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;';
-      div.innerHTML=`
-        <div style="font-weight:700;color:var(--white);font-size:13px">${d.chauffeur_nom}</div>
+      div.innerHTML=` <div style="font-weight:700;color:var(--white);font-size:13px">${d.chauffeur_nom}</div>
         <div style="font-size:11px;color:var(--gray);margin:3px 0">${typeL[d.type]||d.type} · ${fmtDate(d.date_debut)} → ${fmtDate(d.date_fin)}</div>
         ${d.note?`<div style="font-size:11px;color:var(--gray2);font-style:italic;margin-bottom:8px">"${d.note}"</div>`:'<div style="margin-bottom:8px"></div>'}
         <div style="display:flex;gap:8px">
-          <button onclick="actionDemande('${d.id}','approuve')" style="flex:1;background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#6B8E23;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuver</button>
-          <button onclick="actionDemande('${d.id}','refuse')" style="flex:1;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#D88888;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refuser</button>
+          <button onclick="actionDemande('${d.id}','approuve')" style="flex:1;background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#6B8E23;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit"> Approuver</button>
+          <button onclick="actionDemande('${d.id}','refuse')" style="flex:1;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#D88888;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit"> Refuser</button>
         </div>`;
       el.appendChild(div);
     });
-  }catch(e){document.getElementById('demandes-list').innerHTML=`<div style="color:#D88888;padding:20px;text-align:center"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;}
+  }catch(e){document.getElementById('demandes-list').innerHTML=`<div style="color:#D88888;padding:20px;text-align:center"> ${e.message}</div>`;}
 }
 
 async function actionDemande(id,statut){
   await fetch(`${SB}/rest/v1/absences?id=eq.${id}`,{method:'PATCH',headers:H(),body:JSON.stringify({statut})});
-  toast(statut==='approuve'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuvée':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refusée');
+  toast(statut==='approuve'?' Approuvée':' Refusée');
   loadDemandes();loadDemandesCount();
 }
 
@@ -645,17 +642,16 @@ async function loadVehicules(){
     if(!data.length){el.innerHTML='<div class="empty-day"><div class="empty-icon">🚐</div><div style="font-size:13px">Aucun véhicule</div></div>';return;}
     el.innerHTML='';
     const statColors={disponible:'#6B8E23',en_mission:'#C9A961',maintenance:'#D88888',hors_service:'#5A5048'};
-    const statLabels={disponible:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Disponible',en_mission:'🟠 En mission',maintenance:'🔧 Maintenance',hors_service:'⛔ Hors service'};
+    const statLabels={disponible:' Disponible',en_mission:'🟠 En mission',maintenance:'🔧 Maintenance',hors_service:'⛔ Hors service'};
     data.forEach(v=>{
       const today=new Date();today.setHours(0,0,0,0);
       const ctDays=v.date_ct?Math.round((new Date(v.date_ct)-today)/86400000):null;
       const assurDays=v.date_assurance?Math.round((new Date(v.date_assurance)-today)/86400000):null;
-      const alertCT=ctDays!==null&&ctDays<=30?`<span style="font-size:10px;color:${ctDays<=0?'#D88888':'#C9A961'}"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> CT ${ctDays<=0?'expiré':'dans '+ctDays+'j'}</span>`:'';
-      const alertAssur=assurDays!==null&&assurDays<=30?`<span style="font-size:10px;color:${assurDays<=0?'#D88888':'#C9A961'}"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Assur. ${assurDays<=0?'expirée':'dans '+assurDays+'j'}</span>`:'';
+      const alertCT=ctDays!==null&&ctDays<=30?`<span style="font-size:10px;color:${ctDays<=0?'#D88888':'#C9A961'}"> CT ${ctDays<=0?'expiré':'dans '+ctDays+'j'}</span>`:'';
+      const alertAssur=assurDays!==null&&assurDays<=30?`<span style="font-size:10px;color:${assurDays<=0?'#D88888':'#C9A961'}"> Assur. ${assurDays<=0?'expirée':'dans '+assurDays+'j'}</span>`:'';
       const div=document.createElement('div');
       div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;';
-      div.innerHTML=`
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      div.innerHTML=` <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
           <div style="font-weight:700;color:var(--white);font-size:14px">🚐 ${v.immatriculation}${v.typologie?' <span style="font-size:10px;color:#E8C66E;font-weight:600">['+v.typologie+']</span>':''}</div>
           <span style="font-size:11px;font-weight:700;color:${statColors[v.statut]||'var(--gray)'}">${statLabels[v.statut]||v.statut}</span>
         </div>
@@ -663,7 +659,7 @@ async function loadVehicules(){
         ${alertCT||alertAssur?`<div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap">${alertCT}${alertAssur}</div>`:''}`;
       el.appendChild(div);
     });
-  }catch(e){document.getElementById('vehicules-list').innerHTML=`<div style="color:#D88888;padding:20px;text-align:center"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;}
+  }catch(e){document.getElementById('vehicules-list').innerHTML=`<div style="color:#D88888;padding:20px;text-align:center"> ${e.message}</div>`;}
 }
 
 function fmtDate(d){if(!d)return '—';const[y,m,j]=d.split('-');return`${j}/${m}/${y}`;}

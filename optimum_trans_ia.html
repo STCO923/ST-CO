@@ -166,39 +166,38 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 <body>
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
     <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine</a>
     <a class="nav-item" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH & Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients & Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
     <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
-      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
-    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item active" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item active" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar">T.S</div>
-      <div><div class="user-name">Admin</div><div class="user-role"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres →</div></div>
+      <div><div class="user-name">Admin</div><div class="user-role"> Paramètres →</div></div>
       <button onclick="event.stopPropagation();OT.logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;">⏻</button>
     </div>
   </div>
@@ -206,9 +205,9 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 
 <main class="main">
   <div class="topbar">
-    <div class="topbar-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA BUSINESS ANALYST</div>
+    <div class="topbar-title"> IA BUSINESS ANALYST</div>
     <div class="topbar-right">
-      <span id="sync-info" style="font-size:11px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA prête</span>
+      <span id="sync-info" style="font-size:11px;color:var(--gray)"> IA prête</span>
       <span class="remaining-badge" id="remaining-badge">10 messages restants</span>
     </div>
   </div>
@@ -218,7 +217,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
     <div class="card">
       <div class="card-header">
         <div>
-          <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> ANALYSE QUOTIDIENNE</div>
+          <div class="card-title"> ANALYSE QUOTIDIENNE</div>
           <div style="font-size:11px;color:var(--gray);margin-top:2px" id="analysis-date">—</div>
         </div>
         <button class="btn-sm btn-ai" onclick="generateAnalysis()">🧠 Générer l'analyse</button>
@@ -233,9 +232,9 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
         </div>
         <div class="kpi-row">
           <div class="kpi-mini ai"><div class="kpi-mini-icon">💶</div><div class="kpi-mini-val" id="kpi-ca">—</div><div class="kpi-mini-label">CA du mois</div></div>
-          <div class="kpi-mini green"><div class="kpi-mini-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="kpi-mini-val" id="kpi-growth">—</div><div class="kpi-mini-label">Évolution</div></div>
+          <div class="kpi-mini green"><div class="kpi-mini-icon"></div><div class="kpi-mini-val" id="kpi-growth">—</div><div class="kpi-mini-label">Évolution</div></div>
           <div class="kpi-mini orange"><div class="kpi-mini-icon">🚐</div><div class="kpi-mini-val" id="kpi-tournees">—</div><div class="kpi-mini-label">Tournées mois</div></div>
-          <div class="kpi-mini blue"><div class="kpi-mini-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></div><div class="kpi-mini-val" id="kpi-gazole">—</div><div class="kpi-mini-label">Gazole mois</div></div>
+          <div class="kpi-mini blue"><div class="kpi-mini-icon"></div><div class="kpi-mini-val" id="kpi-gazole">—</div><div class="kpi-mini-label">Gazole mois</div></div>
         </div>
       </div>
     </div>
@@ -243,15 +242,15 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
     <!-- CHAT IA -->
     <div class="card">
       <div class="card-header">
-        <div class="card-title">💬 ASSISTANT IA — Transport & Rentabilité</div>
+        <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ASSISTANT IA — Transport & Rentabilité</div>
         <span class="remaining-badge" id="chat-remaining">10 restants</span>
       </div>
       <div class="chat-area" id="chat-messages"></div>
       <div class="suggestions">
-        <button class="suggestion-btn" onclick="useSuggestion('Quel est le client le plus rentable ce mois-ci ?')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Client le plus rentable ?</button>
-        <button class="suggestion-btn" onclick="useSuggestion('Quel chauffeur a le plus de pénalités ?')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalités chauffeurs</button>
+        <button class="suggestion-btn" onclick="useSuggestion('Quel est le client le plus rentable ce mois-ci ?')"> Client le plus rentable ?</button>
+        <button class="suggestion-btn" onclick="useSuggestion('Quel chauffeur a le plus de pénalités ?')"> Pénalités chauffeurs</button>
         <button class="suggestion-btn" onclick="useSuggestion('Comment optimiser mes coûts de transport ?')">📉 Optimiser les coûts</button>
-        <button class="suggestion-btn" onclick="useSuggestion('Fais une projection de mon CA pour la fin de l année')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Projection CA</button>
+        <button class="suggestion-btn" onclick="useSuggestion('Fais une projection de mon CA pour la fin de l année')"> Projection CA</button>
         <button class="suggestion-btn" onclick="useSuggestion('Quels clients devraient voir leurs tarifs augmentés ?')">💹 Tarifs à revoir</button>
       </div>
       <div class="chat-input-wrap">
@@ -303,7 +302,7 @@ function appendMessage(role, text) {
   if (role === 'user') {
     div.innerHTML = text + '<div class="msg-time">' + time + '</div>';
   } else {
-    div.innerHTML = formatAIText(text) + '<div class="msg-time"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA · ' + time + '</div>';
+    div.innerHTML = formatAIText(text) + '<div class="msg-time"> IA · ' + time + '</div>';
   }
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
@@ -362,7 +361,7 @@ async function loadQuickStats() {
     }
     document.getElementById('kpi-tournees').textContent = stats.nbTourneesMois;
     document.getElementById('kpi-gazole').textContent = Math.round(stats.totalGazole).toLocaleString('fr-FR') + ' EUR';
-    document.getElementById('sync-info').textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> ' + stats.nbClients + ' clients · ' + stats.nbChauffeurs + ' chauffeurs';
+    document.getElementById('sync-info').textContent = ' ' + stats.nbClients + ' clients · ' + stats.nbChauffeurs + ' chauffeurs';
   } catch (e) {
     console.warn('[IA] Stats error:', e);
   }
@@ -378,9 +377,9 @@ async function generateAnalysis() {
     toast('Analyse quotidienne générée avec succès');
   } catch (e) {
     if (e.message && e.message.indexOf('Limite') >= 0) {
-      report.innerHTML = '<div class="placeholder"><div class="placeholder-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div><div class="placeholder-text">' + e.message + '<br><span style="font-size:12px;color:var(--gray2)">L\'analyse quotidienne sera disponible demain.</span></div></div>';
+      report.innerHTML = '<div class="placeholder"><div class="placeholder-icon"></div><div class="placeholder-text">' + e.message + '<br><span style="font-size:12px;color:var(--gray2)">L\'analyse quotidienne sera disponible demain.</span></div></div>';
     } else {
-      report.innerHTML = '<div class="placeholder"><div class="placeholder-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div class="placeholder-text">Erreur : ' + (e.message || 'Connexion impossible') + '</div></div>';
+      report.innerHTML = '<div class="placeholder"><div class="placeholder-icon"></div><div class="placeholder-text">Erreur : ' + (e.message || 'Connexion impossible') + '</div></div>';
       toast('Erreur lors de l\'analyse', 'error');
     }
   }

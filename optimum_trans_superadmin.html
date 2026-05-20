@@ -236,7 +236,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
   </div>
   <div style="display:flex;gap:10px;align-items:center">
     <button class="btn-sm btn-accent" onclick="openNewCompany()">+ Nouvelle entreprise</button>
-    <button class="btn-sm btn-ghost" onclick="openSAKeyModal()" id="btn-sakey" title="Configurer la clé service_role Supabase"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Clé API</button>
+    <button class="btn-sm btn-ghost" onclick="openSAKeyModal()" id="btn-sakey" title="Configurer la clé service_role Supabase"> Clé API</button>
     <button class="btn-sm btn-ghost" onclick="window.location.href='optimum_trans_dashboard.html'">← Dashboard</button>
   </div>
 </div>
@@ -245,10 +245,10 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 
   <!-- ONGLETS SA -->
   <div class="sa-tabs-bar" style="display:flex;gap:4px;margin-bottom:22px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content">
-    <div id="tab-btn-companies" class="sa-tab active" onclick="switchSATab('companies',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Entreprises</div>
-    <div id="tab-btn-billing"   class="sa-tab"        onclick="switchSATab('billing',this)">💳 Facturation SaaS</div>
-    <div id="tab-btn-plans"     class="sa-tab"        onclick="switchSATab('plans',this)">📋 Plans & Tarifs</div>
-    <div id="tab-btn-stt"       class="sa-tab"        onclick="switchSATab('stt',this);loadSTTRelations()">🔗 Relations STT</div>
+    <div id="tab-btn-companies" class="sa-tab active" onclick="switchSATab('companies',this)"> Entreprises</div>
+    <div id="tab-btn-billing" class="sa-tab" onclick="switchSATab('billing',this)">💳 Facturation SaaS</div>
+    <div id="tab-btn-plans" class="sa-tab" onclick="switchSATab('plans',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Plans & Tarifs</div>
+    <div id="tab-btn-stt" class="sa-tab" onclick="switchSATab('stt',this);loadSTTRelations()">🔗 Relations STT</div>
   </div>
 
   <!-- ═══ VUE ENTREPRISES ═══ -->
@@ -265,8 +265,8 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
   <!-- ENTREPRISES -->
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <div><div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> ENTREPRISES CLIENTES</div><div style="font-size:12px;color:var(--gray)">Gérez les accès, plans et quotas de chaque client</div></div>
-      <input type="text" id="search-co" class="ii" style="width:200px" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher..." oninput="filterCompanies(this.value)">
+      <div><div class="card-title"> ENTREPRISES CLIENTES</div><div style="font-size:12px;color:var(--gray)">Gérez les accès, plans et quotas de chaque client</div></div>
+      <input type="text" id="search-co" class="ii" style="width:200px" placeholder=" Rechercher..." oninput="filterCompanies(this.value)">
     </div>
     <div style="overflow-x:auto">
       <table class="params-table">
@@ -302,14 +302,14 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
           <div style="font-size:12px;color:var(--gray)">Créez et envoyez les factures mensuelles à chaque client via Stripe</div>
         </div>
         <div style="display:flex;gap:8px">
-          <button class="btn-sm btn-ghost" onclick="loadBillingData()">🔄 Actualiser</button>
+          <button class="btn-sm btn-ghost" onclick="loadBillingData()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Actualiser</button>
           <button class="btn-sm btn-accent" onclick="generateAllInvoices()">⚡ Tout facturer ce mois</button>
         </div>
       </div>
 
       <!-- Stripe connecté -->
       <div style="background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.25);border-radius:10px;padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:12px">
-        <span style="font-size:18px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>
+        <span style="font-size:18px"></span>
         <div><span style="font-weight:700;color:#6B8E23">Stripe connecté</span> <span style="color:var(--gray)">— Mode TEST · Clé sécurisée côté serveur</span></div>
         <a href="https://dashboard.stripe.com/test/invoices" target="_blank" style="margin-left:auto;color:#E8C66E;font-size:11px;text-decoration:none">Voir sur Stripe →</a>
       </div>
@@ -330,7 +330,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
     <!-- Historique factures -->
     <div class="card" style="margin-top:18px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div class="card-title">📋 HISTORIQUE DES FACTURES</div>
+        <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> HISTORIQUE DES FACTURES</div>
         <select id="billing-filter-statut" class="ii" style="width:160px;font-size:12px" onchange="loadInvoiceHistory()">
           <option value="">Tous statuts</option>
           <option value="en_attente">En attente</option>
@@ -370,8 +370,8 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
       .plan-card .plan-price span { font-size:.9rem; font-weight:400; color:var(--gray); }
       .plan-card ul { list-style:none; padding:0; margin:0; }
       .plan-card ul li { padding:5px 0; font-size:.88rem; color:var(--text); }
-      .plan-card ul li.feat-ok::before { content:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> '; }
-      .plan-card ul li.feat-no::before { content:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '; color:var(--gray); }
+      .plan-card ul li.feat-ok::before { content:' '; }
+      .plan-card ul li.feat-no::before { content:' '; color:var(--gray); }
       .plan-card ul li.feat-no { opacity:.5; }
 
       .addons-section { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px 28px; margin-bottom:28px; }
@@ -438,7 +438,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
             <li class="feat-ok">Clients & Export CSV</li>
             <li class="feat-ok">RH, Contrats & Fiches de paie</li>
             <li class="feat-ok">Paramètres entreprise</li>
-            <li class="feat-ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA Analyst (inclus)</li>
+            <li class="feat-ok"> IA Analyst (inclus)</li>
             <li class="feat-no">WhatsApp chauffeurs</li>
             <li class="feat-no">Facturation Excel</li>
             <li class="feat-no">Chauffeurs & Salaires</li>
@@ -458,7 +458,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
             <li class="feat-ok">Chauffeurs & Salaires</li>
             <li class="feat-ok">Validation tournées + pénalités</li>
             <li class="feat-ok">Export CSV salaires & tournées</li>
-            <li class="feat-ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA Analyst (inclus)</li>
+            <li class="feat-ok"> IA Analyst (inclus)</li>
             <li class="feat-no">Suivi Gazole</li>
             <li class="feat-no">Export Excel gazole</li>
             <li class="feat-no">WhatsApp récap salaire</li>
@@ -476,7 +476,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
             <li class="feat-ok">Export CSV salaires complet</li>
             <li class="feat-ok">2 admins + 5 chefs d'équipe</li>
             <li class="feat-ok">Chauffeurs illimités</li>
-            <li class="feat-ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA Analyst (inclus)</li>
+            <li class="feat-ok"> IA Analyst (inclus)</li>
           </ul>
         </div>
       </div>
@@ -486,7 +486,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
         <h3><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Addons disponibles</h3>
         <div class="addons-grid">
           <div class="addon-item">
-            <div class="addon-name"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Feuille de Route</div>
+            <div class="addon-name"> Feuille de Route</div>
             <div class="addon-price">+59,99€ /mois</div>
             <div class="addon-desc">Génération automatique des feuilles de route pour chaque chauffeur et tournée.</div>
           </div>
@@ -498,7 +498,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
         <h3>🧪 Intelligence Artificielle</h3>
         <div class="ai-cards">
           <div class="ai-card">
-            <div class="ai-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></div>
+            <div class="ai-icon"></div>
             <div class="ai-name">IA Analyst</div>
             <div class="ai-desc">Analyse rentabilité clients, performances chauffeurs, optimisation coûts, projections financières.</div>
             <div class="ai-tag included">Inclus dans tous les plans</div>
@@ -510,7 +510,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
             <div class="ai-tag addon">Addon 59,99€/mois</div>
           </div>
           <div class="ai-card">
-            <div class="ai-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></div>
+            <div class="ai-icon"></div>
             <div class="ai-name">JuJu Telegram</div>
             <div class="ai-desc">Assistant IA conversationnel sur Telegram — pilotez toute votre activité par messages texte ou vocaux. Planning, tournées, chauffeurs, clients, véhicules, absences, facturation, salaires, gazole, amendes, export Excel. Audit quotidien automatique avec alertes et recommandations métier.</div>
             <div class="ai-tag addon">Addon 69,99€/mois</div>
@@ -557,7 +557,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
           </div>
         </div>
         <div id="stt-create-error" style="font-size:11px;color:#D88888;margin-bottom:8px;display:none"></div>
-        <button class="btn-sm btn-accent" onclick="createSTTRelation()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer la relation</button>
+        <button class="btn-sm btn-accent" onclick="createSTTRelation()"> Créer la relation</button>
       </div>
 
       <!-- Liste des relations -->
@@ -573,7 +573,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 <!-- MODAL ENTREPRISE -->
 <div class="modal-overlay" id="modal-co" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="modal-title" id="modal-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> NOUVELLE ENTREPRISE</div>
+    <div class="modal-title" id="modal-title"> NOUVELLE ENTREPRISE</div>
     <div class="modal-sub">Configurez l'accès client et choisissez le plan</div>
 
     <!-- PLAN SELECTOR -->
@@ -584,7 +584,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 
     <!-- QUOTAS DISPLAY -->
     <div id="quota-display" style="background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.15);border-radius:10px;padding:14px 16px;margin-bottom:16px">
-      <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Quotas inclus dans ce plan</div>
+      <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px"> Quotas inclus dans ce plan</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" id="quota-boxes">
         <!-- Rendered by JS -->
       </div>
@@ -615,7 +615,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
         </div>
         <!-- ALERTE DÉPASSEMENT -->
         <div class="quota-alert" id="quota-alert">
-          <span style="font-size:20px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+          <span style="font-size:20px"></span>
           <div>
             <div style="font-size:13px;font-weight:700;color:#D88888" id="quota-alert-title">Dépassement de quota</div>
             <div style="font-size:11px;color:var(--gray);margin-top:2px" id="quota-alert-detail">—</div>
@@ -647,7 +647,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
       </label>
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
         <input type="checkbox" id="co-addon-route" onchange="refreshAutoPriceDisplay()" style="accent-color:var(--blue);width:16px;height:16px">
-        <span>🗺️ Feuille de Route <strong style="color:var(--accent)">+59,99€/mois</strong></span>
+        <span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Feuille de Route <strong style="color:var(--accent)">+59,99€/mois</strong></span>
       </label>
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
         <input type="checkbox" id="co-addon-dispatch" onchange="refreshAutoPriceDisplay()" style="accent-color:var(--purple);width:16px;height:16px">
@@ -699,7 +699,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
               <input type="number" id="co-custom-price" class="ii" min="0" step="0.01" placeholder="Ex: 150.00" style="font-weight:700">
             </div>
             <div style="font-size:11px;color:var(--gray);max-width:220px;line-height:1.5">
-              💡 Ce montant remplace le prix calculé du forfait + addons pour ce client (affichage, MRR, facturation).
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Ce montant remplace le prix calculé du forfait + addons pour ce client (affichage, MRR, facturation).
             </div>
           </div>
           <div id="custom-price-info" style="font-size:11px;color:var(--gray)">Prix forfait calculé : <span id="auto-price-display" style="color:var(--accent);font-weight:600">—</span></div>
@@ -722,7 +722,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border)">
       <button class="btn-sm btn-ghost" onclick="closeModal()">Annuler</button>
-      <button class="btn-sm btn-accent" id="btn-save-co" onclick="saveCompany()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer l'entreprise</button>
+      <button class="btn-sm btn-accent" id="btn-save-co" onclick="saveCompany()"> Créer l'entreprise</button>
     </div>
     <input type="hidden" id="co-edit-id">
   </div>
@@ -734,7 +734,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 <div id="drawer-users" style="position:fixed;top:0;right:-480px;width:480px;height:100vh;background:var(--navy2);border-left:1px solid var(--border);z-index:300;display:flex;flex-direction:column;transition:right 0.35s cubic-bezier(.4,0,.2,1);box-shadow:-8px 0 40px rgba(0,0,0,0.4);">
   <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
     <div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--white);letter-spacing:2px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> UTILISATEURS</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--white);letter-spacing:2px"> UTILISATEURS</div>
       <div style="font-size:12px;color:var(--gray);margin-top:2px" id="drawer-co-name">—</div>
     </div>
     <div style="display:flex;gap:8px">
@@ -764,12 +764,12 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 
   <!-- Formulaire ajout/modif user -->
   <div id="drawer-form" style="display:none;padding:20px 24px;border-top:1px solid var(--border);background:rgba(26,79,191,0.06);flex-shrink:0">
-    <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="drawer-form-title">➕ Nouvel utilisateur</div>
+    <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="drawer-form-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nouvel utilisateur</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
       <div><label class="lbl">Nom complet *</label><input type="text" id="u-nom" class="ii" placeholder="NOM Prénom" style="font-size:12px;padding:8px 10px"></div>
       <div><label class="lbl">Rôle *</label>
         <select id="u-role" class="is" style="font-size:12px;padding:8px 10px" onchange="toggleChauffeurField()">
-          <option value="admin"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Admin</option>
+          <option value="admin"> Admin</option>
           <option value="chef_equipe">👔 Chef d'équipe</option>
           <option value="chauffeur">🚐 Chauffeur</option>
         </select>
@@ -782,7 +782,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
     <div id="u-quota-alert" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px;color:#D88888"></div>
     <div style="display:flex;gap:8px;justify-content:flex-end">
       <button class="btn-sm btn-ghost" onclick="cancelUserForm()" style="font-size:12px">Annuler</button>
-      <button class="btn-sm btn-accent" id="btn-save-user" onclick="saveUser()" style="font-size:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer</button>
+      <button class="btn-sm btn-accent" id="btn-save-user" onclick="saveUser()" style="font-size:12px"> Enregistrer</button>
     </div>
     <input type="hidden" id="u-edit-id">
   </div>
@@ -811,7 +811,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
       <button onclick="closeSAKeyModal()" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:#8B7355;cursor:pointer">Annuler</button>
       <button onclick="saveSAKey()" style="flex:2;background:linear-gradient(135deg,#4FD1E0,#4F46E5);color:#fff;border:none;border-radius:10px;padding:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer">💾 Charger pour cette session</button>
     </div>
-    <button onclick="clearSAKey()" style="width:100%;background:transparent;border:1px solid rgba(231,76,60,0.4);border-radius:10px;padding:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#D88888;cursor:pointer">🔒 Purger la clé maintenant</button>
+    <button onclick="clearSAKey()" style="width:100%;background:transparent;border:1px solid rgba(231,76,60,0.4);border-radius:10px;padding:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:#D88888;cursor:pointer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Purger la clé maintenant</button>
   </div>
 </div>
 
@@ -823,13 +823,13 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
     <div style="font-size:12px;color:#8B7355;text-align:center;margin-bottom:18px" id="tmppwd-user-label">—</div>
     <div style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.3);border-radius:12px;padding:14px 16px;margin-bottom:6px;display:flex;align-items:center;gap:12px">
       <div id="tmppwd-value" style="font-family:monospace;font-size:20px;font-weight:700;color:#C9A961;letter-spacing:3px;flex:1">—</div>
-      <button onclick="copyTmpPwd()" style="background:rgba(245,166,35,0.15);border:1px solid rgba(245,166,35,0.3);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;color:#C9A961" title="Copier">📋</button>
+      <button onclick="copyTmpPwd()" style="background:rgba(245,166,35,0.15);border:1px solid rgba(245,166,35,0.3);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;color:#C9A961" title="Copier"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></button>
     </div>
     <div style="font-size:11px;color:#8B7355;margin-bottom:20px;line-height:1.6;padding:8px 10px;background:rgba(255,255,255,0.03);border-radius:8px">
       <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> L'utilisateur devra <strong style="color:#fff">changer ce mot de passe</strong> dès sa prochaine connexion.<br>
       Communiquez-lui ce mot de passe temporaire de façon sécurisée.
     </div>
-    <button onclick="closeTmpPwdModal()" style="width:100%;background:linear-gradient(135deg,#C9A961,#C9A961);color:#fff;border:none;border-radius:10px;padding:12px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Compris</button>
+    <button onclick="closeTmpPwdModal()" style="width:100%;background:linear-gradient(135deg,#C9A961,#C9A961);color:#fff;border:none;border-radius:10px;padding:12px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer"> Compris</button>
   </div>
 </div>
 
@@ -894,7 +894,7 @@ const HS = ()=>({'Content-Type':'application/json','apikey':getSAKey(),'Authoriz
 // (sessionStorage vide ou expiré). Retourne true si OK, false si bloquant.
 function requireSAKey(){
   if(getSAKey()) return true;
-  if(typeof toast==='function') toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Clé API manquante — clique sur <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Clé API','error');
+  if(typeof toast==='function') toast(' Clé API manquante — clique sur <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Clé API','error');
   if(typeof openSAKeyModal==='function') setTimeout(openSAKeyModal,400);
   return false;
 }
@@ -916,9 +916,9 @@ const PLANS = {
       {ok:false,txt:'Facturation Excel'},
       {ok:false,txt:'Chauffeurs & Salaires'},
       {ok:false,txt:'Suivi Gazole'},
-      {ok:true,txt:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA Analyst (inclus)'},
+      {ok:true,txt:' IA Analyst (inclus)'},
       {ok:false,txt:'🧠 IA Dispatch (addon +59,99€)'},
-      {ok:false,txt:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> JuJu Telegram — Gérez tout par messages ou vocal (addon +69,99€)'},
+      {ok:false,txt:' JuJu Telegram — Gérez tout par messages ou vocal (addon +69,99€)'},
     ]
   },
   pro: {
@@ -935,9 +935,9 @@ const PLANS = {
       {ok:false,txt:'Suivi Gazole'},
       {ok:false,txt:'Export Excel gazole'},
       {ok:false,txt:'WhatsApp récap salaire'},
-      {ok:true,txt:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA Analyst (inclus)'},
+      {ok:true,txt:' IA Analyst (inclus)'},
       {ok:false,txt:'🧠 IA Dispatch (addon +59,99€)'},
-      {ok:false,txt:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> JuJu Telegram — Gérez tout par messages ou vocal (addon +69,99€)'},
+      {ok:false,txt:' JuJu Telegram — Gérez tout par messages ou vocal (addon +69,99€)'},
     ]
   },
   business: {
@@ -951,9 +951,9 @@ const PLANS = {
       {ok:true,txt:'Export CSV salaires complet'},
       {ok:true,txt:'2 admins + 5 chefs d\'équipe'},
       {ok:true,txt:'Chauffeurs illimités'},
-      {ok:true,txt:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA Analyst (inclus)'},
+      {ok:true,txt:' IA Analyst (inclus)'},
       {ok:false,txt:'🧠 IA Dispatch (addon +59,99€)'},
-      {ok:false,txt:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> JuJu Telegram — Gérez tout par messages ou vocal (addon +69,99€)'},
+      {ok:false,txt:' JuJu Telegram — Gérez tout par messages ou vocal (addon +69,99€)'},
     ]
   }
 };
@@ -977,7 +977,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   // Indicateur clé API (sessionStorage, pas localStorage)
   if(!sessionStorage.getItem(SA_KEY_STORE_KEY)){
     const btn=document.getElementById('btn-sakey');
-    if(btn){btn.style.border='1px solid rgba(231,76,60,0.5)';btn.style.color='#D88888';btn.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Clé API';}
+    if(btn){btn.style.border='1px solid rgba(231,76,60,0.5)';btn.style.color='#D88888';btn.textContent=' Clé API';}
     // Prompt automatique : la clé est requise pour quasiment toutes les
     // opérations admin. Mieux vaut la demander tout de suite que de laisser
     // le superadmin tomber sur des "Clé API manquante" à chaque clic.
@@ -1000,12 +1000,11 @@ function renderPlanSelector(){
     const div=document.createElement('div');
     div.className='plan-card'+(key===selectedPlan?' selected':'')+(p.popular?' popular':'');
     div.onclick=()=>selectPlan(key);
-    div.innerHTML=`
-      ${p.popular?'<div class="popular-badge">⭐ POPULAIRE</div>':''}
+    div.innerHTML=` ${p.popular?'<div class="popular-badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> POPULAIRE</div>':''}
       <div class="plan-name" style="color:${p.couleur}">${p.emoji} ${p.nom.toUpperCase()}</div>
       <div class="plan-price">${p.prix.toLocaleString('fr-FR',{minimumFractionDigits:2})}<span>€/mois</span></div>
       <div class="plan-feat">
-        ${p.feats.slice(0,5).map(f=>`<div class="${f.ok?'ok':'no'}">${f.ok?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'} ${f.txt}</div>`).join('')}
+        ${p.feats.slice(0,5).map(f=>`<div class="${f.ok?'ok':'no'}">${f.ok?'':''} ${f.txt}</div>`).join('')}
         <div style="color:var(--gray2);font-size:10px;margin-top:4px">+${p.feats.length-5} fonctionnalités...</div>
       </div>`;
     container.appendChild(div);
@@ -1027,8 +1026,7 @@ function selectPlan(key){
 
 function updateQuotaDisplay(){
   const p=PLANS[selectedPlan];
-  document.getElementById('quota-boxes').innerHTML=`
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+  document.getElementById('quota-boxes').innerHTML=` <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
       <div style="font-size:22px;font-weight:900;color:var(--white)">${p.max_admins}</div>
       <div style="font-size:10px;color:var(--gray);margin-top:2px">Admin${p.max_admins>1?'s':''}</div>
     </div>
@@ -1083,13 +1081,13 @@ function checkQuotaAlert(){
   const qc=parseInt(document.getElementById('q-chefs').value)||0;
   const qch=parseInt(document.getElementById('q-chauffeurs').value)||0;
   const alerts=[];
-  if(qa>p.max_admins) alerts.push(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Admins: ${qa} > ${p.max_admins} prévu pour le plan ${p.nom}`);
-  if(qc>p.max_chefs) alerts.push(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Chefs d'équipe: ${qc} > ${p.max_chefs} prévu pour le plan ${p.nom}`);
-  if(p.max_chauffeurs!==999&&qch>p.max_chauffeurs) alerts.push(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Chauffeurs: ${qch} > ${p.max_chauffeurs} prévu pour le plan ${p.nom}`);
+  if(qa>p.max_admins) alerts.push(` Admins: ${qa} > ${p.max_admins} prévu pour le plan ${p.nom}`);
+  if(qc>p.max_chefs) alerts.push(` Chefs d'équipe: ${qc} > ${p.max_chefs} prévu pour le plan ${p.nom}`);
+  if(p.max_chauffeurs!==999&&qch>p.max_chauffeurs) alerts.push(` Chauffeurs: ${qch} > ${p.max_chauffeurs} prévu pour le plan ${p.nom}`);
   const alertEl=document.getElementById('quota-alert');
   if(alerts.length){
     alertEl.classList.add('show');
-    document.getElementById('quota-alert-title').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Nombre d\'utilisateurs supérieur au plan choisi';
+    document.getElementById('quota-alert-title').textContent=' Nombre d\'utilisateurs supérieur au plan choisi';
     document.getElementById('quota-alert-detail').textContent=alerts.join(' · ');
   } else {
     alertEl.classList.remove('show');
@@ -1109,7 +1107,7 @@ async function loadCompanies(){
     updateKPIs();
   }catch(e){
     console.error('[SuperAdmin] Erreur:', e);
-    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:20px;color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur: ${e.message}</td></tr>`;
+    tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:20px;color:#D88888"> Erreur: ${e.message}</td></tr>`;
   }
 }
 
@@ -1124,41 +1122,38 @@ function renderCompanies(data){
     const today=new Date(); today.setHours(0,0,0,0);
     const daysLeft=expiry?Math.round((expiry-today)/86400000):null;
     const expiryHtml=expiry
-      ?`<span style="color:${daysLeft<=7?'#D88888':daysLeft<=30?'#C9A961':'#6B8E23'};font-size:11px">${daysLeft<=0?'⛔ Expiré':daysLeft<=30?`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${daysLeft}j`:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${daysLeft}j`}</span>`
-      :'<span style="color:var(--gray2)">—</span>';
-    const usersHtml=`
-      <div style="font-size:11px;line-height:1.8">
-        <span title="Admins"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ${co.max_admins||1}</span> ·
+      ?`<span style="color:${daysLeft<=7?'#D88888':daysLeft<=30?'#C9A961':'#6B8E23'};font-size:11px">${daysLeft<=0?'⛔ Expiré':daysLeft<=30?` ${daysLeft}j`:` ${daysLeft}j`}</span>` :'<span style="color:var(--gray2)">—</span>';
+    const usersHtml=` <div style="font-size:11px;line-height:1.8">
+        <span title="Admins"> ${co.max_admins||1}</span> ·
         <span title="Chefs">👔 ${co.max_chefs||2}</span> ·
         <span title="Chauffeurs">🚐 ${co.max_chauffeurs>=999?'∞':co.max_chauffeurs||10}</span>
       </div>`;
     const addonsHtml=[
-      co.addon_route?'<span class="badge badge-blue" style="font-size:9px">🗺️ Route</span>':'',
+      co.addon_route?'<span class="badge badge-blue" style="font-size:9px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Route</span>':'',
       co.addon_saisie?'<span class="badge badge-green" style="font-size:9px">📝 Saisie</span>':'',
       co.addon_dispatch?'<span class="badge" style="font-size:9px;background:rgba(124,58,237,0.15);color:#4FD1E0">🧠 Dispatch</span>':'',
       co.addon_tracking?'<span class="badge" style="font-size:9px;background:rgba(16,185,129,0.15);color:#6B8E23">📡 Tracking</span>':'',
-      co.addon_decompte_st?'<span class="badge" style="font-size:9px;background:rgba(245,166,35,0.15);color:#C9A961"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Décompte ST</span>':'',
-      co.addon_zone?'<span class="badge" style="font-size:9px;background:rgba(59,130,246,0.15);color:#E8C66E"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Zone</span>':'',
+      co.addon_decompte_st?'<span class="badge" style="font-size:9px;background:rgba(245,166,35,0.15);color:#C9A961"> Décompte ST</span>':'',
+      co.addon_zone?'<span class="badge" style="font-size:9px;background:rgba(59,130,246,0.15);color:#E8C66E"> Zone</span>':'',
       co.addon_etat_vehicule?'<span class="badge" style="font-size:9px;background:rgba(124,58,237,0.15);color:#4FD1E0">📸 État Véhicule</span>':'',
-      co.addon_agent?'<span class="badge" style="font-size:9px;background:rgba(139,92,246,0.15);color:#4FD1E0"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> Agent IA</span>':'',
+      co.addon_agent?'<span class="badge" style="font-size:9px;background:rgba(139,92,246,0.15);color:#4FD1E0"> Agent IA</span>':'',
       co.addon_stt?'<span class="badge" style="font-size:9px;background:rgba(16,185,129,0.15);color:#6B8E23">🔗 STT</span>':'',
     ].filter(Boolean).join(' ')||'<span style="color:var(--gray2);font-size:11px">—</span>';
     const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td>
+    tr.innerHTML=` <td>
         <div style="font-weight:700;color:var(--white)">${co.name}</div>
         <div style="font-size:10px;color:var(--gray)">${co.email||''}</div>
       </td>
       <td><span style="font-weight:700;color:${planColor}">${p.emoji} ${p.nom}</span><br><span style="font-size:10px;color:var(--gray)">${p.prix.toLocaleString('fr-FR',{minimumFractionDigits:2})}€/mois</span></td>
       <td>${usersHtml}</td>
-      <td style="font-weight:700;color:#6B8E23">${(co.custom_price!=null&&co.custom_price!=='')?`<span title="Prix personnalisé (override)">${Number(co.custom_price).toLocaleString('fr-FR',{minimumFractionDigits:2})}€ <span style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:3px;vertical-align:middle">✏️ Manuel</span></span>`:(co.price?Number(co.price).toLocaleString('fr-FR',{minimumFractionDigits:2})+'€':'—')}</td>
+      <td style="font-weight:700;color:#6B8E23">${(co.custom_price!=null&&co.custom_price!=='')?`<span title="Prix personnalisé (override)">${Number(co.custom_price).toLocaleString('fr-FR',{minimumFractionDigits:2})}€ <span style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:3px;vertical-align:middle"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Manuel</span></span>`:(co.price?Number(co.price).toLocaleString('fr-FR',{minimumFractionDigits:2})+'€':'—')}</td>
       <td>${expiryHtml}</td>
       <td>${addonsHtml}</td>
-      <td><span class="badge ${co.status==='active'?'badge-green':co.status==='suspended'?'badge-red':'badge-orange'}">${co.status==='active'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Actif':co.status==='suspended'?'🔴 Suspendu':'⏳ '+co.status}</span></td>
+      <td><span class="badge ${co.status==='active'?'badge-green':co.status==='suspended'?'badge-red':'badge-orange'}">${co.status==='active'?' Actif':co.status==='suspended'?'🔴 Suspendu':'⏳ '+co.status}</span></td>
       <td style="white-space:nowrap">
-        <button class="icon-btn" onclick="openUsersDrawer('${co.id}','${co.name.replace(/'/g,"\\'")}')" title="Gérer les utilisateurs" style="color:#E8C66E"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></button>
-        <button class="icon-btn" onclick="editCompany('${co.id}')" title="Modifier">✏️</button>
-        ${co.addon_agent?`<button class="icon-btn" onclick="generateTelegramCode('${co.id}','${co.name.replace(/'/g,"\\'")}')" title="Générer code Telegram" style="color:#4FD1E0"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></button>`:''}
+        <button class="icon-btn" onclick="openUsersDrawer('${co.id}','${co.name.replace(/'/g,"\\'")}')" title="Gérer les utilisateurs" style="color:#E8C66E"></button>
+        <button class="icon-btn" onclick="editCompany('${co.id}')" title="Modifier"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        ${co.addon_agent?`<button class="icon-btn" onclick="generateTelegramCode('${co.id}','${co.name.replace(/'/g,"\\'")}')" title="Générer code Telegram" style="color:#4FD1E0"></button>`:''}
         <button class="icon-btn" onclick="toggleStatus('${co.id}','${co.status}')" title="${co.status==='active'?'Suspendre':'Activer'}">${co.status==='active'?'⏸️':'▶️'}</button>
         <button class="icon-btn" onclick="deleteCompany('${co.id}','${co.name.replace(/'/g,"\\'")}');" style="color:rgba(231,76,60,0.7)" title="Supprimer">🗑</button>
       </td>`;
@@ -1203,8 +1198,8 @@ function generatePwd(...ids){
 function openNewCompany(){
   editingId=null;
   selectedPlan='pro';
-  document.getElementById('modal-title').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> NOUVELLE ENTREPRISE';
-  document.getElementById('btn-save-co').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer l\'entreprise';
+  document.getElementById('modal-title').textContent=' NOUVELLE ENTREPRISE';
+  document.getElementById('btn-save-co').textContent=' Créer l\'entreprise';
   document.getElementById('new-account-block').style.display='block';
   document.getElementById('co-edit-id').value='';
   ['co-name','co-email','co-phone','co-city','co-siret','co-resp','co-pwd','co-pwd2'].forEach(id=>document.getElementById(id).value='');
@@ -1311,7 +1306,7 @@ async function saveCompany(){
   if(maxChefs>p.max_chefs) alerts.push(`Chefs (${maxChefs}) > plan ${p.nom} (${p.max_chefs})`);
   if(p.max_chauffeurs!==999&&maxChauffeurs>p.max_chauffeurs) alerts.push(`Chauffeurs (${maxChauffeurs}) > plan ${p.nom} (${p.max_chauffeurs})`);
   if(alerts.length){
-    if(!confirm(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Attention : nombre d'utilisateurs supérieur au plan choisi.\n\n${alerts.join('\n')}\n\nVoulez-vous continuer quand même ?`)) return;
+    if(!confirm(` Attention : nombre d'utilisateurs supérieur au plan choisi.\n\n${alerts.join('\n')}\n\nVoulez-vous continuer quand même ?`)) return;
   }
 
   // Garde-fou : désactivation addon_zone alors que la compagnie a des données zone actives
@@ -1328,20 +1323,19 @@ async function saveCompany(){
         const cls = rCl.ok ? await rCl.json() : [];
         const trs = rTr.ok ? await rTr.json() : [];
         if(cls.length > 0 || trs.length > 0){
-          const clNames = cls.map(c=>'  • '+c.nom).slice(0,10).join('\n');
+          const clNames = cls.map(c=>' • '+c.nom).slice(0,10).join('\n');
           const more = cls.length > 10 ? `\n  … et ${cls.length-10} autres` : '';
           const trMsg = trs.length > 0 ? '\n\n<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Cette compagnie a aussi des tournées avec données zone (zone_lines, ville_livraison).' : '';
           const ok = confirm(
-            `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> DÉSACTIVATION ADDON FACTURATION PAR ZONE\n\n`+
+            ` DÉSACTIVATION ADDON FACTURATION PAR ZONE\n\n`+
             `${cls.length} client(s) en mode "À la zone" :\n${clNames}${more}${trMsg}\n\n`+
             `CONSÉQUENCES si tu désactives :\n`+
-            `  <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Le CA des tournées de ces clients tombe à 0€\n`+
-            `  <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Onglet Paramètres → Zones caché\n`+
-            `  <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Plus de saisie en mode zone\n\n`+
+            ` Le CA des tournées de ces clients tombe à 0€\n`+
+            ` Onglet Paramètres → Zones caché\n`+
+            ` Plus de saisie en mode zone\n\n`+
             `Les données restent en base et tout revient si tu réactives.\n\n`+
             `Recommandation : convertis d'abord ces clients vers un autre mode de facturation (fixe / point / heure / forfait) AVANT de désactiver l'addon.\n\n`+
-            `Désactiver quand même ?`
-          );
+            `Désactiver quand même ?` );
           if(!ok){
             // Re-cocher la case pour éviter de partir sur un payload incohérent
             document.getElementById('co-addon-zone').checked = true;
@@ -1391,12 +1385,12 @@ async function saveCompany(){
     if(editingId){
       const r=await fetch(`${SB}/rest/v1/sa_companies?id=eq.${editingId}`,{method:'PATCH',headers:H(),body:JSON.stringify(payload)});
       if(!r.ok) throw new Error(await r.text());
-      setProgress(60,'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Entreprise mise à jour...');
+      setProgress(60,' Entreprise mise à jour...');
       // Notifier la session du client en temps réel (polling 30s côté client)
       await fetch(`${SB}/rest/v1/session_invalidations`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({company_id:editingId,reason:'plan_change',new_plan:payload.plan,new_status:payload.status,new_quotas:{addon_route:payload.addon_route,addon_dispatch:payload.addon_dispatch,addon_tracking:payload.addon_tracking,addon_saisie:payload.addon_saisie,addon_decompte_st:payload.addon_decompte_st,addon_zone:payload.addon_zone,max_admins:payload.max_admins,max_chefs:payload.max_chefs,max_chauffeurs:payload.max_chauffeurs}})}).catch(()=>{});
     } else {
       // Create company
-      setProgress(20,'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Création entreprise...');
+      setProgress(20,' Création entreprise...');
       // Mon Marché réservé exclusivement à MS Express : forcer false à la création
       payload.addon_monmarche=false;
       const r=await fetch(`${SB}/rest/v1/sa_companies`,{method:'POST',headers:{...H(),'Prefer':'return=representation'},body:JSON.stringify(payload)});
@@ -1410,7 +1404,7 @@ async function saveCompany(){
       const data=await r.json();
       companyId=data[0].id;
       _newCompanyId=companyId; // BUG FIX: mémoriser pour rollback éventuel
-      setProgress(50,'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Création compte admin...');
+      setProgress(50,' Création compte admin...');
       // Create auth user (mot de passe déjà validé en début de fonction)
       const pwd=document.getElementById('co-pwd').value;
       const authR=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1/create-auth-user',{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON_KEY},body:JSON.stringify({email,password:pwd,metadata:{company_id:companyId,role:'admin',name,plan:selectedPlan,max_admins:maxAdmins,max_chefs:maxChefs,max_chauffeurs:maxChauffeurs}})});
@@ -1420,10 +1414,10 @@ async function saveCompany(){
       setProgress(80,'🔗 Liaison compte...');
       // Create company_user
       await fetch(`${SB}/rest/v1/company_users`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({company_id:companyId,auth_uid:authData.user?.id||null,email,nom:name,role:'admin',actif:true,must_change_password:true})});
-      setProgress(100,'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Terminé !');
+      setProgress(100,' Terminé !');
     }
     await new Promise(r=>setTimeout(r,500));
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${name} ${editingId?'modifiée':'créée'} — Plan ${PLANS[selectedPlan].nom}`);
+    toast(` ${name} ${editingId?'modifiée':'créée'} — Plan ${PLANS[selectedPlan].nom}`);
     // Email de bienvenue si nouvelle entreprise
     if (!editingId) {
       const pwd = document.getElementById('co-pwd').value;
@@ -1433,14 +1427,14 @@ async function saveCompany(){
     closeModal();
     loadCompanies();
   }catch(e){
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
+    toast(' '+e.message,'error');
     // BUG FIX: Rollback — supprimer l'entreprise orpheline si le compte auth n'a pas pu être créé
     if(_newCompanyId){
       await fetch(`${SB}/rest/v1/sa_companies?id=eq.${_newCompanyId}`,{method:'DELETE',headers:H()}).catch(()=>{});
-      toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Entreprise supprimée (rollback) — réessayez','error');
+      toast(' Entreprise supprimée (rollback) — réessayez','error');
     }
   }finally{
-    btn.disabled=false; btn.textContent=editingId?'💾 Enregistrer':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer l\'entreprise';
+    btn.disabled=false; btn.textContent=editingId?'💾 Enregistrer':' Créer l\'entreprise';
     document.getElementById('modal-progress').style.display='none';
   }
 }
@@ -1455,7 +1449,7 @@ async function toggleStatus(id,current){
   const co=allCompanies.find(x=>x.id===id);
   if(!confirm(`${newStatus==='suspended'?'Suspendre':'Réactiver'} ${co?.name} ?`)) return;
   await fetch(`${SB}/rest/v1/sa_companies?id=eq.${id}`,{method:'PATCH',headers:H(),body:JSON.stringify({status:newStatus})});
-  toast(`${newStatus==='active'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Réactivé':'⏸️ Suspendu'} : ${co?.name}`);
+  toast(`${newStatus==='active'?' Réactivé':'⏸️ Suspendu'} : ${co?.name}`);
   loadCompanies();
 }
 
@@ -1467,7 +1461,7 @@ async function generateTelegramCode(companyId,companyName){
     const modal=document.createElement('div');
     modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999';
     modal.innerHTML=`<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px;max-width:400px;text-align:center">
-      <div style="font-size:28px;margin-bottom:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></div>
+      <div style="font-size:28px;margin-bottom:12px"></div>
       <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px">Code Telegram pour ${companyName}</div>
       <div style="font-size:11px;color:var(--gray);margin-bottom:20px">Expire dans 72h. Le client envoie ce code au bot pour activer son compte.</div>
       <div style="background:rgba(139,92,246,0.15);border:2px dashed rgba(139,92,246,0.4);border-radius:12px;padding:16px;margin-bottom:20px">
@@ -1482,7 +1476,7 @@ async function generateTelegramCode(companyId,companyName){
 }
 
 async function deleteCompany(id,name){
-  if(!confirm(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Supprimer définitivement ${name} ?\n\nToutes les données associées (chauffeurs, tournées, états véhicules, messages, etc.) seront définitivement effacées.`)) return;
+  if(!confirm(` Supprimer définitivement ${name} ?\n\nToutes les données associées (chauffeurs, tournées, états véhicules, messages, etc.) seront définitivement effacées.`)) return;
   // Suppression en cascade de toutes les tables liées au company_id
   const tables=[
     'etats_vehicule','tournee_validations','tournee_points','tournees',
@@ -1493,8 +1487,7 @@ async function deleteCompany(id,name){
     'messages','message_group_members','message_groups',
     'monmarche_shifts','decompte_st_imports','decompte_st_zones',
     'chef_equipe_jour','driver_locations','driver_positions_history',
-    'session_invalidations','company_users','chauffeurs'
-  ];
+    'session_invalidations','company_users','chauffeurs' ];
   await Promise.all(tables.map(t=>
     fetch(`${SB}/rest/v1/${t}?company_id=eq.${id}`,{method:'DELETE',headers:H()})
   ));
@@ -1508,7 +1501,7 @@ async function deleteCompany(id,name){
   loadCompanies();
 }
 
-function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'':''}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
 
 // ══ DRAWER UTILISATEURS ══
 let drawerCompanyId=null, drawerCompanyName='', drawerUsers=[], editingUserId=null, drawerChauffeurs=[];
@@ -1564,7 +1557,7 @@ async function loadUsers(){
     renderQuotaBar();
     renderUsers();
   }catch(e){
-    document.getElementById('drawer-users-list').innerHTML=`<div style="color:#D88888;padding:20px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;
+    document.getElementById('drawer-users-list').innerHTML=`<div style="color:#D88888;padding:20px"> ${e.message}</div>`;
   }
 }
 
@@ -1583,21 +1576,20 @@ function renderQuotaBar(){
       <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px"><div style="height:100%;width:${pct}%;background:${color};border-radius:2px;transition:width 0.4s"></div></div>
     </div>`;
   };
-  document.getElementById('drawer-quota-bar').innerHTML=`
-    <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Quotas utilisateurs</div>
-    <div style="display:flex;gap:16px">${bar(admins,maxA,'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Admins')}${bar(chefs,maxC,'👔 Chefs')}${bar(chauffeurs,maxCh,'🚐 Chauffeurs')}</div>`;
+  document.getElementById('drawer-quota-bar').innerHTML=` <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Quotas utilisateurs</div>
+    <div style="display:flex;gap:16px">${bar(admins,maxA,' Admins')}${bar(chefs,maxC,'👔 Chefs')}${bar(chauffeurs,maxCh,'🚐 Chauffeurs')}</div>`;
 }
 
 function filterUsers(){renderUsers();}
 function renderUsers(){
   const list=document.getElementById('drawer-users-list');
   if(!drawerUsers.length){
-    list.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>Aucun utilisateur — cliquez "+ Ajouter"</div>';
+    list.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"></div>Aucun utilisateur — cliquez "+ Ajouter"</div>';
     return;
   }
   const search=(document.getElementById('drawer-search')?.value||'').trim().toLowerCase();
   const roleFilter=document.getElementById('drawer-role-filter')?.value||'';
-  const roleIco={admin:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',chef_equipe:'👔',chauffeur:'🚐'};
+  const roleIco={admin:'',chef_equipe:'👔',chauffeur:'🚐'};
   const roleLabel={admin:'Admin',chef_equipe:"Chef d'équipe",chauffeur:'Chauffeur'};
   const roleColor={admin:'#E8C66E',chef_equipe:'#4FD1E0',chauffeur:'#6B8E23'};
   const order={admin:0,chef_equipe:1,chauffeur:2};
@@ -1609,8 +1601,7 @@ function renderUsers(){
   sorted.forEach(u=>{
     const div=document.createElement('div');
     div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;';
-    div.innerHTML=`
-      <div style="width:38px;height:38px;border-radius:9px;background:rgba(26,79,191,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${roleIco[u.role]||'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'}</div>
+    div.innerHTML=` <div style="width:38px;height:38px;border-radius:9px;background:rgba(26,79,191,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${roleIco[u.role]||''}</div>
       <div style="flex:1;min-width:0">
         <div style="font-weight:700;color:var(--white);font-size:13px">${u.nom||'—'}</div>
         <div style="font-size:11px;color:var(--gray);margin-top:1px">${u.email||'—'}</div>
@@ -1618,11 +1609,11 @@ function renderUsers(){
       </div>
       <div style="text-align:right;flex-shrink:0">
         <div style="font-size:11px;font-weight:700;color:${roleColor[u.role]||'var(--gray)'}">${roleLabel[u.role]||u.role}</div>
-        <div style="font-size:10px;color:${u.actif?'#6B8E23':'#D88888'};margin-top:2px">${u.actif?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Actif':'🔴 Inactif'}</div>
+        <div style="font-size:10px;color:${u.actif?'#6B8E23':'#D88888'};margin-top:2px">${u.actif?' Actif':'🔴 Inactif'}</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:4px;margin-left:8px">
         <button class="icon-btn" onclick="accessAccount('${(u.nom||drawerCompanyName).replace(/'/g,"\\'")}','${(u.email||'').replace(/'/g,"\\'")}','${u.auth_uid||''}')" title="Accéder au compte" style="color:#4FD1E0;font-size:13px">🔑</button>
-        <button class="icon-btn" onclick="editUser('${u.id}')" title="Modifier" style="font-size:12px">✏️</button>
+        <button class="icon-btn" onclick="editUser('${u.id}')" title="Modifier" style="font-size:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
         <button class="icon-btn" onclick="resetTempPassword('${u.id}','${u.auth_uid||''}','${(u.nom||'').replace(/'/g,"\\'")}')" title="Réinitialiser le mot de passe" style="font-size:12px">🔐</button>
         <button class="icon-btn" onclick="toggleUserStatus('${u.id}',${u.actif})" title="${u.actif?'Désactiver':'Activer'}" style="font-size:12px">${u.actif?'⏸️':'▶️'}</button>
         <button class="icon-btn" onclick="deleteUser('${u.id}','${(u.nom||'').replace(/'/g,"\\'")}');" style="color:rgba(231,76,60,0.7);font-size:12px" title="Supprimer">🗑</button>
@@ -1634,7 +1625,7 @@ function renderUsers(){
 function openAddUser(){
   editingUserId=null;
   document.getElementById('drawer-form-title').textContent='➕ Nouvel utilisateur';
-  document.getElementById('btn-save-user').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer';
+  document.getElementById('btn-save-user').textContent=' Créer';
   document.getElementById('u-nom').value='';
   document.getElementById('u-email').value='';
   document.getElementById('u-role').value='chauffeur';
@@ -1691,7 +1682,7 @@ function checkUserQuota(role){
   const labels={admin:'Admin',chef_equipe:"Chef d'équipe",chauffeur:'Chauffeur'};
   if(cur>=max&&max!==999){
     alertEl.style.display='block';
-    alertEl.textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Quota ${labels[role]} atteint (${cur}/${max}) pour le plan ${PLANS[co.plan]?.nom||co.plan}`;
+    alertEl.textContent=` Quota ${labels[role]} atteint (${cur}/${max}) pour le plan ${PLANS[co.plan]?.nom||co.plan}`;
   } else {
     alertEl.style.display='none';
   }
@@ -1706,7 +1697,7 @@ async function saveUser(){
   const id=document.getElementById('u-edit-id').value;
   if(!nom||!email||!role){toast('Nom, email et rôle obligatoires','error');return;}
   if((role==='chauffeur'||role==='chef_equipe')&&chauffeurNom&&drawerChauffeurs.length&&!drawerChauffeurs.some(n=>n.toUpperCase()===chauffeurNom)){
-    if(!confirm(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> "${chauffeurNom}" ne correspond à aucun chauffeur dans le planning.\n\nContinuer quand même ?`)) return;
+    if(!confirm(` "${chauffeurNom}" ne correspond à aucun chauffeur dans le planning.\n\nContinuer quand même ?`)) return;
   }
   // Modification = besoin de service_role (cf. trigger lock_privileged_fields).
   if(id && !requireSAKey()) return;
@@ -1718,7 +1709,7 @@ async function saveUser(){
       // verrouillés au JWT par le trigger lock_privileged_fields.
       const r=await fetch(`${SB}/rest/v1/company_users?id=eq.${id}`,{method:'PATCH',headers:HS(),body:JSON.stringify({nom,email,role,chauffeur_nom:(role==='chauffeur'||role==='chef_equipe')?(chauffeurNom||null):null})});
       if(!r.ok) throw new Error(await r.text());
-      toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${nom} modifié`);
+      toast(` ${nom} modifié`);
     } else {
       // Création : d'abord créer le compte Auth
       if(!pwd||pwd.length<8){throw new Error('Mot de passe min. 8 caractères');}
@@ -1729,16 +1720,16 @@ async function saveUser(){
       // Puis créer la ligne company_users
       const r=await fetch(`${SB}/rest/v1/company_users`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({company_id:drawerCompanyId,auth_uid:authData.user?.id||null,email,nom,role,chauffeur_nom:(role==='chauffeur'||role==='chef_equipe')?(chauffeurNom||null):null,actif:true,must_change_password:true})});
       if(!r.ok) throw new Error(await r.text());
-      toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${nom} créé — ${role}`);
+      toast(` ${nom} créé — ${role}`);
     }
     cancelUserForm();
     await loadUsers();
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
-  finally{btn.disabled=false;btn.textContent=id?'💾 Enregistrer':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer';}
+  }catch(e){toast(' '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=id?'💾 Enregistrer':' Créer';}
 }
 
 async function accessAccount(userName, userEmail, authUid){
-  if(!userEmail){alert('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Email manquant pour cet utilisateur.');return;}
+  if(!userEmail){alert(' Email manquant pour cet utilisateur.');return;}
   if(!confirm(`Accéder au compte de "${userName}" (${userEmail}) ?`)) return;
 
   try{
@@ -1802,19 +1793,18 @@ async function accessAccount(userName, userEmail, authUid){
     throw new Error('Réponse inattendue : '+JSON.stringify(data).substring(0,200));
 
   }catch(e){
-    alert('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message);
+    alert(' '+e.message);
   }
 }
 
 async function resetTempPassword(userId, authUid, userNom){
-  if(!authUid){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Compte Auth introuvable pour cet utilisateur','error');return;}
+  if(!authUid){toast(' Compte Auth introuvable pour cet utilisateur','error');return;}
   // Le PATCH must_change_password=true (étape 2) requiert service_role
   // (cf. trigger lock_privileged_fields qui bloque false→true côté JWT).
   if(!requireSAKey()) return;
   if(!confirm(`Réinitialiser le mot de passe de ${userNom} ?\nUn mot de passe temporaire vous sera affiché.`)) return;
 
-  // Générer un MDP temporaire du type "Tmp-4821!"
-  const tmpPwd='Tmp-'+Math.floor(1000+Math.random()*9000)+'!';
+  // Générer un MDP temporaire du type "Tmp-4821!" const tmpPwd='Tmp-'+Math.floor(1000+Math.random()*9000)+'!';
 
   try{
     // 1. Changer le mot de passe via Edge Function (service_role côté serveur)
@@ -1840,7 +1830,7 @@ async function resetTempPassword(userId, authUid, userNom){
     document.getElementById('tmppwd-value').textContent=tmpPwd;
     document.getElementById('modal-tmppwd').style.display='flex';
   }catch(e){
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
+    toast(' '+e.message,'error');
   }
 }
 
@@ -1851,11 +1841,11 @@ function openSAKeyModal(){
   if(existing){
     st.style.display='block';st.style.background='rgba(39,174,96,0.1)';
     st.style.border='1px solid rgba(39,174,96,0.3)';st.style.color='#6B8E23';
-    st.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Clé en mémoire (sessionStorage, '+existing.substring(0,12)+'...) — purgée à la fermeture du navigateur';
+    st.textContent=' Clé en mémoire (sessionStorage, '+existing.substring(0,12)+'...) — purgée à la fermeture du navigateur';
   }else{
     st.style.display='block';st.style.background='rgba(231,76,60,0.1)';
     st.style.border='1px solid rgba(231,76,60,0.3)';st.style.color='#D88888';
-    st.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Aucune clé chargée — les opérations admin échoueront';
+    st.textContent=' Aucune clé chargée — les opérations admin échoueront';
   }
   document.getElementById('sakey-input').value='';
   document.getElementById('modal-sakey').style.display='flex';
@@ -1864,14 +1854,14 @@ function closeSAKeyModal(){document.getElementById('modal-sakey').style.display=
 function saveSAKey(){
   const val=(document.getElementById('sakey-input').value||'').trim();
   if(!val||!val.startsWith('eyJ')||val.length<40||val.length>4096){
-    alert('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Clé invalide — doit être un JWT (commence par eyJ).');return;
+    alert(' Clé invalide — doit être un JWT (commence par eyJ).');return;
   }
   // sessionStorage : la clé disparaît à la fermeture du tab/navigateur.
   // Ne JAMAIS écrire dans localStorage — persisterait indéfiniment.
   sessionStorage.setItem(SA_KEY_STORE_KEY, val);
   sessionStorage.setItem(SA_KEY_TS_KEY, String(Date.now()));
   closeSAKeyModal();
-  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Clé chargée pour cette session uniquement');
+  toast(' Clé chargée pour cette session uniquement');
 }
 // Bouton "déconnexion clé" — purge immédiate (utile si autre personne
 // arrive devant l'écran)
@@ -1897,7 +1887,7 @@ async function toggleUserStatus(id,actif){
   // lock_privileged_fields (sinon un user désactivé pourrait se réactiver lui-même).
   if(!requireSAKey()) return;
   await fetch(`${SB}/rest/v1/company_users?id=eq.${id}`,{method:'PATCH',headers:HS(),body:JSON.stringify({actif:!actif})});
-  toast(`${!actif?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Activé':'⏸️ Désactivé'}`);
+  toast(`${!actif?' Activé':'⏸️ Désactivé'}`);
   await loadUsers();
 }
 
@@ -1920,9 +1910,9 @@ function switchSATab(name, el) {
   document.querySelectorAll('.sa-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('view-companies').style.display = name === 'companies' ? '' : 'none';
-  document.getElementById('view-billing').style.display   = name === 'billing'   ? '' : 'none';
-  document.getElementById('view-plans').style.display     = name === 'plans'     ? '' : 'none';
-  document.getElementById('view-stt').style.display       = name === 'stt'       ? '' : 'none';
+  document.getElementById('view-billing').style.display   = name === 'billing' ? '' : 'none';
+  document.getElementById('view-plans').style.display     = name === 'plans' ? '' : 'none';
+  document.getElementById('view-stt').style.display       = name === 'stt' ? '' : 'none';
   if (name === 'billing') { checkStripeConfig(); loadBillingData(); loadInvoiceHistory(); }
 }
 
@@ -1961,27 +1951,16 @@ async function loadBillingData() {
     const price = hasCustom ? Number(co.custom_price) : (PLAN_PRICES_TTC[co.plan] || 179.99);
     const lastSub = subs.find(s => s.company_id === co.id);
     const statut = lastSub?.statut || '—';
-    const statutHtml = statut === 'payee'
-      ? '<span style="color:#6B8E23;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Payée</span>'
-      : statut === 'envoyee'
-      ? '<span style="color:#E8C66E;font-weight:600">📧 Envoyée</span>'
-      : statut === 'en_attente'
-      ? '<span style="color:var(--accent);font-weight:600">⏳ En attente</span>'
-      : statut === 'echouee'
-      ? '<span style="color:#D88888;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Échouée</span>'
-      : '<span style="color:var(--gray)">— Jamais facturé</span>';
+    const statutHtml = statut === 'payee' ? '<span style="color:#6B8E23;font-weight:600"> Payée</span>' : statut === 'envoyee' ? '<span style="color:#E8C66E;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Envoyée</span>' : statut === 'en_attente' ? '<span style="color:var(--accent);font-weight:600">⏳ En attente</span>' : statut === 'echouee' ? '<span style="color:#D88888;font-weight:600"> Échouée</span>' : '<span style="color:var(--gray)">— Jamais facturé</span>';
 
     const lastDate = lastSub ? new Date(lastSub.created_at).toLocaleDateString('fr-FR') : '—';
 
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td style="font-weight:700;color:var(--white)">${co.name}</td>
+    tr.innerHTML = ` <td style="font-weight:700;color:var(--white)">${co.name}</td>
       <td><span style="background:rgba(26,79,191,0.2);color:#E8C66E;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600">${PLAN_LABELS_FR[co.plan]||co.plan}</span></td>
-      <td style="font-weight:700;color:#6B8E23">${price.toLocaleString('fr-FR',{minimumFractionDigits:2})}€ TTC${hasCustom?' <span title="Prix personnalisé" style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:4px">✏️ Manuel</span>':''}</td>
+      <td style="font-weight:700;color:#6B8E23">${price.toLocaleString('fr-FR',{minimumFractionDigits:2})}€ TTC${hasCustom?' <span title="Prix personnalisé" style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Manuel</span>':''}</td>
       <td>
-        <input type="email" class="ii" style="font-size:11px;padding:5px 8px;width:200px"
-          id="email-${co.id}" value="${co.billing_email||''}" placeholder="email@client.fr"
-          onblur="saveBillingEmail('${co.id}',this.value)">
+        <input type="email" class="ii" style="font-size:11px;padding:5px 8px;width:200px" id="email-${co.id}" value="${co.billing_email||''}" placeholder="email@client.fr" onblur="saveBillingEmail('${co.id}',this.value)">
       </td>
       <td style="font-size:11px;color:var(--gray)">${lastDate}</td>
       <td>${statutHtml}</td>
@@ -2022,17 +2001,10 @@ async function loadInvoiceHistory() {
   }
 
   subs.forEach((s, i) => {
-    const statutHtml = s.statut === 'payee'
-      ? '<span style="color:#6B8E23;font-size:11px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Payée</span>'
-      : s.statut === 'envoyee'
-      ? '<span style="color:#E8C66E;font-size:11px">📧 Envoyée</span>'
-      : s.statut === 'en_attente'
-      ? '<span style="color:var(--accent);font-size:11px">⏳ En attente</span>'
-      : '<span style="color:#D88888;font-size:11px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Échouée</span>';
+    const statutHtml = s.statut === 'payee' ? '<span style="color:#6B8E23;font-size:11px"> Payée</span>' : s.statut === 'envoyee' ? '<span style="color:#E8C66E;font-size:11px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Envoyée</span>' : s.statut === 'en_attente' ? '<span style="color:var(--accent);font-size:11px">⏳ En attente</span>' : '<span style="color:#D88888;font-size:11px"> Échouée</span>';
 
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td style="font-size:11px;color:var(--gray)">${s.numero_facture||'—'}</td>
+    tr.innerHTML = ` <td style="font-size:11px;color:var(--gray)">${s.numero_facture||'—'}</td>
       <td style="font-size:11px">${new Date(s.created_at).toLocaleDateString('fr-FR')}</td>
       <td style="font-weight:600;color:var(--white)">${coMap[s.company_id]||'—'}</td>
       <td style="font-size:11px"><span style="background:rgba(26,79,191,0.2);color:#E8C66E;padding:2px 8px;border-radius:10px">${PLAN_LABELS_FR[s.plan]||s.plan}</span></td>
@@ -2064,10 +2036,9 @@ function openSendInvoiceModal(cid, name, plan, stripeId, customPrice) {
   const email = emailInput ? emailInput.value : '';
 
   // Utiliser un modal simple natif
-  const content = `
-    <div style="font-family:Outfit,sans-serif;font-size:13px">
+  const content = ` <div style="font-family:Outfit,sans-serif;font-size:13px">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--white);margin-bottom:4px">🧾 ENVOYER FACTURE</div>
-      <div style="font-size:12px;color:var(--gray);margin-bottom:16px">${name} — ${PLAN_LABELS_FR[plan]}${cp!=null?' <span style="font-size:10px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:4px">✏️ Prix manuel</span>':''}</div>
+      <div style="font-size:12px;color:var(--gray);margin-bottom:16px">${name} — ${PLAN_LABELS_FR[plan]}${cp!=null?' <span style="font-size:10px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Prix manuel</span>':''}</div>
       <div style="background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:10px;padding:14px;margin-bottom:16px">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
           <div><div style="color:var(--gray);font-size:10px;text-transform:uppercase;letter-spacing:1px">N° Facture</div><div style="color:var(--white);font-weight:600;margin-top:2px">${num}</div></div>
@@ -2088,7 +2059,7 @@ function openSendInvoiceModal(cid, name, plan, stripeId, customPrice) {
       <div style="display:flex;gap:8px;justify-content:flex-end">
         <button class="btn-sm btn-ghost" onclick="closeInvoiceModal()">Annuler</button>
         <button class="btn-sm btn-accent" id="btn-send-invoice" onclick="sendInvoice('${cid}','${name}','${plan}','${stripeId}','${num}','${label}')">
-          🚀 Créer &amp; Envoyer via Stripe
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> Créer &amp; Envoyer via Stripe
         </button>
       </div>
     </div>`;
@@ -2121,7 +2092,7 @@ async function sendInvoice(cid, name, plan, stripeId, numero, periodeLabel) {
   const btn = document.getElementById('btn-send-invoice');
   const status = document.getElementById('inv-status');
   btn.disabled = true; btn.textContent = '⏳ Création en cours...';
-  status.innerHTML = '<div style="color:var(--gray);font-size:12px">🔄 Connexion Stripe...</div>';
+  status.innerHTML = '<div style="color:var(--gray);font-size:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Connexion Stripe...</div>';
 
   const cp = (_invoiceModal && _invoiceModal.custom_price != null) ? Number(_invoiceModal.custom_price) : null;
   const price = cp != null ? cp : (PLAN_PRICES_TTC[plan] || 179.99);
@@ -2183,17 +2154,16 @@ async function sendInvoice(cid, name, plan, stripeId, numero, periodeLabel) {
       });
     }
 
-    status.innerHTML = `
-      <div style="background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:10px;font-size:12px;color:#6B8E23">
+    status.innerHTML = ` <div style="background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:10px;font-size:12px;color:#6B8E23">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Facture créée et envoyée par email !<br>
         <a href="${data.stripe_invoice_url}" target="_blank" style="color:#E8C66E;text-decoration:none">👁 Voir la facture Stripe →</a>
       </div>`;
 
-    btn.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Envoyé !';
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Facture envoyée à ${email}`);
+    btn.textContent = ' Envoyé !';
+    toast(` Facture envoyée à ${email}`);
     // Notification superadmin
     await sendAdminNotif(
-      '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Facture envoyée',
+      ' Facture envoyée',
       name, email,
       PLAN_LABELS_FR[plan] || plan,
       price.toLocaleString('fr-FR',{minimumFractionDigits:2}) + '€ TTC',
@@ -2202,10 +2172,10 @@ async function sendInvoice(cid, name, plan, stripeId, numero, periodeLabel) {
     setTimeout(() => { closeInvoiceModal(); loadBillingData(); loadInvoiceHistory(); }, 2000);
 
   } catch(e) {
-    status.innerHTML = `<div style="color:#D88888;font-size:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;
+    status.innerHTML = `<div style="color:#D88888;font-size:12px"> ${e.message}</div>`;
     btn.disabled = false;
     btn.textContent = '🚀 Créer & Envoyer';
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ' + e.message, 'error');
+    toast(' ' + e.message, 'error');
   }
 }
 
@@ -2224,7 +2194,7 @@ async function generateAllInvoices() {
     await sendInvoiceAuto(co, num, label);
     sent++;
   }
-  toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${sent} facture${sent>1?'s':''} générée${sent>1?'s':''}`);
+  toast(` ${sent} facture${sent>1?'s':''} générée${sent>1?'s':''}`);
   loadBillingData(); loadInvoiceHistory();
 }
 
@@ -2267,7 +2237,7 @@ async function checkEmailUnique(email) {
       errEl.style.cssText = 'font-size:11px;color:#D88888;margin-top:4px';
       emailEl.parentNode.appendChild(errEl);
     }
-    errEl.textContent = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Email déjà utilisé par : ${data[0].name}`;
+    errEl.textContent = ` Email déjà utilisé par : ${data[0].name}`;
   } else {
     emailEl.style.borderColor = '#6B8E23';
     emailEl.style.boxShadow = '0 0 0 3px rgba(39,174,96,0.15)';
@@ -2303,7 +2273,7 @@ async function loadSTTEntreprises(donorId) {
 
     if (!entreprises.length) {
       sel.innerHTML = '<option value="">— Aucun chauffeur STT avec entreprise_nom —</option>';
-      hintEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Aucun chauffeur sous-traitant avec une entreprise renseignée trouvé pour cette compagnie.';
+      hintEl.textContent = ' Aucun chauffeur sous-traitant avec une entreprise renseignée trouvé pour cette compagnie.';
       hintEl.style.color = '#C9A961';
       hintEl.style.display = 'block';
       return;
@@ -2316,7 +2286,7 @@ async function loadSTTEntreprises(donorId) {
     hintEl.style.display = 'block';
   } catch(e) {
     sel.innerHTML = '<option value="">— Erreur de chargement —</option>';
-    hintEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ' + e.message;
+    hintEl.textContent = ' ' + e.message;
     hintEl.style.color = '#D88888';
     hintEl.style.display = 'block';
   }
@@ -2334,7 +2304,7 @@ async function loadSTTRelations() {
     sttRelations = rRel.ok ? await rRel.json() : [];
     sttCompanies = rCo.ok ? await rCo.json() : [];
   } catch(e) {
-    listEl.innerHTML = `<div style="color:#D88888;font-size:12px;padding:16px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur: ${e.message}</div>`;
+    listEl.innerHTML = `<div style="color:#D88888;font-size:12px;padding:16px"> Erreur: ${e.message}</div>`;
     return;
   }
 
@@ -2358,8 +2328,7 @@ async function loadSTTRelations() {
   }
 
   const coMap = Object.fromEntries(sttCompanies.map(c => [c.id, c.name]));
-  listEl.innerHTML = `
-    <table class="params-table">
+  listEl.innerHTML = ` <table class="params-table">
       <thead><tr>
         <th>Compagnie donneuse</th>
         <th>Compagnie receveuse</th>
@@ -2369,14 +2338,12 @@ async function loadSTTRelations() {
         <th>Actions</th>
       </tr></thead>
       <tbody>
-        ${sttRelations.map(r => `
-          <tr>
+        ${sttRelations.map(r => ` <tr>
             <td><strong style="color:var(--white)">${coMap[r.donor_company_id]||r.donor_company_id}</strong></td>
             <td><strong style="color:var(--white)">${coMap[r.receiver_company_id]||r.receiver_company_id}</strong></td>
             <td><span style="font-family:monospace;color:var(--accent);font-size:12px">${r.entreprise_nom_ref}</span></td>
             <td>${r.actif
-              ? '<span class="badge badge-green">Actif</span>'
-              : '<span class="badge badge-red">Inactif</span>'}</td>
+              ? '<span class="badge badge-green">Actif</span>' : '<span class="badge badge-red">Inactif</span>'}</td>
             <td style="color:var(--gray);font-size:11px">${new Date(r.created_at).toLocaleDateString('fr-FR')}</td>
             <td>
               <button class="icon-btn" title="${r.actif?'Désactiver':'Activer'}" onclick="toggleSTTRelation('${r.id}',${r.actif})">${r.actif?'⏸':'▶️'}</button>
@@ -2396,11 +2363,11 @@ async function createSTTRelation() {
   errEl.style.display = 'none';
 
   if (!donorId || !receiverId || !entNom) {
-    errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Tous les champs sont obligatoires.';
+    errEl.textContent = ' Tous les champs sont obligatoires.';
     errEl.style.display = 'block'; return;
   }
   if (donorId === receiverId) {
-    errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> La compagnie donneuse et receveuse doivent être différentes.';
+    errEl.textContent = ' La compagnie donneuse et receveuse doivent être différentes.';
     errEl.style.display = 'block'; return;
   }
 
@@ -2408,11 +2375,11 @@ async function createSTTRelation() {
   const donor    = sttCompanies.find(c => c.id === donorId);
   const receiver = sttCompanies.find(c => c.id === receiverId);
   if (!donor?.addon_stt) {
-    errEl.textContent = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${donor?.name||'Donneuse'} n'a pas l'addon STT activé.`;
+    errEl.textContent = ` ${donor?.name||'Donneuse'} n'a pas l'addon STT activé.`;
     errEl.style.display = 'block'; return;
   }
   if (!receiver?.addon_stt) {
-    errEl.textContent = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${receiver?.name||'Receveuse'} n'a pas l'addon STT activé.`;
+    errEl.textContent = ` ${receiver?.name||'Receveuse'} n'a pas l'addon STT activé.`;
     errEl.style.display = 'block'; return;
   }
 
@@ -2425,9 +2392,9 @@ async function createSTTRelation() {
     if (!r.ok) {
       const txt = await r.text();
       if (txt.includes('23505') || txt.includes('duplicate')) {
-        errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Cette relation existe déjà.';
+        errEl.textContent = ' Cette relation existe déjà.';
       } else {
-        errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur: ' + txt;
+        errEl.textContent = ' Erreur: ' + txt;
       }
       errEl.style.display = 'block'; return;
     }
@@ -2435,10 +2402,10 @@ async function createSTTRelation() {
     document.getElementById('stt-receiver').value = '';
     document.getElementById('stt-entreprise-nom').innerHTML = '<option value="">— Sélectionner la donneuse d\'abord —</option>';
     document.getElementById('stt-entreprise-hint').style.display = 'none';
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Relation STT créée');
+    toast(' Relation STT créée');
     loadSTTRelations();
   } catch(e) {
-    errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ' + e.message;
+    errEl.textContent = ' ' + e.message;
     errEl.style.display = 'block';
   }
 }

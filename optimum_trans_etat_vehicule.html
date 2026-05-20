@@ -113,38 +113,37 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 <body>
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
     <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine</a>
     <a class="nav-item" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients &amp; Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients &amp; Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item active" href="#"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
-    <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
-    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'">
       <div class="user-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"> Paramètres</div></div>
       <button onclick="event.stopPropagation();OT.logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;">⏻</button>
     </div>
   </div>
@@ -154,7 +153,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
   <div class="topbar">
     <div class="topbar-title">📸 ÉTAT DES LIEUX VÉHICULES</div>
     <div style="display:flex;gap:10px">
-      <button class="btn btn-ghost" onclick="exportCSV()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Export CSV</button>
+      <button class="btn btn-ghost" onclick="exportCSV()"> Export CSV</button>
       <button class="btn btn-primary" onclick="loadData()">↻ Actualiser</button>
     </div>
   </div>
@@ -163,8 +162,8 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
     <!-- KPI -->
     <div class="kpi-grid">
       <div class="kpi-card p"><div class="kpi-label">Aujourd'hui</div><div class="kpi-value" id="kpi-today">—</div></div>
-      <div class="kpi-card b"><div class="kpi-label">🚀 Départs (7j)</div><div class="kpi-value" id="kpi-depart">—</div></div>
-      <div class="kpi-card g"><div class="kpi-label">🏠 Retours (7j)</div><div class="kpi-value" id="kpi-retour">—</div></div>
+      <div class="kpi-card b"><div class="kpi-label"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> Départs (7j)</div><div class="kpi-value" id="kpi-depart">—</div></div>
+      <div class="kpi-card g"><div class="kpi-label"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg> Retours (7j)</div><div class="kpi-value" id="kpi-retour">—</div></div>
       <div class="kpi-card o"><div class="kpi-label">Chauffeurs actifs</div><div class="kpi-value" id="kpi-drivers">—</div></div>
     </div>
 
@@ -183,8 +182,8 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
         <div class="filter-label">Type</div>
         <select class="filter-input" id="f-type" onchange="renderList()">
           <option value="">Tous</option>
-          <option value="depart">🚀 Départ</option>
-          <option value="retour">🏠 Retour</option>
+          <option value="depart"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> Départ</option>
+          <option value="retour"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg> Retour</option>
         </select>
       </div>
       <div class="filter-group">
@@ -202,7 +201,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
       <div class="filter-group" style="margin-left:auto">
         <div class="filter-label">Vue</div>
         <div style="display:flex;gap:4px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:3px">
-          <button id="view-list-btn" class="view-btn active" onclick="setView('list')">📋 Liste</button>
+          <button id="view-list-btn" class="view-btn active" onclick="setView('list')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Liste</button>
           <button id="view-cmp-btn" class="view-btn" onclick="setView('cmp')">⇄ Comparaison</button>
         </div>
       </div>
@@ -288,7 +287,7 @@ async function loadData(){
     renderKPI();
     renderList();
   }catch(e){
-    el.innerHTML=`<div class="ev-empty"><div class="ev-empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div>Erreur: ${esc(e.message)}</div></div>`;
+    el.innerHTML=`<div class="ev-empty"><div class="ev-empty-icon"></div><div>Erreur: ${esc(e.message)}</div></div>`;
   }
 }
 
@@ -366,7 +365,7 @@ function renderCmpCard(p){
       ${renderCmpCol('depart',p.depart)}
       ${renderCmpCol('retour',p.retour)}
     </div>
-    ${diffs?`<div class="cmp-diff"><div class="cmp-diff-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Différences détectées</div>${diffs}</div>`:''}
+    ${diffs?`<div class="cmp-diff"><div class="cmp-diff-title"> Différences détectées</div>${diffs}</div>`:''}
   </div>`;
 }
 
@@ -387,8 +386,8 @@ function renderCmpCol(type,ev){
   const ph=photos.map(p=>p.src?`<div class="cmp-photo" onclick="openPhoto('${ev.id}','${p.key}','${esc(p.label)}')"><img src="${p.src}" alt="${esc(p.label)}"><div class="cmp-photo-label">${esc(p.label)}</div></div>`:`<div class="cmp-photo" style="opacity:0.3;cursor:default;display:flex;align-items:center;justify-content:center"><span style="font-size:10px;color:var(--gray)">—</span></div>`).join('');
   return `<div class="cmp-col ${type}">
     <div class="cmp-col-title">${title}</div>
-    <div class="cmp-meta"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> <strong>${hh}</strong> ${ev.km?`• 📏 ${ev.km.toLocaleString('fr-FR')} km`:''}</div>
-    ${ev.gps_adresse?`<div class="cmp-meta"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${esc(ev.gps_adresse.substring(0,50))}</div>`:''}
+    <div class="cmp-meta"> <strong>${hh}</strong> ${ev.km?`• 📏 ${ev.km.toLocaleString('fr-FR')} km`:''}</div>
+    ${ev.gps_adresse?`<div class="cmp-meta"> ${esc(ev.gps_adresse.substring(0,50))}</div>`:''}
     <div class="cmp-photos">${ph}</div>
     ${ev.notes?`<div style="font-size:11px;color:var(--gray);font-style:italic;margin-top:8px">"${esc(ev.notes)}"</div>`:''}
   </div>`;
@@ -401,7 +400,7 @@ function computeDiffs(dep,ret){
   if(dep.km && ret.km){
     const d=ret.km-dep.km;
     if(d>0) out.push(`📏 <strong>${d.toLocaleString('fr-FR')} km</strong> parcourus (${dep.km.toLocaleString('fr-FR')} → ${ret.km.toLocaleString('fr-FR')})`);
-    else if(d<0) out.push(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Km de retour INFÉRIEUR au départ (${dep.km} → ${ret.km}) — vérifier saisie`);
+    else if(d<0) out.push(` Km de retour INFÉRIEUR au départ (${dep.km} → ${ret.km}) — vérifier saisie`);
   }
   // Missing photos on one side
   const angles=['avant','arriere','gauche','droite','interieur'];
@@ -414,7 +413,7 @@ function computeDiffs(dep,ret){
     const depHasIa=dep.ia_analyse && dep.ia_analyse.dommages;
     const depCount=depHasIa?dep.ia_analyse.dommages.length:0;
     const retCount=ret.ia_analyse.dommages.length;
-    if(retCount>depCount) out.push(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> IA : <strong>${retCount-depCount} nouveau(x) dommage(s)</strong> détecté(s) au retour`);
+    if(retCount>depCount) out.push(` IA : <strong>${retCount-depCount} nouveau(x) dommage(s)</strong> détecté(s) au retour`);
   }
   return out.length?out.map(x=>`<div>• ${x}</div>`).join(''):'';
 }
@@ -433,7 +432,7 @@ function renderRow(ev){
   const thumbs=photos.map(p=>`<div class="ev-thumb" onclick="openPhoto('${ev.id}','${p.key}','${esc(p.label)}')"><img src="${p.src}" alt="${esc(p.label)}"><div class="ev-thumb-label">${esc(p.label)}</div></div>`).join('');
 
   const ia=ev.ia_analyse ? renderIaBox(ev.ia_analyse) : '';
-  const gps=ev.gps_adresse?`<span class="ev-chip"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${esc(ev.gps_adresse.substring(0,60))}</span>`:(ev.gps_lat?`<span class="ev-chip"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${ev.gps_lat.toFixed(4)}, ${ev.gps_lng.toFixed(4)}</span>`:'');
+  const gps=ev.gps_adresse?`<span class="ev-chip"> ${esc(ev.gps_adresse.substring(0,60))}</span>`:(ev.gps_lat?`<span class="ev-chip"> ${ev.gps_lat.toFixed(4)}, ${ev.gps_lng.toFixed(4)}</span>`:'');
   const notes=ev.notes?`<div style="margin-top:10px;font-size:12px;color:var(--gray);font-style:italic;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:3px solid var(--gray2)">"${esc(ev.notes)}"</div>`:'';
 
   return `<div class="ev-row">
@@ -450,7 +449,7 @@ function renderRow(ev){
     ${notes}
     ${ia}
     <div class="ev-action-row">
-      <button class="btn-ia" onclick="analyzeIA('${ev.id}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> Analyser avec IA</button>
+      <button class="btn-ia" onclick="analyzeIA('${ev.id}')"> Analyser avec IA</button>
       <button class="btn-del" onclick="deleteEtat('${ev.id}')">🗑 Supprimer</button>
     </div>
   </div>`;
@@ -463,7 +462,7 @@ function renderIaBox(ia){
   const sevCol={none:'#6B8E23',leger:'#C9A961',modere:'#C9A961',severe:'#8B2C2C'}[sev]||'#4FD1E0';
   const sevLabel={none:'Aucun dommage',leger:'Dommages légers',modere:'Dommages modérés',severe:'Dommages sévères'}[sev]||sev;
   return `<div class="ia-box">
-    <div class="ia-box-title" style="color:${sevCol}"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> Analyse IA — ${esc(sevLabel)}</div>
+    <div class="ia-box-title" style="color:${sevCol}"> Analyse IA — ${esc(sevLabel)}</div>
     ${ia.resume?`<div style="margin-bottom:6px">${esc(ia.resume)}</div>`:''}
     ${d.length?`<ul style="margin:6px 0 0 20px;padding:0">${d.map(x=>`<li style="margin-bottom:3px">${esc(typeof x==='string'?x:(x.description||x.zone||''))}</li>`).join('')}</ul>`:''}
   </div>`;
@@ -503,9 +502,9 @@ async function analyzeIA(id){
       showToast('🔐 Configurez votre clé API Claude dans les Paramètres pour activer l\'analyse IA');
       return;
     }
-    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg> Analyse en cours…');
+    showToast(' Analyse en cours…');
     const analysis=await callClaudeVision(ev,apiKey);
-    if(!analysis){showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur d\'analyse');return;}
+    if(!analysis){showToast(' Erreur d\'analyse');return;}
     // Sauvegarder dans la base
     await fetch(`${SB}/rest/v1/etats_vehicule?id=eq.${id}`,{
       method:'PATCH',
@@ -514,8 +513,8 @@ async function analyzeIA(id){
     });
     ev.ia_analyse=analysis;
     renderList();
-    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Analyse IA terminée');
-  }catch(e){showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message);}
+    showToast(' Analyse IA terminée');
+  }catch(e){showToast(' '+e.message);}
 }
 
 async function callClaudeVision(ev,apiKey){
@@ -533,8 +532,7 @@ async function callClaudeVision(ev,apiKey){
       'content-type':'application/json',
       'x-api-key':apiKey,
       'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-access':'true'
-    },
+      'anthropic-dangerous-direct-browser-access':'true' },
     body:JSON.stringify({
       model:'claude-haiku-4-5-20251001',
       max_tokens:500,
@@ -555,8 +553,8 @@ async function deleteEtat(id){
     if(!r.ok){const err=await r.text();throw new Error(err);}
     allEtats=allEtats.filter(e=>e.id!==id);
     renderKPI();renderList();
-    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> État supprimé');
-  }catch(e){showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur suppression : '+e.message);}
+    showToast(' État supprimé');
+  }catch(e){showToast(' Erreur suppression : '+e.message);}
 }
 
 // ── EXPORT CSV ──

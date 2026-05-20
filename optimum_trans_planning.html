@@ -21,8 +21,7 @@
         'a[href="optimum_trans_saisie.html"]',
         'a[href="optimum_trans_ia.html"]',
         'a[href="optimum_trans_dispatch.html"]',
-        '.sidebar-footer .user-card'
-      ].join(',')+'{display:none!important}';
+        '.sidebar-footer .user-card' ].join(',')+'{display:none!important}';
       document.head.appendChild(_st);
     }
   }catch(e){}
@@ -207,9 +206,9 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .btn-val-pen{background:rgba(231,76,60,0.15);color:#D88888;border:1px solid rgba(231,76,60,0.3);}
 .btn-val-pen:hover{background:rgba(231,76,60,0.3);}
 .t-badge.validated{opacity:0.7;position:relative;}
-.t-badge.validated::after{content:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>';position:absolute;top:-4px;right:-4px;font-size:8px;}
+.t-badge.validated::after{content:'';position:absolute;top:-4px;right:-4px;font-size:8px;}
 .t-badge.penalized{opacity:0.7;position:relative;}
-.t-badge.penalized::after{content:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';position:absolute;top:-4px;right:-4px;font-size:8px;}
+.t-badge.penalized::after{content:'';position:absolute;top:-4px;right:-4px;font-size:8px;}
 /* ─── SÉPARATION VISUELLE DES LIGNES PAR CHAUFFEUR ─── */
 .planning-table tbody tr:not(.chef-row):hover td.slot-cell{filter:brightness(1.25);transition:filter 0.15s;}
 .planning-table tbody tr:not(.chef-row):hover td.ch-cell{filter:brightness(1.25);transition:filter 0.15s;}
@@ -575,14 +574,14 @@ const OT = (() => {
     document.querySelectorAll('a[href="' + SUPERADMIN_PAGE + '"]').forEach(function(el) { el.style.display = 'none'; });
     var rules = [
       { href: 'optimum_trans_feuille_route.html', feature: 'feuille_route' },
-      { href: 'optimum_trans_vehicules.html',     feature: 'vehicules'     },
-      { href: 'optimum_trans_chauffeurs.html',    feature: 'chauffeurs'    },
-      { href: 'optimum_trans_gazole.html',        feature: 'gazole'        },
-      { href: 'optimum_trans_saisie.html',        feature: 'saisie'        },
-      { href: 'monmarche.html',                   feature: 'monmarche'     },
-      { href: 'optimum_trans_dispatch.html',      feature: 'dispatch'      },
-      { href: 'optimum_trans_suivi_chauffeurs.html', feature: 'tracking'      },
-      { href: 'optimum_trans_gps_chauffeur.html',    feature: 'tracking'      },
+      { href: 'optimum_trans_vehicules.html',     feature: 'vehicules' },
+      { href: 'optimum_trans_chauffeurs.html',    feature: 'chauffeurs' },
+      { href: 'optimum_trans_gazole.html',        feature: 'gazole' },
+      { href: 'optimum_trans_saisie.html',        feature: 'saisie' },
+      { href: 'monmarche.html',                   feature: 'monmarche' },
+      { href: 'optimum_trans_dispatch.html',      feature: 'dispatch' },
+      { href: 'optimum_trans_suivi_chauffeurs.html', feature: 'tracking' },
+      { href: 'optimum_trans_gps_chauffeur.html',    feature: 'tracking' },
       { href: 'optimum_trans_etat_vehicule.html',    feature: 'etat_vehicule' },
     ];
     rules.forEach(function(rule) {
@@ -745,7 +744,7 @@ const OT = (() => {
 })();
 function logout() { OT.logout(); }
 var _syncIntervalId=null;
-async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;if(_syncIntervalId){clearInterval(_syncIntervalId);_syncIntervalId=null;}sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var ctrl=new AbortController();var timer=setTimeout(()=>ctrl.abort(),8000);var r;try{r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY},signal:ctrl.signal});}finally{clearTimeout(timer);}if(!r||!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){clearInterval(_syncIntervalId);_syncIntervalId=null;alert(inv.reason==='deleted'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été supprimé. Vous allez être déconnecté.':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été suspendu. Contactez votre administrateur.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}window.addEventListener('beforeunload',function(){if(_syncIntervalId){clearInterval(_syncIntervalId);_syncIntervalId=null;}});_syncIntervalId=setInterval(check,30000);}
+async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;if(_syncIntervalId){clearInterval(_syncIntervalId);_syncIntervalId=null;}sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var ctrl=new AbortController();var timer=setTimeout(()=>ctrl.abort(),8000);var r;try{r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY},signal:ctrl.signal});}finally{clearTimeout(timer);}if(!r||!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){clearInterval(_syncIntervalId);_syncIntervalId=null;alert(inv.reason==='deleted'?' Votre compte a été supprimé. Vous allez être déconnecté.':' Votre compte a été suspendu. Contactez votre administrateur.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}window.addEventListener('beforeunload',function(){if(_syncIntervalId){clearInterval(_syncIntervalId);_syncIntervalId=null;}});_syncIntervalId=setInterval(check,30000);}
 if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionSync;}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js" defer></script>
@@ -758,39 +757,38 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <body>
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
     <a class="nav-item active" href="#"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
     <a class="nav-item" style="display:none" href="optimum_trans_saisie.html" id="nav-saisie-link"><span class="nav-icon">📝</span> Saisie Tournées</a>
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats <span id="rh-sidebar-badge" style="display:none;background:#8B2C2C;color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:700;margin-left:auto;align-items:center;justify-content:center">0</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients &amp; Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients &amp; Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
     <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
-      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
-    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"> Paramètres</div></div>
       <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
     </div>
   </div>
@@ -800,14 +798,14 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
   <div class="topbar">
     <div class="topbar-title">📆 PLANNING</div>
     <div class="topbar-right">
-      <span id="sync-info" style="font-size:11px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Connecté</span>
-      <button class="btn-sm btn-ghost" onclick="loadWeek()" title="Actualiser">🔄 Actualiser</button>
-      <button class="btn-sm btn-excel" onclick="exportPlanningExcel()" title="Exporter en Excel"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Excel</button>
+      <span id="sync-info" style="font-size:11px;color:var(--gray)"> Connecté</span>
+      <button class="btn-sm btn-ghost" onclick="loadWeek()" title="Actualiser"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Actualiser</button>
+      <button class="btn-sm btn-excel" onclick="exportPlanningExcel()" title="Exporter en Excel"> Excel</button>
       <button class="btn-sm btn-ghost" onclick="printPlanning()" title="Aperçu / Impression" style="border-color:rgba(255,255,255,0.15)">🖨️ Imprimer</button>
-      <button class="btn-sm btn-wa" id="btn-send-all-wa" onclick="sendAllWA()" style="display:flex;align-items:center;gap:6px">💬 <span>Envoyer tout</span></button>
+      <button class="btn-sm btn-wa" id="btn-send-all-wa" onclick="sendAllWA()" style="display:flex;align-items:center;gap:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> <span>Envoyer tout</span></button>
       <button class="btn-sm btn-overview" onclick="openOverviewModal()" title="Vue d'ensemble du planning" style="display:flex;align-items:center;gap:4px;">👁 <span>Vue d'ensemble</span></button>
       <button id="btn-send-stt" class="btn-sm" onclick="openSendSTTModal()" title="Envoyer la semaine aux sous-traitants T SERVICE & CO" style="display:none;align-items:center;gap:4px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:#6B8E23;font-weight:700">🔗 <span>Envoyer STT</span></button>
-      <button class="btn-sm btn-ghost" onclick="openDupModal()" title="Dupliquer une semaine entière" style="display:flex;align-items:center;gap:4px;border-color:rgba(245,166,35,0.3);color:var(--accent)">📋 <span>Dupliquer</span></button>
+      <button class="btn-sm btn-ghost" onclick="openDupModal()" title="Dupliquer une semaine entière" style="display:flex;align-items:center;gap:4px;border-color:rgba(245,166,35,0.3);color:var(--accent)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> <span>Dupliquer</span></button>
       <button class="btn-sm" onclick="openDelWeekModal()" title="Supprimer toutes les tournées de cette semaine" style="display:flex;align-items:center;gap:4px;background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.5);color:#D88888;font-weight:700;">🗑 <span>Vider semaine</span></button>
       <button class="btn-sm btn-accent" onclick="openAddModal()" style="display:flex;align-items:center;gap:4px">＋ <span>Tournée</span></button>
     </div>
@@ -822,7 +820,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
             <div class="week-label" id="week-label">—</div>
             <div class="week-dates" id="week-dates">—</div>
           </div>
-          <span class="cal-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+          <span class="cal-icon"></span>
         </div>
         <div class="cal-popup hidden" id="cal-popup">
           <div class="cal-header">
@@ -840,13 +838,13 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     <div class="wa-banner hidden" id="wa-banner">
       <div class="wa-banner-inner" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
         <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:42px;height:42px;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 12px rgba(37,211,102,0.3)">💬</div>
+          <div style="width:42px;height:42px;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 12px rgba(37,211,102,0.3)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
           <div>
             <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:2px" id="wa-banner-text">Tournées prêtes</div>
             <div style="font-size:11px;color:rgba(37,211,102,0.8)">Envoie les missions WhatsApp à chaque chauffeur</div>
           </div>
         </div>
-        <button class="btn-sm btn-wa" onclick="sendAllWA()" style="flex-shrink:0;white-space:nowrap;font-size:12px;padding:8px 14px;border-radius:10px;">💬 Envoyer tout</button>
+        <button class="btn-sm btn-wa" onclick="sendAllWA()" style="flex-shrink:0;white-space:nowrap;font-size:12px;padding:8px 14px;border-radius:10px;"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Envoyer tout</button>
       </div>
       <div class="wa-banner-drivers" id="wa-banner-btns"></div>
     </div>
@@ -857,10 +855,10 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <div class="kpi"><div class="kpi-ico">🌅</div><div><div class="kpi-val" id="k-am">—</div><div class="kpi-lbl">Tournées AM</div></div></div>
       <div class="kpi"><div class="kpi-ico">🌆</div><div><div class="kpi-val" id="k-pm">—</div><div class="kpi-lbl">Tournées PM</div></div></div>
       <div class="kpi" id="kpi-dispo" onclick="toggleDispoPanel()" style="cursor:pointer;border-color:rgba(52,211,153,0.3);transition:all 0.2s;" title="Voir les chauffeurs disponibles par jour"><div class="kpi-ico">🟢</div><div><div class="kpi-val" id="k-dispo" style="color:#A8C078">—</div><div class="kpi-lbl" id="kpi-dispo-lbl" style="color:#A8C078">Dispo aujourd'hui ▾</div></div></div>
-      <div class="kpi" id="kpi-incomplete" onclick="openIncompleteModal()" style="cursor:pointer;border-color:rgba(231,76,60,0.3);transition:all 0.2s;" title="Voir les tournées avec saisies manquantes"><div class="kpi-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="kpi-val" id="k-incomplete" style="color:#D88888">—</div><div class="kpi-lbl" id="kpi-incomplete-lbl" style="color:#D88888">Saisies manquantes ▾</div></div></div>
+      <div class="kpi" id="kpi-incomplete" onclick="openIncompleteModal()" style="cursor:pointer;border-color:rgba(231,76,60,0.3);transition:all 0.2s;" title="Voir les tournées avec saisies manquantes"><div class="kpi-ico"></div><div><div class="kpi-val" id="k-incomplete" style="color:#D88888">—</div><div class="kpi-lbl" id="kpi-incomplete-lbl" style="color:#D88888">Saisies manquantes ▾</div></div></div>
     </div>
     <div id="dispo-panel" style="display:none;background:var(--navy2);border:1px solid rgba(52,211,153,0.25);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
-      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#A8C078;margin-bottom:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Chauffeurs disponibles — par jour</div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#A8C078;margin-bottom:12px"> Chauffeurs disponibles — par jour</div>
       <div id="dispo-list" style="display:flex;gap:0;overflow-x:auto"></div>
     </div>
 
@@ -875,7 +873,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         </div>
       </div>
       <span style="margin-left:20px;opacity:0.3">|</span>
-      <span class="filter-label" style="margin-left:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Client :</span>
+      <span class="filter-label" style="margin-left:12px"> Client :</span>
       <div class="multisel-wrap" id="multisel-wrap-cl">
         <button class="multisel-trigger" id="multisel-trig-cl" onclick="toggleMultiDrop('cl')"><span>— Tous les clients —</span></button>
         <div class="multisel-panel" id="multisel-panel-cl">
@@ -885,7 +883,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         </div>
       </div>
       <span style="margin-left:20px;opacity:0.3">|</span>
-      <span class="filter-label" style="margin-left:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Jour :</span>
+      <span class="filter-label" style="margin-left:12px"> Jour :</span>
       <div class="filter-day-group" id="filter-day-group">
         <button class="filter-day-btn" data-day="0" onclick="toggleFilterDay(0)">Lun</button>
         <button class="filter-day-btn" data-day="1" onclick="toggleFilterDay(1)">Mar</button>
@@ -897,7 +895,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       </div>
       <button class="filter-reset" id="filter-day-reset" onclick="resetFilterDays()" style="display:none">✕ Jours</button>
       <span style="margin-left:20px;opacity:0.3">|</span>
-      <span class="filter-label" style="margin-left:12px">📋 Affichage :</span>
+      <span class="filter-label" style="margin-left:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Affichage :</span>
       <div class="filter-day-group" id="filter-show-mode">
         <button class="filter-day-btn active" data-mode="all" onclick="setShowMode('all')" title="Afficher tous les chauffeurs actifs">Tous</button>
         <button class="filter-day-btn" data-mode="with-tours" onclick="setShowMode('with-tours')" title="Afficher uniquement les chauffeurs avec au moins une tournée cette semaine">Avec tournées</button>
@@ -923,7 +921,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
           <option value="">👷 Tous les chauffeurs</option>
         </select>
         <select class="mob-filter-sel" id="mob-filter-cl" onchange="_applyMobFilter()">
-          <option value=""><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Tous les clients</option>
+          <option value=""> Tous les clients</option>
         </select>
         <button class="mob-filter-reset" id="mob-filter-reset" onclick="_resetMobFilters()" style="display:none" title="Réinitialiser les filtres">✕</button>
       </div>
@@ -939,7 +937,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL PÉNALITÉ -->
 <div class="modal-overlay" id="modal-pen" onclick="if(event.target===this)closePenModal()">
   <div class="modal-pen">
-    <div class="modal-title" style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> VALIDER AVEC PÉNALITÉ</div>
+    <div class="modal-title" style="color:#D88888"> VALIDER AVEC PÉNALITÉ</div>
     <div class="modal-sub" id="pen-sub" style="margin-bottom:16px">Sélectionnez le motif de la pénalité</div>
     <div id="pen-options"></div>
     <div id="pen-custom-block" style="display:none;margin-bottom:12px">
@@ -948,7 +946,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border);margin-top:4px">
       <button style="padding:9px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;border:1px solid var(--border);background:none;color:var(--gray)" onclick="closePenModal()">Annuler</button>
-      <button id="btn-pen-confirm" style="padding:9px 20px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,#8B2C2C,#C0392B);color:var(--white)" onclick="confirmPenalty()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Appliquer la pénalité</button>
+      <button id="btn-pen-confirm" style="padding:9px 20px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,#8B2C2C,#C0392B);color:var(--white)" onclick="confirmPenalty()"> Appliquer la pénalité</button>
     </div>
   </div>
 </div>
@@ -956,7 +954,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL AJOUT -->
 <div class="modal-overlay" id="modal-add" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="modal-title">➕ AJOUTER UNE TOURNÉE</div>
+    <div class="modal-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> AJOUTER UNE TOURNÉE</div>
     <div class="modal-sub" id="modal-sub">Remplis les informations de la tournée</div>
     <div class="form-group">
       <label>👷 Chauffeur</label>
@@ -983,10 +981,10 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <input type="number" id="m-nb-heures" min="0" step="0.5" placeholder="Ex: 4.5" value="">
     </div>
     <div id="m-zone-group" style="display:none">
-      <div style="font-size:11px;color:#F1D27B;margin:6px 0 8px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Lignes de livraison par ville</div>
+      <div style="font-size:11px;color:#F1D27B;margin:6px 0 8px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase"> Lignes de livraison par ville</div>
       <div id="m-zone-lines" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
       <button type="button" onclick="addZoneLine()" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.35);border-radius:8px;padding:7px 12px;font-size:12px;color:#F1D27B;cursor:pointer;font-family:inherit;font-weight:600;margin-bottom:10px">+ Ajouter une ville</button>
-      <div id="m-zone-info" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:9px 12px;font-size:11px;color:#F1D27B;margin:0 0 10px;line-height:1.5"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Ajoute au moins une ligne (ville + nb points)…</div>
+      <div id="m-zone-info" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:9px 12px;font-size:11px;color:#F1D27B;margin:0 0 10px;line-height:1.5"> Ajoute au moins une ligne (ville + nb points)…</div>
     </div>
     <div id="m-forfait-group" style="display:none">
       <div id="m-forfait-info" style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:10px;padding:9px 12px;font-size:11px;color:#C9A961;margin-bottom:10px;line-height:1.5"></div>
@@ -1013,7 +1011,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     </div>
     <div class="modal-actions">
       <button class="btn-cancel-m" onclick="closeModal()">Annuler</button>
-      <button class="btn-submit" id="btn-modal-submit" onclick="saveTournee()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer</button>
+      <button class="btn-submit" id="btn-modal-submit" onclick="saveTournee()"> Enregistrer</button>
     </div>
   </div>
 </div>
@@ -1021,7 +1019,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL INFO TOURNÉE -->
 <div class="modal-overlay" id="modal-info" onclick="if(event.target===this)closeInfoModal()">
   <div class="modal" style="max-width:380px">
-    <div class="modal-title" id="info-title">📋 DÉTAIL TOURNÉE</div>
+    <div class="modal-title" id="info-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> DÉTAIL TOURNÉE</div>
     <div id="info-body" style="font-size:13px;line-height:2"></div>
     <div class="modal-actions" style="justify-content:flex-end">
       <button class="btn-cancel-m" onclick="closeInfoModal()">Fermer</button>
@@ -1032,7 +1030,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL DUPLIQUER SEMAINE -->
 <div class="modal-overlay" id="modal-dup" onclick="if(event.target===this)closeDupModal()">
   <div class="modal">
-    <div class="modal-title">📋 DUPLIQUER UNE SEMAINE</div>
+    <div class="modal-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> DUPLIQUER UNE SEMAINE</div>
     <div class="modal-sub" id="dup-modal-sub">Copie toutes les tournées vers une autre semaine</div>
     <div class="form-group">
       <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Semaine source</label>
@@ -1049,7 +1047,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     </div>
     <div class="modal-actions">
       <button class="btn-cancel-m" onclick="closeDupModal()">Annuler</button>
-      <button class="btn-submit" id="btn-dup-submit" onclick="executeDuplicate()" style="background:linear-gradient(135deg,var(--accent),var(--accent2))">📋 Dupliquer</button>
+      <button class="btn-submit" id="btn-dup-submit" onclick="executeDuplicate()" style="background:linear-gradient(135deg,var(--accent),var(--accent2))"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Dupliquer</button>
     </div>
   </div>
 </div>
@@ -1057,7 +1055,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL DUPLIQUER SEMAINE CHAUFFEUR -->
 <div class="modal-overlay" id="modal-dup-ch" onclick="if(event.target===this)closeDupChModal()">
   <div class="modal">
-    <div class="modal-title">📋 DUPLIQUER SEMAINE CHAUFFEUR</div>
+    <div class="modal-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> DUPLIQUER SEMAINE CHAUFFEUR</div>
     <div class="modal-sub" id="dup-ch-modal-sub">Copie les tournées d'un chauffeur sur une période</div>
     <div style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);border-radius:8px;padding:10px 12px;margin-bottom:14px">
       <span style="font-size:12px;font-weight:700;color:#818CF8" id="dup-ch-name-label">—</span>
@@ -1082,7 +1080,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     </div>
     <div class="modal-actions">
       <button class="btn-cancel-m" onclick="closeDupChModal()">Annuler</button>
-      <button class="btn-submit" id="btn-dup-ch-submit" onclick="executeDuplicateChauffeur()" style="background:linear-gradient(135deg,#4FD1E0,#818CF8)">📋 Dupliquer</button>
+      <button class="btn-submit" id="btn-dup-ch-submit" onclick="executeDuplicateChauffeur()" style="background:linear-gradient(135deg,#4FD1E0,#818CF8)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Dupliquer</button>
     </div>
   </div>
 </div>
@@ -1093,7 +1091,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     <div class="modal-title" style="color:#D88888">🗑 SUPPRIMER LA SEMAINE</div>
     <div class="modal-sub" id="del-week-sub">Cette action est irréversible</div>
     <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:14px 16px;margin-bottom:18px;text-align:center;">
-      <div style="font-size:13px;color:#D88888;font-weight:700;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ATTENTION</div>
+      <div style="font-size:13px;color:#D88888;font-weight:700;margin-bottom:6px"> ATTENTION</div>
       <div style="font-size:12px;color:var(--gray);line-height:1.6">Toutes les tournées de la semaine affichée seront définitivement supprimées.<br>Les validations et pénalités associées seront également perdues.</div>
     </div>
     <div style="text-align:center;font-size:22px;font-family:'Bebas Neue',sans-serif;color:#D88888;letter-spacing:2px;margin-bottom:18px" id="del-week-count-label">— tournées à supprimer</div>
@@ -1119,7 +1117,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL SAISIES MANQUANTES -->
 <div class="modal-overlay" id="modal-incomplete" onclick="if(event.target===this)closeIncompleteModal()">
   <div class="modal" style="max-width:520px">
-    <div class="modal-title" style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> SAISIES MANQUANTES</div>
+    <div class="modal-title" style="color:#D88888"> SAISIES MANQUANTES</div>
     <div class="modal-sub" id="incomplete-modal-sub">Tournées avec des données non saisies cette semaine</div>
     <div id="incomplete-list" style="max-height:420px;overflow-y:auto;padding-right:4px;margin-bottom:8px"></div>
     <div class="modal-actions" style="justify-content:flex-end">
@@ -1178,14 +1176,14 @@ async function loadPenalites(){
   catch(e){ penalitesConfig=getDefaultPenalites(); }
 }
 function getDefaultPenalites(){
-  return [{id:'retard',label:'Retard',icon:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}];
+  return [{id:'retard',label:'Retard',icon:'',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}];
 }
 function getValidationMap(){
   return OT_SYNC.getValidationMap();
 }
 async function validateTournee(tourneeId,chauffeurNom){
   await OT_SYNC.validateTournee(tourneeId,chauffeurNom);
-  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée validée');
+  toast(' Tournée validée');
   renderPlanning(getWeekDates());
 }
 function openPenaltyModal(tourneeId,chauffeurNom,clientNom){
@@ -1213,7 +1211,7 @@ async function confirmPenalty(){
   const t=allTournees.find(x=>x.id===penModal_tourneeId);
   const chauffeurNom=t?t.chauffeur_nom:'';
   await OT_SYNC.penalizeTournee(penModal_tourneeId,chauffeurNom,penModal_selectedMotif.label,penModal_selectedMotif.id,montant);
-  toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité "${penModal_selectedMotif.label}" — -${montant}€`);
+  toast(` Pénalité "${penModal_selectedMotif.label}" — -${montant}€`);
   closePenModal();
   renderPlanning(getWeekDates());
 }
@@ -1238,9 +1236,9 @@ document.addEventListener('DOMContentLoaded',async()=>{
     setInterval(async function(){ await OT.refreshSession(); }, 10*60*1000);
   }catch(e){
     const cont=document.getElementById('planning-container');
-    if(cont) cont.innerHTML=`<div style="padding:40px;text-align:center;color:var(--error)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur d'initialisation : ${e.message}<br><br><button onclick="window.location.reload()" style="padding:10px 20px;background:#C9A961;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px">🔄 Recharger la page</button></div>`;
+    if(cont) cont.innerHTML=`<div style="padding:40px;text-align:center;color:var(--error)"> Erreur d'initialisation : ${e.message}<br><br><button onclick="window.location.reload()" style="padding:10px 20px;background:#C9A961;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Recharger la page</button></div>`;
     const si=document.getElementById('sync-info');
-    if(si){si.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur connexion';si.style.color='#D88888';}
+    if(si){si.textContent=' Erreur connexion';si.style.color='#D88888';}
     console.error('Planning init error:',e);
   }
 });
@@ -1350,7 +1348,7 @@ async function saveChefJour(dateStr, chauffeurNom){
       toast('👔 Chef d\'équipe retiré');
     }
     renderPlanning(getWeekDates());
-  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error'); }
+  }catch(e){ toast(' '+e.message,'error'); }
 }
 async function saveAffectationVehicule(chauffeurNom,dateStr,vehiculeId){
   const k=vehKey(chauffeurNom,dateStr);
@@ -1365,7 +1363,7 @@ async function saveAffectationVehicule(chauffeurNom,dateStr,vehiculeId){
     }
     // Synchroniser le champ vehicule dans toutes les tournées de ce chauffeur/jour
     await fetch(`${SB}/rest/v1/tournees?chauffeur_nom=eq.${encodeURIComponent(chauffeurNom)}&date=eq.${dateStr}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({vehicule:immat})});
-  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur véhicule: '+e.message,'error'); }
+  }catch(e){ toast(' Erreur véhicule: '+e.message,'error'); }
 }
 async function loadWeek(){
   const dates=getWeekDates();
@@ -1393,12 +1391,12 @@ async function loadWeek(){
     renderSTTReceivedPanel();
     updateKPIs();
     updateWABanner(dates);
-    document.getElementById('sync-info').textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${allTournees.length} tournée${allTournees.length>1?'s':''} cette semaine`;
+    document.getElementById('sync-info').textContent=` ${allTournees.length} tournée${allTournees.length>1?'s':''} cette semaine`;
     document.getElementById('sync-info').style.color='#6B8E23';
   }catch(e){
-    document.getElementById('sync-info').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message;
+    document.getElementById('sync-info').textContent=' '+e.message;
     document.getElementById('sync-info').style.color='#D88888';
-    document.getElementById('planning-container').innerHTML=`<div style="padding:40px;text-align:center;color:var(--error)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;
+    document.getElementById('planning-container').innerHTML=`<div style="padding:40px;text-align:center;color:var(--error)"> ${e.message}</div>`;
   }
 }
 // ── Multi-select chauffeur/client ────────────────────────────────────────────
@@ -1617,12 +1615,11 @@ function renderPlanning(dates){
       ?sttRelationsDonor.find(r=>r.entreprise_nom_ref===c.entreprise_nom):null;
     const _sttPending=_sttRel?allTournees.filter(t=>t.chauffeur_nom===c.nom&&!sttOrdersByTourneeId[t.id]).length:0;
     const _safeCh=c.nom.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    tdCh.innerHTML=`
-      <div class="ch-name" style="color:${pal.c}">${c.nom}${isChefThisWeek?` <span class="chef-badge" style="font-size:8px;padding:2px 5px;vertical-align:middle">👔 Chef</span>`:''}</div>
-      <div class="ch-meta">${c.type==='salarié'?'Salarié':(c.entreprise_nom?c.entreprise_nom+' · S/T':'S/T')}${hasTel?' · 💬':''}</div>
+    tdCh.innerHTML=` <div class="ch-name" style="color:${pal.c}">${c.nom}${isChefThisWeek?` <span class="chef-badge" style="font-size:8px;padding:2px 5px;vertical-align:middle">👔 Chef</span>`:''}</div>
+      <div class="ch-meta">${c.type==='salarié'?'Salarié':(c.entreprise_nom?c.entreprise_nom+' · S/T':'S/T')}${hasTel?' · <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>':''}</div>
       ${weekTotal>0?`<div class="ch-week-total">${weekTotal} tournée${weekTotal>1?'s':''} / sem.</div>`:''}
-      ${hasTel&&weekTotal>0&&OT_WA?`<button class="ch-wa-week" onclick="sendChWeekWA('${c.nom}')">💬 Envoyer semaine</button>`:''}
-      ${hasTel?`<button class="ch-wa-call" onclick="openWAConversation(normalizePhone('${c.tel}'))" title="Appeler via WhatsApp"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> WhatsApp</button>`:''}
+      ${hasTel&&weekTotal>0&&OT_WA?`<button class="ch-wa-week" onclick="sendChWeekWA('${c.nom}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Envoyer semaine</button>`:''}
+      ${hasTel?`<button class="ch-wa-call" onclick="openWAConversation(normalizePhone('${c.tel}'))" title="Appeler via WhatsApp"> WhatsApp</button>`:''}
       ${_sttRel&&weekTotal>0?`<button class="ch-stt-week${_sttPending===0?' stt-sent':''}" onclick="sendChSTTWeek('${_safeCh}')">${_sttPending>0?`🔗 Envoyer STT (${_sttPending})`:'✓ STT envoyé'}</button>`:''}`;
     const btnDupCh=document.createElement('button');
     btnDupCh.className='btn-dup-ch';
@@ -1668,14 +1665,14 @@ function renderPlanning(dates){
         if(!valInfo||valInfo.statut==='penalisee'){
           const btnV=document.createElement('button');
           btnV.className='btn-val btn-val-ok';
-          btnV.textContent=valInfo?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Re-val':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valider';
+          btnV.textContent=valInfo?' Re-val':' Valider';
           btnV.onclick=()=>validateTournee(t.id,c.nom);
           actDiv.appendChild(btnV);
         }
         if(!valInfo||valInfo.statut==='validee'){
           const btnP=document.createElement('button');
           btnP.className='btn-val btn-val-pen';
-          btnP.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pén.';
+          btnP.textContent=' Pén.';
           btnP.onclick=()=>openPenaltyModal(t.id,c.nom,t.client_nom);
           actDiv.appendChild(btnP);
         }
@@ -1690,7 +1687,7 @@ function renderPlanning(dates){
       });
       const absKey=c.nom+'|||'+dateStr;
       if(absMap[absKey]){
-        const absLabels={conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'};
+        const absLabels={conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:' Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'};
         const absDiv=document.createElement('div');
         absDiv.style.cssText='background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:4px 6px;font-size:9px;font-weight:600;color:#D88888;text-align:center;margin:2px 0;';
         absDiv.textContent=absLabels[absMap[absKey]]||'Absent';
@@ -1716,7 +1713,7 @@ function renderPlanning(dates){
         if(val){
           const ch=allChauffeurs.find(x=>x.nom===c.nom);
           if(ch?.type==='sous-traitant'&&ch?.entreprise_nom){
-            const ok=confirm(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Attention\n\n${c.nom} est rattaché à ${ch.entreprise_nom} qui dispose de ses propres véhicules.\n\nSouhaitez-vous quand même assigner ce véhicule ?`);
+            const ok=confirm(` Attention\n\n${c.nom} est rattaché à ${ch.entreprise_nom} qui dispose de ses propres véhicules.\n\nSouhaitez-vous quand même assigner ce véhicule ?`);
             if(!ok){this.value=affectationsVehicule[vehKey(c.nom,dateStr)]||'';return;}
           }
         }
@@ -1874,12 +1871,12 @@ function openIncompleteModal(){
   const container=document.getElementById('incomplete-list');
   if(!container) return;
   if(!count){
-    container.innerHTML='<div style="text-align:center;padding:28px 20px;color:#6B8E23;font-size:14px;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Toutes les saisies sont complètes !</div>';
+    container.innerHTML='<div style="text-align:center;padding:28px 20px;color:#6B8E23;font-size:14px;font-weight:600"> Toutes les saisies sont complètes !</div>';
   } else {
     container.innerHTML=incomplete.map(t=>{
       const cl=allClients.find(c=>c.nom===t.client_nom);
       const tp=cl?.type_paiement||'fixe';
-      const missingLabel=tp==='point'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Points réels manquants':(tp==='forfait_heures'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Heures début/fin réelles manquantes':(tp==='zone'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Points + CP de livraison manquants':'⏱ Heures réelles manquantes'));
+      const missingLabel=tp==='point'?' Points réels manquants':(tp==='forfait_heures'?' Heures début/fin réelles manquantes':(tp==='zone'?' Points + CP de livraison manquants':'⏱ Heures réelles manquantes'));
       const missingColor=tp==='point'?'#E8C66E':(tp==='forfait_heures'?'#C9A961':(tp==='zone'?'#E8C66E':'#4FD1E0'));
       const dateF=new Date(t.date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
       const slotCls=t.slot==='AM'?'am':t.slot==='PM'?'pm':'ampm';
@@ -1927,7 +1924,7 @@ function _syncMobFilterDropdowns() {
   chSel.value = currentFilterChauffeurs.size===1 ? [...currentFilterChauffeurs][0] : '';
 
   // Rebuild client options
-  clSel.innerHTML = '<option value=""><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Tous les clients</option>';
+  clSel.innerHTML = '<option value=""> Tous les clients</option>';
   allClients.forEach(c => {
     const o = document.createElement('option');
     o.value = c.nom; o.textContent = c.nom;
@@ -1987,8 +1984,7 @@ function renderMobilePlanning(dates) {
     const cnt = countByDate[ds] || 0;
     const dayName = DAYS[d.getDay() === 0 ? 6 : d.getDay() - 1].substring(0, 3);
     const tab = document.createElement('div');
-    tab.className = 'mob-day-tab'
-      + (isToday ? ' today-tab' : '')
+    tab.className = 'mob-day-tab' + (isToday ? ' today-tab' : '')
       + (ds === _mobActiveDay ? ' active' : '');
     tab.dataset.date = ds;
     tab.innerHTML =
@@ -2037,7 +2033,7 @@ function _renderMobDayContent(dateStr, dates) {
     while (d <= fin) { absMap[a.chauffeur_nom + '|||' + fd(d)] = a.type; d.setDate(d.getDate() + 1); }
   });
 
-  const ABS_LABELS = { conge_paye:'🏖️ Congé payé', maladie:'🤒 Maladie', absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absence injustifiée', jour_ferie:'🎉 Jour férié', formation:'📚 Formation', autre:'📌 Absent' };
+  const ABS_LABELS = { conge_paye:'🏖️ Congé payé', maladie:'🤒 Maladie', absence_injustifiee:' Absence injustifiée', jour_ferie:'🎉 Jour férié', formation:'📚 Formation', autre:'📌 Absent' };
 
   // Filtrer les tournées par client si filtre actif
   const tourneesFilteredMob = currentFilterClients.size > 0
@@ -2065,7 +2061,7 @@ function _renderMobDayContent(dateStr, dates) {
 
   if (sorted.length === 0) {
     html += `<div class="mob-empty-day">
-      <div class="mob-empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="mob-empty-icon"></div>
       <div class="mob-empty-text">Aucune tournée ce jour</div>
       <div class="mob-empty-sub">Appuie sur ＋ pour ajouter une tournée</div>
     </div>`;
@@ -2106,12 +2102,11 @@ function _renderMobDayContent(dateStr, dates) {
         const cls     = t.slot === 'AM' ? 'am' : t.slot === 'PM' ? 'pm' : 'ampm';
         const valInfo = _valMap[t.id] || null;
         const extra   = valInfo ? (valInfo.statut === 'validee' ? ' validated' : ' penalized') : '';
-        const icon    = valInfo ? (valInfo.statut === 'validee' ? ' <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>' : ' <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>') : '';
+        const icon    = valInfo ? (valInfo.statut === 'validee' ? ' ' : ' ') : '';
         const sc      = t.client_nom.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
         const _mobSttO = sttOrdersByTourneeId[t.id];
         const _mobSttM = _mobSttO ? ({pending_config:{e:'🔧',c:'#C9A961'},pending:{e:'🕐',c:'#E8C66E'},assigned:{e:'✓',c:'#6B8E23'},modified:{e:'⚠',c:'#C9A961'},cancelled:{e:'✕',c:'#D88888'},refused:{e:'✕',c:'#D88888'},validated:{e:'✓✓',c:'#6B8E23'}}[_mobSttO.status]||{e:'🔗',c:'#E8C66E'}) : null;
-        const _mobSttLine = _mobSttM && _mobSttO.status !== 'cancelled'
-          ? `<div style="font-size:8px;font-weight:700;color:${_mobSttM.c};margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${_mobSttM.e} STT${_mobSttO.chauffeur_nom_assigne?' · '+_mobSttO.chauffeur_nom_assigne.split(' ')[0]:''}</div>` : '';
+        const _mobSttLine = _mobSttM && _mobSttO.status !== 'cancelled' ? `<div style="font-size:8px;font-weight:700;color:${_mobSttM.c};margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${_mobSttM.e} STT${_mobSttO.chauffeur_nom_assigne?' · '+_mobSttO.chauffeur_nom_assigne.split(' ')[0]:''}</div>` : '';
 
         html += `<div class="mob-slot ${cls}${extra}" onclick="openTourneeInfo('${t.id}')">
           <span class="mob-slot-pill">${t.slot}</span>
@@ -2128,8 +2123,8 @@ function _renderMobDayContent(dateStr, dates) {
         const showRst = !!valInfo;
         if (showOk || showPen || showRst) {
           html += `<div class="mob-slot-val-row">`;
-          if (showOk)  html += `<button class="mob-val-btn ok"  onclick="validateTournee('${t.id}','${safeName}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valider</button>`;
-          if (showPen) html += `<button class="mob-val-btn pen" onclick="openPenaltyModal('${t.id}','${safeName}','${sc}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pén.</button>`;
+          if (showOk)  html += `<button class="mob-val-btn ok" onclick="validateTournee('${t.id}','${safeName}')"> Valider</button>`;
+          if (showPen) html += `<button class="mob-val-btn pen" onclick="openPenaltyModal('${t.id}','${safeName}','${sc}')"> Pén.</button>`;
           if (showRst) html += `<button class="mob-val-btn rst" onclick="resetValidation('${t.id}')">↩ Reset</button>`;
           html += `</div>`;
         }
@@ -2146,10 +2141,10 @@ function _renderMobDayContent(dateStr, dates) {
 
       // WhatsApp
       if (c.tel && tours.length > 0 && OT_WA) {
-        html += `<button class="mob-wa-btn" onclick="sendChDayWA(allChauffeurs.find(x=>x.nom==='${safeName}'),'${dateStr}')">💬 Envoyer WhatsApp</button>`;
+        html += `<button class="mob-wa-btn" onclick="sendChDayWA(allChauffeurs.find(x=>x.nom==='${safeName}'),'${dateStr}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Envoyer WhatsApp</button>`;
       }
       if (c.tel) {
-        html += `<button class="mob-wa-call-btn" onclick="openWAConversation(normalizePhone('${c.tel}'))"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Appeler via WhatsApp</button>`;
+        html += `<button class="mob-wa-call-btn" onclick="openWAConversation(normalizePhone('${c.tel}'))"> Appeler via WhatsApp</button>`;
       }
 
       // Bouton STT (sous-traitant avec relation active)
@@ -2200,7 +2195,7 @@ async function deleteWeekTournees(){
     await loadWeek();
     toast('🗑 Toutes les tournées de la semaine supprimées');
   }catch(e){
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
+    toast(' '+e.message,'error');
     btn.disabled=false; btn.textContent='🗑 Confirmer la suppression';
   }
 }
@@ -2239,7 +2234,7 @@ function buildMsg(c,tours,dateStr){
   if(vehLabel) msg+=`🚐 Véhicule : ${vehLabel}\n`;
   msg+=`\n`;
   tours.forEach((t,i)=>{msg+=`${i+1}. *${t.client_nom}*\n   🕐 ${t.heure||'—'} · ${t.slot}\n\n`;});
-  msg+=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Bonne journée !\n_${_co}_`;
+  msg+=` Bonne journée !\n_${_co}_`;
   return msg;
 }
 function _reculer30min(h){
@@ -2265,10 +2260,10 @@ function buildWeekMsg(c,dates){
     t.forEach(x=>{
       let heure=x.heure;
       if(heure&&_isMonMarche(x.client_nom)) heure=_reculer30min(heure);
-      msg+=`  • ${x.client_nom} — ${x.slot}${heure?' à '+heure:''}\n`;
+      msg+=` • ${x.client_nom} — ${x.slot}${heure?' à '+heure:''}\n`;
     });
   });
-  msg+=`\n<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Bonne semaine !\n_${_co}_`;
+  msg+=`\n Bonne semaine !\n_${_co}_`;
   return msg;
 }
 function normalizePhone(tel){
@@ -2441,17 +2436,17 @@ async function openTourneeInfo(id){
   if(tp==='point'){
     const estime=t.nb_points_estime!=null?`${t.nb_points_estime} pts`:'—';
     const reelDisplay=t.nb_points_reel!=null?`<span style="color:#6B8E23;font-weight:700">${t.nb_points_reel} pts <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>`:`<span style="color:#C9A961">En attente chauffeur</span>`;
-    const reelEdit=`<div style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="number" min="0" step="1" id="admin-pts-reel-${t.id}" value="${t.nb_points_reel!=null?t.nb_points_reel:''}" placeholder="Saisir pts réels" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealValue('${t.id}','nb_points_reel',document.getElementById('admin-pts-reel-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️ Modifier</button></div>`;
+    const reelEdit=`<div style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="number" min="0" step="1" id="admin-pts-reel-${t.id}" value="${t.nb_points_reel!=null?t.nb_points_reel:''}" placeholder="Saisir pts réels" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealValue('${t.id}','nb_points_reel',document.getElementById('admin-pts-reel-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Modifier</button></div>`;
     const isPM=t.slot==='PM';const dayTypePt=getDayType(t.date);
     const pu=dayTypePt==='ferie'?(isPM?(parseFloat(cl?.tarif_point_pm_ferie)||parseFloat(cl?.tarif_point_pm)||0):(parseFloat(cl?.tarif_point_am_ferie)||parseFloat(cl?.tarif_point_am)||0)):(isPM?(parseFloat(cl?.tarif_point_pm)||0):(parseFloat(cl?.tarif_point_am)||0));
     const slotLbl=t.slot||'AM';const ferieLbl=dayTypePt==='ferie'?' férié':'';
     const ptFallback=window._ptCountByTournee?.[t.id]||0;
     const caVal=t.nb_points_reel!=null?`${(t.nb_points_reel*pu).toLocaleString('fr-FR')}€`:(t.nb_points_estime!=null?`~${(t.nb_points_estime*pu).toLocaleString('fr-FR')}€ estimé`:(ptFallback>0?`~${(ptFallback*pu).toLocaleString('fr-FR')}€ (${ptFallback} pts comptés)`:'—'));
-    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> FACTURATION AU POINT — ${slotLbl}${ferieLbl}</div><div>Points estimés : <strong>${estime}</strong></div><div>Points réels : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">CA : <strong style="color:#E8C66E">${caVal}</strong> (${pu}€/pt ${slotLbl}${ferieLbl})</div></div>`;
+    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin-bottom:6px"> FACTURATION AU POINT — ${slotLbl}${ferieLbl}</div><div>Points estimés : <strong>${estime}</strong></div><div>Points réels : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">CA : <strong style="color:#E8C66E">${caVal}</strong> (${pu}€/pt ${slotLbl}${ferieLbl})</div></div>`;
   } else if(tp==='heure'){
     const estime=t.nb_heures_estime!=null?`${t.nb_heures_estime}h`:'—';
     const reelDisplay=t.nb_heures_reel!=null?`<span style="color:#6B8E23;font-weight:700">${t.nb_heures_reel}h <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>`:`<span style="color:#C9A961">En attente chauffeur</span>`;
-    const reelEdit=`<div style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="number" min="0" step="0.5" id="admin-hrs-reel-${t.id}" value="${t.nb_heures_reel!=null?t.nb_heures_reel:''}" placeholder="Saisir heures réelles" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealValue('${t.id}','nb_heures_reel',document.getElementById('admin-hrs-reel-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️ Modifier</button></div>`;
+    const reelEdit=`<div style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="number" min="0" step="0.5" id="admin-hrs-reel-${t.id}" value="${t.nb_heures_reel!=null?t.nb_heures_reel:''}" placeholder="Saisir heures réelles" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealValue('${t.id}','nb_heures_reel',document.getElementById('admin-hrs-reel-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Modifier</button></div>`;
     const isPM=t.slot==='PM';const dayTypeHr=getDayType(t.date);
     const pu=dayTypeHr==='ferie'?(isPM?(parseFloat(cl?.tarif_heure_pm_ferie)||parseFloat(cl?.tarif_heure_pm)||0):(parseFloat(cl?.tarif_heure_am_ferie)||parseFloat(cl?.tarif_heure_am)||0)):(isPM?(parseFloat(cl?.tarif_heure_pm)||0):(parseFloat(cl?.tarif_heure_am)||0));
     const slotLbl=t.slot||'AM';const ferieLbl=dayTypeHr==='ferie'?' férié':'';
@@ -2474,10 +2469,10 @@ async function openTourneeInfo(id){
     const depassEur=depassMin*tmin;
     const ca=forfait+depassEur;
     const reelDisplay=(debutReel&&finReel)?`<span style="color:#6B8E23;font-weight:700">${debutReel.substring(0,5)} → ${finReel.substring(0,5)} (${_planMinToHmm(dureeReelle)}) <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>`:`<span style="color:#C9A961">En attente chauffeur</span>`;
-    const reelEdit=`<div style="margin-top:6px"><div style="font-size:10px;color:var(--gray);margin-bottom:4px">Saisir/modifier les heures réelles :</div><div style="display:flex;gap:6px;align-items:center"><input type="time" id="admin-debut-reel-${t.id}" value="${debutReel?debutReel.substring(0,5):''}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><span style="color:var(--gray)">→</span><input type="time" id="admin-fin-reel-${t.id}" value="${finReel?finReel.substring(0,5):''}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealHours('${t.id}')" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️</button></div></div>`;
-    const depassHtml=depassMin>0?`<div style="margin-top:4px;color:#C9A961"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Dépassement : ${depassMin} min × ${tmin.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€ = <strong>+${depassEur.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div>`:`<div style="margin-top:4px;color:var(--gray);font-size:11px">Dans le forfait — pas de dépassement</div>`;
+    const reelEdit=`<div style="margin-top:6px"><div style="font-size:10px;color:var(--gray);margin-bottom:4px">Saisir/modifier les heures réelles :</div><div style="display:flex;gap:6px;align-items:center"><input type="time" id="admin-debut-reel-${t.id}" value="${debutReel?debutReel.substring(0,5):''}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><span style="color:var(--gray)">→</span><input type="time" id="admin-fin-reel-${t.id}" value="${finReel?finReel.substring(0,5):''}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealHours('${t.id}')" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div></div>`;
+    const depassHtml=depassMin>0?`<div style="margin-top:4px;color:#C9A961"> Dépassement : ${depassMin} min × ${tmin.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€ = <strong>+${depassEur.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div>`:`<div style="margin-top:4px;color:var(--gray);font-size:11px">Dans le forfait — pas de dépassement</div>`;
     const caLbl=dureeReelle!=null?'CA':'CA estimé';
-    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#C9A961;letter-spacing:1px;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> FORFAIT + DÉPASSEMENT — ${slotLbl}${ferieLbl}</div><div>Forfait : <strong>${forfait.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong> pour ${_planMinToHmm(minutesIncl)} inclus</div><div>Heures estimées : ${debutEst.substring?debutEst.substring(0,5):debutEst} → ${finEst.substring?finEst.substring(0,5):finEst}${dureeEst!=null?` (${_planMinToHmm(dureeEst)})`:''}</div><div>Heures réelles : ${reelDisplay}</div>${reelEdit}${depassHtml}<div style="margin-top:6px">${caLbl} : <strong style="color:#C9A961">${ca.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div></div>`;
+    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#C9A961;letter-spacing:1px;margin-bottom:6px"> FORFAIT + DÉPASSEMENT — ${slotLbl}${ferieLbl}</div><div>Forfait : <strong>${forfait.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong> pour ${_planMinToHmm(minutesIncl)} inclus</div><div>Heures estimées : ${debutEst.substring?debutEst.substring(0,5):debutEst} → ${finEst.substring?finEst.substring(0,5):finEst}${dureeEst!=null?` (${_planMinToHmm(dureeEst)})`:''}</div><div>Heures réelles : ${reelDisplay}</div>${reelEdit}${depassHtml}<div style="margin-top:6px">${caLbl} : <strong style="color:#C9A961">${ca.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div></div>`;
   } else if(tp==='zone'){
     if(Array.isArray(t.zone_lines) && t.zone_lines.length>0){
       // Multi-lignes : afficher toutes les villes + points + zone résolue
@@ -2489,18 +2484,18 @@ async function openTourneeInfo(id){
         const reel=line.nb_points_reel!=null?line.nb_points_reel:null;
         const zoneLbl=l.zone?`Z${l.zone}`:'(?)';
         const sourceColor=l.source==='exact_ville'?'#A8C078':(!l.source?'#D88888':'#FBBF24');
-        const sourceIcon=l.source==='exact_ville'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>':(!l.source?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>');
+        const sourceIcon=l.source==='exact_ville'?'':(!l.source?'':'');
         const lineCa=(reel!=null?reel:line.nb_points_estime||0)*l.tarif;
         return `<div style="display:flex;align-items:center;gap:6px;font-size:11px;padding:5px 8px;background:rgba(255,255,255,0.03);border-radius:6px;margin-top:3px">
           <span style="flex:1"><strong>${l.ville||'(?)'}</strong> <span style="color:${sourceColor}">${sourceIcon} ${zoneLbl}</span></span>
           <span style="color:var(--gray);font-size:10px">est. ${est}</span>
           <input type="number" min="0" step="1" id="admin-zline-${t.id}-${i}" value="${reel!=null?reel:''}" placeholder="réel" style="width:55px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:4px 6px;font-size:11px;color:var(--white);outline:none;font-family:inherit">
-          <button onclick="adminSaveZoneLineReel('${t.id}',${i})" style="background:var(--blue);border:none;border-radius:6px;padding:4px 8px;font-size:10px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️</button>
+          <button onclick="adminSaveZoneLineReel('${t.id}',${i})" style="background:var(--blue);border:none;border-radius:6px;padding:4px 8px;font-size:10px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
           <span style="color:#E8C66E;font-weight:700;min-width:60px;text-align:right">${lineCa.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</span>
         </div>`;
       }).join('');
       const totalLbl=allReel?'CA total':'CA estimé';
-      tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> FACTURATION À LA ZONE — ${t.zone_lines.length} ville${t.zone_lines.length>1?'s':''}</div>${rows}<div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.1);text-align:right">${totalLbl} : <strong style="color:#E8C66E">${calc.total.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div></div>`;
+      tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin-bottom:6px"> FACTURATION À LA ZONE — ${t.zone_lines.length} ville${t.zone_lines.length>1?'s':''}</div>${rows}<div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.1);text-align:right">${totalLbl} : <strong style="color:#E8C66E">${calc.total.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div></div>`;
     } else {
       // Legacy single-line
       const cp=t.code_postal_livraison||'';
@@ -2509,24 +2504,24 @@ async function openTourneeInfo(id){
       const zone=window.OT_ZONE?OT_ZONE.findZone(t.ville_livraison||cl?.ville||'',cp):'';
       const tpu=window.OT_ZONE?OT_ZONE.tarifPoint(zone):0;
       const reelDisplay=ptsReel!=null?`<span style="color:#6B8E23;font-weight:700">${ptsReel} pts <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>`:`<span style="color:#C9A961">En attente chauffeur</span>`;
-      const reelEdit=`<div style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="number" min="0" step="1" id="admin-pts-zone-reel-${t.id}" value="${ptsReel!=null?ptsReel:''}" placeholder="Saisir pts réels" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealValue('${t.id}','nb_points_reel',document.getElementById('admin-pts-zone-reel-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️ Modifier</button></div>`;
+      const reelEdit=`<div style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="number" min="0" step="1" id="admin-pts-zone-reel-${t.id}" value="${ptsReel!=null?ptsReel:''}" placeholder="Saisir pts réels" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealValue('${t.id}','nb_points_reel',document.getElementById('admin-pts-zone-reel-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Modifier</button></div>`;
       const ptsForCa=ptsReel!=null?ptsReel:(ptsEst||0);
       const caVal=zone&&tpu>0?(ptsForCa*tpu).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€':'—';
       const caLbl=ptsReel!=null?'CA':'CA estimé';
       const villeLbl=t.ville_livraison?`<strong>${t.ville_livraison}</strong>`:'';
-      const zoneLbl=zone?`Zone <strong>Z${zone}</strong> · ${tpu.toFixed(2)}€/pt`:`<span style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> zone non trouvée</span>`;
-      tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> FACTURATION À LA ZONE (legacy)</div><div><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${villeLbl}${cp?' · CP '+cp:''} · ${zoneLbl}</div><div>Points estimés : <strong>${ptsEst!=null?ptsEst+' pts':'—'}</strong></div><div>Points réels : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">${caLbl} : <strong style="color:#E8C66E">${caVal}</strong></div></div>`;
+      const zoneLbl=zone?`Zone <strong>Z${zone}</strong> · ${tpu.toFixed(2)}€/pt`:`<span style="color:#D88888"> zone non trouvée</span>`;
+      tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin-bottom:6px"> FACTURATION À LA ZONE (legacy)</div><div><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${villeLbl}${cp?' · CP '+cp:''} · ${zoneLbl}</div><div>Points estimés : <strong>${ptsEst!=null?ptsEst+' pts':'—'}</strong></div><div>Points réels : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">${caLbl} : <strong style="color:#E8C66E">${caVal}</strong></div></div>`;
     }
   } else {
     const dayType=getDayType(t.date);
     const pu=cl?(dayType==='ferie'?(parseFloat(cl.tarif_ferie)||parseFloat(cl.tarif_dim)||parseFloat(cl.tarif)||0):dayType==='dimanche'?(parseFloat(cl.tarif_dim)||parseFloat(cl.tarif)||0):(parseFloat(cl.tarif)||0)):0;
     const dayLabel=dayType==='ferie'?'jour férié':dayType==='dimanche'?'dimanche':'semaine';
-    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#6B8E23;letter-spacing:1px;margin-bottom:6px">🔒 TARIF FIXE</div><div>CA : <strong style="color:#6B8E23">${pu}€</strong> / tournée (${dayLabel})</div></div>`;
+    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#6B8E23;letter-spacing:1px;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> TARIF FIXE</div><div>CA : <strong style="color:#6B8E23">${pu}€</strong> / tournée (${dayLabel})</div></div>`;
   }
   let valHtml='';
   if(val){
-    if(val.statut==='validee') valHtml=`<div style="margin-top:8px;color:#6B8E23;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée validée</div>`;
-    else if(val.statut==='penalisee') valHtml=`<div style="margin-top:8px;color:#D88888;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalisée — ${val.motif}${val.montant>0?' (-'+val.montant+'€)':''}</div>`;
+    if(val.statut==='validee') valHtml=`<div style="margin-top:8px;color:#6B8E23;font-weight:600"> Tournée validée</div>`;
+    else if(val.statut==='penalisee') valHtml=`<div style="margin-top:8px;color:#D88888;font-weight:600"> Pénalisée — ${val.motif}${val.montant>0?' (-'+val.montant+'€)':''}</div>`;
   } else {
     valHtml=`<div style="margin-top:8px;color:var(--gray);font-size:11px">Non validée</div>`;
   }
@@ -2559,7 +2554,7 @@ async function adminSaveRealHours(tourneeId){
     if(!r.ok) throw new Error(await r.text());
     const t=allTournees.find(x=>x.id===tourneeId);
     if(t){t.heure_debut_reel=debut;t.heure_fin_reel=fin;}
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Heures réelles mises à jour');
+    toast(' Heures réelles mises à jour');
     closeInfoModal();renderPlanning(getWeekDates());
   }catch(e){toast('Erreur: '+e.message,'error');}
 }
@@ -2586,7 +2581,7 @@ async function adminSaveZoneLineReel(tourneeId, lineIdx){
     if(!r.ok) throw new Error(await r.text());
     t.zone_lines=newLines;
     t.nb_points_reel=payload.nb_points_reel;
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ligne mise à jour');
+    toast(' Ligne mise à jour');
     closeInfoModal();renderPlanning(getWeekDates());
   }catch(e){toast('Erreur: '+e.message,'error');}
 }
@@ -2613,7 +2608,7 @@ async function adminSaveRealValue(tourneeId, field, rawVal){
     if(!r.ok) throw new Error(await r.text());
     const t=allTournees.find(x=>x.id===tourneeId);
     if(t) t[field]=val;
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valeur réelle mise à jour');
+    toast(' Valeur réelle mise à jour');
     closeInfoModal();renderPlanning(getWeekDates());
   }catch(e){toast('Erreur: '+e.message,'error');}
 }
@@ -2754,9 +2749,7 @@ function addZoneLine(initial){
   row.className='zone-line';
   row.dataset.id=id;
   row.style.cssText='display:grid;grid-template-columns:2fr 90px 38px;gap:8px;align-items:center';
-  row.innerHTML='<input type="text" class="zone-line-ville" placeholder="Ville (ex: Argenteuil) *" value="'+ville.replace(/"/g,'&quot;')+'" oninput="_refreshZoneInfo()">'
-              + '<input type="number" min="0" step="1" class="zone-line-pts" placeholder="Points *" value="'+pts+'" oninput="_refreshZoneInfo()">'
-              + '<button type="button" onclick="removeZoneLine(this)" title="Retirer cette ligne" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.35);border-radius:7px;padding:7px;font-size:13px;color:#FCA5A5;cursor:pointer;font-family:inherit">✕</button>';
+  row.innerHTML='<input type="text" class="zone-line-ville" placeholder="Ville (ex: Argenteuil) *" value="'+ville.replace(/"/g,'&quot;')+'" oninput="_refreshZoneInfo()">' + '<input type="number" min="0" step="1" class="zone-line-pts" placeholder="Points *" value="'+pts+'" oninput="_refreshZoneInfo()">' + '<button type="button" onclick="removeZoneLine(this)" title="Retirer cette ligne" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.35);border-radius:7px;padding:7px;font-size:13px;color:#FCA5A5;cursor:pointer;font-family:inherit">✕</button>';
   wrap.appendChild(row);
   _refreshZoneInfo();
 }
@@ -2788,10 +2781,10 @@ function _refreshZoneInfo(){
   const clientNom=document.getElementById('m-client').value;
   const cl=allClients.find(c=>c.nom===clientNom);
   if(!cl||cl.type_paiement!=='zone'){el.textContent='';return;}
-  if(!window.OT_ZONE){el.innerHTML='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Module zone non chargé';return;}
+  if(!window.OT_ZONE){el.innerHTML=' Module zone non chargé';return;}
   const lines=readZoneLines();
   if(lines.length===0){
-    el.innerHTML='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Ajoute au moins une ligne (ville + nb points)…';
+    el.innerHTML=' Ajoute au moins une ligne (ville + nb points)…';
     el.style.color='#F1D27B';el.style.background='rgba(59,130,246,0.08)';el.style.borderColor='rgba(59,130,246,0.25)';
     return;
   }
@@ -2803,17 +2796,15 @@ function _refreshZoneInfo(){
     if(incomplete) hasIncomplete=true;
     if(l.source && l.source!=='exact_ville') hasImprecise=true;
     let badge='';
-    if(!l.ville) badge='<span style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ville manquante</span>';
-    else if(!l.zone) badge='<span style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> zone introuvable</span>';
-    else if(l.source==='exact_ville') badge='<span style="color:#A8C078"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Z'+l.zone+'</span>';
-    else if(l.source==='fuzzy_ville') badge='<span style="color:#FBBF24"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Z'+l.zone+' (flou)</span>';
-    else if(l.source==='cp_prefix')   badge='<span style="color:#FBBF24"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Z'+l.zone+' (préfixe)</span>';
-    else if(l.source==='default')     badge='<span style="color:#FBBF24"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Z'+l.zone+' (défaut)</span>';
+    if(!l.ville) badge='<span style="color:#D88888"> ville manquante</span>';
+    else if(!l.zone) badge='<span style="color:#D88888"> zone introuvable</span>';
+    else if(l.source==='exact_ville') badge='<span style="color:#A8C078"> Z'+l.zone+'</span>';
+    else if(l.source==='fuzzy_ville') badge='<span style="color:#FBBF24"> Z'+l.zone+' (flou)</span>';
+    else if(l.source==='cp_prefix')   badge='<span style="color:#FBBF24"> Z'+l.zone+' (préfixe)</span>';
+    else if(l.source==='default')     badge='<span style="color:#FBBF24"> Z'+l.zone+' (défaut)</span>';
     const lblPts = (lines[i].nb_points_estime>0) ? lines[i].nb_points_estime+' pts' : '— pts';
     const lblCa  = l.ca>0 ? l.ca.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€' : '—';
-    return '<div style="display:flex;justify-content:space-between;font-size:11px;margin-top:2px">'
-         + '<span><strong>'+(l.ville||'(?)')+'</strong> · '+lblPts+'</span>'
-         + '<span>'+badge+' · '+lblCa+'</span></div>';
+    return '<div style="display:flex;justify-content:space-between;font-size:11px;margin-top:2px">' + '<span><strong>'+(l.ville||'(?)')+'</strong> · '+lblPts+'</span>' + '<span>'+badge+' · '+lblCa+'</span></div>';
   }).join('');
   if(hasIncomplete){
     el.style.color='#D88888';el.style.background='rgba(248,113,113,0.08)';el.style.borderColor='rgba(248,113,113,0.25)';
@@ -2823,8 +2814,7 @@ function _refreshZoneInfo(){
     el.style.color='#A8C078';el.style.background='rgba(52,211,153,0.08)';el.style.borderColor='rgba(52,211,153,0.25)';
   }
   el.innerHTML = rows
-    + '<div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.1);font-size:12px;font-weight:700">Total : '+calc.total.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€</div>'
-    + (hasImprecise ? '<div style="margin-top:4px;font-size:10px;color:#FCD34D"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Au moins une ligne a un match imprécis. Le CA peut être faussé.</div>' : '');
+    + '<div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.1);font-size:12px;font-weight:700">Total : '+calc.total.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€</div>' + (hasImprecise ? '<div style="margin-top:4px;font-size:10px;color:#FCD34D"> Au moins une ligne a un match imprécis. Le CA peut être faussé.</div>' : '');
 }
 async function saveTournee(){
   const chauffeur=document.getElementById('m-chauffeur').value;
@@ -2857,9 +2847,9 @@ async function saveTournee(){
       if(imprecises.length>0){
         const detail=imprecises.map(l=>{
           const lbl = l.source==='fuzzy_ville'?'match approximatif':l.source==='cp_prefix'?'préfixe CP':l.source==='default'?'zone par défaut':l.source;
-          return `  • ${l.ville} → Z${l.zone||'?'} (${lbl})`;
+          return ` • ${l.ville} → Z${l.zone||'?'} (${lbl})`;
         }).join('\n');
-        const ok = confirm('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> '+imprecises.length+' ligne(s) ont un match imprécis :\n\n'+detail+'\n\nLe CA peut être faussé. Pour un calcul exact, ajoute ces villes exactes dans Paramètres → Zones.\n\nEnregistrer quand même ?');
+        const ok = confirm(' '+imprecises.length+' ligne(s) ont un match imprécis :\n\n'+detail+'\n\nLe CA peut être faussé. Pour un calcul exact, ajoute ces villes exactes dans Paramètres → Zones.\n\nEnregistrer quand même ?');
         if(!ok) return;
       }
     }
@@ -2887,12 +2877,12 @@ async function saveTournee(){
     if(vehiculeId) await saveAffectationVehicule(chauffeur,date,vehiculeId);
     closeModal();
     const vehLabel=vehiculeId?(' 🚐 '+(allVehicules.find(v=>v.id===vehiculeId)?.immatriculation||'')):'';
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée ajoutée — ${chauffeur} → ${client}${vehLabel}`);
+    toast(` Tournée ajoutée — ${chauffeur} → ${client}${vehLabel}`);
     renderPlanning(getWeekDates());
     updateKPIs();
     updateWABanner(getWeekDates());
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
-  finally{btn.disabled=false;btn.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer';}
+  }catch(e){toast(' '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=' Enregistrer';}
 }
 async function deleteTournee(e,id){
   e.stopPropagation();
@@ -2903,8 +2893,7 @@ async function deleteTournee(e,id){
   if(sttO && ['pending_config','pending','assigned','modified'].includes(sttO.status)){
     const isActive = ['assigned','modified'].includes(sttO.status);
     const msg = isActive
-      ? `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ATTENTION\n\nCette tournée a déjà été assignée par le sous-traitant${sttO.chauffeur_nom_assigne?' ('+sttO.chauffeur_nom_assigne+')':''}.\n\nLa supprimer annulera la commande STT. Le sous-traitant en sera notifié.\n\nContinuer quand même ?`
-      : `Cette tournée a été envoyée en sous-traitance (statut : en attente).\n\nLa supprimer annulera la commande STT.\n\nContinuer ?`;
+      ? ` ATTENTION\n\nCette tournée a déjà été assignée par le sous-traitant${sttO.chauffeur_nom_assigne?' ('+sttO.chauffeur_nom_assigne+')':''}.\n\nLa supprimer annulera la commande STT. Le sous-traitant en sera notifié.\n\nContinuer quand même ?` : `Cette tournée a été envoyée en sous-traitance (statut : en attente).\n\nLa supprimer annulera la commande STT.\n\nContinuer ?`;
     if(!confirm(msg)) return;
   }
 
@@ -2945,8 +2934,7 @@ async function deleteTournee(e,id){
         body:JSON.stringify({
           status:'cancelled',
           modification_note: isActive
-            ? 'Tournée supprimée par le donneur (assignation en cours)'
-            : 'Tournée supprimée par le donneur',
+            ? 'Tournée supprimée par le donneur (assignation en cours)' : 'Tournée supprimée par le donneur',
           donor_notification_read:true
         })
       });
@@ -2978,7 +2966,7 @@ async function deleteTournee(e,id){
     const rd=await fetch(`${SB}/rest/v1/tournees?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'DELETE',headers:H()});
     if(!rd.ok){await loadWeek();throw new Error(await rd.text());}
     toast('🗑 Tournée supprimée');
-  }catch(ex){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+ex.message,'error');}
+  }catch(ex){toast(' '+ex.message,'error');}
 }
 // ── DUPLIQUER SEMAINE ────────────────────────────────────────────────────────
 function getISOWeekStr(mondayDate){
@@ -3031,7 +3019,7 @@ async function onDupTgtChange(){
     if(r.ok){
       const existing=await r.json();
       if(existing.length>0){
-        warn.textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Cette semaine contient déjà ${existing.length} tournée${existing.length>1?'s':''}. Les doublons exacts (même chauffeur + jour + créneau + client) seront automatiquement ignorés.`;
+        warn.textContent=` Cette semaine contient déjà ${existing.length} tournée${existing.length>1?'s':''}. Les doublons exacts (même chauffeur + jour + créneau + client) seront automatiquement ignorés.`;
         warn.style.display='block';
       } else { warn.style.display='none'; }
     }
@@ -3111,9 +3099,9 @@ async function executeDuplicate(){
     await loadWeek();
     const affMsg=includeAff&&affCount>0?` + ${affCount} affectation${affCount>1?'s':''}`:'' ;
     const skipMsg=skippedDup>0?` (${skippedDup} doublon${skippedDup>1?'s':''} ignoré${skippedDup>1?'s':''})`:'' ;
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${toInsert.length} tournée${toInsert.length>1?'s':''} dupliquée${toInsert.length>1?'s':''}${affMsg}${skipMsg}`);
+    toast(` ${toInsert.length} tournée${toInsert.length>1?'s':''} dupliquée${toInsert.length>1?'s':''}${affMsg}${skipMsg}`);
   }catch(e){
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
+    toast(' '+e.message,'error');
     btn.disabled=false; btn.textContent='📋 Dupliquer';
   }
 }
@@ -3121,7 +3109,7 @@ async function executeDuplicate(){
 var _dupChNom='';
 function openDupChModal(nom){
   _dupChNom=nom;
-  document.getElementById('dup-ch-name-label').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> '+nom;
+  document.getElementById('dup-ch-name-label').textContent=' '+nom;
   const dates=getWeekDates();
   document.getElementById('dup-ch-src-week').value=getISOWeekStr(dates[0]);
   const nextMon=new Date(dates[0]); nextMon.setDate(dates[0].getDate()+7);
@@ -3144,7 +3132,7 @@ async function onDupChTgtChange(){
   if(!startVal||!endVal){info.style.display='none';warn.style.display='none';return;}
   const startMon=weekStrToMonday(startVal);
   const endMon=weekStrToMonday(endVal);
-  if(endMon<startMon){warn.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> La semaine de fin doit être après la semaine de début.';warn.style.display='block';info.style.display='none';return;}
+  if(endMon<startMon){warn.textContent=' La semaine de fin doit être après la semaine de début.';warn.style.display='block';info.style.display='none';return;}
   const nbWeeks=Math.round((endMon-startMon)/(7*86400000))+1;
   info.textContent=`ℹ️ La semaine sera dupliquée sur ${nbWeeks} semaine${nbWeeks>1?'s':''} pour ${_dupChNom}.`;
   info.style.display='block';
@@ -3157,7 +3145,7 @@ async function onDupChTgtChange(){
     if(r.ok){
       const existing=await r.json();
       if(existing.length>0){
-        warn.textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${_dupChNom} a déjà ${existing.length} tournée${existing.length>1?'s':''} sur cette période. Les doublons exacts (même jour + créneau + client) seront automatiquement ignorés.`;
+        warn.textContent=` ${_dupChNom} a déjà ${existing.length} tournée${existing.length>1?'s':''} sur cette période. Les doublons exacts (même jour + créneau + client) seront automatiquement ignorés.`;
         warn.style.display='block';
       } else {warn.style.display='none';}
     }
@@ -3255,15 +3243,15 @@ async function executeDuplicateChauffeur(){
     await loadWeek();
     const affMsg=includeAff&&affCount>0?` + ${affCount} affectation${affCount>1?'s':''}`:'' ;
     const skipMsgCh=skippedDupCh>0?` (${skippedDupCh} doublon${skippedDupCh>1?'s':''} ignoré${skippedDupCh>1?'s':''})`:'' ;
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${toInsertCh.length} tournée${toInsertCh.length>1?'s':''} dupliquée${toInsertCh.length>1?'s':''} pour ${_dupChNom}${affMsg}${skipMsgCh}`);
+    toast(` ${toInsertCh.length} tournée${toInsertCh.length>1?'s':''} dupliquée${toInsertCh.length>1?'s':''} pour ${_dupChNom}${affMsg}${skipMsgCh}`);
   }catch(e){
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
+    toast(' '+e.message,'error');
     btn.disabled=false; btn.textContent='📋 Dupliquer';
   }
 }
 // ─────────────────────────────────────────────────────────────────────────────
 var _toastTimer=null;
-function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>'}</span> ${msg}`;t.className=`toast ${type} show`;if(_toastTimer)clearTimeout(_toastTimer);_toastTimer=setTimeout(()=>{t.className='toast';_toastTimer=null;},4000);}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'':''}</span> ${msg}`;t.className=`toast ${type} show`;if(_toastTimer)clearTimeout(_toastTimer);_toastTimer=setTimeout(()=>{t.className='toast';_toastTimer=null;},4000);}
 
 function printPlanning(){
   const dates=getWeekDates();
@@ -3343,7 +3331,7 @@ function printPlanning(){
 </style></head><body>
 <div class="page">
   <div class="no-print" style="background:#C9A961;color:#fff;padding:10px 16px;border-radius:8px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
-    <span style="font-weight:700">📋 Aperçu Planning — S${weekNum} ${year}</span>
+    <span style="font-weight:700"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Aperçu Planning — S${weekNum} ${year}</span>
     <button onclick="window.print()" style="background:#fff;color:#C9A961;border:none;padding:8px 18px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px">🖨️ Imprimer / PDF</button>
   </div>
   <div class="title-block">
@@ -3369,7 +3357,7 @@ function printPlanning(){
   w.document.write(html);w.document.close();
 }
 async function exportPlanningExcel(){
-  if(typeof ExcelJS==='undefined'){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Bibliothèque Excel non chargée','error');return;}
+  if(typeof ExcelJS==='undefined'){toast(' Bibliothèque Excel non chargée','error');return;}
   if(!allChauffeurs.length){toast('Aucun chauffeur','error');return;}
 
   // ── Détection des filtres actifs ──
@@ -3378,10 +3366,10 @@ async function exportPlanningExcel(){
     const dlbls=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
     const parts=[];
     if(currentFilterChauffeurs.size>0) parts.push(`👷 Chauffeurs : ${[...currentFilterChauffeurs].join(', ')}`);
-    if(currentFilterClients.size>0) parts.push(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Clients : ${[...currentFilterClients].join(', ')}`);
-    if(currentFilterDays.size>0) parts.push(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Jours : ${[...currentFilterDays].sort().map(i=>dlbls[i]).join(', ')}`);
+    if(currentFilterClients.size>0) parts.push(` Clients : ${[...currentFilterClients].join(', ')}`);
+    if(currentFilterDays.size>0) parts.push(` Jours : ${[...currentFilterDays].sort().map(i=>dlbls[i]).join(', ')}`);
     if(currentShowMode==='with-tours') parts.push('📋 Affichage : chauffeurs avec tournées uniquement');
-    const msg='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> DES FILTRES SONT ACTIFS\n\n'+parts.join('\n')+'\n\nL\'export Excel ne contiendra QUE les données filtrées.\n\nPour exporter le planning complet, cliquez sur Annuler puis retirez tous les filtres.\n\nContinuer l\'export filtré ?';
+    const msg=' DES FILTRES SONT ACTIFS\n\n'+parts.join('\n')+'\n\nL\'export Excel ne contiendra QUE les données filtrées.\n\nPour exporter le planning complet, cliquez sur Annuler puis retirez tous les filtres.\n\nContinuer l\'export filtré ?';
     if(!confirm(msg)) return;
   }
 
@@ -3431,7 +3419,7 @@ async function exportPlanningExcel(){
   const font=(opts={})=>({name:'Calibri',...opts});
 
   // Ligne 1 : titre
-  ws.addRow([`PLANNING — SEMAINE ${weekNum}  ·  ${year}  ·  ${companyName}${hasFilters?'  ·  EXPORT FILTRÉ':''}`]);
+  ws.addRow([`PLANNING — SEMAINE ${weekNum}  ·  ${year}  ·  ${companyName}${hasFilters?' ·  EXPORT FILTRÉ':''}`]);
   ws.mergeCells(`A1:${LAST_LETTER}1`);
   const t1=ws.getCell('A1');
   t1.font=font({bold:true,size:16,color:{argb:'FFFFFFFF'}});
@@ -3441,8 +3429,7 @@ async function exportPlanningExcel(){
   // Ligne 2 : dates
   const first=dates[0],last=dates[N-1];
   const lblDates=N===1
-    ?`${first.getDate()} ${MFR[first.getMonth()]} ${year}`
-    :`Du ${first.getDate()} ${MFR[first.getMonth()]} au ${last.getDate()} ${MFR[last.getMonth()]} ${year}`;
+    ?`${first.getDate()} ${MFR[first.getMonth()]} ${year}` :`Du ${first.getDate()} ${MFR[first.getMonth()]} au ${last.getDate()} ${MFR[last.getMonth()]} ${year}`;
   ws.addRow([`${lblDates}   —   Export du ${new Date().toLocaleDateString('fr-FR')}`]);
   ws.mergeCells(`A2:${LAST_LETTER}2`);
   const t2=ws.getCell('A2');
@@ -3570,7 +3557,7 @@ async function exportPlanningExcel(){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download=`Planning_S${weekNum}_${year}${hasFilters?'_filtre':''}.xlsx`;a.click();
   URL.revokeObjectURL(url);
-  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Export Excel téléchargé');
+  toast(' Export Excel téléchargé');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -3716,7 +3703,7 @@ async function sendSTTGroup(relId, btn) {
     btn.textContent = `✓ Envoyé !`;
     btn.style.background = 'rgba(16,185,129,0.3)';
     btn.style.color = '#6B8E23';
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${tournees.length} tournée(s) envoyée(s) à ${rel.entreprise_nom_ref}`);
+    toast(` ${tournees.length} tournée(s) envoyée(s) à ${rel.entreprise_nom_ref}`);
     // Recharger les données STT pour mettre à jour les badges
     const start = fd(dates[0]), end = fd(dates[6]);
     await loadSTTWeekData(start, end);
@@ -3724,7 +3711,7 @@ async function sendSTTGroup(relId, btn) {
   } catch(e) {
     btn.disabled = false;
     btn.textContent = '↗ Réessayer';
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur envoi STT: ' + e.message, 'error');
+    toast(' Erreur envoi STT: ' + e.message, 'error');
   }
 }
 
@@ -3770,12 +3757,12 @@ async function sendChSTTWeek(chauffeurNom) {
       body: JSON.stringify(payload),
     });
     if (!r.ok) throw new Error(await r.text());
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${pending.length} tournée(s) envoyée(s) à ${rel.entreprise_nom_ref}`);
+    toast(` ${pending.length} tournée(s) envoyée(s) à ${rel.entreprise_nom_ref}`);
     const start = fd(dates[0]), end = fd(dates[6]);
     await loadSTTWeekData(start, end);
     renderPlanning(dates);
   } catch(e) {
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur envoi STT: ' + e.message, 'error');
+    toast(' Erreur envoi STT: ' + e.message, 'error');
   }
 }
 
@@ -3855,8 +3842,7 @@ function renderSTTReceivedPanel() {
         const rowStyle = isCancelled ? 'opacity:0.45;' : '';
         const actionBtn = isCancelled ? '' :
           isDone
-            ? `<button onclick="openSTTAssignModal('${o.id}')" style="padding:4px 10px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6B8E23;border-radius:6px;font-size:11px;cursor:pointer">✏ Modifier</button>`
-            : `<button onclick="openSTTAssignModal('${o.id}')" style="padding:4px 10px;background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.4);color:#E8C66E;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">→ Affecter</button>`;
+            ? `<button onclick="openSTTAssignModal('${o.id}')" style="padding:4px 10px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6B8E23;border-radius:6px;font-size:11px;cursor:pointer">✏ Modifier</button>` : `<button onclick="openSTTAssignModal('${o.id}')" style="padding:4px 10px;background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.4);color:#E8C66E;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">→ Affecter</button>`;
         html += `<tr style="${rowStyle}">
           <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)">${o.date}</td>
           <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)">${o.slot}</td>
@@ -3889,15 +3875,12 @@ function openSTTAssignModal(orderId) {
        </div>` : '';
 
   const vehOptions = allVehicules.map(v =>
-    `<option value="${v.immatriculation}">${v.immatriculation}${v.marque?' · '+v.marque:''}</option>`
-  ).join('');
+    `<option value="${v.immatriculation}">${v.immatriculation}${v.marque?' · '+v.marque:''}</option>` ).join('');
   const chOptions = allChauffeurs.filter(c=>c.statut!=='inactif').map(c =>
-    `<option value="${c.nom}" ${c.nom===o.chauffeur_nom_propose?'selected':''}>${c.nom}${c.type==='sous-traitant'?' (STT)':''}</option>`
-  ).join('');
+    `<option value="${c.nom}" ${c.nom===o.chauffeur_nom_propose?'selected':''}>${c.nom}${c.type==='sous-traitant'?' (STT)':''}</option>` ).join('');
 
   const body = document.getElementById('stt-assign-modal-body');
-  body.innerHTML = `
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:2px;margin-bottom:4px">📋 AFFECTER LA TOURNÉE</div>
+  body.innerHTML = ` <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:2px;margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> AFFECTER LA TOURNÉE</div>
     <div style="font-size:11px;color:var(--gray);margin-bottom:16px">De : ${o.commissionnaire_nom} · ${o.date} · ${o.slot} · ${o.client_nom}</div>
     ${clientWarn}
     <div style="margin-bottom:10px">
@@ -3939,8 +3922,8 @@ async function saveSTTAssignment(orderId) {
   const errEl        = document.getElementById('stt-assign-err');
   const saveBtn      = document.getElementById('stt-assign-save');
   errEl.style.display = 'none';
-  if (!chauffeurNom) { errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Sélectionnez un chauffeur.'; errEl.style.display = 'block'; return; }
-  if (!vehicule)     { errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Sélectionnez un véhicule.';  errEl.style.display = 'block'; return; }
+  if (!chauffeurNom) { errEl.textContent = ' Sélectionnez un chauffeur.'; errEl.style.display = 'block'; return; }
+  if (!vehicule)     { errEl.textContent = ' Sélectionnez un véhicule.';  errEl.style.display = 'block'; return; }
 
   saveBtn.disabled = true; saveBtn.textContent = '⏳...';
   const cid = OT.getCompanyId();
@@ -3996,7 +3979,7 @@ async function saveSTTAssignment(orderId) {
     }
 
     document.getElementById('stt-assign-modal').style.display = 'none';
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée assignée — ${chauffeurNom} · ${vehicule}`);
+    toast(` Tournée assignée — ${chauffeurNom} · ${vehicule}`);
     const dates = getWeekDates();
     await Promise.all([
       loadSTTReceivedOrders(fd(dates[0]), fd(dates[6])),
@@ -4006,7 +3989,7 @@ async function saveSTTAssignment(orderId) {
     renderSTTReceivedPanel();
   } catch(e) {
     saveBtn.disabled = false; saveBtn.textContent = '✓ Valider l\'assignation';
-    errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ' + e.message; errEl.style.display = 'block';
+    errEl.textContent = ' ' + e.message; errEl.style.display = 'block';
   }
 }
 </script>

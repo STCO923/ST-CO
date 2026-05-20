@@ -91,7 +91,7 @@ body{font-family:Outfit,sans-serif;background:var(--navy);color:var(--light);min
 <body>
 
 <div class="topbar">
-  <div class="logo">T SERVICE <span>&amp; CO</span></div>
+  <img src="lib/logo-mark.svg" alt="T.S" style="width:64px;height:auto">
   <div class="user-info">
     <div class="user-avatar" id="av-initials">CE</div>
     <div>
@@ -127,7 +127,7 @@ body{font-family:Outfit,sans-serif;background:var(--navy);color:var(--light);min
 </div>
 
 <nav class="bottom-nav">
-  <a href="#" class="active"><span class="ico">🏠</span>Accueil</a>
+  <a href="#" class="active"><span class="ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span>Accueil</a>
   <a href="optimum_trans_chef_mobile.html"><span class="ico">📆</span>Planning</a>
   <a href="javascript:logout()"><span class="ico">⏻</span>Quitter</a>
 </nav>
@@ -217,7 +217,7 @@ async function loadAll(){
     }
 
   }catch(e){
-    document.getElementById('today-list').innerHTML = `<div class="empty-state"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;
+    document.getElementById('today-list').innerHTML = `<div class="empty-state"> ${e.message}</div>`;
   }
 }
 

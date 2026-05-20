@@ -310,11 +310,11 @@ const OT = (() => {
     // 2. Modules conditionnels
     var rules = [
       { href: 'optimum_trans_feuille_route.html', feature: 'feuille_route' },
-      { href: 'optimum_trans_vehicules.html',     feature: 'vehicules'     },
-      { href: 'optimum_trans_chauffeurs.html',    feature: 'chauffeurs'    },
-      { href: 'optimum_trans_gazole.html',        feature: 'gazole'        },
-      { href: 'optimum_trans_saisie.html',        feature: 'saisie'        },
-      { href: 'monmarche.html',                   feature: 'monmarche'     },
+      { href: 'optimum_trans_vehicules.html',     feature: 'vehicules' },
+      { href: 'optimum_trans_chauffeurs.html',    feature: 'chauffeurs' },
+      { href: 'optimum_trans_gazole.html',        feature: 'gazole' },
+      { href: 'optimum_trans_saisie.html',        feature: 'saisie' },
+      { href: 'monmarche.html',                   feature: 'monmarche' },
       { href: 'optimum_trans_etat_vehicule.html', feature: 'etat_vehicule' },
     ];
 
@@ -360,8 +360,7 @@ const OT = (() => {
       planEl.style.color = colors[s.plan] || 'var(--gray)';
     }
 
-    // 5. Banniere "compte suspendu"
-    if (s.status === 'suspended') {
+    // 5. Banniere "compte suspendu" if (s.status === 'suspended') {
       _showSuspendedBanner();
     }
   }
@@ -555,8 +554,7 @@ function logout() { OT.logout(); }
         business: {vehicules:true,  chauffeurs:true,  feuille_route:false}
       };
       const feature = 'feuille_route';
-      const allowed = feature === 'feuille_route'
-        ? s.addon_route === true
+      const allowed = feature === 'feuille_route' ? s.addon_route === true
         : (MODULES[plan] || MODULES.starter)[feature] === true;
       if(!allowed){
         alert('🔒 Accès refusé — cette fonctionnalité n\'est pas incluse dans votre forfait.');
@@ -569,39 +567,38 @@ function logout() { OT.logout(); }
 </script>
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
     <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_saisie.html"><span class="nav-icon">📝</span> Saisie Tournées</a>
-    <a class="nav-item active" href="#"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item active" href="#"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH & Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients & Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
     <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
-      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
-    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"></span> Paramètres</a>
 
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"> Paramètres</div></div>
       <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 8px;cursor:pointer;font-size:13px;color:#D88888;transition:all 0.2s" onmouseover="this.style.background='rgba(231,76,60,0.22)'" onmouseout="this.style.background='rgba(231,76,60,0.12)'">⏻</button>
     </div>
   </div>
@@ -609,13 +606,13 @@ function logout() { OT.logout(); }
 
 <main class="main">
   <div class="topbar">
-    <div class="topbar-title">🗺️ FEUILLE DE ROUTE</div>
+    <div class="topbar-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> FEUILLE DE ROUTE</div>
     <div class="topbar-right">
       <span id="sync-info" style="font-size:11px;color:var(--gray)">—</span>
-      <button class="btn-sm btn-ghost" id="btn-wa" onclick="sendWA()" style="display:none">💬 WhatsApp</button>
+      <button class="btn-sm btn-ghost" id="btn-wa" onclick="sendWA()" style="display:none"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp</button>
       <button class="btn-sm btn-ghost" id="btn-print" onclick="window.print()" style="display:none">🖨️ Imprimer</button>
       <button class="btn-sm btn-ghost" id="btn-optim" onclick="showOptimModal()" title="Optimiser l'ordre des arrêts avec contraintes horaires">⚡ Optimiser</button>
-      <button class="btn-sm btn-accent" onclick="generate()">🗺️ Générer</button>
+      <button class="btn-sm btn-accent" onclick="generate()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Générer</button>
     </div>
   </div>
 
@@ -638,7 +635,7 @@ function logout() { OT.logout(); }
       <!-- SÉLECTEURS -->
       <div class="selectors">
         <div class="sel-row">
-          <div><label class="lbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Date</label><input type="date" id="sel-date" class="sel"></div>
+          <div><label class="lbl"> Date</label><input type="date" id="sel-date" class="sel"></div>
           <div><label class="lbl">👷 Chauffeur</label><select id="sel-ch" class="sel"><option value="">— Tous —</option></select></div>
         </div>
       </div>
@@ -654,7 +651,7 @@ function logout() { OT.logout(); }
       <!-- CONTENU DYNAMIQUE -->
       <div id="panel-content">
         <div class="empty">
-          <div class="empty-icon">🗺️</div>
+          <div class="empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div>
           <div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">Feuille de route</div>
           <div style="font-size:12px;line-height:1.6">Sélectionne une date et un chauffeur,<br>puis clique sur <strong>Générer</strong></div>
         </div>
@@ -666,7 +663,7 @@ function logout() { OT.logout(); }
     <div class="right-panel">
       <div id="map"></div>
       <div class="map-overlay">
-        <button class="map-btn" onclick="fitMap()">🎯 Recentrer</button>
+        <button class="map-btn" onclick="fitMap()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Recentrer</button>
         <button class="map-btn" id="btn-sat" onclick="toggleSat()">🛰️ Satellite</button>
       </div>
     </div>
@@ -775,8 +772,8 @@ async function loadMeta(){
     const sel=document.getElementById('sel-ch');
     sel.innerHTML='<option value="">— Tous —</option>';
     allChauffeurs.forEach(c=>{const o=document.createElement('option');o.value=c.nom;o.textContent=c.nom;sel.appendChild(o);});
-    setSI('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Prêt','#6B8E23');
-  }catch(e){setSI('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'#D88888');}
+    setSI(' Prêt','#6B8E23');
+  }catch(e){setSI(' '+e.message,'#D88888');}
 }
 
 // ── GENERATE ──
@@ -798,7 +795,7 @@ async function generate(){
     const tournees=await rt.json();
     const allPts=rp.ok?await rp.json():[];
 
-    if(!tournees.length){showEmpty('Aucune tournée ce jour','Ajoutez des tournées dans Saisie Tournées.');clearMap();setSI('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Aucune tournée','#C9A961');return;}
+    if(!tournees.length){showEmpty('Aucune tournée ce jour','Ajoutez des tournées dans Saisie Tournées.');clearMap();setSI(' Aucune tournée','#C9A961');return;}
 
     if(!chNom){
       const chs=[...new Set(tournees.map(t=>t.chauffeur_nom))];
@@ -811,7 +808,7 @@ async function generate(){
     const enriched=tournees.map(t=>({...t,points:allPts.filter(p=>p.tournee_id===t.id)}));
     await buildRoute(enriched,date);
 
-  }catch(e){showEmpty('Erreur',e.message);setSI('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'#D88888');}
+  }catch(e){showEmpty('Erreur',e.message);setSI(' '+e.message,'#D88888');}
 }
 
 // ── BUILD ROUTE ──
@@ -832,10 +829,10 @@ async function buildRoute(tournees,date){
   tournees.forEach((t,ti)=>{
     const client=allClients.find(c=>c.nom===t.client_nom)||{nom:t.client_nom};
     const cAddr=[client.adresse,client.code_postal,client.ville].filter(Boolean).join(', ');
-    wp.push({type:'client',nom:t.client_nom,adresse:cAddr,heure:t.heure,tournee_id:t.id,lat:client.lat||null,lng:client.lng||null,clientObj:client,icon:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg>',tourneeIdx:ti});
+    wp.push({type:'client',nom:t.client_nom,adresse:cAddr,heure:t.heure,tournee_id:t.id,lat:client.lat||null,lng:client.lng||null,clientObj:client,icon:'',tourneeIdx:ti});
     t.points.forEach((p,pi)=>{
       const pAddr=[p.adresse,p.code_postal,p.ville].filter(Boolean).join(', ');
-      wp.push({type:'point',nom:p.nom,adresse:pAddr,heure:p.heure_prevue,telephone:p.telephone,notes:p.notes,lat:p.lat||null,lng:p.lng||null,pointObj:p,icon:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg>',num:pi+1,tourneeIdx:ti});
+      wp.push({type:'point',nom:p.nom,adresse:pAddr,heure:p.heure_prevue,telephone:p.telephone,notes:p.notes,lat:p.lat||null,lng:p.lng||null,pointObj:p,icon:'',num:pi+1,tourneeIdx:ti});
     });
   });
 
@@ -870,7 +867,7 @@ async function buildRoute(tournees,date){
 
   document.getElementById('btn-print').style.display='';
   document.getElementById('btn-wa').style.display=currentChauffeur.tel?'':'none';
-  const modeLabel=currentOptimConfig?'⚡ Optimisé ORS/2-opt':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Optimisé';
+  const modeLabel=currentOptimConfig?'⚡ Optimisé ORS/2-opt':' Optimisé';
   setSI(`${modeLabel} · ${optimized.filter(w=>w.type!=='depot').length} arrêts`,'#6B8E23');
 }
 
@@ -995,8 +992,8 @@ async function runOptimization(wp, config){
   if(depotLat&&depotLng&&groups.length>=2){
     setSI('⚡ Optimisation ORS en cours...','var(--accent)');
     optimizedGroups=await tryORSOptimization(groups,depotLat,depotLng,config);
-    if(optimizedGroups){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Optimisation ORS réussie');}
-    else{toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ORS indisponible — algorithme 2-opt activé','error');}
+    if(optimizedGroups){toast(' Optimisation ORS réussie');}
+    else{toast(' ORS indisponible — algorithme 2-opt activé','error');}
   }
 
   if(!optimizedGroups){
@@ -1166,9 +1163,9 @@ async function savePointCoords(id,lat,lng){
 function updateWpGeo(i,status){
   const el=document.querySelector(`.geo-badge[data-idx="${i}"]`);
   if(!el)return;
-  if(status==='ok'){el.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Localisé';el.className='it-badge geo-ok';}
+  if(status==='ok'){el.textContent=' Localisé';el.className='it-badge geo-ok';}
   else if(status==='loading'){el.textContent='🔄 Géocodage...';el.className='it-badge geo-load';}
-  else{el.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Non trouvé';el.className='it-badge geo-err';}
+  else{el.textContent=' Non trouvé';el.className='it-badge geo-err';}
 }
 
 // ── DRAW ROUTE ──
@@ -1183,11 +1180,11 @@ async function drawRoute(wp){
       await geocodeAll(wp);
       const withCoords2=wp.filter(w=>w.lat);
       if(withCoords2.length<2){
-        toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Adresses introuvables — vérifiez le format (ex: 15 rue de la Paix, 75001 Paris)','error');
+        toast(' Adresses introuvables — vérifiez le format (ex: 15 rue de la Paix, 75001 Paris)','error');
         addMarkers(wp);return;
       }
     } else {
-      toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Renseignez les adresses complètes dans Paramètres → Clients','error');
+      toast(' Renseignez les adresses complètes dans Paramètres → Clients','error');
       addMarkers(wp);return;
     }
   }
@@ -1247,7 +1244,7 @@ function addMarkers(wp){
     if(w.type==='depot'){
       html=`<div style="background:#6B8E23;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4)">🏁</div>`;
     } else if(w.type==='client'){
-      html=`<div style="background:#C9A961;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg></div>`;
+      html=`<div style="background:#C9A961;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4)"></div>`;
     } else {
       ptNum++;
       html=`<div style="background:#C9A961;color:#0A0A0A;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.35);font-family:'Outfit',sans-serif">${ptNum}</div>`;
@@ -1257,7 +1254,7 @@ function addMarkers(wp){
       <div style="font-weight:700;font-size:13px">${w.nom}</div>
       <div style="font-size:11px;color:#555;margin-top:2px">${w.adresse||''}</div>
       ${w.heure?`<div style="font-size:11px;margin-top:3px">🕐 ${w.heure}</div>`:''}
-      ${w.telephone?`<div style="font-size:11px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> ${w.telephone}</div>`:''}
+      ${w.telephone?`<div style="font-size:11px"> ${w.telephone}</div>`:''}
       ${w.notes?`<div style="font-size:11px;color:#777">📝 ${w.notes}</div>`:''}
     </div>`;
     L.marker([w.lat,w.lng],{icon}).addTo(markersLayer).bindPopup(popup);
@@ -1282,15 +1279,15 @@ function renderItinerary(wp){
         <div class="it-type ${lblClass}">${typeLabel}</div>
         <div class="it-card">
           <div class="it-name">${w.nom}</div>
-          <div class="it-addr">${w.adresse||'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Adresse non renseignée'}</div>
+          <div class="it-addr">${w.adresse||' Adresse non renseignée'}</div>
           <div class="it-meta">
             ${w.heure?`<span class="it-badge heure">🕐 ${w.heure}</span>`:''}
-            ${w.eta?`<span class="it-badge eta">🚗 ~${w.eta}</span>`:''}
-            ${(w.etaDiff!==null&&w.etaDiff!==undefined&&w.etaDiff>5)?`<span class="it-badge warn-badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Retard ~${w.etaDiff}min</span>`:''}
-            ${(w.etaDiff!==null&&w.etaDiff!==undefined&&w.etaDiff<-5)?`<span class="it-badge early-badge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> En avance ~${-w.etaDiff}min</span>`:''}
-            ${w.telephone?`<span class="it-badge" style="background:rgba(37,211,102,0.1);color:#25D366"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> ${w.telephone}</span>`:''}
-            ${w.optimized?`<span class="it-badge" style="background:rgba(124,58,237,0.15);color:#4FD1E0">✨ Optimisé</span>`:''}
-            <span class="it-badge geo-badge ${w.lat?'geo-ok':'geo-load'}" data-idx="${i}">${w.lat?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Localisé':'🔄 Géocodage...'}</span>
+            ${w.eta?`<span class="it-badge eta"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg> ~${w.eta}</span>`:''}
+            ${(w.etaDiff!==null&&w.etaDiff!==undefined&&w.etaDiff>5)?`<span class="it-badge warn-badge"> Retard ~${w.etaDiff}min</span>`:''}
+            ${(w.etaDiff!==null&&w.etaDiff!==undefined&&w.etaDiff<-5)?`<span class="it-badge early-badge"> En avance ~${-w.etaDiff}min</span>`:''}
+            ${w.telephone?`<span class="it-badge" style="background:rgba(37,211,102,0.1);color:#25D366"> ${w.telephone}</span>`:''}
+            ${w.optimized?`<span class="it-badge" style="background:rgba(124,58,237,0.15);color:#4FD1E0"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> Optimisé</span>`:''}
+            <span class="it-badge geo-badge ${w.lat?'geo-ok':'geo-load'}" data-idx="${i}">${w.lat?' Localisé':'🔄 Géocodage...'}</span>
             <span class="it-badge dist leg-dist" data-idx="${i}" style="display:none"></span>
           </div>
           ${w.notes?`<div style="font-size:11px;color:var(--gray);margin-top:4px">📝 ${w.notes}</div>`:''}
@@ -1312,7 +1309,7 @@ function focusWp(i){
 function showMulti(date,chs,tournees,allPts){
   const dateF=new Date(date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   let html=`<div style="padding:14px 16px;border-bottom:1px solid var(--border)">
-    <div style="font-weight:700;color:var(--white);font-size:13px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${dateF}</div>
+    <div style="font-weight:700;color:var(--white);font-size:13px"> ${dateF}</div>
     <div style="font-size:11px;color:var(--gray);margin-top:3px">${tournees.length} tournées · ${chs.length} chauffeurs — sélectionne un chauffeur</div>
   </div><div style="padding:12px 16px">`;
   chs.forEach(nom=>{
@@ -1346,7 +1343,7 @@ function showChauffeurCard(c,tournees,dateF){
       <div style="font-size:11px;color:var(--gray);margin-top:2px">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${dateF}<br>
         🚐 ${v?v.immatriculation+(v.typologie?' ['+v.typologie+']':'')+(v.marque?' — '+v.marque:''):'Véhicule non assigné'}
-        ${c.tel?` · 💬 ${c.tel}`:''}
+        ${c.tel?` · <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ${c.tel}`:''}
       </div>
     </div>
     <div style="text-align:right">
@@ -1373,17 +1370,17 @@ function sendWA(){
   const v=allVehicules.find(x=>x.chauffeur_nom===currentChauffeur.nom);
   const dateF=new Date(date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
   let msg=`🗺️ *T SERVICE & CO — Feuille de Route*\nBonjour ${currentChauffeur.nom},\n\n`;
-  msg+=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> *${dateF}*\n`;
+  msg+=` *${dateF}*\n`;
   if(v) msg+=`🚐 ${v.immatriculation}${v.typologie?' ['+v.typologie+']':''}${v.marque?' — '+v.marque:''}\n`;
   msg+=`\n`;
   let ptNum=0;
   currentWaypoints.forEach(w=>{
     if(w.type==='depot'&&w.role==='depart'){msg+=`🏁 *Départ :* ${w.adresse||entreprise.adresse||'Dépôt'}\n\n`;}
-    else if(w.type==='client'){msg+=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> *Enlèvement :* ${w.nom}\n   <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${w.adresse||'—'}\n   🕐 ${w.heure||'—'}\n\n`;}
-    else if(w.type==='point'){ptNum++;msg+=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> *Livraison ${ptNum} :* ${w.nom}\n   <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${w.adresse||'—'}\n${w.heure?'   🕐 '+w.heure+'\n':''}${w.telephone?'   <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> '+w.telephone+'\n':''}${w.notes?'   📝 '+w.notes+'\n':''}\n`;}
+    else if(w.type==='client'){msg+=` *Enlèvement :* ${w.nom}\n   <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${w.adresse||'—'}\n   🕐 ${w.heure||'—'}\n\n`;}
+    else if(w.type==='point'){ptNum++;msg+=` *Livraison ${ptNum} :* ${w.nom}\n   <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${w.adresse||'—'}\n${w.heure?' 🕐 '+w.heure+'\n':''}${w.telephone?' <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> '+w.telephone+'\n':''}${w.notes?' 📝 '+w.notes+'\n':''}\n`;}
     else if(w.type==='depot'&&w.role==='retour'){msg+=`🏁 *Retour dépôt :* ${w.adresse||'Dépôt'}\n`;}
   });
-  msg+=`\nBonne journée ! 🚀\n_T SERVICE & CO_`;
+  msg+=`\nBonne journée ! <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>\n_T SERVICE & CO_`;
   var _p=currentChauffeur.tel.replace(/[\s\-\.\(\)]/g,'');if(_p.startsWith('+'))_p=_p.substring(1);else if(_p.startsWith('00'))_p=_p.substring(2);else if(_p.startsWith('0')&&_p.length===10)_p='33'+_p.substring(1);_p=_p.replace(/[^0-9]/g,'');var _waUrl=`https://wa.me/${_p}?text=${encodeURIComponent(msg)}`;if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){window.location.href=_waUrl;}else{window.open(_waUrl,'_blank');}
   toast('💬 WhatsApp ouvert');
 }
@@ -1413,10 +1410,10 @@ async function confirmOptim(){
 
 // ── HELPERS ──
 function showLoading(msg){document.getElementById('panel-content').innerHTML=`<div class="loading-row"><div class="spinner"></div><span>${msg}</span></div>`;document.getElementById('stats-bar').style.display='none';document.getElementById('btn-print').style.display='none';document.getElementById('btn-wa').style.display='none';}
-function showEmpty(t,s){document.getElementById('panel-content').innerHTML=`<div class="empty"><div class="empty-icon">📋</div><div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">${t}</div><div style="font-size:12px">${s}</div></div>`;document.getElementById('stats-bar').style.display='none';document.getElementById('btn-print').style.display='none';document.getElementById('btn-wa').style.display='none';}
+function showEmpty(t,s){document.getElementById('panel-content').innerHTML=`<div class="empty"><div class="empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div><div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">${t}</div><div style="font-size:12px">${s}</div></div>`;document.getElementById('stats-bar').style.display='none';document.getElementById('btn-print').style.display='none';document.getElementById('btn-wa').style.display='none';}
 function clearMap(){if(routeLayer){map.removeLayer(routeLayer);routeLayer=null;}if(markersLayer)markersLayer.clearLayers();}
 function setSI(msg,color){const el=document.getElementById('sync-info');el.textContent=msg;el.style.color=color;}
-function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'':''}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
 </script>
 
 <script>

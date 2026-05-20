@@ -306,14 +306,14 @@ const OT = (() => {
     document.querySelectorAll('a[href="' + SUPERADMIN_PAGE + '"]').forEach(function(el) { el.style.display = 'none'; });
     var rules = [
       { href: 'optimum_trans_feuille_route.html', feature: 'feuille_route' },
-      { href: 'optimum_trans_vehicules.html',     feature: 'vehicules'     },
-      { href: 'optimum_trans_chauffeurs.html',    feature: 'chauffeurs'    },
-      { href: 'optimum_trans_gazole.html',        feature: 'gazole'        },
-      { href: 'optimum_trans_saisie.html',        feature: 'saisie'        },
-      { href: 'monmarche.html',                   feature: 'monmarche'     },
-      { href: 'optimum_trans_dispatch.html',      feature: 'dispatch'      },
-      { href: 'optimum_trans_suivi_chauffeurs.html', feature: 'tracking'      },
-      { href: 'optimum_trans_gps_chauffeur.html',    feature: 'tracking'      },
+      { href: 'optimum_trans_vehicules.html',     feature: 'vehicules' },
+      { href: 'optimum_trans_chauffeurs.html',    feature: 'chauffeurs' },
+      { href: 'optimum_trans_gazole.html',        feature: 'gazole' },
+      { href: 'optimum_trans_saisie.html',        feature: 'saisie' },
+      { href: 'monmarche.html',                   feature: 'monmarche' },
+      { href: 'optimum_trans_dispatch.html',      feature: 'dispatch' },
+      { href: 'optimum_trans_suivi_chauffeurs.html', feature: 'tracking' },
+      { href: 'optimum_trans_gps_chauffeur.html',    feature: 'tracking' },
       { href: 'optimum_trans_etat_vehicule.html',    feature: 'etat_vehicule' },
     ];
     rules.forEach(function(rule) {
@@ -459,8 +459,7 @@ async function _startSessionSync() {
       var cid2 = s2.company_id || s2.id;
       var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
       var r = await fetch(
-        'https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations'
-        + '?company_id=eq.' + cid2
+        'https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations' + '?company_id=eq.' + cid2
         + '&created_at=gt.' + encodeURIComponent(lastCheck)
         + '&order=created_at.desc&limit=1',
         { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }
@@ -477,14 +476,14 @@ async function _startSessionSync() {
 
       if (inv.reason === 'deleted') {
         // Compte supprimé → déconnexion forcée
-        alert('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été supprimé. Vous allez être déconnecté.');
+        alert(' Votre compte a été supprimé. Vous allez être déconnecté.');
         OT.logout();
         return;
       }
 
       if (inv.reason === 'suspended') {
         // Compte suspendu → déconnexion forcée
-        alert('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été suspendu. Contactez votre administrateur.');
+        alert(' Votre compte a été suspendu. Contactez votre administrateur.');
         OT.logout();
         return;
       }
@@ -504,11 +503,7 @@ async function _startSessionSync() {
       store.setItem('ot_session', JSON.stringify(sess));
 
       // Notifier l'utilisateur et recharger
-      var msg = inv.reason === 'plan_changed'
-        ? '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Votre plan a été mis à jour. La page va se recharger.'
-        : inv.reason === 'addon_changed'
-        ? '🔄 Vos modules ont été mis à jour. La page va se recharger.'
-        : '🔄 Votre compte a été mis à jour. La page va se recharger.';
+      var msg = inv.reason === 'plan_changed' ? ' Votre plan a été mis à jour. La page va se recharger.' : inv.reason === 'addon_changed' ? '🔄 Vos modules ont été mis à jour. La page va se recharger.' : '🔄 Votre compte a été mis à jour. La page va se recharger.';
 
       // Toast discret sans alert
       var t = document.createElement('div');
@@ -541,39 +536,38 @@ if (typeof startSessionSync === 'undefined') {
 <body>
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
     <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_saisie.html" id="nav-saisie-link"><span class="nav-icon">📝</span> Saisie Tournées</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH & Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients & Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
     <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
-      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
-    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item active" href="#"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+    <a class="nav-item active" href="#"><span class="nav-icon"></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"> Paramètres</div></div>
       <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
     </div>
   </div>
@@ -581,30 +575,30 @@ if (typeof startSessionSync === 'undefined') {
 
 <main class="main">
   <div class="topbar">
-    <div class="topbar-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> PARAMÈTRES</div>
-    <div><span id="sync-info" style="font-size:11px;color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Connecté</span></div>
+    <div class="topbar-title"> PARAMÈTRES</div>
+    <div><span id="sync-info" style="font-size:11px;color:#6B8E23"> Connecté</span></div>
   </div>
   <div class="content">
 
     <div class="db-status">
       <div class="db-dot"></div>
       <strong style="color:var(--white)">Supabase connecté</strong>
-      <span id="db-msg" style="color:#6B8E23;margin-left:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Prêt</span>
+      <span id="db-msg" style="color:#6B8E23;margin-left:8px"> Prêt</span>
     </div>
 
     <div class="tabs">
-      <div class="tab active" onclick="switchTab('entreprise',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Mon Entreprise</div>
+      <div class="tab active" onclick="switchTab('entreprise',this)"> Mon Entreprise</div>
       <div class="tab" onclick="switchTab('chauffeurs',this)">👷 Chauffeurs <span class="tab-count" id="tc-c">0</span></div>
-      <div class="tab" onclick="switchTab('commissionnaires',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Commissionnaires <span class="tab-count" id="tc-com">0</span></div>
-      <div class="tab" onclick="switchTab('clients',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Prestations <span class="tab-count" id="tc-cl">0</span></div>
-      <div class="tab" onclick="switchTab('penalites',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalités</div>
-      <div class="tab" id="tab-btn-zones" style="display:none" onclick="switchTab('zones',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Zones <span class="tab-count" id="tc-z">0</span></div>
+      <div class="tab" onclick="switchTab('commissionnaires',this)"> Commissionnaires <span class="tab-count" id="tc-com">0</span></div>
+      <div class="tab" onclick="switchTab('clients',this)"> Prestations <span class="tab-count" id="tc-cl">0</span></div>
+      <div class="tab" onclick="switchTab('penalites',this)"> Pénalités</div>
+      <div class="tab" id="tab-btn-zones" style="display:none" onclick="switchTab('zones',this)"> Zones <span class="tab-count" id="tc-z">0</span></div>
     </div>
 
     <!-- ══ MON ENTREPRISE ══ -->
     <div id="tab-entreprise">
       <div class="card">
-        <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> MON ENTREPRISE</div>
+        <div class="card-title"> MON ENTREPRISE</div>
         <div class="card-sub">Ces informations apparaîtront sur toutes vos factures</div>
         <div class="form-section">Informations générales</div>
         <div class="fg fg-2">
@@ -634,17 +628,17 @@ if (typeof startSessionSync === 'undefined') {
           <div><label class="lbl">Taux TVA par défaut (%)</label><input type="number" id="e-tva" class="ii" value="20" min="0" max="100"></div>
           <div><label class="lbl">Mentions légales facture</label><input type="text" id="e-mentions" class="ii" placeholder="Pénalités de retard : 3× taux légal"></div>
         </div>
-        <div class="form-section"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Paramètres de rentabilité</div>
+        <div class="form-section"> Paramètres de rentabilité</div>
         <div class="fg fg-2">
           <div>
             <label class="lbl">Taux de charges patronales (%)</label>
             <input type="number" id="e-coef-salarie" class="ii" value="82" min="0" max="200" step="1" placeholder="82">
-            <div style="font-size:10px;color:var(--gray);margin-top:4px">💡 S'applique uniquement aux chauffeurs <strong style="color:var(--white)">salariés</strong>. Le salaire net est <strong style="color:var(--white)">toujours compté</strong> comme coût, et ce taux ajoute les charges patronales par-dessus.<br>Exemple : 82% → coût réel = salaire net + 82% de charges = net × 1.82<br>0% → coût = salaire net uniquement (pas de charges).</div>
+            <div style="font-size:10px;color:var(--gray);margin-top:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> S'applique uniquement aux chauffeurs <strong style="color:var(--white)">salariés</strong>. Le salaire net est <strong style="color:var(--white)">toujours compté</strong> comme coût, et ce taux ajoute les charges patronales par-dessus.<br>Exemple : 82% → coût réel = salaire net + 82% de charges = net × 1.82<br>0% → coût = salaire net uniquement (pas de charges).</div>
           </div>
           <div>
             <label class="lbl">Charges fixes mensuelles (€)</label>
             <input type="number" id="e-charges-fixes" class="ii" value="0" min="0" step="10" placeholder="0">
-            <div style="font-size:10px;color:var(--gray);margin-top:4px">💡 Loyer, eau, électricité, expert-comptable… Amorties sur toutes les prestations du mois <strong style="color:var(--white)">au prorata de leur CA</strong>. Utilisé pour la marge uniquement.</div>
+            <div style="font-size:10px;color:var(--gray);margin-top:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Loyer, eau, électricité, expert-comptable… Amorties sur toutes les prestations du mois <strong style="color:var(--white)">au prorata de leur CA</strong>. Utilisé pour la marge uniquement.</div>
           </div>
         </div>
         <div style="display:flex;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
@@ -662,12 +656,12 @@ if (typeof startSessionSync === 'undefined') {
             <div class="card-sub">Tout chauffeur ajouté apparaît dans le planning, les salaires et la saisie</div>
           </div>
           <div style="display:flex;gap:8px">
-            <input type="text" class="search-input" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher..." oninput="filterC(this.value)">
+            <input type="text" class="search-input" placeholder=" Rechercher..." oninput="filterC(this.value)">
             <button class="btn-sm btn-accent" onclick="showCForm()">+ Ajouter</button>
           </div>
         </div>
         <div id="form-c" style="display:none;background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.2);border-radius:12px;padding:18px;margin-bottom:16px">
-          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-c-title">➕ Nouveau chauffeur</div>
+          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-c-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nouveau chauffeur</div>
           <div class="form-section">Informations personnelles</div>
           <div class="fg fg-2">
             <div><label class="lbl">Nom complet *</label><input type="text" id="c-nom" class="ii" placeholder="NOM Prénom"></div>
@@ -686,14 +680,14 @@ if (typeof startSessionSync === 'undefined') {
             <div>
               <label class="lbl">Statut</label>
               <select id="c-actif" class="is">
-                <option value="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Actif — visible dans le planning</option>
-                <option value="false"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Inactif — masqué du planning (historique conservé)</option>
+                <option value="true"> Actif — visible dans le planning</option>
+                <option value="false"> Inactif — masqué du planning (historique conservé)</option>
               </select>
-              <div style="font-size:10px;color:var(--gray);margin-top:4px">💡 Marquez un chauffeur comme inactif pour le masquer du planning sans perdre son historique (tournées passées, salaires).</div>
+              <div style="font-size:10px;color:var(--gray);margin-top:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Marquez un chauffeur comme inactif pour le masquer du planning sans perdre son historique (tournées passées, salaires).</div>
             </div>
           </div>
           <div id="st-block" class="st-block">
-            <div class="form-section"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Informations entreprise (sous-traitant)</div>
+            <div class="form-section"> Informations entreprise (sous-traitant)</div>
             <div class="fg fg-3">
               <div><label class="lbl">Nom de l'entreprise</label><input type="text" id="c-st-nom" class="ii" placeholder="TRANSPORT XYZ"></div>
               <div><label class="lbl">SIRET</label><input type="text" id="c-st-siret" class="ii" placeholder="000 000 000 00000"></div>
@@ -702,7 +696,7 @@ if (typeof startSessionSync === 'undefined') {
           </div>
           <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
             <button class="btn-cancel-f" onclick="hideCForm()">Annuler</button>
-            <button class="btn-save" id="btn-c" onclick="saveChauffeur()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter le chauffeur</button>
+            <button class="btn-save" id="btn-c" onclick="saveChauffeur()"> Ajouter le chauffeur</button>
           </div>
           <input type="hidden" id="c-id">
         </div>
@@ -718,17 +712,17 @@ if (typeof startSessionSync === 'undefined') {
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
           <div>
-            <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> CLIENTS</div>
+            <div class="card-title"> CLIENTS</div>
             <div class="card-sub">Tout client ajouté apparaît dans la saisie et la facturation</div>
           </div>
           <div style="display:flex;gap:8px">
-            <input type="text" class="search-input" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher..." oninput="filterCl(this.value)">
+            <input type="text" class="search-input" placeholder=" Rechercher..." oninput="filterCl(this.value)">
             <button class="btn-sm btn-accent" onclick="showClForm()">+ Ajouter</button>
-            <button class="btn-sm btn-ghost" onclick="geocodeAllClients()" id="btn-geocode" title="Géocoder automatiquement les adresses des clients (pour le trafic IDF)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Géolocaliser</button>
+            <button class="btn-sm btn-ghost" onclick="geocodeAllClients()" id="btn-geocode" title="Géocoder automatiquement les adresses des clients (pour le trafic IDF)"> Géolocaliser</button>
           </div>
         </div>
         <div id="form-cl" style="display:none;background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.2);border-radius:12px;padding:18px;margin-bottom:16px">
-          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-cl-title">➕ Nouvelle prestation</div>
+          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-cl-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nouvelle prestation</div>
           <div class="form-section">Commissionnaire (optionnel)</div>
           <div class="fg fg-1" style="margin-bottom:4px">
             <div>
@@ -736,7 +730,7 @@ if (typeof startSessionSync === 'undefined') {
               <select id="cl-commissionnaire" class="is" style="color-scheme:dark">
                 <option value="">— Client propre (sans commissionnaire) —</option>
               </select>
-              <div style="font-size:10px;color:var(--gray);margin-top:4px">💡 Si cette prestation est mandatée par un commissionnaire (COGEPART, ID LOGISTICS…), sélectionnez-le ici pour regrouper la facturation.</div>
+              <div style="font-size:10px;color:var(--gray);margin-top:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Si cette prestation est mandatée par un commissionnaire (COGEPART, ID LOGISTICS…), sélectionnez-le ici pour regrouper la facturation.</div>
             </div>
           </div>
           <div class="form-section">Informations générales</div>
@@ -759,7 +753,7 @@ if (typeof startSessionSync === 'undefined') {
             <div><label class="lbl">Ville</label><input type="text" id="cl-ville" class="ii" placeholder="Paris"></div>
             <div><label class="lbl">Pays</label><input type="text" id="cl-pays" class="ii" value="France"></div>
           </div>
-          <div class="form-section"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Tarification client (facturé au client)</div>
+          <div class="form-section"> Tarification client (facturé au client)</div>
           <div class="fg fg-1" style="margin-bottom:12px">
             <div>
               <label class="lbl">Mode de facturation</label>
@@ -799,9 +793,9 @@ if (typeof startSessionSync === 'undefined') {
           </div>
           <div id="tarif-forfait-group" style="display:none">
             <div style="background:rgba(245,166,35,0.06);border:1px solid rgba(245,166,35,0.25);border-radius:10px;padding:12px;margin-bottom:8px;font-size:11px;color:#C9A961;line-height:1.5">
-              💡 <strong>Forfait + dépassement</strong> : la tournée est facturée à un montant fixe pour une durée incluse. Au-delà, chaque minute supplémentaire est facturée au tarif/minute. Si la tournée se termine avant la durée incluse, le forfait reste dû en intégralité.
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> <strong>Forfait + dépassement</strong> : la tournée est facturée à un montant fixe pour une durée incluse. Au-delà, chaque minute supplémentaire est facturée au tarif/minute. Si la tournée se termine avant la durée incluse, le forfait reste dû en intégralité.
             </div>
-            <div style="font-size:11px;font-weight:700;color:#C9A961;letter-spacing:1px;margin:10px 0 6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> SEMAINE</div>
+            <div style="font-size:11px;font-weight:700;color:#C9A961;letter-spacing:1px;margin:10px 0 6px"> SEMAINE</div>
             <div class="fg fg-3">
               <div><label class="lbl">🌅 Forfait AM (€)</label><input type="number" id="cl-forfait-am" class="ii" value="0" min="0" step="0.01" placeholder="Ex: 240.00"></div>
               <div><label class="lbl">🌅 Heures incluses AM</label><div style="display:flex;align-items:center;gap:6px"><input type="number" id="cl-forfait-h-am" class="ii" min="0" max="23" step="1" value="6" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">h</span><input type="number" id="cl-forfait-m-am" class="ii" min="0" max="59" step="1" value="0" style="width:70px;text-align:center"><span style="color:var(--gray);font-size:13px">min</span></div></div>
@@ -855,7 +849,7 @@ if (typeof startSessionSync === 'undefined') {
           </div>
           <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
             <button class="btn-cancel-f" onclick="hideClForm()">Annuler</button>
-            <button class="btn-save" id="btn-cl" onclick="saveClient()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter le client</button>
+            <button class="btn-save" id="btn-cl" onclick="saveClient()"> Ajouter le client</button>
           </div>
           <input type="hidden" id="cl-id">
         </div>
@@ -873,16 +867,16 @@ if (typeof startSessionSync === 'undefined') {
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
           <div>
-            <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> COMMISSIONNAIRES</div>
+            <div class="card-title"> COMMISSIONNAIRES</div>
             <div class="card-sub">COGEPART, ID LOGISTICS… Associez vos prestations à leurs commissionnaires pour regrouper la facturation</div>
           </div>
           <div style="display:flex;gap:8px">
-            <input type="text" class="search-input" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher..." oninput="filterCom(this.value)">
+            <input type="text" class="search-input" placeholder=" Rechercher..." oninput="filterCom(this.value)">
             <button class="btn-sm btn-accent" onclick="showComForm()">+ Ajouter</button>
           </div>
         </div>
         <div id="form-com" style="display:none;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:12px;padding:18px;margin-bottom:16px">
-          <div style="font-size:11px;font-weight:700;color:#4FD1E0;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-com-title">➕ Nouveau commissionnaire</div>
+          <div style="font-size:11px;font-weight:700;color:#4FD1E0;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-com-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nouveau commissionnaire</div>
           <div class="form-section">Informations générales</div>
           <div class="fg fg-3">
             <div><label class="lbl">Nom du commissionnaire *</label><input type="text" id="com-nom" class="ii" placeholder="COGEPART"></div>
@@ -905,7 +899,7 @@ if (typeof startSessionSync === 'undefined') {
           </div>
           <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
             <button class="btn-cancel-f" onclick="hideComForm()">Annuler</button>
-            <button class="btn-save" id="btn-com" onclick="saveCommissionnaire()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter</button>
+            <button class="btn-save" id="btn-com" onclick="saveCommissionnaire()"> Ajouter</button>
           </div>
           <input type="hidden" id="com-id">
         </div>
@@ -923,20 +917,20 @@ if (typeof startSessionSync === 'undefined') {
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
           <div>
-            <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> PÉNALITÉS</div>
+            <div class="card-title"> PÉNALITÉS</div>
             <div class="card-sub">Définissez les motifs de pénalité utilisés lors de la validation des tournées dans le Planning.</div>
           </div>
           <button class="btn-sm btn-accent" onclick="showPenForm()">+ Ajouter un motif</button>
         </div>
         <div id="form-pen" style="display:none;background:rgba(231,76,60,0.06);border:1px solid rgba(231,76,60,0.2);border-radius:12px;padding:18px;margin-bottom:16px">
-          <div style="font-size:11px;font-weight:700;color:#D88888;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-pen-title">➕ Nouveau motif de pénalité</div>
+          <div style="font-size:11px;font-weight:700;color:#D88888;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px" id="form-pen-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nouveau motif de pénalité</div>
           <div class="fg fg-4" style="align-items:end">
-            <div><label class="lbl">Icône (emoji)</label><input type="text" id="pen-icon" class="ii" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>" maxlength="2" value="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>"></div>
+            <div><label class="lbl">Icône (emoji)</label><input type="text" id="pen-icon" class="ii" placeholder="" maxlength="2" value=""></div>
             <div><label class="lbl">Libellé du motif *</label><input type="text" id="pen-label" class="ii" placeholder="Ex: Retard, Absence..."></div>
             <div><label class="lbl">Montant déduction (€)</label><input type="number" id="pen-montant" class="ii" value="0" min="0" placeholder="0 = saisie libre"></div>
-            <div><button class="btn-save" id="btn-pen" onclick="savePenalite()" style="width:100%"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer</button></div>
+            <div><button class="btn-save" id="btn-pen" onclick="savePenalite()" style="width:100%"> Enregistrer</button></div>
           </div>
-          <div style="font-size:11px;color:var(--gray);margin-top:8px">💡 Si le montant est <strong style="color:var(--white)">0€</strong>, l'utilisateur pourra saisir librement le montant.</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Si le montant est <strong style="color:var(--white)">0€</strong>, l'utilisateur pourra saisir librement le montant.</div>
           <input type="hidden" id="pen-edit-id">
           <div style="margin-top:10px;text-align:right"><button class="btn-cancel-f" onclick="hidePenForm()">Annuler</button></div>
         </div>
@@ -944,9 +938,9 @@ if (typeof startSessionSync === 'undefined') {
         <div style="margin-top:16px;padding:12px 14px;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.08);border-radius:10px">
           <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Pénalités par défaut (si aucune configurée)</div>
           <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <div style="font-size:12px;color:var(--light)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Retard — <strong style="color:#D88888">20€</strong></div>
+            <div style="font-size:12px;color:var(--light)"> Retard — <strong style="color:#D88888">20€</strong></div>
             <div style="font-size:12px;color:var(--light)">🚫 Absence non justifiée — <strong style="color:#D88888">50€</strong></div>
-            <div style="font-size:12px;color:var(--light)">📋 Absence — <strong style="color:var(--gray)">Saisie libre</strong></div>
+            <div style="font-size:12px;color:var(--light)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> Absence — <strong style="color:var(--gray)">Saisie libre</strong></div>
           </div>
           <button onclick="resetPenalites()" style="margin-top:10px;background:none;border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:6px 14px;font-size:11px;color:var(--gray);cursor:pointer;font-family:inherit">↩ Restaurer les pénalités par défaut</button>
         </div>
@@ -958,17 +952,17 @@ if (typeof startSessionSync === 'undefined') {
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
           <div>
-            <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ZONES DE FACTURATION</div>
+            <div class="card-title"> ZONES DE FACTURATION</div>
             <div class="card-sub">Définissez vos zones (€/point) et le mapping villes/CP. Données partagées avec l'addon Décompte ST.</div>
           </div>
         </div>
         <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#F1D27B;line-height:1.6">
-          💡 <strong>Comment ça marche</strong> : 1) Définissez vos zones avec un tarif € par point. 2) Mappez vos villes/codes postaux à une zone. 3) Lors de la création d'un client, choisissez le mode <strong>"À la zone"</strong> ; à chaque tournée le système calculera <code>nb_points × tarif/zone</code> à partir du code postal de livraison saisi.
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> <strong>Comment ça marche</strong> : 1) Définissez vos zones avec un tarif € par point. 2) Mappez vos villes/codes postaux à une zone. 3) Lors de la création d'un client, choisissez le mode <strong>"À la zone"</strong> ; à chaque tournée le système calculera <code>nb_points × tarif/zone</code> à partir du code postal de livraison saisi.
         </div>
 
         <!-- Section Tarifs -->
         <div style="margin-bottom:18px">
-          <div style="font-size:11px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin:6px 0 10px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> TARIFS € / POINT PAR ZONE</div>
+          <div style="font-size:11px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin:6px 0 10px"> TARIFS € / POINT PAR ZONE</div>
           <div style="overflow-x:auto">
             <table class="params-table" id="zones-rates-table">
               <thead><tr><th style="width:120px">Zone</th><th style="width:200px">Tarif € / point</th><th>Actions</th></tr></thead>
@@ -986,16 +980,16 @@ if (typeof startSessionSync === 'undefined') {
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px">
             <div style="font-size:11px;font-weight:700;color:#E8C66E;letter-spacing:1px">🏘️ MAPPING VILLES / CP → ZONES</div>
-            <input type="text" id="zones-city-search" class="ii" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher..." oninput="zoneFilterCities(this.value)" style="width:200px;font-size:12px;padding:6px 10px">
+            <input type="text" id="zones-city-search" class="ii" placeholder=" Rechercher..." oninput="zoneFilterCities(this.value)" style="width:200px;font-size:12px;padding:6px 10px">
           </div>
           <div id="zones-city-form" style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:12px;margin-bottom:12px">
             <div class="fg fg-4" style="align-items:end">
               <div><label class="lbl">Ville *</label><input type="text" id="zc-ville" class="ii" placeholder="Ex: LYON"></div>
               <div><label class="lbl">CP préfixe (optionnel)</label><input type="text" id="zc-cp" class="ii" placeholder="Ex: 69" maxlength="5"></div>
               <div><label class="lbl">Zone *</label><input type="number" id="zc-zone" class="ii" placeholder="Ex: 1" min="1" step="1"></div>
-              <div><button class="btn-save" onclick="zoneAddCity()" style="width:100%;padding:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter</button></div>
+              <div><button class="btn-save" onclick="zoneAddCity()" style="width:100%;padding:8px"> Ajouter</button></div>
             </div>
-            <div style="font-size:11px;color:var(--gray);margin-top:6px">💡 La ville est obligatoire. Le préfixe CP (2 premiers chiffres, ex: 69 pour le Rhône) sert de fallback si la ville n'est pas trouvée. La zone est un nombre entier (1, 2, 3…).</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> La ville est obligatoire. Le préfixe CP (2 premiers chiffres, ex: 69 pour le Rhône) sert de fallback si la ville n'est pas trouvée. La zone est un nombre entier (1, 2, 3…).</div>
           </div>
           <div id="zones-city-info" style="font-size:11px;color:var(--gray);margin-bottom:6px"></div>
           <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
@@ -1041,7 +1035,7 @@ async function api(method,table,body=null,filter=''){
 }
 
 document.addEventListener('DOMContentLoaded',async ()=>{
-  document.getElementById('sync-info').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Connecté';
+  document.getElementById('sync-info').textContent=' Connecté';
   loadEntreprise().catch(()=>{});
   loadChauffeurs().catch(()=>{});
   Promise.all([loadCommissionnaires(),loadClients()]).then(()=>renderCom(allCom)).catch(()=>{});
@@ -1126,8 +1120,8 @@ async function saveEntreprise(){
     } else {
       await fetch(`${SB}/rest/v1/entreprise`,{method:'POST',headers:H(),body:JSON.stringify({...payload,company_id:cid})});
     }
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Informations entreprise sauvegardées');
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+    toast(' Informations entreprise sauvegardées');
+  }catch(e){toast(' '+e.message,'error');}
   finally{btn.disabled=false;btn.textContent='💾 Sauvegarder mon entreprise';}
 }
 
@@ -1151,8 +1145,8 @@ function renderC(data){
     div.className='ch-card';
     const inactif=c.actif===false;
     if(inactif) div.style.opacity='0.55';
-    const inactifBadge=inactif?'<span class="badge badge-orange" style="font-size:9px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Inactif</span>':'';
-    div.innerHTML=`<div class="ch-av" style="background:${col}">${ini}</div><div style="flex:1;min-width:0"><div class="ch-name">${c.nom}</div><div class="ch-meta"><span class="badge ${c.type==='salarié'?'badge-green':'badge-orange'}" style="font-size:9px">${c.type==='salarié'?'Salarié':'S/T'}</span>${inactifBadge}${c.tel?`<span style="color:#25D366">💬 ${c.tel}</span>`:''}</div></div><div style="display:flex;gap:4px"><button class="icon-btn" onclick="editC('${c.id}')">✏️</button><button class="icon-btn" onclick="delC('${c.id}','${c.nom.replace(/'/g,"\\'")}')" style="color:rgba(231,76,60,0.7)">🗑</button></div>`;
+    const inactifBadge=inactif?'<span class="badge badge-orange" style="font-size:9px"> Inactif</span>':'';
+    div.innerHTML=`<div class="ch-av" style="background:${col}">${ini}</div><div style="flex:1;min-width:0"><div class="ch-name">${c.nom}</div><div class="ch-meta"><span class="badge ${c.type==='salarié'?'badge-green':'badge-orange'}" style="font-size:9px">${c.type==='salarié'?'Salarié':'S/T'}</span>${inactifBadge}${c.tel?`<span style="color:#25D366"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ${c.tel}</span>`:''}</div></div><div style="display:flex;gap:4px"><button class="icon-btn" onclick="editC('${c.id}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="icon-btn" onclick="delC('${c.id}','${c.nom.replace(/'/g,"\\'")}')" style="color:rgba(231,76,60,0.7)">🗑</button></div>`;
     grid.appendChild(div);
   });
   const nbInactifs=data.filter(c=>c.actif===false).length;
@@ -1165,7 +1159,7 @@ function showCForm(){
   document.getElementById('form-c').style.display='block';
   document.getElementById('c-id').value='';
   document.getElementById('form-c-title').textContent='➕ Nouveau chauffeur';
-  document.getElementById('btn-c').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter le chauffeur';
+  document.getElementById('btn-c').textContent=' Ajouter le chauffeur';
   ['c-nom','c-email','c-tel','c-adresse','c-permis','c-st-nom','c-st-siret','c-st-adresse'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('c-type').value='salarié';
   document.getElementById('c-naissance').value='';
@@ -1210,13 +1204,13 @@ async function saveChauffeur(){
       const r=await fetch(`${SB}/rest/v1/chauffeurs`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,company_id:OT.getCompanyId()})});
       if(!r.ok)throw new Error(await r.text());
     }
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${nom} ${id?'modifié':'ajouté'}`);
+    toast(` ${nom} ${id?'modifié':'ajouté'}`);
     hideCForm();
     allC=await api('GET','chauffeurs');
     renderC(allC);
     document.getElementById('tc-c').textContent=allC.length;
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
-  finally{btn.disabled=false;btn.textContent=document.getElementById('c-id').value?'💾 Enregistrer':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter le chauffeur';}
+  }catch(e){toast(' '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=document.getElementById('c-id').value?'💾 Enregistrer':' Ajouter le chauffeur';}
 }
 async function delC(id,nom){
   if(!confirm(`Supprimer ${nom} ?`))return;
@@ -1226,7 +1220,7 @@ async function delC(id,nom){
     allC=await api('GET','chauffeurs');
     renderC(allC);
     document.getElementById('tc-c').textContent=allC.length;
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+  }catch(e){toast(' '+e.message,'error');}
 }
 
 async function loadClients(){
@@ -1238,30 +1232,30 @@ async function loadClients(){
 }
 function renderCl(data){
   const tbody=document.getElementById('cl-tbody');
-  if(!data.length){tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--gray)"><div style="font-size:28px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg></div>Aucune prestation</td></tr>`;return;}
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--gray)"><div style="font-size:28px;margin-bottom:8px"></div>Aucune prestation</td></tr>`;return;}
   tbody.innerHTML='';
   data.forEach((c,i)=>{
-    const comBadge=c.commissionnaire_nom?`<span class="badge" style="background:rgba(124,58,237,0.2);color:#4FD1E0;font-size:9px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> ${c.commissionnaire_nom}</span>`:`<span class="badge badge-orange" style="font-size:9px">Propre</span>`;
+    const comBadge=c.commissionnaire_nom?`<span class="badge" style="background:rgba(124,58,237,0.2);color:#4FD1E0;font-size:9px"> ${c.commissionnaire_nom}</span>`:`<span class="badge badge-orange" style="font-size:9px">Propre</span>`;
     const tr=document.createElement('tr');
     const tp=c.type_paiement||'fixe';
     let tarifHtml;
     if(tp==='point'){
-      tarifHtml=`<div style="font-weight:700;color:#E8C66E">${(c.tarif_point_am||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€<span style="font-size:10px;color:var(--gray)">/pt AM</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(96,165,250,0.15);color:#E8C66E;padding:1px 6px;border-radius:4px;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Au point</span></div>`;
+      tarifHtml=`<div style="font-weight:700;color:#E8C66E">${(c.tarif_point_am||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€<span style="font-size:10px;color:var(--gray)">/pt AM</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(96,165,250,0.15);color:#E8C66E;padding:1px 6px;border-radius:4px;font-weight:600"> Au point</span></div>`;
     } else if(tp==='heure'){
       tarifHtml=`<div style="font-weight:700;color:#4FD1E0">${(c.tarif_heure_am||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€<span style="font-size:10px;color:var(--gray)">/h AM</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(167,139,250,0.15);color:#4FD1E0;padding:1px 6px;border-radius:4px;font-weight:600">⏱ À l'heure</span></div>`;
     } else if(tp==='forfait_heures'){
       const hAM=Math.floor((c.forfait_minutes_am||0)/60),mAM=(c.forfait_minutes_am||0)%60;
       const hLbl=`${hAM}h${mAM>0?String(mAM).padStart(2,'0'):''}`;
-      tarifHtml=`<div style="font-weight:700;color:#C9A961">${(c.forfait_montant_am||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€<span style="font-size:10px;color:var(--gray)">/${hLbl} AM</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(245,166,35,0.15);color:#C9A961;padding:1px 6px;border-radius:4px;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Forfait+dép</span></div>`;
+      tarifHtml=`<div style="font-weight:700;color:#C9A961">${(c.forfait_montant_am||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€<span style="font-size:10px;color:var(--gray)">/${hLbl} AM</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(245,166,35,0.15);color:#C9A961;padding:1px 6px;border-radius:4px;font-weight:600"> Forfait+dép</span></div>`;
     } else if(tp==='zone'){
       const nbZones=window.OT_ZONE?Object.keys(OT_ZONE.rates||{}).length:0;
-      tarifHtml=`<div style="font-weight:700;color:#E8C66E">${nbZones} zone${nbZones>1?'s':''}<span style="font-size:10px;color:var(--gray)"> €/pt</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(59,130,246,0.15);color:#E8C66E;padding:1px 6px;border-radius:4px;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> À la zone</span></div>`;
+      tarifHtml=`<div style="font-weight:700;color:#E8C66E">${nbZones} zone${nbZones>1?'s':''}<span style="font-size:10px;color:var(--gray)"> €/pt</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(59,130,246,0.15);color:#E8C66E;padding:1px 6px;border-radius:4px;font-weight:600"> À la zone</span></div>`;
     } else {
-      tarifHtml=`<div style="font-weight:700;color:#6B8E23">${c.tarif||0}€<span style="font-size:10px;color:var(--gray)">/tournée</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(39,174,96,0.15);color:#6B8E23;padding:1px 6px;border-radius:4px;font-weight:600">🔒 Fixe</span></div>`;
+      tarifHtml=`<div style="font-weight:700;color:#6B8E23">${c.tarif||0}€<span style="font-size:10px;color:var(--gray)">/tournée</span></div><div style="font-size:10px;margin-top:2px"><span style="background:rgba(39,174,96,0.15);color:#6B8E23;padding:1px 6px;border-radius:4px;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Fixe</span></div>`;
     }
     const nbZ=window.OT_ZONE?Object.keys(OT_ZONE.rates||{}).length:0;
     const actif=(tp==='point'&&(c.tarif_point_am||0)>0)||(tp==='heure'&&(c.tarif_heure_am||0)>0)||(tp==='forfait_heures'&&(c.forfait_montant_am||0)>0)||(tp==='fixe'&&(c.tarif||0)>0)||(tp==='zone'&&nbZ>0);
-    tr.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td style="font-weight:700;color:var(--white)">${c.nom}<br>${comBadge}</td><td style="color:var(--gray);font-size:12px">${c.ville||'—'}</td><td style="font-size:12px">${c.telephone||'—'}</td><td style="font-size:12px;color:var(--gray)">${c.email||'—'}</td><td style="font-size:11px;color:var(--gray2)">${c.siret||'—'}</td><td>${tarifHtml}</td><td><span class="badge ${actif?'badge-green':'badge-orange'}">${actif?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Actif':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'}</span></td><td><button class="icon-btn" onclick="editCl('${c.id}')">✏️</button><button class="icon-btn" onclick="delCl('${c.id}','${c.nom.replace(/'/g,"\\'")}')" style="color:rgba(231,76,60,0.7)">🗑</button></td>`;
+    tr.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td style="font-weight:700;color:var(--white)">${c.nom}<br>${comBadge}</td><td style="color:var(--gray);font-size:12px">${c.ville||'—'}</td><td style="font-size:12px">${c.telephone||'—'}</td><td style="font-size:12px;color:var(--gray)">${c.email||'—'}</td><td style="font-size:11px;color:var(--gray2)">${c.siret||'—'}</td><td>${tarifHtml}</td><td><span class="badge ${actif?'badge-green':'badge-orange'}">${actif?' Actif':''}</span></td><td><button class="icon-btn" onclick="editCl('${c.id}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="icon-btn" onclick="delCl('${c.id}','${c.nom.replace(/'/g,"\\'")}')" style="color:rgba(231,76,60,0.7)">🗑</button></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -1277,7 +1271,7 @@ function showClForm(){
   document.getElementById('form-cl').style.display='block';
   document.getElementById('cl-id').value='';
   document.getElementById('form-cl-title').textContent='➕ Nouvelle prestation';
-  document.getElementById('btn-cl').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter la prestation';
+  document.getElementById('btn-cl').textContent=' Ajouter la prestation';
   document.getElementById('cl-commissionnaire').value='';
   ['cl-nom','cl-siret','cl-contact','cl-tel','cl-email','cl-site','cl-adresse','cl-cp','cl-ville'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('cl-type-paiement').value='fixe';
@@ -1327,7 +1321,7 @@ function renderClientZoneRecap(){
   const rates=OT_ZONE.rates||{};
   const zones=Object.keys(rates).sort();
   if(!zones.length){
-    el.innerHTML='<span style="color:#FBBF24"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Aucune zone configurée. Allez dans l\'onglet "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Zones" pour les définir avant de créer un client en mode zone.</span>';
+    el.innerHTML='<span style="color:#FBBF24"> Aucune zone configurée. Allez dans l\'onglet " Zones" pour les définir avant de créer un client en mode zone.</span>';
     return;
   }
   el.innerHTML='<strong style="color:var(--white)">Grille actuelle :</strong> '+zones.map(z=>'Z'+z+' = <strong style="color:#E8C66E">'+(parseFloat(rates[z])||0).toFixed(2)+'€</strong>/pt').join(' · ');
@@ -1416,11 +1410,11 @@ async function geocodeAdresse(adresse,cp,ville){
 async function geocodeAllClients(){
   const btn=document.getElementById('btn-geocode');
   const toProcess=allCl.filter(c=>(!c.lat||!c.lng)&&(c.adresse||c.ville));
-  if(!toProcess.length){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tous les clients ont déjà des coordonnées GPS');return;}
+  if(!toProcess.length){toast(' Tous les clients ont déjà des coordonnées GPS');return;}
   btn.disabled=true;
   let done=0;
   for(const c of toProcess){
-    btn.textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${done}/${toProcess.length}…`;
+    btn.textContent=` ${done}/${toProcess.length}…`;
     const coords=await geocodeAdresse(c.adresse,c.code_postal,c.ville);
     if(coords){
       await fetch(`${SB}/rest/v1/clients?id=eq.${c.id}`,{method:'PATCH',headers:H(),body:JSON.stringify(coords)});
@@ -1428,9 +1422,9 @@ async function geocodeAllClients(){
     }
     await new Promise(r=>setTimeout(r,1100)); // Respect Nominatim 1 req/s
   }
-  btn.disabled=false;btn.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Géolocaliser';
+  btn.disabled=false;btn.textContent=' Géolocaliser';
   allCl=await api('GET','clients');
-  toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${done}/${toProcess.length} clients géolocalisés`);
+  toast(` ${done}/${toProcess.length} clients géolocalisés`);
 }
 
 async function saveClient(){
@@ -1460,13 +1454,13 @@ async function saveClient(){
       const r=await fetch(`${SB}/rest/v1/clients`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,company_id:OT.getCompanyId()})});
       if(!r.ok)throw new Error(await r.text());
     }
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${nom} ${id?'modifié':'ajouté'}`);
+    toast(` ${nom} ${id?'modifié':'ajouté'}`);
     hideClForm();
     allCl=await api('GET','clients');
     renderCl(allCl);
     document.getElementById('tc-cl').textContent=allCl.length;
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
-  finally{btn.disabled=false;btn.textContent=document.getElementById('cl-id').value?'💾 Enregistrer':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter la prestation';}
+  }catch(e){toast(' '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=document.getElementById('cl-id').value?'💾 Enregistrer':' Ajouter la prestation';}
 }
 async function delCl(id,nom){
   if(!confirm(`Supprimer ${nom} ?`))return;
@@ -1476,7 +1470,7 @@ async function delCl(id,nom){
     allCl=await api('GET','clients');
     renderCl(allCl);
     document.getElementById('tc-cl').textContent=allCl.length;
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+  }catch(e){toast(' '+e.message,'error');}
 }
 
 // ── COMMISSIONNAIRES ────────────────────────────────────────────────────────
@@ -1492,12 +1486,12 @@ async function loadCommissionnaires(){
 }
 function renderCom(data){
   const tbody=document.getElementById('com-tbody');
-  if(!data.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--gray)"><div style="font-size:28px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>Aucun commissionnaire — cliquez "+ Ajouter"</td></tr>`;return;}
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--gray)"><div style="font-size:28px;margin-bottom:8px"></div>Aucun commissionnaire — cliquez "+ Ajouter"</td></tr>`;return;}
   tbody.innerHTML='';
   data.forEach((c,i)=>{
     const linked=allCl.filter(cl=>cl.commissionnaire_id===c.id).length;
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td style="font-weight:700;color:var(--white)">${c.nom}</td><td style="color:var(--gray);font-size:12px">${c.ville||'—'}</td><td style="font-size:12px">${c.tel||'—'}</td><td style="font-size:12px;color:var(--gray)">${c.email||'—'}</td><td style="font-size:11px;color:var(--gray2)">${c.siret||'—'}</td><td style="text-align:center"><span class="badge ${linked>0?'badge-green':'badge-orange'}">${linked} prestation${linked>1?'s':''}</span></td><td><button class="icon-btn" onclick="editCom('${c.id}')">✏️</button><button class="icon-btn" onclick="delCom('${c.id}','${c.nom.replace(/'/g,"\\'")}')" style="color:rgba(231,76,60,0.7)">🗑</button></td>`;
+    tr.innerHTML=`<td style="color:var(--gray);font-size:11px">${i+1}</td><td style="font-weight:700;color:var(--white)">${c.nom}</td><td style="color:var(--gray);font-size:12px">${c.ville||'—'}</td><td style="font-size:12px">${c.tel||'—'}</td><td style="font-size:12px;color:var(--gray)">${c.email||'—'}</td><td style="font-size:11px;color:var(--gray2)">${c.siret||'—'}</td><td style="text-align:center"><span class="badge ${linked>0?'badge-green':'badge-orange'}">${linked} prestation${linked>1?'s':''}</span></td><td><button class="icon-btn" onclick="editCom('${c.id}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="icon-btn" onclick="delCom('${c.id}','${c.nom.replace(/'/g,"\\'")}')" style="color:rgba(231,76,60,0.7)">🗑</button></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -1506,7 +1500,7 @@ function showComForm(){
   document.getElementById('form-com').style.display='block';
   document.getElementById('com-id').value='';
   document.getElementById('form-com-title').textContent='➕ Nouveau commissionnaire';
-  document.getElementById('btn-com').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter';
+  document.getElementById('btn-com').textContent=' Ajouter';
   ['com-nom','com-siret','com-contact','com-tel','com-email','com-site','com-adresse','com-cp','com-ville'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('form-com').scrollIntoView({behavior:'smooth'});
   document.getElementById('com-nom').focus();
@@ -1543,12 +1537,12 @@ async function saveCommissionnaire(){
       const r=await fetch(`${SB}/rest/v1/commissionnaires`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({...payload,company_id:cid})});
       if(!r.ok)throw new Error(await r.text());
     }
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${nom} ${id?'modifié':'ajouté'}`);
+    toast(` ${nom} ${id?'modifié':'ajouté'}`);
     hideComForm();
     await loadCommissionnaires();
     renderCom(allCom);
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
-  finally{btn.disabled=false;btn.textContent=document.getElementById('com-id').value?'💾 Enregistrer':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ajouter';}
+  }catch(e){toast(' '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=document.getElementById('com-id').value?'💾 Enregistrer':' Ajouter';}
 }
 async function delCom(id,nom){
   if(!confirm(`Supprimer ${nom} ?\nLes prestations liées deviendront des clients propres.`))return;
@@ -1561,7 +1555,7 @@ async function delCom(id,nom){
     renderCl(allCl);
     await loadCommissionnaires();
     renderCom(allCom);
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+  }catch(e){toast(' '+e.message,'error');}
 }
 
 function switchTab(t,el){
@@ -1577,7 +1571,7 @@ function switchTab(t,el){
 
 // PÉNALITÉS
 const PEN_KEY='ot_penalites';
-function getDefaultPenalites(){ return [{id:'retard',label:'Retard',icon:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}]; }
+function getDefaultPenalites(){ return [{id:'retard',label:'Retard',icon:'',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}]; }
 function getPenalites(){ const raw=localStorage.getItem(PEN_KEY); if(!raw) return getDefaultPenalites(); try{ return JSON.parse(raw); }catch(e){ return getDefaultPenalites(); } }
 function setPenalites(list){ localStorage.setItem(PEN_KEY,JSON.stringify(list)); }
 function renderPenalites(){
@@ -1591,7 +1585,7 @@ function renderPenalites(){
   const tbody=document.createElement('tbody');
   list.forEach((p,i)=>{
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td style="font-size:20px;text-align:center">${p.icon}</td><td style="font-weight:600;color:var(--white)">${p.label}</td><td style="font-weight:700;color:${p.montant>0?'#D88888':'var(--gray)'}}">${p.montant>0?'-'+p.montant+'€':'Saisie libre'}</td><td><button class="icon-btn" onclick="editPen(${i})">✏️</button><button class="icon-btn" onclick="delPen(${i})" style="color:rgba(231,76,60,0.7)">🗑</button>${i>0?`<button class="icon-btn" onclick="movePen(${i},-1)">▲</button>`:''}${i<list.length-1?`<button class="icon-btn" onclick="movePen(${i},1)">▼</button>`:''}</td>`;
+    tr.innerHTML=`<td style="font-size:20px;text-align:center">${p.icon}</td><td style="font-weight:600;color:var(--white)">${p.label}</td><td style="font-weight:700;color:${p.montant>0?'#D88888':'var(--gray)'}}">${p.montant>0?'-'+p.montant+'€':'Saisie libre'}</td><td><button class="icon-btn" onclick="editPen(${i})"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="icon-btn" onclick="delPen(${i})" style="color:rgba(231,76,60,0.7)">🗑</button>${i>0?`<button class="icon-btn" onclick="movePen(${i},-1)">▲</button>`:''}${i<list.length-1?`<button class="icon-btn" onclick="movePen(${i},1)">▼</button>`:''}</td>`;
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
@@ -1601,20 +1595,20 @@ function showPenForm(idx=null){
   document.getElementById('form-pen').style.display='block';
   document.getElementById('pen-edit-id').value=idx!==null?idx:'';
   if(idx!==null){const list=getPenalites();const p=list[idx];document.getElementById('pen-icon').value=p.icon;document.getElementById('pen-label').value=p.label;document.getElementById('pen-montant').value=p.montant;document.getElementById('form-pen-title').textContent='✏️ Modifier le motif';document.getElementById('btn-pen').textContent='💾 Enregistrer';}
-  else{document.getElementById('pen-icon').value='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';document.getElementById('pen-label').value='';document.getElementById('pen-montant').value='0';document.getElementById('form-pen-title').textContent='➕ Nouveau motif';document.getElementById('btn-pen').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer';}
+  else{document.getElementById('pen-icon').value='';document.getElementById('pen-label').value='';document.getElementById('pen-montant').value='0';document.getElementById('form-pen-title').textContent='➕ Nouveau motif';document.getElementById('btn-pen').textContent=' Enregistrer';}
   document.getElementById('pen-label').focus();
 }
 function hidePenForm(){document.getElementById('form-pen').style.display='none';}
 function savePenalite(){
-  const icon=document.getElementById('pen-icon').value.trim()||'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+  const icon=document.getElementById('pen-icon').value.trim()||'';
   const label=document.getElementById('pen-label').value.trim();
   const montant=parseFloat(document.getElementById('pen-montant').value)||0;
   const idxRaw=document.getElementById('pen-edit-id').value;
   if(!label){toast('Saisir un libellé','error');return;}
   const list=getPenalites();
   const entry={id:label.toLowerCase().replace(/[^a-z0-9]/g,'_')+'_'+Date.now(),icon,label,montant};
-  if(idxRaw!==''){const idx=parseInt(idxRaw);entry.id=list[idx].id;list[idx]=entry;toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Motif "${label}" modifié`);}
-  else{list.push(entry);toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Motif "${label}" ajouté`);}
+  if(idxRaw!==''){const idx=parseInt(idxRaw);entry.id=list[idx].id;list[idx]=entry;toast(` Motif "${label}" modifié`);}
+  else{list.push(entry);toast(` Motif "${label}" ajouté`);}
   setPenalites(list);
   hidePenForm();
   renderPenalites();
@@ -1624,7 +1618,7 @@ function delPen(idx){const list=getPenalites();if(!confirm(`Supprimer "${list[id
 function movePen(idx,dir){const list=getPenalites();const newIdx=idx+dir;if(newIdx<0||newIdx>=list.length)return;[list[idx],list[newIdx]]=[list[newIdx],list[idx]];setPenalites(list);renderPenalites();}
 function resetPenalites(){if(!confirm('Restaurer les pénalités par défaut ?'))return;setPenalites(getDefaultPenalites());renderPenalites();toast('↩ Pénalités par défaut restaurées');}
 
-function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'':''}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
 </script>
 
 
@@ -1721,7 +1715,7 @@ async function zoneSaveRates(){
       if(!rIns.ok) throw new Error(await rIns.text());
     }
     if(window.OT_ZONE) OT_ZONE.invalidate();
-    document.getElementById('zones-rates-status').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tarifs enregistrés';
+    document.getElementById('zones-rates-status').textContent=' Tarifs enregistrés';
     setTimeout(()=>{document.getElementById('zones-rates-status').textContent='';},3000);
     toast('Tarifs zone enregistrés');
     if(window.OT_ZONE) await OT_ZONE.load(cid);

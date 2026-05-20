@@ -354,7 +354,7 @@ const OT = (() => {
   return{getSession,authHeaders,anonHeaders,can,logout,requireLogin,getCompanyId,refreshSession};
 })();
 function logout(){OT.logout();}
-async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été supprimé. Vous allez être déconnecté.':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été suspendu. Contactez votre administrateur.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
+async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?' Votre compte a été supprimé. Vous allez être déconnecté.':' Votre compte a été suspendu. Contactez votre administrateur.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
 if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionSync;}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -366,39 +366,38 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <body>
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-    <div class="logo-tag">Gestion Transport</div>
-    <div class="logo-name">T SERVICE<br><span>& CO</span></div>
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+    <a class="nav-item" href="optimum_trans_dashboard.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span> Tableau de bord</a>
     <a class="nav-item" href="optimum_trans_planning.html"><span class="nav-icon">📆</span> Planning Semaine <span class="nav-badge">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon">🗺️</span> Feuille de Route</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_feuille_route.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Feuille de Route</a>
     <a class="nav-item" style="display:none" href="optimum_trans_saisie.html" id="nav-saisie-link"><span class="nav-icon">📝</span> Saisie Tournées</a>
         <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
     <a class="nav-item active" href="#"><span class="nav-icon">👔</span> RH & Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"></span> Clients & Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"></span> Décompte ST</a>
     <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
-      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
+      <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
-    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
+    <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
     <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"> Paramètres</div></div>
       <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
     </div>
   </div>
@@ -408,7 +407,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
   <div class="topbar">
     <div class="topbar-title">👔 RH & CONTRATS</div>
     <div style="display:flex;gap:10px;align-items:center">
-      <span id="sync-info" style="font-size:11px;color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Connecté</span>
+      <span id="sync-info" style="font-size:11px;color:#6B8E23"> Connecté</span>
       <button class="btn-sm btn-ghost" onclick="switchTabByName('fiches')">💶 Fiches de paie</button>
       <button class="btn-sm btn-accent" onclick="openContratModal()">+ Nouveau contrat</button>
     </div>
@@ -417,9 +416,9 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
     <div class="tabs">
       <div class="tab active" onclick="switchTab('demandes',this)">📥 Demandes <span class="tab-badge-red" id="badge-dem" style="display:none">0</span></div>
-      <div class="tab" onclick="switchTab('absences',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Absences & Congés</div>
+      <div class="tab" onclick="switchTab('absences',this)"> Absences & Congés</div>
       <div class="tab" onclick="switchTab('soldes',this)">🏖️ Soldes Congés</div>
-      <div class="tab" onclick="switchTab('contrats',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Contrats <span class="tab-badge" id="badge-contrats">0</span></div>
+      <div class="tab" onclick="switchTab('contrats',this)"> Contrats <span class="tab-badge" id="badge-contrats">0</span></div>
       <div class="tab" onclick="switchTab('fiches',this)">💶 Fiches de paie <span class="tab-badge" id="badge-fiches">0</span></div>
       <div class="tab" onclick="switchTab('calendrier',this)">📆 Calendrier</div>
     </div>
@@ -437,7 +436,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     <div id="tab-absences" style="display:none">
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <div><div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ABSENCES & CONGÉS</div><div class="card-sub">Historique des absences validées</div></div>
+          <div><div class="card-title"> ABSENCES & CONGÉS</div><div class="card-sub">Historique des absences validées</div></div>
           <div style="display:flex;gap:8px">
             <select id="abs-filter-type" class="is" style="width:160px" onchange="renderAbsences()"><option value="">Tous les types</option><option value="conge_paye">Congé payé</option><option value="maladie">Maladie</option><option value="absence_injustifiee">Abs. non justifiée</option><option value="jour_ferie">Jour férié</option><option value="formation">Formation</option><option value="autre">Autre</option></select>
             <select id="abs-filter-ch" class="is" style="width:170px" onchange="renderAbsences()"><option value="">Tous les chauffeurs</option></select>
@@ -460,7 +459,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     <div id="tab-contrats" style="display:none">
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <div><div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> CONTRATS</div><div class="card-sub">Contrats de travail — cliquez sur <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> pour voir le document PDF</div></div>
+          <div><div class="card-title"> CONTRATS</div><div class="card-sub">Contrats de travail — cliquez sur <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> pour voir le document PDF</div></div>
           <button class="btn-sm btn-accent" onclick="openContratModal()">+ Nouveau contrat</button>
         </div>
         <!-- Alertes CDD -->
@@ -556,7 +555,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         <div class="pdf-upload-hint">PDF uniquement · max 5 Mo</div>
       </div>
       <div id="fp-preview-strip" style="display:none" class="pdf-preview-strip">
-        <span class="pdf-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
+        <span class="pdf-icon"></span>
         <div>
           <div class="pdf-name" id="fp-filename">—</div>
           <div class="pdf-size" id="fp-filesize">—</div>
@@ -565,10 +564,10 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       </div>
       <div id="fp-existing" style="display:none;margin-top:8px">
         <div style="display:flex;align-items:center;gap:8px;background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:8px;padding:9px 12px">
-          <span style="font-size:16px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
+          <span style="font-size:16px"></span>
           <span style="font-size:12px;color:var(--light);flex:1" id="fp-existing-name">Fiche existante</span>
           <button onclick="fpViewExisting()" style="background:var(--blue);border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--white);cursor:pointer">👁 Voir</button>
-          <button onclick="fpReplace()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--gray);cursor:pointer">🔄 Remplacer</button>
+          <button onclick="fpReplace()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--gray);cursor:pointer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Remplacer</button>
         </div>
       </div>
     </div>
@@ -582,7 +581,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border)">
       <button class="btn-sm btn-ghost" onclick="closeFiche()">Annuler</button>
-      <button class="btn-sm btn-accent" id="btn-save-fiche" onclick="saveFiche()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer</button>
+      <button class="btn-sm btn-accent" id="btn-save-fiche" onclick="saveFiche()"> Enregistrer</button>
     </div>
     <input type="hidden" id="fp-edit-id">
   </div>
@@ -591,7 +590,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- ══ MODAL CONTRAT ══ -->
 <div class="modal-overlay" id="modal-contrat" onclick="if(event.target===this)closeContrat()">
   <div class="modal">
-    <div class="modal-title" id="modal-contrat-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> NOUVEAU CONTRAT</div>
+    <div class="modal-title" id="modal-contrat-title"> NOUVEAU CONTRAT</div>
     <div class="modal-sub">Ajouter ou modifier un contrat chauffeur</div>
 
     <div style="margin-bottom:12px"><label class="lbl">Chauffeur</label><select id="c-chauffeur" class="is"><option value="">— Sélectionner —</option></select></div>
@@ -611,19 +610,19 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <div><label class="lbl">Date fin (CDD/Intérim)</label><input type="date" id="c-fin" class="ii"></div>
     </div>
 
-    <div style="margin-bottom:12px;padding:10px 12px;background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.15);border-radius:9px;font-size:11px;color:var(--gray)">💡 La rémunération est calculée automatiquement à partir des tarifs définis dans les paramètres de chaque client (semaine / dimanche / jour férié).</div>
+    <div style="margin-bottom:12px;padding:10px 12px;background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.15);border-radius:9px;font-size:11px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> La rémunération est calculée automatiquement à partir des tarifs définis dans les paramètres de chaque client (semaine / dimanche / jour férié).</div>
 
     <!-- ── UPLOAD PDF ── -->
     <div style="margin-bottom:12px">
       <label class="lbl">📎 Document PDF du contrat</label>
       <div class="pdf-upload-zone" id="pdf-drop-zone" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
         <input type="file" id="c-pdf-input" accept=".pdf,application/pdf" onchange="onPdfSelected(this)">
-        <div class="pdf-upload-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
+        <div class="pdf-upload-icon"></div>
         <div class="pdf-upload-label">Cliquez ou glissez votre contrat PDF ici</div>
         <div class="pdf-upload-hint">PDF uniquement · max 5 Mo</div>
       </div>
       <div id="pdf-preview-strip" style="display:none" class="pdf-preview-strip">
-        <span class="pdf-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
+        <span class="pdf-icon"></span>
         <div>
           <div class="pdf-name" id="pdf-filename">—</div>
           <div class="pdf-size" id="pdf-filesize">—</div>
@@ -632,10 +631,10 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       </div>
       <div id="pdf-existing" style="display:none;margin-top:8px">
         <div style="display:flex;align-items:center;gap:8px;background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:8px;padding:9px 12px">
-          <span style="font-size:16px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
+          <span style="font-size:16px"></span>
           <span style="font-size:12px;color:var(--light);flex:1" id="pdf-existing-name">Contrat existant</span>
           <button onclick="viewPdfModal()" style="background:var(--blue);border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--white);cursor:pointer">👁 Voir</button>
-          <button onclick="replacePdf()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--gray);cursor:pointer">🔄 Remplacer</button>
+          <button onclick="replacePdf()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--gray);cursor:pointer"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Remplacer</button>
         </div>
       </div>
     </div>
@@ -649,7 +648,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border)">
       <button class="btn-sm btn-ghost" onclick="closeContrat()">Annuler</button>
-      <button class="btn-sm btn-accent" id="btn-save-contrat" onclick="saveContrat()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer</button>
+      <button class="btn-sm btn-accent" id="btn-save-contrat" onclick="saveContrat()"> Enregistrer</button>
     </div>
     <input type="hidden" id="c-edit-id">
   </div>
@@ -660,7 +659,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
   <div class="modal-pdf">
     <div class="modal-pdf-header">
       <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
+        <span style="font-size:20px"></span>
         <div>
           <div style="font-size:14px;font-weight:700;color:var(--white)" id="pdf-view-title">Contrat</div>
           <div style="font-size:11px;color:var(--gray)" id="pdf-view-sub">—</div>
@@ -725,8 +724,8 @@ async function autoCalculBrut(){
       details.push(`${t.date} · ${t.client_nom||'?'} (${dayType}) → ${trf}€`);
     });
     document.getElementById('fp-brut').value=Math.round(brut);
-    info.innerHTML=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> <strong>${tournees.length} tournées</strong> → Brut calculé : <strong>${Math.round(brut)}€</strong><br><small style="color:var(--gray2)">${details.slice(0,5).join(' | ')}${details.length>5?` … +${details.length-5} autres`:''}</small>`;
-  }catch(e){info.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur : '+e.message;toast('Erreur calcul : '+e.message,'error');}
+    info.innerHTML=` <strong>${tournees.length} tournées</strong> → Brut calculé : <strong>${Math.round(brut)}€</strong><br><small style="color:var(--gray2)">${details.slice(0,5).join(' | ')}${details.length>5?` … +${details.length-5} autres`:''}</small>`;
+  }catch(e){info.textContent=' Erreur : '+e.message;toast('Erreur calcul : '+e.message,'error');}
 }
 let calYear=new Date().getFullYear(), calMonth2=new Date().getMonth();
 
@@ -781,13 +780,13 @@ async function loadDemandes(){
     const badge=document.getElementById('badge-dem');
     if(data.length>0){badge.textContent=data.length;badge.style.display='';}else{badge.style.display='none';}
     const el=document.getElementById('demandes-list');
-    if(!data.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>Aucune demande en attente</div>';return;}
+    if(!data.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"></div>Aucune demande en attente</div>';return;}
     el.innerHTML='';
     data.forEach(d=>{
       const div=document.createElement('div');
       div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;';
-      const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Abs. non justifiée',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
-      div.innerHTML=`<div style="flex:1"><div style="font-weight:700;color:var(--white);font-size:13px">${d.chauffeur_nom}</div><div style="font-size:11px;color:var(--gray);margin-top:2px">${typeL[d.type]||d.type} · Du ${fmtDate(d.date_debut)} au ${fmtDate(d.date_fin)}</div>${d.note?`<div style="font-size:11px;color:var(--gray2);margin-top:3px;font-style:italic">"${d.note}"</div>`:''}</div><div style="display:flex;gap:8px"><button onclick="approuver('${d.id}')" style="background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#6B8E23;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuver</button><button onclick="refuser('${d.id}')" style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#D88888;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refuser</button></div>`;
+      const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:' Abs. non justifiée',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
+      div.innerHTML=`<div style="flex:1"><div style="font-weight:700;color:var(--white);font-size:13px">${d.chauffeur_nom}</div><div style="font-size:11px;color:var(--gray);margin-top:2px">${typeL[d.type]||d.type} · Du ${fmtDate(d.date_debut)} au ${fmtDate(d.date_fin)}</div>${d.note?`<div style="font-size:11px;color:var(--gray2);margin-top:3px;font-style:italic">"${d.note}"</div>`:''}</div><div style="display:flex;gap:8px"><button onclick="approuver('${d.id}')" style="background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#6B8E23;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"> Approuver</button><button onclick="refuser('${d.id}')" style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#D88888;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"> Refuser</button></div>`;
       el.appendChild(div);
     });
   }catch(e){document.getElementById('demandes-list').innerHTML='<div style="color:var(--error);padding:20px">Erreur: '+e.message+'</div>';}
@@ -795,11 +794,11 @@ async function loadDemandes(){
 
 async function approuver(id){
   await fetch(`${SB}/rest/v1/absences?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H(),body:JSON.stringify({statut:'approuve'})});
-  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Demande approuvée'); loadAll();
+  toast(' Demande approuvée'); loadAll();
 }
 async function refuser(id){
   await fetch(`${SB}/rest/v1/absences?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H(),body:JSON.stringify({statut:'refuse'})});
-  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Demande refusée'); loadAll();
+  toast(' Demande refusée'); loadAll();
 }
 
 // ── ABSENCES ──
@@ -816,9 +815,9 @@ function renderAbsences(){
   const data=allAbsences.filter(a=>(typeF?a.type===typeF:true)&&(chF?a.chauffeur_nom===chF:true));
   const tbody=document.getElementById('abs-tbody');
   if(!data.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--gray)">Aucune absence</td></tr>';return;}
-  const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absence NJ',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
+  const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:' Absence NJ',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
   const statL={approuve:'badge-green',en_attente:'badge-orange',refuse:'badge-red'};
-  const statTxt={approuve:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuvé',en_attente:'⏳ En attente',refuse:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refusé'};
+  const statTxt={approuve:' Approuvé',en_attente:'⏳ En attente',refuse:' Refusé'};
   tbody.innerHTML='';
   data.forEach(a=>{
     const tr=document.createElement('tr');
@@ -862,7 +861,7 @@ async function loadContrats(){
 
 function renderContrats(){
   const tbody=document.getElementById('contrats-tbody');
-  if(!allContrats.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>Aucun contrat — cliquez "+ Nouveau contrat"</td></tr>';return;}
+  if(!allContrats.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"></div>Aucun contrat — cliquez "+ Nouveau contrat"</td></tr>';return;}
   // CDD alerts
   const today=new Date(); today.setHours(0,0,0,0);
   const alerts=allContrats.filter(c=>c.date_fin&&c.type_contrat!=='CDI').map(c=>{
@@ -882,21 +881,18 @@ function renderContrats(){
   allContrats.forEach(c=>{
     const hasPdf=!!(c.document_pdf_base64||c.document_pdf);
     const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td style="font-weight:700;color:var(--white)">${c.chauffeur_nom}</td>
+    tr.innerHTML=` <td style="font-weight:700;color:var(--white)">${c.chauffeur_nom}</td>
       <td><span class="badge ${typeColors[c.type_contrat]||'badge-gray'}">${c.type_contrat}</span></td>
       <td>${c.date_debut?fmtDate(c.date_debut):'—'}</td>
       <td>${c.date_fin?`<span style="color:${daysUntil(c.date_fin)<=30?'#D88888':'var(--light)'}">${fmtDate(c.date_fin)}</span>`:'<span style="color:var(--gray)">—</span>'}</td>
       <td style="color:#6B8E23;font-weight:600">${c.salaire_base?c.salaire_base+'€/mois':'—'}</td>
       <td>
         ${hasPdf
-          ? `<button onclick="viewContratPdf('${c.id}')" style="background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#E8C66E;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Voir PDF</button>`
-          : `<span style="color:var(--gray2);font-size:11px;font-style:italic">Pas de document</span>`
-        }
+          ? `<button onclick="viewContratPdf('${c.id}')" style="background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#E8C66E;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"> Voir PDF</button>` : `<span style="color:var(--gray2);font-size:11px;font-style:italic">Pas de document</span>` }
       </td>
       <td style="color:var(--gray);font-size:11px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.notes||'—'}</td>
       <td style="white-space:nowrap">
-        <button class="icon-btn" onclick="editContrat('${c.id}')" title="Modifier">✏️</button>
+        <button class="icon-btn" onclick="editContrat('${c.id}')" title="Modifier"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
         <button class="icon-btn" onclick="delContrat('${c.id}','${(c.chauffeur_nom||'').replace(/'/g,"\\'")}','${c.type_contrat}')" title="Supprimer" style="color:rgba(231,76,60,0.7)">🗑</button>
       </td>`;
     tbody.appendChild(tr);
@@ -913,8 +909,8 @@ function daysUntil(dateStr){
 function openContratModal(){
   resetPdfState();
   document.getElementById('c-edit-id').value='';
-  document.getElementById('modal-contrat-title').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> NOUVEAU CONTRAT';
-  document.getElementById('btn-save-contrat').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer';
+  document.getElementById('modal-contrat-title').textContent=' NOUVEAU CONTRAT';
+  document.getElementById('btn-save-contrat').textContent=' Enregistrer';
   document.getElementById('c-chauffeur').value='';
   document.getElementById('c-type').value='CDI';
   document.getElementById('c-debut').value='';
@@ -1055,14 +1051,14 @@ async function saveContrat(){
       const r=await fetch(`${SB}/rest/v1/contrats`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(payload)});
       if(!r.ok) throw new Error(await r.text());
     }
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Contrat ${id?'modifié':'ajouté'}${pdfToSave?' avec PDF':''}`);
+    toast(` Contrat ${id?'modifié':'ajouté'}${pdfToSave?' avec PDF':''}`);
     closeContrat();
     await loadContrats();
     switchTabByName('contrats');
   }catch(e){
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
+    toast(' '+e.message,'error');
   }finally{
-    btn.disabled=false; btn.textContent=id?'💾 Enregistrer':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer';
+    btn.disabled=false; btn.textContent=id?'💾 Enregistrer':' Enregistrer';
     document.getElementById('pdf-upload-progress').style.display='none';
   }
 }
@@ -1197,14 +1193,13 @@ function renderFiches(){
     div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color 0.2s;';
     div.onmouseover=()=>div.style.borderColor='rgba(26,79,191,0.4)';
     div.onmouseout=()=>div.style.borderColor='var(--border)';
-    div.innerHTML=`
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px">
+    div.innerHTML=` <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px">
         <div>
           <div style="font-size:13px;font-weight:700;color:var(--white)">${f.chauffeur_nom}</div>
           <div style="font-size:11px;color:var(--accent);font-weight:600;margin-top:2px">${MOIS_NOM[f.mois]} ${f.annee}</div>
         </div>
         <div style="display:flex;gap:4px">
-          <button class="icon-btn" onclick="editFiche('${f.id}')" title="Modifier">✏️</button>
+          <button class="icon-btn" onclick="editFiche('${f.id}')" title="Modifier"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
           <button class="icon-btn" onclick="delFiche('${f.id}','${f.chauffeur_nom.replace(/'/g,"\\'")}','${MOIS_NOM[f.mois]} ${f.annee}')" style="color:rgba(231,76,60,0.7)" title="Supprimer">🗑</button>
         </div>
       </div>
@@ -1215,9 +1210,7 @@ function renderFiches(){
       ${f.notes?`<div style="font-size:11px;color:var(--gray2);margin-bottom:10px;font-style:italic">${f.notes}</div>`:''}
       <div style="display:flex;gap:8px">
         ${hasPdf
-          ? `<button onclick="viewFichePdf('${f.id}')" style="flex:1;background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#E8C66E;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Voir la fiche</button>`
-          : `<span style="flex:1;font-size:11px;color:var(--gray2);font-style:italic;display:flex;align-items:center">Pas de PDF</span>`
-        }
+          ? `<button onclick="viewFichePdf('${f.id}')" style="flex:1;background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#E8C66E;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"> Voir la fiche</button>` : `<span style="flex:1;font-size:11px;color:var(--gray2);font-style:italic;display:flex;align-items:center">Pas de PDF</span>` }
       </div>`;
     grid.appendChild(div);
   });
@@ -1227,7 +1220,7 @@ function openFicheModal(){
   fpResetState();
   document.getElementById('fp-edit-id').value='';
   document.getElementById('modal-fiche-title').textContent='💶 AJOUTER UNE FICHE DE PAIE';
-  document.getElementById('btn-save-fiche').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer';
+  document.getElementById('btn-save-fiche').textContent=' Enregistrer';
   document.getElementById('fp-chauffeur').value='';
   const now=new Date();
   document.getElementById('fp-mois').value=now.getMonth()===0?12:now.getMonth();
@@ -1334,11 +1327,11 @@ async function saveFiche(){
       const r=await fetch(`${SB}/rest/v1/fiches_paie`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(payload)});
       if(!r.ok) throw new Error(await r.text());
     }
-    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Fiche de ${chauffeur} — ${MOIS_NOM[mois]} ${annee} ${id?'modifiée':'ajoutée'}${pdfToSave?' avec PDF':''}`);
+    toast(` Fiche de ${chauffeur} — ${MOIS_NOM[mois]} ${annee} ${id?'modifiée':'ajoutée'}${pdfToSave?' avec PDF':''}`);
     closeFiche();
     loadFiches();
-  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error'); }
-  finally{ btn.disabled=false; btn.textContent=document.getElementById('fp-edit-id').value?'💾 Enregistrer':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer'; document.getElementById('fp-upload-progress').style.display='none'; }
+  }catch(e){ toast(' '+e.message,'error'); }
+  finally{ btn.disabled=false; btn.textContent=document.getElementById('fp-edit-id').value?'💾 Enregistrer':' Enregistrer'; document.getElementById('fp-upload-progress').style.display='none'; }
 }
 
 async function viewFichePdf(id){
@@ -1362,11 +1355,11 @@ async function viewFichePdf(id){
     iframe.src=viewingPdfBlobUrl;
     iframe.onload=()=>{ document.getElementById('pdf-loading').style.display='none'; iframe.style.display='block'; };
     setTimeout(()=>{ document.getElementById('pdf-loading').style.display='none'; iframe.style.display='block'; },2000);
-  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur chargement PDF','error'); }
+  }catch(e){ toast(' Erreur chargement PDF','error'); }
 }
 
 
-function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'':''}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
 </script>
 
 

@@ -307,7 +307,7 @@ function logout(){OT.logout();}
 
   <!-- Formulaire demande -->
   <div style="background:rgba(26,79,191,0.06);border:1px solid rgba(26,79,191,0.2);border-radius:14px;padding:16px;margin-bottom:16px">
-    <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">➕ Nouvelle demande</div>
+    <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nouvelle demande</div>
     <div class="form-group">
       <label class="form-label">Type d'absence</label>
       <select id="abs-type" class="form-input">
@@ -348,7 +348,7 @@ function logout(){OT.logout();}
   <div class="docs-filter-bar">
     <button class="doc-filter-btn active" onclick="filterDocs('tous',this)">📁 Tous</button>
     <button class="doc-filter-btn" onclick="filterDocs('fiches',this)">💶 Fiches de paie</button>
-    <button class="doc-filter-btn" onclick="filterDocs('contrats',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Contrats</button>
+    <button class="doc-filter-btn" onclick="filterDocs('contrats',this)"> Contrats</button>
   </div>
 
   <div id="docs-content">
@@ -359,12 +359,12 @@ function logout(){OT.logout();}
 <!-- ══ GAZOLE ══ -->
 <div class="screen" id="screen-gazole">
   <div class="section-header">
-    <div class="section-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> MON GAZOLE</div>
+    <div class="section-title"> MON GAZOLE</div>
   </div>
 
   <!-- Formulaire nouveau plein -->
   <div class="fuel-card">
-    <div class="fuel-label">➕ Nouveau plein</div>
+    <div class="fuel-label"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nouveau plein</div>
 
     <div class="form-group">
       <label class="form-label">🚐 Véhicule *</label>
@@ -374,7 +374,7 @@ function logout(){OT.logout();}
     </div>
 
     <div class="form-group">
-      <label class="form-label"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Date *</label>
+      <label class="form-label"> Date *</label>
       <input type="date" id="gz-date" class="form-input">
     </div>
 
@@ -390,7 +390,7 @@ function logout(){OT.logout();}
     </div>
 
     <div class="form-group">
-      <label class="form-label"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Prix au litre — calculé automatiquement</label>
+      <label class="form-label"> Prix au litre — calculé automatiquement</label>
       <input type="number" id="gz-prix-litre" class="form-input" placeholder="—" readonly style="color:#6B8E23;background:rgba(22,163,74,0.05);font-weight:700;font-size:16px">
     </div>
 
@@ -406,13 +406,13 @@ function logout(){OT.logout();}
       <div class="ticket-preview" id="ticket-preview" style="display:none">
         <img id="ticket-img" alt="Ticket gazole">
         <div class="ticket-preview-bar">
-          <span style="font-size:11px;color:#6B8E23;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ticket ajouté</span>
+          <span style="font-size:11px;color:#6B8E23;font-weight:600"> Ticket ajouté</span>
           <button onclick="removeTicketPhoto()" style="background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:#D88888;cursor:pointer;font-family:inherit">🗑 Supprimer</button>
         </div>
       </div>
     </div>
 
-    <button class="btn-gz-submit" id="btn-gz-submit" onclick="submitPleinFromDriver()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Enregistrer le plein</button>
+    <button class="btn-gz-submit" id="btn-gz-submit" onclick="submitPleinFromDriver()"> Enregistrer le plein</button>
   </div>
 
   <!-- Historique des pleins du chauffeur -->
@@ -425,7 +425,7 @@ function logout(){OT.logout();}
 <!-- ══ MESSAGES (CHAUFFEUR) ══ -->
 <div class="screen" id="screen-messages">
   <div class="section-header">
-    <div class="section-title">💬 MES MESSAGES</div>
+    <div class="section-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> MES MESSAGES</div>
     <div style="font-size:11px;color:var(--gray);display:flex;align-items:center;gap:8px">
       <span id="msg-live-indic" title="Statut temps réel" style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--gray)">
         <span id="msg-live-dot" style="width:7px;height:7px;border-radius:50%;background:#999;display:inline-block"></span>
@@ -437,12 +437,10 @@ function logout(){OT.logout();}
 
   <!-- ONGLETS -->
   <div style="display:flex;gap:6px;margin-bottom:14px;">
-    <button id="tab-btn-general" onclick="switchMsgTab('general')"
-      style="flex:1;padding:9px;border-radius:10px;border:1px solid var(--blue);background:rgba(26,79,191,0.25);color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">
-      💬 Général
+    <button id="tab-btn-general" onclick="switchMsgTab('general')" style="flex:1;padding:9px;border-radius:10px;border:1px solid var(--blue);background:rgba(26,79,191,0.25);color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Général
     </button>
-    <button id="tab-btn-groupes" onclick="switchMsgTab('groupes')"
-      style="flex:1;padding:9px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--gray);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;position:relative;">
+    <button id="tab-btn-groupes" onclick="switchMsgTab('groupes')" style="flex:1;padding:9px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--gray);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;position:relative;">
       <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Groupes
       <span id="badge-group-tab" style="display:none;position:absolute;top:4px;right:8px;background:var(--error);color:#fff;font-size:9px;font-weight:700;width:14px;height:14px;border-radius:50%;align-items:center;justify-content:center;">0</span>
     </button>
@@ -451,7 +449,7 @@ function logout(){OT.logout();}
   <!-- ── TAB GÉNÉRAL : 1:1 + broadcast ── -->
   <div id="tab-content-general">
     <div id="msg-empty" style="text-align:center;padding:40px 20px;color:var(--gray);display:none">
-      <div style="font-size:48px;margin-bottom:12px">💬</div>
+      <div style="font-size:48px;margin-bottom:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
       <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:6px">Aucun message</div>
       <div style="font-size:12px">Vos échanges avec l'admin apparaîtront ici.<br>Les messages sont conservés 1 mois.</div>
     </div>
@@ -510,10 +508,10 @@ function logout(){OT.logout();}
   <!-- Type départ / retour -->
   <div class="ev-type-row">
     <button class="ev-type-btn depart selected" id="ev-btn-depart" onclick="evSelectType('depart')">
-      🚀 Départ<br><span style="font-size:10px;font-weight:400;opacity:0.8">En tournée</span>
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> Départ<br><span style="font-size:10px;font-weight:400;opacity:0.8">En tournée</span>
     </button>
     <button class="ev-type-btn retour" id="ev-btn-retour" onclick="evSelectType('retour')">
-      🏠 Retour<br><span style="font-size:10px;font-weight:400;opacity:0.8">Au dépôt</span>
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg> Retour<br><span style="font-size:10px;font-weight:400;opacity:0.8">Au dépôt</span>
     </button>
   </div>
 
@@ -547,7 +545,7 @@ function logout(){OT.logout();}
   </div>
   <div class="ev-photo-grid">
     <div class="ev-photo-cell" id="ev-cell-avant" onclick="evOpenCamera('avant')">
-      <span class="ev-cell-icon">🚗</span>
+      <span class="ev-cell-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg></span>
       <span class="ev-cell-label">Avant</span>
     </div>
     <div class="ev-photo-cell" id="ev-cell-arriere" onclick="evOpenCamera('arriere')">
@@ -569,10 +567,10 @@ function logout(){OT.logout();}
   </div>
 
   <!-- Inputs caméra cachés — capture="environment" force la caméra arrière, pas la galerie -->
-  <input type="file" id="ev-input-avant"     accept="image/*" capture="environment" style="display:none" onchange="evHandlePhoto(this,'avant')">
-  <input type="file" id="ev-input-arriere"   accept="image/*" capture="environment" style="display:none" onchange="evHandlePhoto(this,'arriere')">
-  <input type="file" id="ev-input-gauche"    accept="image/*" capture="environment" style="display:none" onchange="evHandlePhoto(this,'gauche')">
-  <input type="file" id="ev-input-droite"    accept="image/*" capture="environment" style="display:none" onchange="evHandlePhoto(this,'droite')">
+  <input type="file" id="ev-input-avant" accept="image/*" capture="environment" style="display:none" onchange="evHandlePhoto(this,'avant')">
+  <input type="file" id="ev-input-arriere" accept="image/*" capture="environment" style="display:none" onchange="evHandlePhoto(this,'arriere')">
+  <input type="file" id="ev-input-gauche" accept="image/*" capture="environment" style="display:none" onchange="evHandlePhoto(this,'gauche')">
+  <input type="file" id="ev-input-droite" accept="image/*" capture="environment" style="display:none" onchange="evHandlePhoto(this,'droite')">
   <input type="file" id="ev-input-interieur" accept="image/*" capture="environment" style="display:none" onchange="evHandlePhoto(this,'interieur')">
 
   <!-- Notes -->
@@ -609,14 +607,14 @@ function logout(){OT.logout();}
     <span class="nav-badge" id="badge-conges" style="display:none">!</span>
   </button>
   <button class="nav-btn" id="nav-gazole" onclick="showScreen('gazole')">
-    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span>Gazole
+    <span class="nav-icon"></span>Gazole
   </button>
   <button class="nav-btn" id="nav-docs" onclick="showScreen('docs')">
     <span class="nav-icon">📁</span>Documents
     <span class="nav-badge" id="badge-docs" style="display:none">0</span>
   </button>
   <button class="nav-btn" id="nav-messages" onclick="showScreen('messages')">
-    <span class="nav-icon">💬</span>Messages
+    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Messages
     <span class="nav-badge" id="badge-messages" style="display:none">0</span>
   </button>
   <button class="nav-btn" id="nav-etat" onclick="showScreen('etat')">
@@ -624,7 +622,7 @@ function logout(){OT.logout();}
   </button>
   <button class="nav-btn" id="nav-gps" onclick="window.location.href='optimum_trans_gps_chauffeur.html'">
     <span class="gps-live-dot" id="gps-live-dot"></span>
-    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span>Mon GPS
+    <span class="nav-icon"></span>Mon GPS
   </button>
 </nav>
 
@@ -680,8 +678,8 @@ function logout(){OT.logout();}
     <button class="ev-cam-btn" onclick="evCamFallback()" title="Utiliser l'appareil photo du téléphone">📷</button>
   </div>
   <div class="ev-cam-preview-actions" id="ev-cam-preview-actions">
-    <button class="ev-cam-retake" onclick="evCamRetake()">🔄 Reprendre</button>
-    <button class="ev-cam-accept" onclick="evCamAccept()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valider</button>
+    <button class="ev-cam-retake" onclick="evCamRetake()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Reprendre</button>
+    <button class="ev-cam-accept" onclick="evCamAccept()"> Valider</button>
   </div>
   <div class="ev-cam-err" id="ev-cam-err" style="display:none">
     <div class="ev-cam-err-box">
@@ -984,8 +982,7 @@ function renderDay(date){
     });
     const chauffeurs=Object.keys(byChauffeur).sort();
 
-    cont.innerHTML=`
-      <div style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+    cont.innerHTML=` <div style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px">
         <span>👔</span>
         <div>
           <div style="font-size:12px;font-weight:700;color:#4FD1E0">Vue Chef d'équipe — ${dayLabel}</div>
@@ -1002,13 +999,12 @@ function renderDay(date){
         const val=valMap[t.id]||null;
         let valHtml='';
         if(val){
-          if(val.statut==='validee') valHtml=`<div class="tc-val ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Validée</div>`;
-          else if(val.statut==='penalisee') valHtml=`<div class="tc-val pen"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité: ${val.motif}</div>`;
+          if(val.statut==='validee') valHtml=`<div class="tc-val ok"> Validée</div>`;
+          else if(val.statut==='penalisee') valHtml=`<div class="tc-val pen"> Pénalité: ${val.motif}</div>`;
         }
         const card=document.createElement('div');
         card.className=`tournee-card ${cls}`;
-        card.innerHTML=`
-          <div class="tc-client">${t.client_nom}</div>
+        card.innerHTML=` <div class="tc-client">${t.client_nom}</div>
           <div class="tc-meta">
             <span class="tc-chip slot ${cls}">${t.slot}</span>
             ${t.heure?`<span class="tc-chip">🕐 ${t.heure}</span>`:''}
@@ -1030,8 +1026,8 @@ function renderDay(date){
     card.className=`tournee-card ${cls}`;
     let valHtml='';
     if(val){
-      if(val.statut==='validee') valHtml=`<div class="tc-val ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée validée</div>`;
-      else if(val.statut==='penalisee') valHtml=`<div class="tc-val pen"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité : ${val.motif}${val.montant>0?' (-'+val.montant+'€)':''}</div>`;
+      if(val.statut==='validee') valHtml=`<div class="tc-val ok"> Tournée validée</div>`;
+      else if(val.statut==='penalisee') valHtml=`<div class="tc-val pen"> Pénalité : ${val.motif}${val.montant>0?' (-'+val.montant+'€)':''}</div>`;
     }
     // Points / heures réels à saisir
     let realHtml='';
@@ -1040,10 +1036,10 @@ function renderDay(date){
     const tp=clientInfo?.type_paiement||'fixe';
     if(tp==='point'){
       if(t.nb_points_reel!=null){
-        realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> ${t.nb_points_reel} pts réels${t.nb_points_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_points_estime})</span>`:''}</div>`;
+        realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23"> ${t.nb_points_reel} pts réels${t.nb_points_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_points_estime})</span>`:''}</div>`;
       } else if(!isValidated){
         const estLabel=t.nb_points_estime?`${t.nb_points_estime} pts estimés — `:'';
-        realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> ${estLabel}Saisir le nombre de points réels :</div><div style="display:flex;gap:6px;align-items:center"><input type="number" min="0" step="1" placeholder="Nb points" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit" id="pts-input-${t.id}"><button onclick="saveRealValue('${t.id}','nb_points_reel',document.getElementById('pts-input-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div></div>`;
+        realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px"> ${estLabel}Saisir le nombre de points réels :</div><div style="display:flex;gap:6px;align-items:center"><input type="number" min="0" step="1" placeholder="Nb points" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit" id="pts-input-${t.id}"><button onclick="saveRealValue('${t.id}','nb_points_reel',document.getElementById('pts-input-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"></button></div></div>`;
       }
     } else if(tp==='heure'){
       if(t.nb_heures_reel!=null){
@@ -1057,7 +1053,7 @@ function renderDay(date){
           realHtml=`<div style="margin-top:8px;font-size:10px;color:var(--gray)">⏱ ${estLabel?estLabel+' · ':''}Heures réelles saisies par le chef d'équipe</div>`;
         } else {
           const estLabel=t.nb_heures_estime?`${t.nb_heures_estime}h estimées — `:'';
-          realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px">⏱ ${estLabel}Saisir le nombre d'heures réelles :</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">${dureeInputHTML('hrs-input-'+t.id,null)}<button onclick="saveRealValue('${t.id}','nb_heures_reel',dureeRead('hrs-input-${t.id}'))" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div></div>`;
+          realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px">⏱ ${estLabel}Saisir le nombre d'heures réelles :</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">${dureeInputHTML('hrs-input-'+t.id,null)}<button onclick="saveRealValue('${t.id}','nb_heures_reel',dureeRead('hrs-input-${t.id}'))" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"></button></div></div>`;
         }
       }
     } else if(tp==='zone'){
@@ -1070,36 +1066,35 @@ function renderDay(date){
             return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 8px;background:rgba(46,204,113,0.05);border-radius:6px"><span><strong>${l.ville||'(?)'}</strong></span><span style="color:#6B8E23;font-weight:700">${l.nb_points_reel} pts <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> <span style="color:var(--gray);font-weight:400;font-size:10px">(est. ${est})</span></span></div>`;
           }
           if(isValidated) return `<div style="font-size:12px;color:var(--gray)">${l.ville||'(?)'} : ${est} pts (estimé)</div>`;
-          return `<div style="display:flex;align-items:center;gap:6px;font-size:12px;padding:5px 8px;background:rgba(255,255,255,0.03);border-radius:6px"><span style="flex:1"><strong>${l.ville||'(?)'}</strong> <span style="color:var(--gray);font-size:10px">(est. ${est})</span></span><input type="number" min="0" step="1" placeholder="Réel" id="zline-${t.id}-${i}" style="width:70px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:5px 7px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="saveZoneLineReel('${t.id}',${i})" style="background:var(--blue);border:none;border-radius:6px;padding:5px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div>`;
+          return `<div style="display:flex;align-items:center;gap:6px;font-size:12px;padding:5px 8px;background:rgba(255,255,255,0.03);border-radius:6px"><span style="flex:1"><strong>${l.ville||'(?)'}</strong> <span style="color:var(--gray);font-size:10px">(est. ${est})</span></span><input type="number" min="0" step="1" placeholder="Réel" id="zline-${t.id}-${i}" style="width:70px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:5px 7px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="saveZoneLineReel('${t.id}',${i})" style="background:var(--blue);border:none;border-radius:6px;padding:5px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"></button></div>`;
         }).join('');
         const totalEst=t.zone_lines.reduce((s,l)=>s+(parseFloat(l.nb_points_estime)||0),0);
         const totalReel=t.zone_lines.reduce((s,l)=>s+(parseFloat(l.nb_points_reel)||0),0);
-        const lbl=allReel?`<span style="color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${totalReel} pts réels</span>`:`<span style="color:var(--accent)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${totalEst} pts estimés (à valider)</span>`;
-        realHtml=`<div style="margin-top:8px;display:flex;flex-direction:column;gap:4px"><div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Lignes de livraison · ${lbl}</div>${rows}</div>`;
+        const lbl=allReel?`<span style="color:#6B8E23"> ${totalReel} pts réels</span>`:`<span style="color:var(--accent)"> ${totalEst} pts estimés (à valider)</span>`;
+        realHtml=`<div style="margin-top:8px;display:flex;flex-direction:column;gap:4px"><div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:4px"> Lignes de livraison · ${lbl}</div>${rows}</div>`;
       } else {
         // Legacy single-line (compatibilité)
         const cp=t.code_postal_livraison||'';
-        const cpLbl=cp?`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> CP ${cp}`:'';
+        const cpLbl=cp?` CP ${cp}`:'';
         const villeLbl=t.ville_livraison?` · ${t.ville_livraison}`:'';
         if(t.nb_points_reel!=null){
-          realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${t.nb_points_reel} pts réels${t.nb_points_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_points_estime})</span>`:''}${villeLbl} ${cpLbl}</div>`;
+          realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23"> ${t.nb_points_reel} pts réels${t.nb_points_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_points_estime})</span>`:''}${villeLbl} ${cpLbl}</div>`;
         } else if(!isValidated){
           const estLabel=t.nb_points_estime?`${t.nb_points_estime} pts estimés — `:'';
-          realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${cpLbl}${villeLbl} · ${estLabel}Saisir le nombre de points réels :</div><div style="display:flex;gap:6px;align-items:center"><input type="number" min="0" step="1" placeholder="Nb points" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit" id="pts-zone-input-${t.id}"><button onclick="saveRealValue('${t.id}','nb_points_reel',document.getElementById('pts-zone-input-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div></div>`;
+          realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px"> ${cpLbl}${villeLbl} · ${estLabel}Saisir le nombre de points réels :</div><div style="display:flex;gap:6px;align-items:center"><input type="number" min="0" step="1" placeholder="Nb points" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit" id="pts-zone-input-${t.id}"><button onclick="saveRealValue('${t.id}','nb_points_reel',document.getElementById('pts-zone-input-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"></button></div></div>`;
         }
       }
     } else if(tp==='forfait_heures'){
       if(t.heure_debut_reel&&t.heure_fin_reel){
-        realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> ${t.heure_debut_reel.substring(0,5)} → ${t.heure_fin_reel.substring(0,5)} <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>`;
+        realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23"> ${t.heure_debut_reel.substring(0,5)} → ${t.heure_fin_reel.substring(0,5)} <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>`;
       } else if(!isValidated){
         const dEst=t.heure_debut_estime?t.heure_debut_estime.substring(0,5):'';
         const fEst=t.heure_fin_estime?t.heure_fin_estime.substring(0,5):'';
         const estLabel=(dEst&&fEst)?`Estimé : ${dEst} → ${fEst} — `:'';
-        realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> ${estLabel}Saisir vos heures réelles :</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><input type="time" id="fdebut-input-${t.id}" value="${dEst}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit"><span style="color:var(--gray)">→</span><input type="time" id="ffin-input-${t.id}" value="" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit"><button onclick="saveRealHours('${t.id}')" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div></div>`;
+        realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px"> ${estLabel}Saisir vos heures réelles :</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><input type="time" id="fdebut-input-${t.id}" value="${dEst}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit"><span style="color:var(--gray)">→</span><input type="time" id="ffin-input-${t.id}" value="" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit"><button onclick="saveRealHours('${t.id}')" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"></button></div></div>`;
       }
     }
-    card.innerHTML=`
-      <div class="tc-client">${t.client_nom}</div>
+    card.innerHTML=` <div class="tc-client">${t.client_nom}</div>
       <div class="tc-meta">
         <span class="tc-chip slot ${cls}">${t.slot}</span>
         ${t.heure?`<span class="tc-chip">🕐 ${t.heure}</span>`:''}
@@ -1128,10 +1123,10 @@ async function saveRealHours(tourneeId){
     if(!result||!result.id) throw new Error('Mise à jour échouée');
     const t=allTournees.find(x=>x.id===tourneeId);
     if(t){t.heure_debut_reel=debut;t.heure_fin_reel=fin;}
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Heures enregistrées');
+    toast(' Heures enregistrées');
     const dates=getWeekDates();
     renderDay(dates[selectedDayIdx]);
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+  }catch(e){toast(' '+e.message,'error');}
 }
 async function saveRealValue(tourneeId, field, rawVal){
   const val=parseFloat(rawVal);
@@ -1148,10 +1143,10 @@ async function saveRealValue(tourneeId, field, rawVal){
     // Mise à jour locale confirmée
     const t=allTournees.find(x=>x.id===tourneeId);
     if(t) t[field]=val;
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valeur enregistrée');
+    toast(' Valeur enregistrée');
     const dates=getWeekDates();
     renderDay(dates[selectedDayIdx]);
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+  }catch(e){toast(' '+e.message,'error');}
 }
 
 // Zone multi-lignes : valider les pts réels d'une ligne et patcher tournees.zone_lines
@@ -1176,10 +1171,10 @@ async function saveZoneLineReel(tourneeId, lineIdx){
     if(!r.ok) throw new Error(await r.text());
     t.zone_lines=newLines;
     if(allReel) t.nb_points_reel=totalReel;
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ligne enregistrée');
+    toast(' Ligne enregistrée');
     const dates=getWeekDates();
     renderDay(dates[selectedDayIdx]);
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+  }catch(e){toast(' '+e.message,'error');}
 }
 
 function getValidationMap(){
@@ -1212,13 +1207,13 @@ async function loadAbsenceData(){
 function renderAbsences(){
   const list=document.getElementById('abs-list');
   if(!allAbsences.length){list.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray);font-size:12px">Aucune demande</div>';return;}
-  const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',formation:'📚 Formation',autre:'📌 Autre',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Abs. non justifiée',jour_ferie:'🎉 Jour férié'};
+  const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',formation:'📚 Formation',autre:'📌 Autre',absence_injustifiee:' Abs. non justifiée',jour_ferie:'🎉 Jour férié'};
   list.innerHTML='';
   allAbsences.forEach(a=>{
     const d=document.createElement('div');
     d.className='abs-item';
     const bCls=a.statut==='approuve'?'badge-green':a.statut==='refuse'?'badge-red':'badge-orange';
-    const bTxt=a.statut==='approuve'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuvé':a.statut==='refuse'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refusé':'⏳ En attente';
+    const bTxt=a.statut==='approuve'?' Approuvé':a.statut==='refuse'?' Refusé':'⏳ En attente';
     d.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between"><span class="abs-type">${typeL[a.type]||a.type}</span><span class="badge ${bCls}">${bTxt}</span></div><div class="abs-dates">Du ${fmtDate(a.date_debut)} au ${fmtDate(a.date_fin)}${a.note?` · "${a.note}"`:''}</div>`;
     list.appendChild(d);
   });
@@ -1236,13 +1231,13 @@ async function submitAbsence(){
   try{
     const r=await fetch(`${SB}/rest/v1/absences`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({company_id:companyId,chauffeur_nom:chauffeurNom,type,date_debut:debut,date_fin:fin,note,statut:'en_attente'})});
     if(!r.ok) throw new Error(await r.text());
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Demande envoyée !');
+    toast(' Demande envoyée !');
     document.getElementById('abs-debut').value='';
     document.getElementById('abs-fin').value='';
     document.getElementById('abs-note').value='';
     document.getElementById('badge-conges').style.display='';
     loadAbsenceData();
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+  }catch(e){toast(' '+e.message,'error');}
   finally{btn.disabled=false;btn.textContent='📤 Envoyer la demande';}
 }
 
@@ -1264,7 +1259,7 @@ async function loadDocuments(){
 
     renderDocuments();
   }catch(e){
-    document.getElementById('docs-content').innerHTML=`<div class="docs-empty"><div class="docs-empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div style="font-size:13px;color:var(--gray)">Erreur de chargement</div></div>`;
+    document.getElementById('docs-content').innerHTML=`<div class="docs-empty"><div class="docs-empty-icon"></div><div style="font-size:13px;color:var(--gray)">Erreur de chargement</div></div>`;
   }
 }
 
@@ -1316,7 +1311,7 @@ function renderDocuments(){
     const msg=currentDocFilter==='fiches'?'Aucune fiche de paie disponible':
               currentDocFilter==='contrats'?'Aucun contrat disponible':
               'Aucun document disponible';
-    const icon=currentDocFilter==='fiches'?'💶':currentDocFilter==='contrats'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>':'📁';
+    const icon=currentDocFilter==='fiches'?'💶':currentDocFilter==='contrats'?'':'📁';
     cont.innerHTML=`<div class="docs-empty"><div class="docs-empty-icon">${icon}</div><div style="font-size:13px;color:var(--gray)">${msg}</div><div style="font-size:11px;color:var(--gray2);margin-top:6px">Vos documents apparaîtront ici</div></div>`;
     return;
   }
@@ -1339,9 +1334,8 @@ function renderDocuments(){
       const card=document.createElement('div');
       card.className='doc-card';
       if(!it.hasPdf) card.style.opacity='0.6';
-      card.innerHTML=`
-        <div class="doc-card-icon ${it.type}">
-          ${it.type==='fiche'?'💶':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>'}
+      card.innerHTML=` <div class="doc-card-icon ${it.type}">
+          ${it.type==='fiche'?'💶':''}
         </div>
         <div class="doc-card-body">
           <div class="doc-card-title">${it.title}</div>
@@ -1384,7 +1378,7 @@ function openPdfViewer(pdfData, pdfName, title, sub){
       // Popup bloqué : naviguer dans l'onglet courant
       location.href=viewingPdfBlobUrl;
     }
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Ouverture du document...');
+    toast(' Ouverture du document...');
     return;
   }
 
@@ -1462,22 +1456,21 @@ async function loadGazoleHistory(){
 
 function renderGazoleHistory(data){
   const cont=document.getElementById('gz-history');
-  if(!data.length){cont.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--gray)"><div style="font-size:36px;margin-bottom:10px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></div><div style="font-size:13px">Aucun plein enregistré</div><div style="font-size:11px;margin-top:4px;color:var(--gray2)">Vos pleins apparaîtront ici</div></div>';return;}
+  if(!data.length){cont.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--gray)"><div style="font-size:36px;margin-bottom:10px"></div><div style="font-size:13px">Aucun plein enregistré</div><div style="font-size:11px;margin-top:4px;color:var(--gray2)">Vos pleins apparaîtront ici</div></div>';return;}
   cont.innerHTML='';
   data.forEach((p,idx)=>{
     const prixL=p.litres>0?(p.montant/p.litres).toFixed(3):null;
     const d=document.createElement('div');
     d.className='gz-history-item';
     const photoBtn=p.has_ticket?`<button onclick="viewTicketPhoto(${idx})" style="background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.25);border-radius:7px;padding:5px 10px;font-size:11px;color:#6B8E23;cursor:pointer;font-family:inherit;margin-top:8px;display:inline-flex;align-items:center;gap:4px">📷 Voir ticket</button>`:'';
-    d.innerHTML=`
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+    d.innerHTML=` <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
         <div style="font-size:13px;font-weight:700;color:var(--white)">🚐 ${p.vehicule||'—'}</div>
         <div class="gz-price">${fc(p.montant)}</div>
       </div>
       <div class="gz-meta">
-        <span class="gz-chip"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${fmtDate(p.date)}</span>
+        <span class="gz-chip"> ${fmtDate(p.date)}</span>
         ${p.litres?`<span class="gz-chip">🧴 ${p.litres.toFixed(1)} L</span>`:''}
-        ${prixL?`<span class="gz-chip"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> ${prixL} €/L</span>`:''}
+        ${prixL?`<span class="gz-chip"> ${prixL} €/L</span>`:''}
         ${p.note?`<span class="gz-chip">🏪 ${p.note}</span>`:''}
         ${p.saisie_par==='chauffeur'?'<span class="gz-chip" style="color:rgba(22,163,74,0.7)">📱 Envoyé par vous</span>':''}
       </div>
@@ -1538,7 +1531,7 @@ async function submitPleinFromDriver(){
   try{
     const r=await fetch(`${SB}/rest/v1/gazole_pleins`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(payload)});
     if(!r.ok)throw new Error(await r.text());
-    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Plein enregistré avec succès !');
+    toast(' Plein enregistré avec succès !');
     document.getElementById('gz-vehicule').value='';
     document.getElementById('gz-montant').value='';
     document.getElementById('gz-litres').value='';
@@ -1547,8 +1540,8 @@ async function submitPleinFromDriver(){
     document.getElementById('gz-date').value=fd(new Date());
     removeTicketPhoto();
     await loadGazoleHistory();
-  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur: '+e.message,'error');}
-  finally{btn.disabled=false;btn.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Enregistrer le plein';}
+  }catch(e){toast(' Erreur: '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent=' Enregistrer le plein';}
 }
 
 // ── Visionneuse photo ticket ──
@@ -1683,7 +1676,7 @@ async function loadChGroupsList(){
 
   const groups = await OT_MSG.loadGroupList();
   if(groups.length === 0){
-    el.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--gray)"><div style="font-size:36px;margin-bottom:10px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div style="font-size:13px">Vous n\'êtes membre d\'aucun groupe pour l\'instant.</div></div>';
+    el.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--gray)"><div style="font-size:36px;margin-bottom:10px"></div><div style="font-size:13px">Vous n\'êtes membre d\'aucun groupe pour l\'instant.</div></div>';
     return;
   }
 
@@ -1694,7 +1687,7 @@ async function loadChGroupsList(){
     const preview = g.last_message ? escHtml(g.last_message.content.substring(0,55)) : 'Aucun message';
     const time = g.last_message ? OT_MSG.timeAgo(g.last_message.created_at) : '';
     return `<div onclick="openChGroup('${escAttr(g.id)}','${escAttr(g.name)}')" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;">
-      <div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#4FD1E0,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#4FD1E0,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;"></div>
       <div style="flex:1;min-width:0;">
         <div style="font-size:14px;font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(g.name)}</div>
         <div style="font-size:11px;color:var(--gray);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${preview}</div>
@@ -1726,7 +1719,7 @@ async function openChGroup(groupId, groupName){
 
   OT_MSG.loadGroupMembers(groupId).then(members => {
     if(_currentGroupId !== groupId) return;
-    document.getElementById('ch-group-conv-sub').textContent = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${members.length} membre${members.length > 1 ? 's' : ''}`;
+    document.getElementById('ch-group-conv-sub').textContent = ` ${members.length} membre${members.length > 1 ? 's' : ''}`;
   });
 
   await loadChGroupMessages(groupId);
@@ -1808,8 +1801,8 @@ async function sendChMessage(){
   if(msg){
     input.value=''; updateChCharCount();
     await loadChMessages();
-    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Message envoyé');
-  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur envoi, réessayez'); }
+    showToast(' Message envoyé');
+  } else { showToast(' Erreur envoi, réessayez'); }
 }
 
 function updateChGroupCharCount(){
@@ -2021,7 +2014,7 @@ function evUpdateProgress(){
   bar.style.width=pct+'%';
   if(n===5){
     txt.style.color='#6B8E23';
-    icon.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>';
+    icon.textContent='';
     btn.disabled=false;
     btn.textContent='📸 Enregistrer l\'état du véhicule';
   }else{
@@ -2035,8 +2028,7 @@ function evUpdateProgress(){
 function evViewPhoto(src,label,angle){
   const overlay=document.createElement('div');
   overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:500;display:flex;flex-direction:column;';
-  overlay.innerHTML=`
-    <div style="background:var(--navy2);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+  overlay.innerHTML=` <div style="background:var(--navy2);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
       <button onclick="this.closest('[data-ev-overlay]').remove()" style="background:none;border:none;cursor:pointer;font-size:22px;color:var(--gray)">←</button>
       <div style="flex:1;font-size:13px;font-weight:700;color:var(--white)">${label}</div>
       <button onclick="evRemovePhotoFromView('${angle}',this)" style="background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:7px 12px;font-size:12px;color:#D88888;cursor:pointer;font-family:inherit">🗑 Reprendre</button>
@@ -2110,7 +2102,7 @@ async function evSubmit(){
 
   const missing=EV_ANGLES.filter(a=>!_evPhotos[a]);
   if(missing.length){
-    showToast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Photos manquantes : ${missing.map(a=>EV_LABELS[a]).join(', ')}`);
+    showToast(` Photos manquantes : ${missing.map(a=>EV_LABELS[a]).join(', ')}`);
     return;
   }
 
@@ -2136,23 +2128,21 @@ async function evSubmit(){
   EV_ANGLES.forEach(a=>{_evPhotos[a]=null;evUpdateCell(a,null);});
   document.getElementById('ev-km').value='';
   document.getElementById('ev-notes').value='';
-  evUpdateProgress(); // bouton → disabled "5 photos restantes"
-
-  try{
+  evUpdateProgress(); // bouton → disabled "5 photos restantes" try{
     const r=await fetch(`${SB}/rest/v1/etats_vehicule`,{
       method:'POST',
       headers:{...H(),'Prefer':'return=minimal'},
       body:JSON.stringify(payload)
     });
     if(!r.ok){const err=await r.text();throw new Error(err);}
-    showToast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> État "${_evType==='depart'?'Départ':'Retour'}" enregistré`);
+    showToast(` État "${_evType==='depart'?'Départ':'Retour'}" enregistré`);
     loadEvHistory();
     setTimeout(()=>{
       const hist=document.getElementById('ev-history');
       if(hist) window.scrollTo(0,Math.max(0,hist.offsetTop-20));
     },400);
   }catch(e){
-    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur: '+e.message);
+    showToast(' Erreur: '+e.message);
   }
 }
 
@@ -2191,8 +2181,7 @@ async function loadEvHistory(){
 function evViewPhotoHist(src){
   const overlay=document.createElement('div');
   overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:500;display:flex;flex-direction:column;';
-  overlay.innerHTML=`
-    <div style="background:var(--navy2);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+  overlay.innerHTML=` <div style="background:var(--navy2);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
       <button style="background:none;border:none;cursor:pointer;font-size:22px;color:var(--gray)">←</button>
       <div style="flex:1;font-size:13px;font-weight:700;color:var(--white)">Photo</div>
     </div>
@@ -2216,8 +2205,8 @@ async function sendChGroupMessage(){
   if(msg){
     input.value=''; updateChGroupCharCount();
     await loadChGroupMessages(_currentGroupId);
-    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Message envoyé');
-  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur envoi, réessayez'); }
+    showToast(' Message envoyé');
+  } else { showToast(' Erreur envoi, réessayez'); }
 }
 </script>
 </body>
