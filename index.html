@@ -457,7 +457,7 @@ setTimeout(()=>{animCount('cnt-clients',47);animCount('cnt-tournees',3200);animC
 
 function togglePwd(){const inp=document.getElementById('f-pwd');inp.type=inp.type==='password'?'text':'password';document.getElementById('pwd-toggle').textContent=inp.type==='password'?'👁️':'🙈';}
 
-function showError(msg){const e=document.getElementById('error-box');e.textContent=msg;e.classList.add('show');document.getElementById('btn-login').classList.remove('loading');document.getElementById('btn-login').disabled=false;}
+function showError(msg){const e=document.getElementById('error-box');const icon=document.createElement('span');icon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';const text=document.createElement('span');text.textContent=msg.replace(/^\s+/,'');e.innerHTML='';e.appendChild(icon);e.appendChild(text);e.classList.add('show');document.getElementById('btn-login').classList.remove('loading');document.getElementById('btn-login').disabled=false;}
 
 function saveSession(s){const store=document.getElementById('remember').checked?localStorage:sessionStorage;const other=store===localStorage?sessionStorage:localStorage;other.removeItem('ot_session');other.removeItem('ot_logged');store.setItem('ot_session',JSON.stringify(s));store.setItem('ot_logged','1');localStorage.setItem('ot_email',s.email||'');localStorage.removeItem('ot_sa_backup');localStorage.removeItem('ot_sa_company');}
 
