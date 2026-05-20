@@ -61,6 +61,20 @@
 
 /* ═══ Reset léger ═══ */
 * { box-sizing: border-box; }
+
+/* ═══ Icônes SVG inline ═══ */
+svg.ico, .ico {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: -0.125em;
+  fill: none;
+  stroke: currentColor;
+}
+/* Icônes plus grandes dans certains contextes */
+.kpi-card svg.ico, .action-btn svg.ico, .feature-icon svg.ico,
+.empty-state svg.ico, .alert-icon svg.ico { width: 1.4em; height: 1.4em; }
 html, body {
   margin: 0;
   padding: 0;
