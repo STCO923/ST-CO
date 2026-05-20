@@ -14,45 +14,61 @@
 <style>
   body {
     min-height: 100vh;
-    display: grid;
-    place-items: center;
     background:
-      radial-gradient(ellipse at top, rgba(201,169,97,0.06), transparent 60%),
-      radial-gradient(ellipse at bottom, rgba(201,169,97,0.04), transparent 60%),
+      radial-gradient(ellipse 800px 600px at 25% 50%, rgba(201,169,97,0.06), transparent 70%),
+      radial-gradient(ellipse 600px 500px at 80% 80%, rgba(79,209,224,0.03), transparent 70%),
       var(--bg-deep);
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
   }
   body::before {
     content:'';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to bottom, transparent 0%, transparent 95%, rgba(201,169,97,0.2) 100%),
-      repeating-linear-gradient(0deg, transparent 0, transparent 60px, rgba(201,169,97,0.015) 60px, rgba(201,169,97,0.015) 61px);
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,97,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,97,0.02) 1px, transparent 1px);
+    background-size: 80px 80px;
     pointer-events: none;
+    z-index: 0;
   }
-  .login-wrap {
-    width: 100%;
-    max-width: 360px;
-    padding: 24px 20px;
+  .layout {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 60px 80px;
+    position: relative;
     z-index: 1;
   }
-  .login-logo {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .login-logo img {
-    width: 320px;
+  .brand { text-align: center; }
+  .brand img {
+    width: 100%;
+    max-width: 460px;
     height: auto;
-    filter: drop-shadow(0 0 32px rgba(201,169,97,0.22));
+    filter: drop-shadow(0 0 40px rgba(201,169,97,0.25));
   }
+  .brand-tagline {
+    margin-top: 24px;
+    font-family: var(--font-serif);
+    color: var(--gold-dim);
+    font-size: 0.85rem;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+
+  .login-side { display:flex; justify-content:center; }
   .login-card {
+    width: 100%;
+    max-width: 380px;
     background: linear-gradient(180deg, var(--bg-surface), var(--bg-elevated));
     border: 1px solid var(--border-gold);
     border-radius: var(--radius-lg);
-    padding: 28px 26px;
-    box-shadow: var(--shadow-deep), 0 0 50px rgba(201,169,97,0.06);
+    padding: 36px 32px;
+    box-shadow: var(--shadow-deep), 0 0 60px rgba(201,169,97,0.07);
     position: relative;
   }
   .login-card::before {
@@ -64,37 +80,66 @@
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
   }
+  .ai-chip {
+    display: inline-flex; align-items:center; gap:6px;
+    padding: 4px 10px;
+    background: rgba(79,209,224,0.08);
+    border: 1px solid rgba(79,209,224,0.35);
+    border-radius: 99px;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--ai-cyan);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .ai-chip .dot {
+    width: 6px; height: 6px;
+    background: var(--ai-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--ai-cyan);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.6); }
+  }
   .login-title {
     font-family: var(--font-serif);
     color: var(--gold);
-    font-size: 1rem;
+    font-size: 1.1rem;
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
-    text-align: center;
-    margin: 0 0 30px;
-    font-weight: 500;
+    margin: 0 0 6px;
+    font-weight: 600;
   }
-  .field { margin-bottom: 18px; }
+  .login-sub {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    margin-bottom: 26px;
+  }
+  .field { margin-bottom: 16px; }
   .login-actions {
-    margin-top: 28px;
+    margin-top: 24px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
   .login-actions .btn { width: 100%; padding: 14px; }
   .login-extra {
-    margin-top: 18px;
+    margin-top: 16px;
     text-align: center;
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
   }
   .footer {
     position: absolute;
-    bottom: 24px;
+    bottom: 20px;
     left: 0; right: 0;
     text-align: center;
     font-family: var(--font-serif);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     letter-spacing: var(--tracking-wide);
     color: var(--text-faint);
     text-transform: uppercase;
@@ -103,31 +148,42 @@
     color: var(--gold-dim);
     font-style: italic;
     letter-spacing: 0.22em;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 32px 24px 80px;
+    }
+    .brand img { max-width: 280px; }
   }
 </style>
 </head>
 <body>
-  <div class="login-wrap">
-    <div class="login-logo">
+  <div class="layout">
+    <div class="brand">
       <img src="../lib/logo-full.svg?v=7" alt="T SERVICE & CO SUARL">
     </div>
-    <div class="login-card">
-      <h2 class="login-title">Espace de connexion</h2>
-      <div class="field">
-        <label class="label" for="e">Identifiant</label>
-        <input type="email" id="e" placeholder="vous@entreprise.com" autocomplete="email">
-      </div>
-      <div class="field">
-        <label class="label" for="p">Mot de passe</label>
-        <input type="password" id="p" placeholder="••••••••••" autocomplete="current-password">
-      </div>
-      <div class="login-actions">
-        <button class="btn btn-primary">Se connecter</button>
-        <button class="btn btn-ghost">Mot de passe oublié</button>
-      </div>
-      <div class="login-extra">
-        Accès réservé aux entreprises partenaires
+    <div class="login-side">
+      <div class="login-card">
+        <span class="ai-chip"><span class="dot"></span>Plateforme augmentée IA</span>
+        <h2 class="login-title">Espace de connexion</h2>
+        <div class="login-sub">Accédez à votre tableau de bord</div>
+        <div class="field">
+          <label class="label" for="e">Identifiant</label>
+          <input type="email" id="e" placeholder="vous@entreprise.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label class="label" for="p">Mot de passe</label>
+          <input type="password" id="p" placeholder="••••••••••" autocomplete="current-password">
+        </div>
+        <div class="login-actions">
+          <button class="btn btn-primary">Se connecter</button>
+          <button class="btn btn-ghost">Mot de passe oublié</button>
+        </div>
+        <div class="login-extra">Accès réservé aux entreprises partenaires</div>
       </div>
     </div>
   </div>
