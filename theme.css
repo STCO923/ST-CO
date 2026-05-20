@@ -291,7 +291,7 @@ a:hover { color: var(--gold-light); }
   border-bottom: 1px solid var(--border-subtle);
   text-align: center;
 }
-.sidebar-logo img { width: 96px; height: auto; }
+.sidebar-logo img { width: 128px; height: auto; filter: drop-shadow(0 0 12px rgba(201,169,97,0.25)); }
 .sidebar-nav { padding: 16px 0; flex: 1; }
 .sidebar-section {
   font-family: var(--font-serif);
