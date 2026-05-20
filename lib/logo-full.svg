@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" role="img" aria-label="T SERVICE & CO SUARL — T SERVICE PILOTE VOTRE LOGISTIQUE">
+  <defs>
+    <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8C66E"/>
+      <stop offset="50%" stop-color="#C9A961"/>
+      <stop offset="100%" stop-color="#8B7355"/>
+    </linearGradient>
+    <linearGradient id="goldFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F1D27B"/>
+      <stop offset="60%" stop-color="#C9A961"/>
+      <stop offset="100%" stop-color="#8B7355"/>
+    </linearGradient>
+    <linearGradient id="goldDim" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#B89546"/>
+      <stop offset="100%" stop-color="#7A6238"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="520" fill="#0A0A0A"/>
+  <g transform="translate(200 200)" fill="none" stroke="url(#goldStroke)" stroke-width="1.1" opacity="0.85">
+    <g id="braid">
+      <ellipse cx="0" cy="0" rx="160" ry="22"/>
+    </g>
+    <use href="#braid" transform="rotate(7.5)"/>
+    <use href="#braid" transform="rotate(15)"/>
+    <use href="#braid" transform="rotate(22.5)"/>
+    <use href="#braid" transform="rotate(30)"/>
+    <use href="#braid" transform="rotate(37.5)"/>
+    <use href="#braid" transform="rotate(45)"/>
+    <use href="#braid" transform="rotate(52.5)"/>
+    <use href="#braid" transform="rotate(60)"/>
+    <use href="#braid" transform="rotate(67.5)"/>
+    <use href="#braid" transform="rotate(75)"/>
+    <use href="#braid" transform="rotate(82.5)"/>
+    <use href="#braid" transform="rotate(90)"/>
+    <use href="#braid" transform="rotate(97.5)"/>
+    <use href="#braid" transform="rotate(105)"/>
+    <use href="#braid" transform="rotate(112.5)"/>
+    <use href="#braid" transform="rotate(120)"/>
+    <use href="#braid" transform="rotate(127.5)"/>
+    <use href="#braid" transform="rotate(135)"/>
+    <use href="#braid" transform="rotate(142.5)"/>
+    <use href="#braid" transform="rotate(150)"/>
+    <use href="#braid" transform="rotate(157.5)"/>
+    <use href="#braid" transform="rotate(165)"/>
+    <use href="#braid" transform="rotate(172.5)"/>
+  </g>
+  <g transform="translate(140 195)" fill="none" stroke="url(#goldFill)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="-2" y="-18" width="38" height="22" rx="2"/>
+    <path d="M 36 -10 L 50 -10 L 56 -2 L 56 4 L 36 4 Z"/>
+    <circle cx="6" cy="8" r="4.5"/>
+    <circle cx="22" cy="8" r="4.5"/>
+    <circle cx="48" cy="8" r="4.5"/>
+  </g>
+  <line x1="208" y1="140" x2="208" y2="260" stroke="url(#goldFill)" stroke-width="2"/>
+  <text x="225" y="240" font-family="Cinzel, 'Cormorant Garamond', Georgia, serif" font-weight="600" font-size="92" fill="url(#goldFill)" letter-spacing="2">T.S</text>
+  <text x="200" y="430" text-anchor="middle" font-family="Cinzel, 'Cormorant Garamond', Georgia, serif" font-weight="500" font-size="30" fill="url(#goldFill)" letter-spacing="4">T SERVICE &amp; CO SUARL</text>
+  <line x1="80" y1="460" x2="320" y2="460" stroke="url(#goldDim)" stroke-width="1"/>
+  <text x="200" y="492" text-anchor="middle" font-family="Cinzel, 'Cormorant Garamond', Georgia, serif" font-weight="400" font-size="14" fill="url(#goldDim)" letter-spacing="3">T SERVICE PILOTE VOTRE LOGISTIQUE</text>
+</svg>

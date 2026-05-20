@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>T SERVICE & CO — Tableau de bord (maquette)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="icon" href="../lib/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../theme.css">
+<style>
+  body { display:flex; min-height:100vh; }
+  .main { flex:1; padding: 28px 36px; overflow-x: hidden; }
+  .topbar {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 28px;
+  }
+  .topbar-title h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+  .topbar-title .crumb {
+    font-family: var(--font-serif);
+    font-size: 0.72rem;
+    letter-spacing: var(--tracking-wide);
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .topbar-user {
+    display:flex; align-items:center; gap:14px;
+    padding: 8px 14px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 99px;
+  }
+  .avatar {
+    width: 32px; height:32px;
+    border-radius: 99px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-dim));
+    color: var(--bg-deep);
+    display:grid; place-items:center;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .topbar-user .name { font-size: 0.85rem; color: var(--text-primary); }
+  .topbar-user .role { font-size: 0.7rem; color: var(--gold-dim); }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .kpi-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .25s, transform .25s;
+  }
+  .kpi-card::after {
+    content:'';
+    position: absolute; right:-20px; top:-20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,169,97,0.12), transparent 70%);
+  }
+  .kpi-card:hover { border-color: var(--border-gold); transform: translateY(-2px); }
+  .kpi-delta { font-family: var(--font-mono); font-size: 0.78rem; margin-top: 6px; }
+  .kpi-delta.up { color: #A8C078; }
+  .kpi-delta.down { color: #D88; }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 18px;
+  }
+  .panel-title {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 18px;
+  }
+  .panel-title h3 { margin: 0; font-size: 0.9rem; letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+
+  .chart {
+    height: 220px;
+    background:
+      linear-gradient(180deg, transparent, rgba(201,169,97,0.04)),
+      var(--bg-deep);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-subtle);
+    position: relative;
+    overflow: hidden;
+  }
+  .chart svg { width: 100%; height: 100%; }
+
+  .activity { display:flex; flex-direction:column; gap:14px; }
+  .activity-item {
+    display:flex; align-items:flex-start; gap:12px;
+    padding: 12px 14px;
+    background: var(--bg-deep);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+  }
+  .activity-dot {
+    width: 8px; height:8px;
+    border-radius: 99px;
+    background: var(--gold);
+    margin-top: 6px;
+    box-shadow: 0 0 8px var(--gold);
+    flex-shrink: 0;
+  }
+  .activity-body { flex:1; font-size: 0.88rem; }
+  .activity-time { color: var(--text-faint); font-size: 0.75rem; margin-top: 3px; font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../lib/logo-mark.svg" alt="T.S">
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Pilotage</div>
+      <a class="sidebar-link active" href="#">Tableau de bord</a>
+      <a class="sidebar-link" href="#">Planning</a>
+      <a class="sidebar-link" href="#">Tournées</a>
+      <a class="sidebar-link" href="#">Feuille de route</a>
+
+      <div class="sidebar-section">Ressources</div>
+      <a class="sidebar-link" href="#">Chauffeurs</a>
+      <a class="sidebar-link" href="#">Véhicules</a>
+      <a class="sidebar-link" href="#">Clients</a>
+
+      <div class="sidebar-section">Finances</div>
+      <a class="sidebar-link" href="#">Factures</a>
+      <a class="sidebar-link" href="#">Gazole</a>
+      <a class="sidebar-link" href="#">RH &amp; Paie</a>
+
+      <div class="sidebar-section">Administration</div>
+      <a class="sidebar-link" href="#">Paramètres</a>
+      <a class="sidebar-link" href="#">Messagerie</a>
+    </nav>
+    <div class="sidebar-footer">T.S · v5.0</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title">
+        <div class="crumb">Pilotage · Tableau de bord</div>
+        <h1>Bonjour, <span style="color:var(--gold)">TRANSIT EXPRESS</span></h1>
+      </div>
+      <div class="topbar-user">
+        <div class="avatar">TX</div>
+        <div>
+          <div class="name">Admin principal</div>
+          <div class="role">Plan Business</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-value">142</div>
+        <div class="kpi-label">Tournées · semaine</div>
+        <div class="kpi-delta up">▲ 12% vs S-1</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">€ 38 420</div>
+        <div class="kpi-label">CA semaine</div>
+        <div class="kpi-delta up">▲ 8.4%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">18</div>
+        <div class="kpi-label">Chauffeurs actifs</div>
+        <div class="kpi-delta up">▲ 2 ce mois</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">97<span style="font-size:1.4rem">%</span></div>
+        <div class="kpi-label">Taux livraison</div>
+        <div class="kpi-delta down">▼ 1.2%</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="panel-title">
+          <h3>Performance · 30 derniers jours</h3>
+          <span class="badge badge-outline">Tournées validées</span>
+        </div>
+        <div class="chart">
+          <svg viewBox="0 0 600 220" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#C9A961" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#C9A961" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#8B7355"/>
+                <stop offset="50%" stop-color="#F1D27B"/>
+                <stop offset="100%" stop-color="#C9A961"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,170 C40,150 80,130 120,135 C160,140 200,100 240,90 C280,80 320,110 360,95 C400,80 440,55 480,60 C520,65 560,40 600,30 L600,220 L0,220 Z"
+                  fill="url(#area)"/>
+            <path d="M0,170 C40,150 80,130 120,135 C160,140 200,100 240,90 C280,80 320,110 360,95 C400,80 440,55 480,60 C520,65 560,40 600,30"
+                  fill="none" stroke="url(#line)" stroke-width="2"/>
+            <g fill="#C9A961">
+              <circle cx="120" cy="135" r="3"/>
+              <circle cx="240" cy="90" r="3"/>
+              <circle cx="360" cy="95" r="3"/>
+              <circle cx="480" cy="60" r="3"/>
+              <circle cx="600" cy="30" r="3"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="panel-title">
+          <h3>Activité récente</h3>
+          <a href="#" style="font-size:0.78rem;">Tout voir →</a>
+        </div>
+        <div class="activity">
+          <div class="activity-item">
+            <span class="activity-dot"></span>
+            <div class="activity-body">
+              Tournée validée par <strong style="color:var(--gold)">M. Diop</strong>
+              <div class="activity-time">il y a 4 min</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot" style="background:#A8C078;box-shadow:0 0 8px #6B8E23"></span>
+            <div class="activity-body">
+              Nouvelle facture <strong>F-2026-0148</strong> émise
+              <div class="activity-time">il y a 23 min</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot"></span>
+            <div class="activity-body">
+              <strong style="color:var(--gold)">3 absences</strong> approuvées
+              <div class="activity-time">il y a 1 h</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot" style="background:#D88;box-shadow:0 0 8px #8B2C2C"></span>
+            <div class="activity-body">
+              Véhicule <strong>AB-123-CD</strong> : CT à renouveler
+              <div class="activity-time">il y a 2 h</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

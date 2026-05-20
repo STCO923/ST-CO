@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>T SERVICE & CO — Planning (maquette)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="icon" href="../lib/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../theme.css">
+<style>
+  body { display:flex; min-height:100vh; }
+  .main { flex:1; padding: 24px 32px; min-width: 0; }
+  .topbar {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 22px;
+  }
+  .topbar h1 { margin: 0; font-size: 1.5rem; color: var(--text-primary); font-weight: 400; }
+  .crumb {
+    font-family: var(--font-serif);
+    font-size: 0.72rem;
+    letter-spacing: var(--tracking-wide);
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .actions { display:flex; gap:10px; }
+  .filters {
+    display:flex; gap:10px; flex-wrap:wrap;
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    margin-bottom: 18px;
+    align-items:center;
+  }
+  .filter-chip {
+    display:inline-flex; gap:6px; align-items:center;
+    padding: 6px 12px;
+    background: var(--bg-deep);
+    border: 1px solid var(--border-subtle);
+    border-radius: 99px;
+    font-size: 0.82rem;
+    cursor:pointer;
+    transition: all .2s;
+  }
+  .filter-chip.on {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201,169,97,0.06);
+  }
+  .week-nav {
+    margin-left: auto;
+    display:flex; align-items:center; gap:8px;
+    font-family: var(--font-serif);
+    color: var(--gold);
+    letter-spacing: var(--tracking);
+  }
+  .nav-btn {
+    width: 30px; height: 30px;
+    display:grid; place-items:center;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--bg-deep);
+    color: var(--gold);
+    cursor:pointer;
+  }
+  .nav-btn:hover { border-color: var(--gold); }
+
+  .tbl-wrap {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .planning-tbl { width:100%; border-collapse: collapse; }
+  .planning-tbl thead th {
+    background: var(--bg-deep);
+    color: var(--gold);
+    font-family: var(--font-serif);
+    font-size: 0.72rem;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border-gold);
+    text-align: left;
+  }
+  .planning-tbl thead .day-num {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    display:block;
+    margin-top: 2px;
+  }
+  .planning-tbl thead th.today { background: rgba(201,169,97,0.08); }
+  .planning-tbl thead th.today .day-num { color: var(--gold-bright); }
+
+  .planning-tbl tbody td {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border-subtle);
+    border-right: 1px solid var(--border-subtle);
+    font-size: 0.85rem;
+    vertical-align: top;
+  }
+  .planning-tbl tbody td:last-child { border-right: none; }
+  .planning-tbl tbody td:first-child {
+    background: var(--bg-deep);
+    color: var(--gold);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    width: 180px;
+    padding: 16px 16px;
+    border-right: 1px solid var(--border-gold);
+  }
+  .planning-tbl tbody tr:hover { background: var(--bg-hover); }
+
+  .slot {
+    display: block;
+    margin-bottom: 6px;
+    padding: 6px 10px;
+    background: var(--bg-deep);
+    border-left: 2px solid var(--gold);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .slot:hover {
+    background: rgba(201,169,97,0.08);
+    border-left-color: var(--gold-bright);
+  }
+  .slot .time {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--gold);
+    margin-right: 6px;
+  }
+  .slot.am { border-left-color: var(--gold-light); }
+  .slot.pm { border-left-color: var(--gold-dim); }
+  .slot.locked { border-left-color: #D88; opacity: 0.85; }
+  .slot.empty {
+    background: transparent;
+    border: 1px dashed var(--border-subtle);
+    color: var(--text-faint);
+    text-align: center;
+    font-style: italic;
+  }
+  .slot.empty:hover { border-color: var(--gold-dim); color: var(--gold-dim); }
+
+  .planning-tbl tbody tr:last-child td { border-bottom: none; }
+  .chauffeur-name { display:block; }
+  .chauffeur-meta {
+    display:block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    margin-top: 2px;
+    font-weight: 400;
+  }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../lib/logo-mark.svg" alt="T.S">
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Pilotage</div>
+      <a class="sidebar-link" href="#">Tableau de bord</a>
+      <a class="sidebar-link active" href="#">Planning</a>
+      <a class="sidebar-link" href="#">Tournées</a>
+      <a class="sidebar-link" href="#">Feuille de route</a>
+
+      <div class="sidebar-section">Ressources</div>
+      <a class="sidebar-link" href="#">Chauffeurs</a>
+      <a class="sidebar-link" href="#">Véhicules</a>
+      <a class="sidebar-link" href="#">Clients</a>
+
+      <div class="sidebar-section">Finances</div>
+      <a class="sidebar-link" href="#">Factures</a>
+      <a class="sidebar-link" href="#">Gazole</a>
+      <a class="sidebar-link" href="#">RH &amp; Paie</a>
+    </nav>
+    <div class="sidebar-footer">T.S · v5.0</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="crumb">Pilotage · Planning</div>
+        <h1>Planning hebdomadaire</h1>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary">Exporter PDF</button>
+        <button class="btn btn-primary">+ Nouvelle tournée</button>
+      </div>
+    </div>
+
+    <div class="filters">
+      <span class="filter-chip on">Tous</span>
+      <span class="filter-chip">AM uniquement</span>
+      <span class="filter-chip">PM uniquement</span>
+      <span class="filter-chip">Sous-traitants</span>
+      <span class="filter-chip">Salariés</span>
+      <div class="week-nav">
+        <button class="nav-btn">‹</button>
+        <span>Semaine 21 · 18 → 24 mai 2026</span>
+        <button class="nav-btn">›</button>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="planning-tbl">
+        <thead>
+          <tr>
+            <th>Chauffeur</th>
+            <th>Lundi <span class="day-num">18</span></th>
+            <th>Mardi <span class="day-num">19</span></th>
+            <th class="today">Mercredi <span class="day-num">20</span></th>
+            <th>Jeudi <span class="day-num">21</span></th>
+            <th>Vendredi <span class="day-num">22</span></th>
+            <th>Samedi <span class="day-num">23</span></th>
+            <th>Dimanche <span class="day-num">24</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="chauffeur-name">Mamadou DIOP</span>
+              <span class="chauffeur-meta">Salarié · AB-123-CD</span>
+            </td>
+            <td><div class="slot am"><span class="time">06:00</span>MMP Thiais</div><div class="slot pm"><span class="time">14:00</span>Rungis Carrefour</div></td>
+            <td><div class="slot am"><span class="time">06:00</span>MMP Thiais</div><div class="slot empty">—</div></td>
+            <td><div class="slot am"><span class="time">06:00</span>MMP Thiais</div><div class="slot pm"><span class="time">14:00</span>Auchan Vélizy</div></td>
+            <td><div class="slot am"><span class="time">06:00</span>MMP Thiais</div><div class="slot pm"><span class="time">14:00</span>Carrefour Évry</div></td>
+            <td><div class="slot am"><span class="time">06:00</span>MMP Thiais</div><div class="slot empty">—</div></td>
+            <td><div class="slot empty">—</div><div class="slot empty">—</div></td>
+            <td><div class="slot empty">Repos</div><div class="slot empty">Repos</div></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="chauffeur-name">Oumar BA</span>
+              <span class="chauffeur-meta">Salarié · EF-456-GH</span>
+            </td>
+            <td><div class="slot am"><span class="time">07:00</span>Auchan Vélizy</div><div class="slot pm"><span class="time">15:00</span>Lidl Massy</div></td>
+            <td><div class="slot am"><span class="time">07:00</span>Auchan Vélizy</div><div class="slot pm"><span class="time">15:00</span>Lidl Massy</div></td>
+            <td><div class="slot locked"><span class="time">—</span>Absence approuvée</div><div class="slot locked"><span class="time">—</span>Absence approuvée</div></td>
+            <td><div class="slot am"><span class="time">07:00</span>Auchan Vélizy</div><div class="slot pm"><span class="time">15:00</span>Lidl Massy</div></td>
+            <td><div class="slot am"><span class="time">07:00</span>Auchan Vélizy</div><div class="slot pm"><span class="time">15:00</span>Carrefour Évry</div></td>
+            <td><div class="slot am"><span class="time">08:00</span>MMP Thiais</div><div class="slot empty">—</div></td>
+            <td><div class="slot empty">Repos</div><div class="slot empty">Repos</div></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="chauffeur-name">Idriss FALL</span>
+              <span class="chauffeur-meta">Sous-traitant · IJ-789-KL</span>
+            </td>
+            <td><div class="slot am"><span class="time">05:30</span>Rungis Carrefour</div><div class="slot pm"><span class="time">13:30</span>Auchan Vélizy</div></td>
+            <td><div class="slot am"><span class="time">05:30</span>Rungis Carrefour</div><div class="slot pm"><span class="time">13:30</span>Auchan Vélizy</div></td>
+            <td><div class="slot am"><span class="time">05:30</span>Rungis Carrefour</div><div class="slot pm"><span class="time">13:30</span>Lidl Massy</div></td>
+            <td><div class="slot am"><span class="time">05:30</span>Rungis Carrefour</div><div class="slot empty">—</div></td>
+            <td><div class="slot am"><span class="time">05:30</span>Rungis Carrefour</div><div class="slot pm"><span class="time">13:30</span>Auchan Vélizy</div></td>
+            <td><div class="slot am"><span class="time">06:00</span>MMP Thiais</div><div class="slot pm"><span class="time">14:00</span>Carrefour Évry</div></td>
+            <td><div class="slot am"><span class="time">08:00</span>Rungis dim.</div><div class="slot empty">—</div></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="chauffeur-name">Cheikh NDIAYE</span>
+              <span class="chauffeur-meta">Salarié · MN-012-OP</span>
+            </td>
+            <td><div class="slot am"><span class="time">06:30</span>Lidl Massy</div><div class="slot pm"><span class="time">14:30</span>Carrefour Évry</div></td>
+            <td><div class="slot am"><span class="time">06:30</span>Lidl Massy</div><div class="slot pm"><span class="time">14:30</span>Carrefour Évry</div></td>
+            <td><div class="slot am"><span class="time">06:30</span>Lidl Massy</div><div class="slot pm"><span class="time">14:30</span>Carrefour Évry</div></td>
+            <td><div class="slot am"><span class="time">06:30</span>Lidl Massy</div><div class="slot pm"><span class="time">14:30</span>Carrefour Évry</div></td>
+            <td><div class="slot am"><span class="time">06:30</span>Lidl Massy</div><div class="slot empty">—</div></td>
+            <td><div class="slot empty">—</div><div class="slot empty">—</div></td>
+            <td><div class="slot empty">Repos</div><div class="slot empty">Repos</div></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="chauffeur-name">Aminata SECK</span>
+              <span class="chauffeur-meta">Salariée · QR-345-ST</span>
+            </td>
+            <td><div class="slot am"><span class="time">07:30</span>Carrefour Évry</div><div class="slot pm"><span class="time">15:30</span>MMP Thiais</div></td>
+            <td><div class="slot am"><span class="time">07:30</span>Carrefour Évry</div><div class="slot pm"><span class="time">15:30</span>MMP Thiais</div></td>
+            <td><div class="slot am"><span class="time">07:30</span>Carrefour Évry</div><div class="slot pm"><span class="time">15:30</span>MMP Thiais</div></td>
+            <td><div class="slot am"><span class="time">07:30</span>Carrefour Évry</div><div class="slot pm"><span class="time">15:30</span>MMP Thiais</div></td>
+            <td><div class="slot am"><span class="time">07:30</span>Carrefour Évry</div><div class="slot pm"><span class="time">15:30</span>MMP Thiais</div></td>
+            <td><div class="slot am"><span class="time">08:00</span>Lidl Massy</div><div class="slot empty">—</div></td>
+            <td><div class="slot empty">Repos</div><div class="slot empty">Repos</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
