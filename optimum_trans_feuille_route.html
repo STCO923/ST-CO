@@ -1417,15 +1417,6 @@ function setSI(msg,color){const el=document.getElementById('sync-info');el.textC
 function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'':''}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
 </script>
 
-<script>
-// Raccourci secret Super Admin : Ctrl+Shift+A
-document.addEventListener('keydown', function(e){
-  if(e.ctrlKey && e.shiftKey && e.key === 'A'){
-    window.location.href = 'optimum_trans_superadmin.html';
-  }
-});
-</script>
-
 
 <!-- ══ COOKIE BANNER ══ -->
 <div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">

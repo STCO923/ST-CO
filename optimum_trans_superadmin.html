@@ -971,7 +971,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const SA_UID='f38392d8-984b-4124-ac07-b6fbda633b2d';
   const raw=localStorage.getItem('ot_session')||sessionStorage.getItem('ot_session');
   let sess=null; try{sess=JSON.parse(raw||'');}catch(e){}
-  if(!sess||!sess.token||sess.id!==SA_UID){window.location.href='optimum_trans_dashboard.html';return;}
+  if(!sess||sess.id!==SA_UID){window.location.href='optimum_trans_dashboard.html';return;}
   renderPlanSelector();
   loadCompanies();
   // Indicateur clé API (sessionStorage, pas localStorage)
