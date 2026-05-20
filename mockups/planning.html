@@ -162,6 +162,107 @@
     margin-top: 2px;
     font-weight: 400;
   }
+
+  /* Animation apparition */
+  .tbl-wrap, .filters { opacity: 0; animation: fadeUp 0.4s ease forwards; }
+  .filters { animation-delay: 0.05s; }
+  .tbl-wrap { animation-delay: 0.15s; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .filter-chip:hover { border-color: var(--gold-dim); color: var(--gold-dim); }
+  .filter-chip.on:hover { border-color: var(--gold-bright); color: var(--gold-bright); }
+
+  .sidebar-link { position: relative; }
+  .sidebar-link::after {
+    content: ''; position: absolute;
+    right: 16px; top: 50%;
+    width: 4px; height: 4px;
+    background: var(--gold); border-radius: 50%;
+    transform: translateY(-50%) scale(0);
+    transition: transform 0.2s; box-shadow: 0 0 6px var(--gold);
+  }
+  .sidebar-link.active::after { transform: translateY(-50%) scale(1); }
+
+  /* Modale */
+  .modal-backdrop {
+    position: fixed; inset:0;
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+    z-index: 100; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s; display: grid; place-items: center;
+  }
+  .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+  .modal {
+    width: 100%; max-width: 460px;
+    background: linear-gradient(180deg, var(--bg-surface), var(--bg-elevated));
+    border: 1px solid var(--border-gold);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    transform: translateY(20px) scale(0.96);
+    transition: transform 0.25s;
+    box-shadow: var(--shadow-deep), 0 0 60px rgba(201,169,97,0.1);
+    position: relative;
+  }
+  .modal-backdrop.open .modal { transform: translateY(0) scale(1); }
+  .modal::before {
+    content:''; position: absolute; top:-1px; left:50%;
+    transform: translateX(-50%); width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom: 16px; }
+  .modal-head h3 {
+    margin: 0; font-family: var(--font-serif); color: var(--gold);
+    font-size: 1rem; letter-spacing: var(--tracking); text-transform: uppercase; font-weight: 600;
+  }
+  .modal-close {
+    background: transparent; border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm); width: 28px; height: 28px;
+    color: var(--text-muted); cursor: pointer; display:grid; place-items:center;
+  }
+  .modal-close:hover { color: var(--gold); border-color: var(--gold); }
+  .modal-row {
+    display:flex; justify-content:space-between; padding: 8px 0;
+    border-bottom: 1px solid var(--border-subtle); font-size: 0.88rem;
+  }
+  .modal-row:last-of-type { border-bottom: none; }
+  .modal-row .lbl { color: var(--text-muted); font-family: var(--font-serif); font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .modal-row .val { color: var(--text-primary); font-family: var(--font-mono); }
+  .modal-actions { margin-top: 20px; display: flex; gap: 10px; }
+  .modal-actions .btn { flex: 1; padding: 10px; }
+
+  /* IA mini badge */
+  .ai-mini {
+    display:inline-flex; align-items:center; gap:6px;
+    padding: 5px 12px;
+    background: rgba(79,209,224,0.06);
+    border: 1px solid rgba(79,209,224,0.35);
+    border-radius: 99px;
+    font-family: var(--font-mono); font-size: 0.66rem;
+    color: var(--ai-cyan); letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+  }
+  .ai-mini:hover { background: rgba(79,209,224,0.12); }
+  .ai-mini .d {
+    width: 6px; height: 6px; background: var(--ai-cyan);
+    border-radius: 50%; box-shadow: 0 0 6px var(--ai-cyan);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:0.4; transform: scale(0.6); } }
+
+  /* Toast */
+  .toast {
+    position: fixed; top: 24px; right: 24px;
+    padding: 12px 18px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-gold);
+    border-radius: var(--radius);
+    color: var(--text-primary); font-size: 0.86rem;
+    box-shadow: var(--shadow-deep), 0 0 24px rgba(201,169,97,0.2);
+    opacity: 0; transform: translateX(20px);
+    transition: all 0.3s; z-index: 101;
+    display: flex; align-items: center; gap: 10px; max-width: 320px;
+  }
+  .toast.show { opacity: 1; transform: translateX(0); }
+  .toast svg { width: 16px; height: 16px; color: var(--gold); }
 </style>
 </head>
 <body>
@@ -196,8 +297,9 @@
         <h1>Planning hebdomadaire</h1>
       </div>
       <div class="actions">
-        <button class="btn btn-secondary">Exporter PDF</button>
-        <button class="btn btn-primary">+ Nouvelle tournée</button>
+        <span class="ai-mini" id="ai-suggest"><span class="d"></span>IA · Optimiser semaine</span>
+        <button class="btn btn-secondary" id="export-btn">Exporter PDF</button>
+        <button class="btn btn-primary" id="add-btn">+ Nouvelle tournée</button>
       </div>
     </div>
 
@@ -298,5 +400,117 @@
       </table>
     </div>
   </main>
+
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="modal-title">Détail tournée</h3>
+        <button class="modal-close" id="modal-close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="modal-body">
+        <div class="modal-row"><span class="lbl">Chauffeur</span><span class="val" id="m-driver">—</span></div>
+        <div class="modal-row"><span class="lbl">Jour</span><span class="val" id="m-day">—</span></div>
+        <div class="modal-row"><span class="lbl">Créneau</span><span class="val" id="m-slot">—</span></div>
+        <div class="modal-row"><span class="lbl">Heure</span><span class="val" id="m-hour">—</span></div>
+        <div class="modal-row"><span class="lbl">Client</span><span class="val" id="m-client">—</span></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="modal-cancel">Annuler</button>
+        <button class="btn btn-primary" id="modal-save">Modifier</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>
+    <span id="toast-text">Action effectuée</span>
+  </div>
+
+<script>
+  const toast = document.getElementById('toast');
+  const toastText = document.getElementById('toast-text');
+  function showToast(msg) {
+    toastText.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2400);
+  }
+
+  // Filter chips
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
+      chip.classList.add('on');
+      showToast('Filtre : ' + chip.textContent);
+    });
+  });
+
+  // Sidebar nav
+  document.querySelectorAll('.sidebar-link').forEach(link => {
+    link.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+
+  // Slot click → modale
+  const days = ['Lundi 18 mai','Mardi 19 mai','Mercredi 20 mai','Jeudi 21 mai','Vendredi 22 mai','Samedi 23 mai','Dimanche 24 mai'];
+  const backdrop = document.getElementById('modal-backdrop');
+  function openModal({driver, day, slot, hour, client}) {
+    document.getElementById('m-driver').textContent = driver;
+    document.getElementById('m-day').textContent = day;
+    document.getElementById('m-slot').textContent = slot;
+    document.getElementById('m-hour').textContent = hour;
+    document.getElementById('m-client').textContent = client;
+    backdrop.classList.add('open');
+  }
+  function closeModal() { backdrop.classList.remove('open'); }
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel').addEventListener('click', closeModal);
+  backdrop.addEventListener('click', (ev) => { if (ev.target === backdrop) closeModal(); });
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
+  document.getElementById('modal-save').addEventListener('click', () => {
+    closeModal(); showToast('Tournée modifiée');
+  });
+
+  document.querySelectorAll('.planning-tbl tbody tr').forEach(tr => {
+    const driver = tr.querySelector('.chauffeur-name')?.textContent || '—';
+    const tds = tr.querySelectorAll('td');
+    for (let i = 1; i < tds.length; i++) {
+      tds[i].querySelectorAll('.slot').forEach((sl, idx) => {
+        sl.addEventListener('click', () => {
+          if (sl.classList.contains('empty')) {
+            showToast('Ajouter une tournée — ' + days[i-1]);
+            return;
+          }
+          const hour = sl.querySelector('.time')?.textContent || '—';
+          const txt = sl.textContent.replace(hour, '').trim();
+          openModal({
+            driver,
+            day: days[i-1],
+            slot: idx === 0 ? 'AM (matin)' : 'PM (après-midi)',
+            hour,
+            client: txt
+          });
+        });
+      });
+    }
+  });
+
+  // Boutons header
+  document.getElementById('export-btn').addEventListener('click', () => showToast('Export PDF généré'));
+  document.getElementById('add-btn').addEventListener('click', () => showToast('Nouvelle tournée — formulaire'));
+  document.getElementById('ai-suggest').addEventListener('click', () => {
+    showToast('IA en cours d’optimisation…');
+    setTimeout(() => showToast('14 tournées réorganisées · marge +8%'), 1500);
+  });
+
+  // Navigation semaine
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => showToast('Changement de semaine'));
+  });
+</script>
 </body>
 </html>
