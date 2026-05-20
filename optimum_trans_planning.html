@@ -558,7 +558,7 @@ const OT = (() => {
     const s = getSession();
     if (!s) return false;
     if (s.id === 'demo') { if (feature === 'monmarche') return false; return true; }
-    if (s.role === 'superadmin') return true;
+    if (s.role === 'superadmin' || s.role === 'admin') return true;
     if (feature === 'feuille_route') return s.addon_route === true;
     if (feature === 'saisie') return s.addon_saisie === true;
     if (feature === 'monmarche') return s.addon_monmarche === true;

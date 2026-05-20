@@ -385,7 +385,7 @@ const OT = (() => {
     const s = getSession();
     if (!s) return false;
     if (s.id === 'demo') { if (feature === 'monmarche') return false; return true; }
-    if (s.role === 'superadmin') return true;
+    if (s.role === 'superadmin' || s.role === 'admin') return true;
     if (feature === 'feuille_route') return s.addon_route === true;
     if (feature === 'saisie') return s.addon_saisie === true;
     if (feature === 'monmarche') return s.addon_monmarche === true;
@@ -979,21 +979,22 @@ async function loadAll(){
       fetch(`${URL_SB}/rest/v1/maintenance_vehicules?${cfq}date_maintenance=gte.${MONTH_START}&date_maintenance=lte.${MONTH_END}&select=vehicule_immat,cout`,{headers:H()}).then(r=>r.ok?r.json():[]).catch(()=>[]),
       fetch(`${URL_SB}/rest/v1/entreprise?company_id=eq.${OT.getCompanyId()}&limit=1`,{headers:H()}).then(r=>r.ok?r.json():[]).catch(()=>[]),
     ]);
-    await _zoneLoad;
+    await _zoneLoad.catch(()=>{});
     const entreprise = (Array.isArray(entrepriseRes) && entrepriseRes[0]) || {};
 
     // Rapport financier complet du mois (même calcul que Clients & Facturation)
-    const monthReport = window.OT_FINANCE ? OT_FINANCE.computeReport({
+    let monthReport = null;
+    try{ monthReport = window.OT_FINANCE ? OT_FINANCE.computeReport({
       clients, tournees: month, chauffeurs, vehicules, gazole, maintenance, entreprise,
       period: { start: MONTH_START, end: MONTH_END }
-    }) : null;
+    }) : null; }catch(_){}
 
-    renderKPIs(today, week2, month, chauffeurs, clients, monthReport);
-    renderToday(today);
-    renderTopChauffeurs(monthReport, chauffeurs);
-    renderTopClients(monthReport, clients);
-    renderRecent(recent);
-    renderAlertes(chauffeurs, month);
+    try{ renderKPIs(today, week2, month, chauffeurs, clients, monthReport); }catch(_){}
+    try{ renderToday(today); }catch(_){}
+    try{ renderTopChauffeurs(monthReport, chauffeurs); }catch(_){}
+    try{ renderTopClients(monthReport, clients); }catch(_){}
+    try{ renderRecent(recent); }catch(_){}
+    try{ renderAlertes(chauffeurs, month); }catch(_){}
     setSyncInfo(`Mis à jour ${now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}`,'#6B8E23');
   }catch(e){
     console.warn('loadAll error:',e);
