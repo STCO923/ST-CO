@@ -795,7 +795,8 @@ function xlTime(v){
     const h=Math.floor(totalMins/60),m=totalMins%60;
     return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
   }
-  // Chaîne : "H:MM:SS", "HH:MM:SS", "H:MM", "HH:MM" if(typeof v==='string'){
+  // Chaîne : "H:MM:SS", "HH:MM:SS", "H:MM", "HH:MM"
+  if(typeof v==='string'){
     const t=v.trim();
     if(!t)return null;
     // Zéro explicite sous toutes ses formes
