@@ -366,6 +366,18 @@ const OT = (() => {
 
 function logout() { OT.logout(); }
 
+// ── Raccourci superadmin Ctrl+Shift+A (toutes les pages) ─────
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+    var _r = localStorage.getItem('ot_session') || sessionStorage.getItem('ot_session');
+    var _s = null;
+    try { _s = JSON.parse(_r || ''); } catch(_) {}
+    if (_s && _s.id === 'f38392d8-984b-4124-ac07-b6fbda633b2d') {
+      window.location.href = 'optimum_trans_superadmin.html';
+    }
+  }
+});
+
 // ── Détection mise à jour SW ──────────────────────────────────
 function _showSwBanner() {
   if (document.getElementById('sw-update-banner')) return;
