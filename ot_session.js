@@ -55,19 +55,19 @@ const OT = (() => {
       el.style.display = 'none';
     });
 
-    // Bouton Super Admin : visible uniquement pour le propriétaire (SA_UID)
+    // Bouton Super Admin flottant : fixé en haut à droite, visible uniquement
+    // pour le propriétaire (SA_UID). Position fixe pour éviter tous les
+    // problèmes de sidebar masquée / mobile / collapse.
     if (s.id === 'f38392d8-984b-4124-ac07-b6fbda633b2d' && !document.getElementById('ot-sa-btn')) {
-      var footer = document.querySelector('.sidebar-footer');
-      if (footer) {
-        var btn = document.createElement('a');
-        btn.id = 'ot-sa-btn';
-        btn.href = 'optimum_trans_superadmin.html';
-        btn.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 12px;margin-bottom:8px;background:linear-gradient(135deg,rgba(201,169,97,0.15),rgba(201,169,97,0.05));border:1px solid rgba(201,169,97,0.4);border-radius:10px;color:#C9A961;text-decoration:none;font-family:Outfit,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.5px;transition:all 0.2s;cursor:pointer;';
-        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> SUPER ADMIN';
-        btn.onmouseover = function(){ this.style.background = 'linear-gradient(135deg,rgba(201,169,97,0.25),rgba(201,169,97,0.1))'; };
-        btn.onmouseout  = function(){ this.style.background = 'linear-gradient(135deg,rgba(201,169,97,0.15),rgba(201,169,97,0.05))'; };
-        footer.insertBefore(btn, footer.firstChild);
-      }
+      var btn = document.createElement('a');
+      btn.id = 'ot-sa-btn';
+      btn.href = 'optimum_trans_superadmin.html';
+      btn.title = 'Super Admin';
+      btn.style.cssText = 'position:fixed;top:14px;right:14px;z-index:99998;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;background:linear-gradient(135deg,#C9A961,#B8924A);border:1px solid #C9A961;border-radius:10px;color:#0A0A0A;text-decoration:none;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 4px 14px rgba(201,169,97,0.35);transition:transform 0.15s ease;';
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> SUPER ADMIN';
+      btn.onmouseover = function(){ this.style.transform = 'translateY(-1px)'; };
+      btn.onmouseout  = function(){ this.style.transform = 'translateY(0)'; };
+      document.body.appendChild(btn);
     }
 
     var rules = [
