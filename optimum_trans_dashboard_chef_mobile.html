@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Tableau de bord — T SERVICE & CO</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="T.S">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts.css">
 <style>
 :root{
-  --navy:#0A1628;--navy2:#0F2040;--navy3:#142952;
-  --blue:#1A4FBF;--accent:#F5A623;--light:#E8EDF5;
-  --white:#FFFFFF;--gray:#8A9BB5;--success:#27AE60;
-  --error:#E74C3C;--border:rgba(255,255,255,0.08);--card:rgba(255,255,255,0.04);
+  --navy:#0A0A0A;--navy2:#1A1A1A;--navy3:#141414;
+  --blue:#C9A961;--accent:#C9A961;--light:#F5F5F0;
+  --white:#FFFFFF;--gray:#8B7355;--success:#6B8E23;
+  --error:#8B2C2C;--border:rgba(255,255,255,0.08);--card:rgba(255,255,255,0.04);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{font-family:Outfit,sans-serif;background:var(--navy);color:var(--light);min-height:100vh;padding-bottom:70px;}
@@ -30,10 +30,10 @@ body{font-family:Outfit,sans-serif;background:var(--navy);color:var(--light);min
 .logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--white);}
 .logo span{color:var(--accent);}
 .user-info{display:flex;align-items:center;gap:8px;}
-.user-avatar{width:32px;height:32px;background:linear-gradient(135deg,#60A5FA,#1A4FBF);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--white);}
+.user-avatar{width:32px;height:32px;background:linear-gradient(135deg,#E8C66E,#C9A961);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--white);}
 .user-name{font-size:12px;font-weight:600;color:var(--white);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.user-role{font-size:9px;color:#60A5FA;font-weight:600;}
-.btn-logout{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:6px 8px;cursor:pointer;font-size:12px;color:#FC8181;}
+.user-role{font-size:9px;color:#E8C66E;font-weight:600;}
+.btn-logout{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:6px 8px;cursor:pointer;font-size:12px;color:#D88888;}
 
 .content{padding:16px;}
 
@@ -55,11 +55,11 @@ body{font-family:Outfit,sans-serif;background:var(--navy);color:var(--light);min
 /* Tournées aujourd'hui */
 .tournee-item{background:var(--navy2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
 .slot-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.slot-am{background:#F5A623;}.slot-pm{background:#60A5FA;}.slot-nuit{background:#A78BFA;}
+.slot-am{background:#C9A961;}.slot-pm{background:#E8C66E;}.slot-nuit{background:#4FD1E0;}
 .t-info{flex:1;}
 .t-client{font-size:13px;font-weight:700;color:var(--white);}
 .t-meta{font-size:11px;color:var(--gray);margin-top:2px;}
-.t-driver{font-size:11px;color:#60A5FA;font-weight:600;}
+.t-driver{font-size:11px;color:#E8C66E;font-weight:600;}
 
 /* Chauffeurs actifs */
 .ch-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
@@ -67,7 +67,7 @@ body{font-family:Outfit,sans-serif;background:var(--navy);color:var(--light);min
 .ch-av{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--white);flex-shrink:0;}
 .ch-name{font-size:13px;font-weight:600;color:var(--white);flex:1;}
 .ch-tours{font-size:11px;color:var(--gray);}
-.ch-badge{background:rgba(46,204,113,0.12);color:#2ECC71;border-radius:20px;padding:2px 8px;font-size:9px;font-weight:700;}
+.ch-badge{background:rgba(46,204,113,0.12);color:#6B8E23;border-radius:20px;padding:2px 8px;font-size:9px;font-weight:700;}
 
 .card-section{background:var(--navy2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px;}
 
@@ -82,6 +82,11 @@ body{font-family:Outfit,sans-serif;background:var(--navy);color:var(--light);min
 .bottom-nav a.active{color:var(--accent);}
 .bottom-nav a .ico{font-size:20px;}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -212,7 +217,7 @@ async function loadAll(){
     }
 
   }catch(e){
-    document.getElementById('today-list').innerHTML = `<div class="empty-state">❌ ${e.message}</div>`;
+    document.getElementById('today-list').innerHTML = `<div class="empty-state"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;
   }
 }
 

@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>T SERVICE & CO — Mon Planning</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="T.S">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts.css">
 <style>
 :root{
-  --navy:#0A1628;--navy2:#0F2040;--navy3:#142952;
-  --blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;
-  --light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;
-  --success:#27AE60;--error:#E74C3C;
+  --navy:#0A0A0A;--navy2:#1A1A1A;--navy3:#141414;
+  --blue:#C9A961;--accent:#C9A961;--accent2:#C9A961;
+  --light:#F5F5F0;--white:#FFFFFF;--gray:#8B7355;--gray2:#5A5048;
+  --success:#6B8E23;--error:#8B2C2C;
   --card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -30,8 +30,8 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .header-logo span{color:var(--accent);}
 .header-right{display:flex;align-items:center;gap:10px;}
 .ch-avatar{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--white);}
-.logout-btn{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:12px;color:#FC8181;font-family:inherit;}
-.header-role-ch{background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:3px 9px;font-size:10px;font-weight:700;color:#2ECC71;letter-spacing:1px;margin-top:2px;display:inline-block;}
+.logout-btn{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:12px;color:#D88888;font-family:inherit;}
+.header-role-ch{background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);border-radius:8px;padding:3px 9px;font-size:10px;font-weight:700;color:#6B8E23;letter-spacing:1px;margin-top:2px;display:inline-block;}
 .ch-name-hdr{font-size:13px;font-weight:700;color:var(--white);}
 
 /* BOTTOM NAV */
@@ -40,9 +40,9 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .nav-btn.active{color:var(--accent);}
 .nav-btn .nav-icon{font-size:20px;}
 .nav-badge{position:absolute;top:6px;right:calc(50% - 18px);background:var(--error);color:var(--white);font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-.gps-live-dot{display:none;width:7px;height:7px;border-radius:50%;background:#27AE60;position:absolute;top:7px;right:calc(50% - 20px);animation:gps-blink 1.2s infinite;}
-@keyframes gps-blink{0%,100%{opacity:1;box-shadow:0 0 4px #27AE60}50%{opacity:0.4;box-shadow:none}}
-#nav-gps.gps-on{color:#27AE60;}
+.gps-live-dot{display:none;width:7px;height:7px;border-radius:50%;background:#6B8E23;position:absolute;top:7px;right:calc(50% - 20px);animation:gps-blink 1.2s infinite;}
+@keyframes gps-blink{0%,100%{opacity:1;box-shadow:0 0 4px #6B8E23}50%{opacity:0.4;box-shadow:none}}
+#nav-gps.gps-on{color:#6B8E23;}
 
 /* CONTENT */
 .screen{display:none;padding:16px 16px 8px;}
@@ -70,17 +70,17 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .tournee-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;position:relative;overflow:hidden;}
 .tournee-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;}
 .tournee-card.am::before{background:var(--accent);}
-.tournee-card.pm::before{background:#60A5FA;}
-.tournee-card.ampm::before{background:#2ECC71;}
+.tournee-card.pm::before{background:#E8C66E;}
+.tournee-card.ampm::before{background:#6B8E23;}
 .tc-client{font-size:15px;font-weight:700;color:var(--white);}
 .tc-meta{display:flex;gap:10px;margin-top:5px;flex-wrap:wrap;}
 .tc-chip{background:rgba(255,255,255,0.06);border-radius:6px;padding:3px 8px;font-size:11px;color:var(--gray);}
 .tc-chip.slot{font-weight:700;}
 .tc-chip.slot.am{background:rgba(245,166,35,0.15);color:var(--accent);}
-.tc-chip.slot.pm{background:rgba(26,79,191,0.2);color:#60A5FA;}
-.tc-chip.slot.ampm{background:rgba(39,174,96,0.2);color:#2ECC71;}
+.tc-chip.slot.pm{background:rgba(26,79,191,0.2);color:#E8C66E;}
+.tc-chip.slot.ampm{background:rgba(39,174,96,0.2);color:#6B8E23;}
 .tc-val{display:flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;}
-.tc-val.ok{color:#2ECC71;}.tc-val.pen{color:#FC8181;}
+.tc-val.ok{color:#6B8E23;}.tc-val.pen{color:#D88888;}
 .empty-day{text-align:center;padding:40px 20px;color:var(--gray);}
 .empty-icon{font-size:40px;margin-bottom:10px;}
 .empty-text{font-size:13px;}
@@ -98,8 +98,8 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .abs-dates{font-size:11px;color:var(--gray);margin-top:3px;}
 .badge{display:inline-flex;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;}
 .badge-orange{background:rgba(245,166,35,0.2);color:var(--accent);}
-.badge-green{background:rgba(39,174,96,0.2);color:#2ECC71;}
-.badge-red{background:rgba(231,76,60,0.2);color:#FC8181;}
+.badge-green{background:rgba(39,174,96,0.2);color:#6B8E23;}
+.badge-red{background:rgba(231,76,60,0.2);color:#D88888;}
 
 /* FORM */
 .form-group{margin-bottom:12px;}
@@ -126,7 +126,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .doc-card-title{font-size:13px;font-weight:700;color:var(--white);}
 .doc-card-sub{font-size:11px;color:var(--gray);margin-top:2px;}
 .doc-card-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
-.doc-card-amount{font-size:13px;font-weight:700;color:#2ECC71;}
+.doc-card-amount{font-size:13px;font-weight:700;color:#6B8E23;}
 .doc-card-arrow{font-size:12px;color:var(--gray2);}
 
 .docs-empty{text-align:center;padding:50px 20px;color:var(--gray);}
@@ -140,7 +140,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .pdf-fs-title{flex:1;}
 .pdf-fs-name{font-size:13px;font-weight:700;color:var(--white);}
 .pdf-fs-sub{font-size:10px;color:var(--gray);margin-top:1px;}
-.pdf-fs-dl{background:rgba(26,79,191,0.2);border:1px solid rgba(26,79,191,0.3);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;color:#60A5FA;cursor:pointer;font-family:inherit;}
+.pdf-fs-dl{background:rgba(26,79,191,0.2);border:1px solid rgba(26,79,191,0.3);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;color:#E8C66E;cursor:pointer;font-family:inherit;}
 .pdf-fs-body{flex:1;background:#fff;overflow:hidden;}
 .pdf-fs-body iframe{width:100%;height:100%;border:none;}
 .pdf-fs-loading{width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#f5f5f5;}
@@ -158,15 +158,15 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .fuel-card{background:rgba(22,163,74,0.06);border:1px solid rgba(22,163,74,0.22);border-radius:14px;padding:16px;margin-bottom:16px;}
 .fuel-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#16A34A;margin-bottom:12px;}
 .gz-history-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;}
-.gz-price{font-size:14px;font-weight:700;color:#22C55E;}
+.gz-price{font-size:14px;font-weight:700;color:#6B8E23;}
 .gz-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:5px;}
 .gz-chip{font-size:11px;color:var(--gray);}
-.btn-camera{background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);border-radius:10px;padding:11px 16px;color:#22C55E;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;width:100%;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.btn-camera{background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);border-radius:10px;padding:11px 16px;color:#6B8E23;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;width:100%;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
 .btn-camera:active{transform:scale(0.98);}
 .ticket-preview{margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid rgba(22,163,74,0.3);}
 .ticket-preview img{width:100%;max-height:220px;object-fit:cover;display:block;}
 .ticket-preview-bar{background:rgba(22,163,74,0.1);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;}
-.btn-gz-submit{background:linear-gradient(135deg,#16A34A,#22C55E);color:#fff;border:none;border-radius:10px;padding:13px 18px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:100%;transition:all 0.2s;margin-top:4px;-webkit-tap-highlight-color:transparent;}
+.btn-gz-submit{background:linear-gradient(135deg,#16A34A,#6B8E23);color:#fff;border:none;border-radius:10px;padding:13px 18px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:100%;transition:all 0.2s;margin-top:4px;-webkit-tap-highlight-color:transparent;}
 .btn-gz-submit:active{transform:scale(0.98);}
 .btn-gz-submit:disabled{opacity:0.5;cursor:not-allowed;}
 /* Photo fullscreen viewer */
@@ -178,8 +178,8 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 /* ══ ÉTAT VÉHICULE ══ */
 .ev-type-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
 .ev-type-btn{padding:13px 10px;border-radius:12px;border:2px solid var(--border);background:var(--card);color:var(--gray);font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
-.ev-type-btn.selected.depart{background:rgba(26,79,191,0.2);border-color:var(--blue);color:#60A5FA;}
-.ev-type-btn.selected.retour{background:rgba(39,174,96,0.2);border-color:#27AE60;color:#2ECC71;}
+.ev-type-btn.selected.depart{background:rgba(26,79,191,0.2);border-color:var(--blue);color:#E8C66E;}
+.ev-type-btn.selected.retour{background:rgba(39,174,96,0.2);border-color:#6B8E23;color:#6B8E23;}
 .ev-photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .ev-photo-grid .ev-cell-wide{grid-column:1/-1;}
 .ev-photo-cell{aspect-ratio:4/3;border-radius:12px;border:2px dashed var(--border);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
@@ -188,25 +188,25 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .ev-photo-cell img{width:100%;height:100%;object-fit:cover;display:block;}
 .ev-photo-cell .ev-cell-label{font-size:11px;font-weight:700;color:var(--gray);margin-top:6px;letter-spacing:1px;text-transform:uppercase;}
 .ev-photo-cell .ev-cell-icon{font-size:26px;}
-.ev-photo-badge{position:absolute;top:6px;right:6px;background:#27AE60;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;}
+.ev-photo-badge{position:absolute;top:6px;right:6px;background:#6B8E23;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;}
 .ev-gps-row{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:12px;}
 .ev-gps-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.ev-gps-dot.ok{background:#27AE60;}
+.ev-gps-dot.ok{background:#6B8E23;}
 .ev-gps-dot.wait{background:var(--accent);animation:gps-blink 1s infinite;}
-.ev-gps-dot.err{background:#FC8181;}
-.ev-submit-btn{background:linear-gradient(135deg,#1A4FBF,#2563EB);color:#fff;border:none;border-radius:12px;padding:15px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;width:100%;transition:all 0.2s;-webkit-tap-highlight-color:transparent;margin-top:4px;}
+.ev-gps-dot.err{background:#D88888;}
+.ev-submit-btn{background:linear-gradient(135deg,#C9A961,#C9A961);color:#fff;border:none;border-radius:12px;padding:15px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;width:100%;transition:all 0.2s;-webkit-tap-highlight-color:transparent;margin-top:4px;}
 .ev-submit-btn:active{transform:scale(0.98);}
 .ev-submit-btn:disabled{opacity:0.5;cursor:not-allowed;}
 .ev-hist-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;}
 .ev-hist-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
 .ev-hist-badge{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;}
-.ev-hist-badge.depart{background:rgba(26,79,191,0.2);color:#60A5FA;}
-.ev-hist-badge.retour{background:rgba(39,174,96,0.2);color:#2ECC71;}
+.ev-hist-badge.depart{background:rgba(26,79,191,0.2);color:#E8C66E;}
+.ev-hist-badge.retour{background:rgba(39,174,96,0.2);color:#6B8E23;}
 .ev-hist-meta{font-size:11px;color:var(--gray);}
 .ev-hist-photos{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;}
 .ev-hist-photos::-webkit-scrollbar{display:none;}
 .ev-hist-thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;flex-shrink:0;cursor:pointer;border:1px solid var(--border);}
-.ev-ia-box{background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:12px;color:#A78BFA;}
+.ev-ia-box{background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:12px;color:#4FD1E0;}
 
 /* CAMÉRA CUSTOM avec overlay silhouette */
 .ev-cam{position:fixed;inset:0;background:#000;z-index:600;display:none;flex-direction:column;}
@@ -228,10 +228,10 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .ev-cam-preview-actions{position:absolute;bottom:0;left:0;right:0;padding:20px 16px calc(env(safe-area-inset-bottom,0) + 24px);background:linear-gradient(0deg,rgba(0,0,0,0.9),transparent);display:none;gap:12px;z-index:10;}
 .ev-cam-preview-actions.show{display:flex;}
 .ev-cam-retake{flex:1;padding:14px;border-radius:12px;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.2);color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;}
-.ev-cam-accept{flex:1;padding:14px;border-radius:12px;background:linear-gradient(135deg,#27AE60,#16A34A);border:none;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.ev-cam-accept{flex:1;padding:14px;border-radius:12px;background:linear-gradient(135deg,#6B8E23,#16A34A);border:none;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
 .ev-cam-err{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:30px;z-index:20;background:rgba(0,0,0,0.85);}
 .ev-cam-err-box{max-width:320px;text-align:center;color:#fff;}
-.ev-cam-err-box h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:10px;color:#FC8181;}
+.ev-cam-err-box h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:10px;color:#D88888;}
 .ev-cam-err-box p{font-size:13px;margin-bottom:16px;color:#ccc;line-height:1.5;}
 </style>
 <script src="ot_401_guard.js"></script>
@@ -249,6 +249,11 @@ const OT = (() => {
 })();
 function logout(){OT.logout();}
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -343,7 +348,7 @@ function logout(){OT.logout();}
   <div class="docs-filter-bar">
     <button class="doc-filter-btn active" onclick="filterDocs('tous',this)">📁 Tous</button>
     <button class="doc-filter-btn" onclick="filterDocs('fiches',this)">💶 Fiches de paie</button>
-    <button class="doc-filter-btn" onclick="filterDocs('contrats',this)">📄 Contrats</button>
+    <button class="doc-filter-btn" onclick="filterDocs('contrats',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Contrats</button>
   </div>
 
   <div id="docs-content">
@@ -354,7 +359,7 @@ function logout(){OT.logout();}
 <!-- ══ GAZOLE ══ -->
 <div class="screen" id="screen-gazole">
   <div class="section-header">
-    <div class="section-title">⛽ MON GAZOLE</div>
+    <div class="section-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> MON GAZOLE</div>
   </div>
 
   <!-- Formulaire nouveau plein -->
@@ -369,7 +374,7 @@ function logout(){OT.logout();}
     </div>
 
     <div class="form-group">
-      <label class="form-label">📅 Date *</label>
+      <label class="form-label"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Date *</label>
       <input type="date" id="gz-date" class="form-input">
     </div>
 
@@ -385,8 +390,8 @@ function logout(){OT.logout();}
     </div>
 
     <div class="form-group">
-      <label class="form-label">📈 Prix au litre — calculé automatiquement</label>
-      <input type="number" id="gz-prix-litre" class="form-input" placeholder="—" readonly style="color:#22C55E;background:rgba(22,163,74,0.05);font-weight:700;font-size:16px">
+      <label class="form-label"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Prix au litre — calculé automatiquement</label>
+      <input type="number" id="gz-prix-litre" class="form-input" placeholder="—" readonly style="color:#6B8E23;background:rgba(22,163,74,0.05);font-weight:700;font-size:16px">
     </div>
 
     <div class="form-group">
@@ -401,13 +406,13 @@ function logout(){OT.logout();}
       <div class="ticket-preview" id="ticket-preview" style="display:none">
         <img id="ticket-img" alt="Ticket gazole">
         <div class="ticket-preview-bar">
-          <span style="font-size:11px;color:#22C55E;font-weight:600">✅ Ticket ajouté</span>
-          <button onclick="removeTicketPhoto()" style="background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:#FC8181;cursor:pointer;font-family:inherit">🗑 Supprimer</button>
+          <span style="font-size:11px;color:#6B8E23;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ticket ajouté</span>
+          <button onclick="removeTicketPhoto()" style="background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:4px 10px;font-size:11px;color:#D88888;cursor:pointer;font-family:inherit">🗑 Supprimer</button>
         </div>
       </div>
     </div>
 
-    <button class="btn-gz-submit" id="btn-gz-submit" onclick="submitPleinFromDriver()">⛽ Enregistrer le plein</button>
+    <button class="btn-gz-submit" id="btn-gz-submit" onclick="submitPleinFromDriver()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Enregistrer le plein</button>
   </div>
 
   <!-- Historique des pleins du chauffeur -->
@@ -438,7 +443,7 @@ function logout(){OT.logout();}
     </button>
     <button id="tab-btn-groupes" onclick="switchMsgTab('groupes')"
       style="flex:1;padding:9px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--gray);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;position:relative;">
-      👥 Groupes
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Groupes
       <span id="badge-group-tab" style="display:none;position:absolute;top:4px;right:8px;background:var(--error);color:#fff;font-size:9px;font-weight:700;width:14px;height:14px;border-radius:50%;align-items:center;justify-content:center;">0</span>
     </button>
   </div>
@@ -488,7 +493,7 @@ function logout(){OT.logout();}
         <textarea id="ch-group-msg-input" placeholder="Votre message dans le groupe..." style="width:100%;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;resize:none;min-height:64px;max-height:120px;color-scheme:dark" oninput="updateChGroupCharCount()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChGroupMessage();}"></textarea>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
           <span id="ch-group-char-count" style="font-size:10px;color:var(--gray)">0 / 2000</span>
-          <button onclick="sendChGroupMessage()" style="background:linear-gradient(135deg,#7C3AED,#6D28D9);border:none;border-radius:10px;padding:9px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--white);cursor:pointer">Envoyer ✈</button>
+          <button onclick="sendChGroupMessage()" style="background:linear-gradient(135deg,#4FD1E0,#6D28D9);border:none;border-radius:10px;padding:9px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--white);cursor:pointer">Envoyer ✈</button>
         </div>
       </div>
     </div>
@@ -604,7 +609,7 @@ function logout(){OT.logout();}
     <span class="nav-badge" id="badge-conges" style="display:none">!</span>
   </button>
   <button class="nav-btn" id="nav-gazole" onclick="showScreen('gazole')">
-    <span class="nav-icon">⛽</span>Gazole
+    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span>Gazole
   </button>
   <button class="nav-btn" id="nav-docs" onclick="showScreen('docs')">
     <span class="nav-icon">📁</span>Documents
@@ -619,7 +624,7 @@ function logout(){OT.logout();}
   </button>
   <button class="nav-btn" id="nav-gps" onclick="window.location.href='optimum_trans_gps_chauffeur.html'">
     <span class="gps-live-dot" id="gps-live-dot"></span>
-    <span class="nav-icon">📍</span>Mon GPS
+    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span>Mon GPS
   </button>
 </nav>
 
@@ -635,7 +640,7 @@ function logout(){OT.logout();}
   </div>
   <div class="pdf-fs-body">
     <div class="pdf-fs-loading" id="pdf-fs-loading">
-      <div class="spinner" style="border-top-color:#1A4FBF;border-color:#ddd"></div>
+      <div class="spinner" style="border-top-color:#C9A961;border-color:#ddd"></div>
       <span style="color:#555;font-size:13px">Chargement...</span>
     </div>
     <iframe id="pdf-fs-iframe" style="width:100%;height:100%;border:none;display:none"></iframe>
@@ -650,7 +655,7 @@ function logout(){OT.logout();}
       <div style="font-size:13px;font-weight:700;color:var(--white)">📷 Ticket gazole</div>
       <div style="font-size:10px;color:var(--gray);margin-top:1px">Glisser vers le bas pour fermer</div>
     </div>
-    <button onclick="downloadTicketPhoto()" style="background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;color:#22C55E;cursor:pointer;font-family:inherit">⬇ Enregistrer</button>
+    <button onclick="downloadTicketPhoto()" style="background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;color:#6B8E23;cursor:pointer;font-family:inherit">⬇ Enregistrer</button>
   </div>
   <div class="photo-fs-body">
     <img id="photo-fs-img" alt="Ticket gazole" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;">
@@ -676,7 +681,7 @@ function logout(){OT.logout();}
   </div>
   <div class="ev-cam-preview-actions" id="ev-cam-preview-actions">
     <button class="ev-cam-retake" onclick="evCamRetake()">🔄 Reprendre</button>
-    <button class="ev-cam-accept" onclick="evCamAccept()">✅ Valider</button>
+    <button class="ev-cam-accept" onclick="evCamAccept()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valider</button>
   </div>
   <div class="ev-cam-err" id="ev-cam-err" style="display:none">
     <div class="ev-cam-err-box">
@@ -750,8 +755,8 @@ if('serviceWorker' in navigator){
     if(document.getElementById('sw-update-banner')) return;
     var b=document.createElement('div');
     b.id='sw-update-banner';
-    b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99999;background:#27AE60;color:#fff;text-align:center;padding:10px 16px;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,0.3)';
-    b.innerHTML='🔄 Nouvelle version disponible <button onclick="navigator.serviceWorker.ready.then(r=>{if(r.waiting)r.waiting.postMessage(\'SKIP_WAITING\');else window.location.reload();})" style="background:#fff;color:#27AE60;border:none;border-radius:6px;padding:5px 14px;font-weight:700;cursor:pointer;font-family:inherit;font-size:12px">Actualiser</button>';
+    b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99999;background:#6B8E23;color:#fff;text-align:center;padding:10px 16px;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,0.3)';
+    b.innerHTML='🔄 Nouvelle version disponible <button onclick="navigator.serviceWorker.ready.then(r=>{if(r.waiting)r.waiting.postMessage(\'SKIP_WAITING\');else window.location.reload();})" style="background:#fff;color:#6B8E23;border:none;border-radius:6px;padding:5px 14px;font-weight:700;cursor:pointer;font-family:inherit;font-size:12px">Actualiser</button>';
     document.body.prepend(b);
   }
   navigator.serviceWorker.ready.then(function(reg){
@@ -843,10 +848,10 @@ function showChefDuJourBanner(){
   // Insérer un bandeau sous le header
   const banner=document.createElement('div');
   banner.style.cssText='background:linear-gradient(135deg,rgba(124,58,237,0.25),rgba(124,58,237,0.1));border-bottom:1px solid rgba(124,58,237,0.3);padding:10px 20px;display:flex;align-items:center;gap:10px;';
-  banner.innerHTML=`<span style="font-size:18px">👔</span><div><div style="font-size:13px;font-weight:700;color:#A78BFA">Chef d'équipe du jour</div><div style="font-size:11px;color:var(--gray)">Vous avez accès au planning complet aujourd'hui</div></div>`;
+  banner.innerHTML=`<span style="font-size:18px">👔</span><div><div style="font-size:13px;font-weight:700;color:#4FD1E0">Chef d'équipe du jour</div><div style="font-size:11px;color:var(--gray)">Vous avez accès au planning complet aujourd'hui</div></div>`;
   document.querySelector('.app-header').insertAdjacentElement('afterend',banner);
   // Mettre à jour le bouton planning pour indiquer le mode chef
-  document.getElementById('nav-planning').innerHTML=`<span class="nav-icon">📆</span>Planning <span style="font-size:8px;background:rgba(124,58,237,0.3);color:#A78BFA;padding:1px 5px;border-radius:8px;margin-left:2px">CHEF</span>`;
+  document.getElementById('nav-planning').innerHTML=`<span class="nav-icon">📆</span>Planning <span style="font-size:8px;background:rgba(124,58,237,0.3);color:#4FD1E0;padding:1px 5px;border-radius:8px;margin-left:2px">CHEF</span>`;
 }
 
 // ── NAVIGATION ──
@@ -858,8 +863,8 @@ function _updateMsgLiveIndic(){
   const txt=document.getElementById('msg-live-text');
   if(!dot||!txt) return;
   const healthy = (typeof OT_MSG!=='undefined' && typeof OT_MSG.isRealtimeHealthy==='function' && OT_MSG.isRealtimeHealthy());
-  if(healthy){ dot.style.background='#27AE60'; txt.textContent='En direct'; txt.style.color='#27AE60'; }
-  else       { dot.style.background='#F5A623'; txt.textContent='Rafraîchissement périodique'; txt.style.color='#F5A623'; }
+  if(healthy){ dot.style.background='#6B8E23'; txt.textContent='En direct'; txt.style.color='#6B8E23'; }
+  else       { dot.style.background='#C9A961'; txt.textContent='Rafraîchissement périodique'; txt.style.color='#C9A961'; }
 }
 function showScreen(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -983,7 +988,7 @@ function renderDay(date){
       <div style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px">
         <span>👔</span>
         <div>
-          <div style="font-size:12px;font-weight:700;color:#A78BFA">Vue Chef d'équipe — ${dayLabel}</div>
+          <div style="font-size:12px;font-weight:700;color:#4FD1E0">Vue Chef d'équipe — ${dayLabel}</div>
           <div style="font-size:10px;color:var(--gray)">${tours.length} tournée${tours.length>1?'s':''} · ${chauffeurs.length} chauffeur${chauffeurs.length>1?'s':''}</div>
         </div>
       </div>`;
@@ -997,8 +1002,8 @@ function renderDay(date){
         const val=valMap[t.id]||null;
         let valHtml='';
         if(val){
-          if(val.statut==='validee') valHtml=`<div class="tc-val ok">✅ Validée</div>`;
-          else if(val.statut==='penalisee') valHtml=`<div class="tc-val pen">⚠️ Pénalité: ${val.motif}</div>`;
+          if(val.statut==='validee') valHtml=`<div class="tc-val ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Validée</div>`;
+          else if(val.statut==='penalisee') valHtml=`<div class="tc-val pen"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité: ${val.motif}</div>`;
         }
         const card=document.createElement('div');
         card.className=`tournee-card ${cls}`;
@@ -1025,8 +1030,8 @@ function renderDay(date){
     card.className=`tournee-card ${cls}`;
     let valHtml='';
     if(val){
-      if(val.statut==='validee') valHtml=`<div class="tc-val ok">✅ Tournée validée</div>`;
-      else if(val.statut==='penalisee') valHtml=`<div class="tc-val pen">⚠️ Pénalité : ${val.motif}${val.montant>0?' (-'+val.montant+'€)':''}</div>`;
+      if(val.statut==='validee') valHtml=`<div class="tc-val ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée validée</div>`;
+      else if(val.statut==='penalisee') valHtml=`<div class="tc-val pen"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité : ${val.motif}${val.montant>0?' (-'+val.montant+'€)':''}</div>`;
     }
     // Points / heures réels à saisir
     let realHtml='';
@@ -1035,14 +1040,14 @@ function renderDay(date){
     const tp=clientInfo?.type_paiement||'fixe';
     if(tp==='point'){
       if(t.nb_points_reel!=null){
-        realHtml=`<div style="margin-top:8px;font-size:11px;color:#2ECC71">📦 ${t.nb_points_reel} pts réels${t.nb_points_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_points_estime})</span>`:''}</div>`;
+        realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> ${t.nb_points_reel} pts réels${t.nb_points_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_points_estime})</span>`:''}</div>`;
       } else if(!isValidated){
         const estLabel=t.nb_points_estime?`${t.nb_points_estime} pts estimés — `:'';
-        realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px">📦 ${estLabel}Saisir le nombre de points réels :</div><div style="display:flex;gap:6px;align-items:center"><input type="number" min="0" step="1" placeholder="Nb points" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit" id="pts-input-${t.id}"><button onclick="saveRealValue('${t.id}','nb_points_reel',document.getElementById('pts-input-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✅</button></div></div>`;
+        realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> ${estLabel}Saisir le nombre de points réels :</div><div style="display:flex;gap:6px;align-items:center"><input type="number" min="0" step="1" placeholder="Nb points" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit" id="pts-input-${t.id}"><button onclick="saveRealValue('${t.id}','nb_points_reel',document.getElementById('pts-input-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div></div>`;
       }
     } else if(tp==='heure'){
       if(t.nb_heures_reel!=null){
-        realHtml=`<div style="margin-top:8px;font-size:11px;color:#2ECC71">⏱ ${t.nb_heures_reel}h réelles${t.nb_heures_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_heures_estime}h)</span>`:''}</div>`;
+        realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23">⏱ ${t.nb_heures_reel}h réelles${t.nb_heures_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_heures_estime}h)</span>`:''}</div>`;
       } else if(!isValidated){
         const _isMonMarche=t.client_nom&&t.client_nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes('mon marche');
         const _role=OT.getRole();
@@ -1052,7 +1057,7 @@ function renderDay(date){
           realHtml=`<div style="margin-top:8px;font-size:10px;color:var(--gray)">⏱ ${estLabel?estLabel+' · ':''}Heures réelles saisies par le chef d'équipe</div>`;
         } else {
           const estLabel=t.nb_heures_estime?`${t.nb_heures_estime}h estimées — `:'';
-          realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px">⏱ ${estLabel}Saisir le nombre d'heures réelles :</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">${dureeInputHTML('hrs-input-'+t.id,null)}<button onclick="saveRealValue('${t.id}','nb_heures_reel',dureeRead('hrs-input-${t.id}'))" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✅</button></div></div>`;
+          realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px">⏱ ${estLabel}Saisir le nombre d'heures réelles :</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">${dureeInputHTML('hrs-input-'+t.id,null)}<button onclick="saveRealValue('${t.id}','nb_heures_reel',dureeRead('hrs-input-${t.id}'))" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div></div>`;
         }
       }
     } else if(tp==='zone'){
@@ -1062,35 +1067,35 @@ function renderDay(date){
         const rows=t.zone_lines.map((l,i)=>{
           const est=l.nb_points_estime!=null?l.nb_points_estime:'—';
           if(l.nb_points_reel!=null){
-            return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 8px;background:rgba(46,204,113,0.05);border-radius:6px"><span><strong>${l.ville||'(?)'}</strong></span><span style="color:#2ECC71;font-weight:700">${l.nb_points_reel} pts ✅ <span style="color:var(--gray);font-weight:400;font-size:10px">(est. ${est})</span></span></div>`;
+            return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 8px;background:rgba(46,204,113,0.05);border-radius:6px"><span><strong>${l.ville||'(?)'}</strong></span><span style="color:#6B8E23;font-weight:700">${l.nb_points_reel} pts <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> <span style="color:var(--gray);font-weight:400;font-size:10px">(est. ${est})</span></span></div>`;
           }
           if(isValidated) return `<div style="font-size:12px;color:var(--gray)">${l.ville||'(?)'} : ${est} pts (estimé)</div>`;
-          return `<div style="display:flex;align-items:center;gap:6px;font-size:12px;padding:5px 8px;background:rgba(255,255,255,0.03);border-radius:6px"><span style="flex:1"><strong>${l.ville||'(?)'}</strong> <span style="color:var(--gray);font-size:10px">(est. ${est})</span></span><input type="number" min="0" step="1" placeholder="Réel" id="zline-${t.id}-${i}" style="width:70px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:5px 7px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="saveZoneLineReel('${t.id}',${i})" style="background:var(--blue);border:none;border-radius:6px;padding:5px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✅</button></div>`;
+          return `<div style="display:flex;align-items:center;gap:6px;font-size:12px;padding:5px 8px;background:rgba(255,255,255,0.03);border-radius:6px"><span style="flex:1"><strong>${l.ville||'(?)'}</strong> <span style="color:var(--gray);font-size:10px">(est. ${est})</span></span><input type="number" min="0" step="1" placeholder="Réel" id="zline-${t.id}-${i}" style="width:70px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:5px 7px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="saveZoneLineReel('${t.id}',${i})" style="background:var(--blue);border:none;border-radius:6px;padding:5px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div>`;
         }).join('');
         const totalEst=t.zone_lines.reduce((s,l)=>s+(parseFloat(l.nb_points_estime)||0),0);
         const totalReel=t.zone_lines.reduce((s,l)=>s+(parseFloat(l.nb_points_reel)||0),0);
-        const lbl=allReel?`<span style="color:#2ECC71">✅ ${totalReel} pts réels</span>`:`<span style="color:var(--accent)">📍 ${totalEst} pts estimés (à valider)</span>`;
-        realHtml=`<div style="margin-top:8px;display:flex;flex-direction:column;gap:4px"><div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:4px">📍 Lignes de livraison · ${lbl}</div>${rows}</div>`;
+        const lbl=allReel?`<span style="color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${totalReel} pts réels</span>`:`<span style="color:var(--accent)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${totalEst} pts estimés (à valider)</span>`;
+        realHtml=`<div style="margin-top:8px;display:flex;flex-direction:column;gap:4px"><div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Lignes de livraison · ${lbl}</div>${rows}</div>`;
       } else {
         // Legacy single-line (compatibilité)
         const cp=t.code_postal_livraison||'';
-        const cpLbl=cp?`📍 CP ${cp}`:'';
+        const cpLbl=cp?`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> CP ${cp}`:'';
         const villeLbl=t.ville_livraison?` · ${t.ville_livraison}`:'';
         if(t.nb_points_reel!=null){
-          realHtml=`<div style="margin-top:8px;font-size:11px;color:#2ECC71">📍 ${t.nb_points_reel} pts réels${t.nb_points_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_points_estime})</span>`:''}${villeLbl} ${cpLbl}</div>`;
+          realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${t.nb_points_reel} pts réels${t.nb_points_estime?` <span style="color:var(--gray)">(estimé: ${t.nb_points_estime})</span>`:''}${villeLbl} ${cpLbl}</div>`;
         } else if(!isValidated){
           const estLabel=t.nb_points_estime?`${t.nb_points_estime} pts estimés — `:'';
-          realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px">📍 ${cpLbl}${villeLbl} · ${estLabel}Saisir le nombre de points réels :</div><div style="display:flex;gap:6px;align-items:center"><input type="number" min="0" step="1" placeholder="Nb points" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit" id="pts-zone-input-${t.id}"><button onclick="saveRealValue('${t.id}','nb_points_reel',document.getElementById('pts-zone-input-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✅</button></div></div>`;
+          realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${cpLbl}${villeLbl} · ${estLabel}Saisir le nombre de points réels :</div><div style="display:flex;gap:6px;align-items:center"><input type="number" min="0" step="1" placeholder="Nb points" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit" id="pts-zone-input-${t.id}"><button onclick="saveRealValue('${t.id}','nb_points_reel',document.getElementById('pts-zone-input-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div></div>`;
         }
       }
     } else if(tp==='forfait_heures'){
       if(t.heure_debut_reel&&t.heure_fin_reel){
-        realHtml=`<div style="margin-top:8px;font-size:11px;color:#2ECC71">⏰ ${t.heure_debut_reel.substring(0,5)} → ${t.heure_fin_reel.substring(0,5)} ✅</div>`;
+        realHtml=`<div style="margin-top:8px;font-size:11px;color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> ${t.heure_debut_reel.substring(0,5)} → ${t.heure_fin_reel.substring(0,5)} <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>`;
       } else if(!isValidated){
         const dEst=t.heure_debut_estime?t.heure_debut_estime.substring(0,5):'';
         const fEst=t.heure_fin_estime?t.heure_fin_estime.substring(0,5):'';
         const estLabel=(dEst&&fEst)?`Estimé : ${dEst} → ${fEst} — `:'';
-        realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px">⏰ ${estLabel}Saisir vos heures réelles :</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><input type="time" id="fdebut-input-${t.id}" value="${dEst}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit"><span style="color:var(--gray)">→</span><input type="time" id="ffin-input-${t.id}" value="" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit"><button onclick="saveRealHours('${t.id}')" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✅</button></div></div>`;
+        realHtml=`<div style="margin-top:8px"><div style="font-size:10px;color:var(--accent);margin-bottom:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> ${estLabel}Saisir vos heures réelles :</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><input type="time" id="fdebut-input-${t.id}" value="${dEst}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit"><span style="color:var(--gray)">→</span><input type="time" id="ffin-input-${t.id}" value="" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--white);outline:none;font-family:inherit"><button onclick="saveRealHours('${t.id}')" style="background:var(--blue);border:none;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></button></div></div>`;
       }
     }
     card.innerHTML=`
@@ -1123,10 +1128,10 @@ async function saveRealHours(tourneeId){
     if(!result||!result.id) throw new Error('Mise à jour échouée');
     const t=allTournees.find(x=>x.id===tourneeId);
     if(t){t.heure_debut_reel=debut;t.heure_fin_reel=fin;}
-    toast('✅ Heures enregistrées');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Heures enregistrées');
     const dates=getWeekDates();
     renderDay(dates[selectedDayIdx]);
-  }catch(e){toast('❌ '+e.message,'error');}
+  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
 }
 async function saveRealValue(tourneeId, field, rawVal){
   const val=parseFloat(rawVal);
@@ -1143,10 +1148,10 @@ async function saveRealValue(tourneeId, field, rawVal){
     // Mise à jour locale confirmée
     const t=allTournees.find(x=>x.id===tourneeId);
     if(t) t[field]=val;
-    toast('✅ Valeur enregistrée');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valeur enregistrée');
     const dates=getWeekDates();
     renderDay(dates[selectedDayIdx]);
-  }catch(e){toast('❌ '+e.message,'error');}
+  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
 }
 
 // Zone multi-lignes : valider les pts réels d'une ligne et patcher tournees.zone_lines
@@ -1171,10 +1176,10 @@ async function saveZoneLineReel(tourneeId, lineIdx){
     if(!r.ok) throw new Error(await r.text());
     t.zone_lines=newLines;
     if(allReel) t.nb_points_reel=totalReel;
-    toast('✅ Ligne enregistrée');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ligne enregistrée');
     const dates=getWeekDates();
     renderDay(dates[selectedDayIdx]);
-  }catch(e){toast('❌ '+e.message,'error');}
+  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
 }
 
 function getValidationMap(){
@@ -1207,13 +1212,13 @@ async function loadAbsenceData(){
 function renderAbsences(){
   const list=document.getElementById('abs-list');
   if(!allAbsences.length){list.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray);font-size:12px">Aucune demande</div>';return;}
-  const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',formation:'📚 Formation',autre:'📌 Autre',absence_injustifiee:'⚠️ Abs. non justifiée',jour_ferie:'🎉 Jour férié'};
+  const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',formation:'📚 Formation',autre:'📌 Autre',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Abs. non justifiée',jour_ferie:'🎉 Jour férié'};
   list.innerHTML='';
   allAbsences.forEach(a=>{
     const d=document.createElement('div');
     d.className='abs-item';
     const bCls=a.statut==='approuve'?'badge-green':a.statut==='refuse'?'badge-red':'badge-orange';
-    const bTxt=a.statut==='approuve'?'✅ Approuvé':a.statut==='refuse'?'❌ Refusé':'⏳ En attente';
+    const bTxt=a.statut==='approuve'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuvé':a.statut==='refuse'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refusé':'⏳ En attente';
     d.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between"><span class="abs-type">${typeL[a.type]||a.type}</span><span class="badge ${bCls}">${bTxt}</span></div><div class="abs-dates">Du ${fmtDate(a.date_debut)} au ${fmtDate(a.date_fin)}${a.note?` · "${a.note}"`:''}</div>`;
     list.appendChild(d);
   });
@@ -1231,13 +1236,13 @@ async function submitAbsence(){
   try{
     const r=await fetch(`${SB}/rest/v1/absences`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({company_id:companyId,chauffeur_nom:chauffeurNom,type,date_debut:debut,date_fin:fin,note,statut:'en_attente'})});
     if(!r.ok) throw new Error(await r.text());
-    toast('✅ Demande envoyée !');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Demande envoyée !');
     document.getElementById('abs-debut').value='';
     document.getElementById('abs-fin').value='';
     document.getElementById('abs-note').value='';
     document.getElementById('badge-conges').style.display='';
     loadAbsenceData();
-  }catch(e){toast('❌ '+e.message,'error');}
+  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
   finally{btn.disabled=false;btn.textContent='📤 Envoyer la demande';}
 }
 
@@ -1259,7 +1264,7 @@ async function loadDocuments(){
 
     renderDocuments();
   }catch(e){
-    document.getElementById('docs-content').innerHTML=`<div class="docs-empty"><div class="docs-empty-icon">❌</div><div style="font-size:13px;color:var(--gray)">Erreur de chargement</div></div>`;
+    document.getElementById('docs-content').innerHTML=`<div class="docs-empty"><div class="docs-empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div style="font-size:13px;color:var(--gray)">Erreur de chargement</div></div>`;
   }
 }
 
@@ -1311,7 +1316,7 @@ function renderDocuments(){
     const msg=currentDocFilter==='fiches'?'Aucune fiche de paie disponible':
               currentDocFilter==='contrats'?'Aucun contrat disponible':
               'Aucun document disponible';
-    const icon=currentDocFilter==='fiches'?'💶':currentDocFilter==='contrats'?'📄':'📁';
+    const icon=currentDocFilter==='fiches'?'💶':currentDocFilter==='contrats'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>':'📁';
     cont.innerHTML=`<div class="docs-empty"><div class="docs-empty-icon">${icon}</div><div style="font-size:13px;color:var(--gray)">${msg}</div><div style="font-size:11px;color:var(--gray2);margin-top:6px">Vos documents apparaîtront ici</div></div>`;
     return;
   }
@@ -1336,7 +1341,7 @@ function renderDocuments(){
       if(!it.hasPdf) card.style.opacity='0.6';
       card.innerHTML=`
         <div class="doc-card-icon ${it.type}">
-          ${it.type==='fiche'?'💶':'📄'}
+          ${it.type==='fiche'?'💶':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>'}
         </div>
         <div class="doc-card-body">
           <div class="doc-card-title">${it.title}</div>
@@ -1379,7 +1384,7 @@ function openPdfViewer(pdfData, pdfName, title, sub){
       // Popup bloqué : naviguer dans l'onglet courant
       location.href=viewingPdfBlobUrl;
     }
-    toast('📄 Ouverture du document...');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Ouverture du document...');
     return;
   }
 
@@ -1457,22 +1462,22 @@ async function loadGazoleHistory(){
 
 function renderGazoleHistory(data){
   const cont=document.getElementById('gz-history');
-  if(!data.length){cont.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--gray)"><div style="font-size:36px;margin-bottom:10px">⛽</div><div style="font-size:13px">Aucun plein enregistré</div><div style="font-size:11px;margin-top:4px;color:var(--gray2)">Vos pleins apparaîtront ici</div></div>';return;}
+  if(!data.length){cont.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--gray)"><div style="font-size:36px;margin-bottom:10px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></div><div style="font-size:13px">Aucun plein enregistré</div><div style="font-size:11px;margin-top:4px;color:var(--gray2)">Vos pleins apparaîtront ici</div></div>';return;}
   cont.innerHTML='';
   data.forEach((p,idx)=>{
     const prixL=p.litres>0?(p.montant/p.litres).toFixed(3):null;
     const d=document.createElement('div');
     d.className='gz-history-item';
-    const photoBtn=p.has_ticket?`<button onclick="viewTicketPhoto(${idx})" style="background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.25);border-radius:7px;padding:5px 10px;font-size:11px;color:#22C55E;cursor:pointer;font-family:inherit;margin-top:8px;display:inline-flex;align-items:center;gap:4px">📷 Voir ticket</button>`:'';
+    const photoBtn=p.has_ticket?`<button onclick="viewTicketPhoto(${idx})" style="background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.25);border-radius:7px;padding:5px 10px;font-size:11px;color:#6B8E23;cursor:pointer;font-family:inherit;margin-top:8px;display:inline-flex;align-items:center;gap:4px">📷 Voir ticket</button>`:'';
     d.innerHTML=`
       <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
         <div style="font-size:13px;font-weight:700;color:var(--white)">🚐 ${p.vehicule||'—'}</div>
         <div class="gz-price">${fc(p.montant)}</div>
       </div>
       <div class="gz-meta">
-        <span class="gz-chip">📅 ${fmtDate(p.date)}</span>
+        <span class="gz-chip"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${fmtDate(p.date)}</span>
         ${p.litres?`<span class="gz-chip">🧴 ${p.litres.toFixed(1)} L</span>`:''}
-        ${prixL?`<span class="gz-chip">📈 ${prixL} €/L</span>`:''}
+        ${prixL?`<span class="gz-chip"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> ${prixL} €/L</span>`:''}
         ${p.note?`<span class="gz-chip">🏪 ${p.note}</span>`:''}
         ${p.saisie_par==='chauffeur'?'<span class="gz-chip" style="color:rgba(22,163,74,0.7)">📱 Envoyé par vous</span>':''}
       </div>
@@ -1533,7 +1538,7 @@ async function submitPleinFromDriver(){
   try{
     const r=await fetch(`${SB}/rest/v1/gazole_pleins`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(payload)});
     if(!r.ok)throw new Error(await r.text());
-    toast('✅ Plein enregistré avec succès !');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Plein enregistré avec succès !');
     document.getElementById('gz-vehicule').value='';
     document.getElementById('gz-montant').value='';
     document.getElementById('gz-litres').value='';
@@ -1542,8 +1547,8 @@ async function submitPleinFromDriver(){
     document.getElementById('gz-date').value=fd(new Date());
     removeTicketPhoto();
     await loadGazoleHistory();
-  }catch(e){toast('❌ Erreur: '+e.message,'error');}
-  finally{btn.disabled=false;btn.textContent='⛽ Enregistrer le plein';}
+  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur: '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Enregistrer le plein';}
 }
 
 // ── Visionneuse photo ticket ──
@@ -1627,7 +1632,7 @@ function switchMsgTab(tab){
   const btnG = document.getElementById('tab-btn-general');
   const btnGroups = document.getElementById('tab-btn-groupes');
   if(btnG){ btnG.style.borderColor = isGeneral ? 'var(--blue)' : 'var(--border)'; btnG.style.background = isGeneral ? 'rgba(26,79,191,0.25)' : 'var(--card)'; btnG.style.color = isGeneral ? 'var(--white)' : 'var(--gray)'; }
-  if(btnGroups){ btnGroups.style.borderColor = !isGeneral ? '#7C3AED' : 'var(--border)'; btnGroups.style.background = !isGeneral ? 'rgba(124,58,237,0.2)' : 'var(--card)'; btnGroups.style.color = !isGeneral ? 'var(--white)' : 'var(--gray)'; }
+  if(btnGroups){ btnGroups.style.borderColor = !isGeneral ? '#4FD1E0' : 'var(--border)'; btnGroups.style.background = !isGeneral ? 'rgba(124,58,237,0.2)' : 'var(--card)'; btnGroups.style.color = !isGeneral ? 'var(--white)' : 'var(--gray)'; }
 
   // Contenus
   const cG = document.getElementById('tab-content-general');
@@ -1678,7 +1683,7 @@ async function loadChGroupsList(){
 
   const groups = await OT_MSG.loadGroupList();
   if(groups.length === 0){
-    el.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--gray)"><div style="font-size:36px;margin-bottom:10px">👥</div><div style="font-size:13px">Vous n\'êtes membre d\'aucun groupe pour l\'instant.</div></div>';
+    el.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--gray)"><div style="font-size:36px;margin-bottom:10px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div style="font-size:13px">Vous n\'êtes membre d\'aucun groupe pour l\'instant.</div></div>';
     return;
   }
 
@@ -1689,7 +1694,7 @@ async function loadChGroupsList(){
     const preview = g.last_message ? escHtml(g.last_message.content.substring(0,55)) : 'Aucun message';
     const time = g.last_message ? OT_MSG.timeAgo(g.last_message.created_at) : '';
     return `<div onclick="openChGroup('${escAttr(g.id)}','${escAttr(g.name)}')" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;">
-      <div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👥</div>
+      <div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#4FD1E0,#6D28D9);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
       <div style="flex:1;min-width:0;">
         <div style="font-size:14px;font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(g.name)}</div>
         <div style="font-size:11px;color:var(--gray);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${preview}</div>
@@ -1721,7 +1726,7 @@ async function openChGroup(groupId, groupName){
 
   OT_MSG.loadGroupMembers(groupId).then(members => {
     if(_currentGroupId !== groupId) return;
-    document.getElementById('ch-group-conv-sub').textContent = `👥 ${members.length} membre${members.length > 1 ? 's' : ''}`;
+    document.getElementById('ch-group-conv-sub').textContent = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${members.length} membre${members.length > 1 ? 's' : ''}`;
   });
 
   await loadChGroupMessages(groupId);
@@ -1758,16 +1763,16 @@ function backToGroupsList(){
 function renderChBubble(m, myName, isGroup){
   const isOwn = m.sender_name === myName;
   const align = isOwn ? 'flex-end' : 'flex-start';
-  const bg    = isOwn ? 'background:linear-gradient(135deg,#1A4FBF,#0D3A9E)' : 'background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08)';
+  const bg    = isOwn ? 'background:linear-gradient(135deg,#C9A961,#0D3A9E)' : 'background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08)';
   const time  = OT_MSG.timeAgo(m.created_at);
-  const broadcast = m.is_broadcast ? '<span style="font-size:9px;background:rgba(245,166,35,0.2);color:#F5A623;border-radius:10px;padding:1px 7px;font-weight:700">📢 TOUS</span>' : '';
+  const broadcast = m.is_broadcast ? '<span style="font-size:9px;background:rgba(245,166,35,0.2);color:#C9A961;border-radius:10px;padding:1px 7px;font-weight:700">📢 TOUS</span>' : '';
   const read  = isOwn ? (m.read_at ? ' ✓✓' : ' ✓') : '';
   // Expiration : alerte seulement si < 3 jours
   const expires  = new Date(m.expires_at);
   const daysLeft = Math.max(0, Math.round((expires-Date.now())/86400000));
   const expireInfo = daysLeft <= 2 ? `<span style="font-size:9px;color:rgba(255,166,35,0.6)">⏱${daysLeft}j</span>` : '';
   // Dans un groupe, afficher le nom de l'expéditeur si pas nous
-  const senderLabel = (isGroup && !isOwn) ? `<div style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.4);margin-bottom:2px;">${escHtml(m.sender_name)}${m.sender_role==='chef_equipe'?' · 👔':m.sender_role==='admin'?' · ⚙️':''}</div>` : '';
+  const senderLabel = (isGroup && !isOwn) ? `<div style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.4);margin-bottom:2px;">${escHtml(m.sender_name)}${m.sender_role==='chef_equipe'?' · 👔':m.sender_role==='admin'?' · <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>':''}</div>` : '';
   return `<div style="display:flex;flex-direction:column;align-items:${align};margin-bottom:4px">
     <div style="max-width:82%;padding:10px 14px;border-radius:14px;${bg}">
       ${broadcast}${senderLabel}
@@ -1787,7 +1792,7 @@ function updateChCharCount(){
   const counter=document.getElementById('ch-char-count');
   if(!input||!counter) return;
   counter.textContent=`${input.value.length} / 2000`;
-  counter.style.color=input.value.length>1800?'#FC8181':'var(--gray)';
+  counter.style.color=input.value.length>1800?'#D88888':'var(--gray)';
 }
 
 async function sendChMessage(){
@@ -1803,8 +1808,8 @@ async function sendChMessage(){
   if(msg){
     input.value=''; updateChCharCount();
     await loadChMessages();
-    showToast('✅ Message envoyé');
-  } else { showToast('❌ Erreur envoi, réessayez'); }
+    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Message envoyé');
+  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur envoi, réessayez'); }
 }
 
 function updateChGroupCharCount(){
@@ -1812,7 +1817,7 @@ function updateChGroupCharCount(){
   const counter=document.getElementById('ch-group-char-count');
   if(!input||!counter) return;
   counter.textContent=`${input.value.length} / 2000`;
-  counter.style.color=input.value.length>1800?'#FC8181':'var(--gray)';
+  counter.style.color=input.value.length>1800?'#D88888':'var(--gray)';
 }
 
 // ══════════════════════════════════════════
@@ -1856,11 +1861,11 @@ function evSelectType(type){
 
 // ── SILHOUETTES SVG pour chaque angle ──
 const EV_SILHOUETTES={
-  avant:`<svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#F5A623" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- body --><path d="M 48 240 L 48 108 Q 50 82 78 76 L 105 52 Q 120 40 155 38 L 245 38 Q 280 40 295 52 L 322 76 Q 350 82 352 108 L 352 240 Z"/><!-- windshield --><path d="M 98 80 L 118 48 L 282 48 L 302 80 L 302 132 Q 302 140 293 140 L 107 140 Q 98 140 98 132 Z"/><!-- left headlight --><rect x="56" y="150" width="58" height="26" rx="5"/><!-- right headlight --><rect x="286" y="150" width="58" height="26" rx="5"/><!-- grille --><rect x="132" y="156" width="136" height="26" rx="4"/><!-- bumper --><path d="M 50 198 Q 50 210 62 210 L 338 210 Q 350 210 350 198"/><!-- left wheel arch --><path d="M 48 240 Q 54 218 82 215 Q 115 213 132 240"/><!-- right wheel arch --><path d="M 268 240 Q 285 213 318 215 Q 346 218 352 240"/></g><text x="200" y="264" text-anchor="middle" fill="#F5A623" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">AVANT</text></svg>`,
-  arriere:`<svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#F5A623" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- body --><path d="M 48 240 L 48 55 Q 48 42 62 42 L 338 42 Q 352 42 352 55 L 352 240 Z"/><!-- left rear door window --><rect x="58" y="55" width="133" height="100" rx="4"/><!-- right rear door window --><rect x="209" y="55" width="133" height="100" rx="4"/><!-- center door split --><line x1="200" y1="45" x2="200" y2="215"/><!-- left taillight --><rect x="52" y="172" width="52" height="22" rx="5"/><!-- right taillight --><rect x="296" y="172" width="52" height="22" rx="5"/><!-- bumper --><path d="M 52 205 Q 52 218 66 218 L 334 218 Q 348 218 348 205"/><!-- license plate --><rect x="152" y="188" width="96" height="20" rx="3"/><!-- left wheel arch --><path d="M 48 240 Q 54 218 82 215 Q 115 213 132 240"/><!-- right wheel arch --><path d="M 268 240 Q 285 213 318 215 Q 346 218 352 240"/></g><text x="200" y="264" text-anchor="middle" fill="#F5A623" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">ARRIÈRE</text></svg>`,
-  gauche:`<svg viewBox="0 0 500 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#F5A623" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- body outline cab+cargo --><path d="M 28 228 L 28 165 Q 28 148 45 142 L 82 90 Q 100 65 136 62 L 198 60 L 198 62 L 450 62 Q 472 62 472 88 L 472 228 Z"/><!-- windshield --><path d="M 88 96 L 118 66 L 196 66 L 196 130 L 92 130 Z"/><!-- cab/body divider --><line x1="198" y1="62" x2="198" y2="228"/><!-- cab side window --><rect x="96" y="98" width="92" height="52" rx="4"/><!-- cargo door line --><line x1="295" y1="62" x2="295" y2="228"/><!-- front wheel --><circle cx="118" cy="233" r="33"/><circle cx="118" cy="233" r="11"/><!-- rear wheel --><circle cx="385" cy="233" r="33"/><circle cx="385" cy="233" r="11"/><!-- front wheel arch --><path d="M 28 228 Q 34 195 60 188 Q 88 182 152 188 Q 172 194 176 228"/><!-- rear wheel arch --><path d="M 328 228 Q 338 194 368 186 Q 402 182 422 190 Q 444 198 448 228"/></g><text x="250" y="264" text-anchor="middle" fill="#F5A623" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">CÔTÉ GAUCHE</text></svg>`,
-  droite:`<svg viewBox="0 0 500 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#F5A623" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- body outline (mirrored: cab at right) --><path d="M 472 228 L 472 165 Q 472 148 455 142 L 418 90 Q 400 65 364 62 L 302 60 L 302 62 L 50 62 Q 28 62 28 88 L 28 228 Z"/><!-- windshield (right cab) --><path d="M 412 96 L 382 66 L 304 66 L 304 130 L 408 130 Z"/><!-- cab/body divider --><line x1="302" y1="62" x2="302" y2="228"/><!-- cab side window --><rect x="312" y="98" width="92" height="52" rx="4"/><!-- cargo door line --><line x1="205" y1="62" x2="205" y2="228"/><!-- rear wheel --><circle cx="115" cy="233" r="33"/><circle cx="115" cy="233" r="11"/><!-- front wheel --><circle cx="382" cy="233" r="33"/><circle cx="382" cy="233" r="11"/><!-- rear wheel arch --><path d="M 52 228 Q 56 198 78 190 Q 98 183 152 188 Q 172 194 176 228"/><!-- front wheel arch --><path d="M 324 228 Q 328 194 348 186 Q 378 182 412 188 Q 436 196 440 228 Q 458 218 472 228"/></g><text x="250" y="264" text-anchor="middle" fill="#F5A623" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">CÔTÉ DROIT</text></svg>`,
-  interieur:`<svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#F5A623" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- windshield frame --><path d="M 38 118 L 38 38 Q 38 24 52 24 L 348 24 Q 362 24 362 38 L 362 118 Q 332 138 200 138 Q 68 138 38 118 Z"/><!-- dashboard --><rect x="34" y="138" width="332" height="42" rx="5"/><!-- steering wheel outer --><circle cx="138" cy="200" r="44"/><!-- steering wheel inner hub --><circle cx="138" cy="200" r="13"/><!-- steering wheel spokes --><line x1="138" y1="156" x2="138" y2="187"/><line x1="138" y1="213" x2="138" y2="244"/><line x1="94" y1="200" x2="125" y2="200"/><line x1="151" y1="200" x2="182" y2="200"/><!-- instrument cluster --><rect x="76" y="146" width="72" height="26" rx="4"/><!-- center screen/console --><rect x="192" y="146" width="106" height="38" rx="4"/><!-- right door panel area --><path d="M 338 156 Q 355 153 360 170 L 360 255 Q 360 262 350 262 L 338 262 Z"/><!-- left seat back (partial) --><path d="M 35 210 Q 35 198 46 198 L 88 198 L 88 262 L 35 262 Z"/></g><text x="200" y="264" text-anchor="middle" fill="#F5A623" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">INTÉRIEUR</text></svg>`
+  avant:`<svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#C9A961" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- body --><path d="M 48 240 L 48 108 Q 50 82 78 76 L 105 52 Q 120 40 155 38 L 245 38 Q 280 40 295 52 L 322 76 Q 350 82 352 108 L 352 240 Z"/><!-- windshield --><path d="M 98 80 L 118 48 L 282 48 L 302 80 L 302 132 Q 302 140 293 140 L 107 140 Q 98 140 98 132 Z"/><!-- left headlight --><rect x="56" y="150" width="58" height="26" rx="5"/><!-- right headlight --><rect x="286" y="150" width="58" height="26" rx="5"/><!-- grille --><rect x="132" y="156" width="136" height="26" rx="4"/><!-- bumper --><path d="M 50 198 Q 50 210 62 210 L 338 210 Q 350 210 350 198"/><!-- left wheel arch --><path d="M 48 240 Q 54 218 82 215 Q 115 213 132 240"/><!-- right wheel arch --><path d="M 268 240 Q 285 213 318 215 Q 346 218 352 240"/></g><text x="200" y="264" text-anchor="middle" fill="#C9A961" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">AVANT</text></svg>`,
+  arriere:`<svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#C9A961" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- body --><path d="M 48 240 L 48 55 Q 48 42 62 42 L 338 42 Q 352 42 352 55 L 352 240 Z"/><!-- left rear door window --><rect x="58" y="55" width="133" height="100" rx="4"/><!-- right rear door window --><rect x="209" y="55" width="133" height="100" rx="4"/><!-- center door split --><line x1="200" y1="45" x2="200" y2="215"/><!-- left taillight --><rect x="52" y="172" width="52" height="22" rx="5"/><!-- right taillight --><rect x="296" y="172" width="52" height="22" rx="5"/><!-- bumper --><path d="M 52 205 Q 52 218 66 218 L 334 218 Q 348 218 348 205"/><!-- license plate --><rect x="152" y="188" width="96" height="20" rx="3"/><!-- left wheel arch --><path d="M 48 240 Q 54 218 82 215 Q 115 213 132 240"/><!-- right wheel arch --><path d="M 268 240 Q 285 213 318 215 Q 346 218 352 240"/></g><text x="200" y="264" text-anchor="middle" fill="#C9A961" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">ARRIÈRE</text></svg>`,
+  gauche:`<svg viewBox="0 0 500 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#C9A961" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- body outline cab+cargo --><path d="M 28 228 L 28 165 Q 28 148 45 142 L 82 90 Q 100 65 136 62 L 198 60 L 198 62 L 450 62 Q 472 62 472 88 L 472 228 Z"/><!-- windshield --><path d="M 88 96 L 118 66 L 196 66 L 196 130 L 92 130 Z"/><!-- cab/body divider --><line x1="198" y1="62" x2="198" y2="228"/><!-- cab side window --><rect x="96" y="98" width="92" height="52" rx="4"/><!-- cargo door line --><line x1="295" y1="62" x2="295" y2="228"/><!-- front wheel --><circle cx="118" cy="233" r="33"/><circle cx="118" cy="233" r="11"/><!-- rear wheel --><circle cx="385" cy="233" r="33"/><circle cx="385" cy="233" r="11"/><!-- front wheel arch --><path d="M 28 228 Q 34 195 60 188 Q 88 182 152 188 Q 172 194 176 228"/><!-- rear wheel arch --><path d="M 328 228 Q 338 194 368 186 Q 402 182 422 190 Q 444 198 448 228"/></g><text x="250" y="264" text-anchor="middle" fill="#C9A961" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">CÔTÉ GAUCHE</text></svg>`,
+  droite:`<svg viewBox="0 0 500 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#C9A961" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- body outline (mirrored: cab at right) --><path d="M 472 228 L 472 165 Q 472 148 455 142 L 418 90 Q 400 65 364 62 L 302 60 L 302 62 L 50 62 Q 28 62 28 88 L 28 228 Z"/><!-- windshield (right cab) --><path d="M 412 96 L 382 66 L 304 66 L 304 130 L 408 130 Z"/><!-- cab/body divider --><line x1="302" y1="62" x2="302" y2="228"/><!-- cab side window --><rect x="312" y="98" width="92" height="52" rx="4"/><!-- cargo door line --><line x1="205" y1="62" x2="205" y2="228"/><!-- rear wheel --><circle cx="115" cy="233" r="33"/><circle cx="115" cy="233" r="11"/><!-- front wheel --><circle cx="382" cy="233" r="33"/><circle cx="382" cy="233" r="11"/><!-- rear wheel arch --><path d="M 52 228 Q 56 198 78 190 Q 98 183 152 188 Q 172 194 176 228"/><!-- front wheel arch --><path d="M 324 228 Q 328 194 348 186 Q 378 182 412 188 Q 436 196 440 228 Q 458 218 472 228"/></g><text x="250" y="264" text-anchor="middle" fill="#C9A961" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">CÔTÉ DROIT</text></svg>`,
+  interieur:`<svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#C9A961" stroke-width="2.5" stroke-dasharray="10 5" stroke-linecap="round" stroke-linejoin="round"><!-- windshield frame --><path d="M 38 118 L 38 38 Q 38 24 52 24 L 348 24 Q 362 24 362 38 L 362 118 Q 332 138 200 138 Q 68 138 38 118 Z"/><!-- dashboard --><rect x="34" y="138" width="332" height="42" rx="5"/><!-- steering wheel outer --><circle cx="138" cy="200" r="44"/><!-- steering wheel inner hub --><circle cx="138" cy="200" r="13"/><!-- steering wheel spokes --><line x1="138" y1="156" x2="138" y2="187"/><line x1="138" y1="213" x2="138" y2="244"/><line x1="94" y1="200" x2="125" y2="200"/><line x1="151" y1="200" x2="182" y2="200"/><!-- instrument cluster --><rect x="76" y="146" width="72" height="26" rx="4"/><!-- center screen/console --><rect x="192" y="146" width="106" height="38" rx="4"/><!-- right door panel area --><path d="M 338 156 Q 355 153 360 170 L 360 255 Q 360 262 350 262 L 338 262 Z"/><!-- left seat back (partial) --><path d="M 35 210 Q 35 198 46 198 L 88 198 L 88 262 L 35 262 Z"/></g><text x="200" y="264" text-anchor="middle" fill="#C9A961" font-family="Outfit,sans-serif" font-size="13" font-weight="700" letter-spacing="3" opacity="0.9">INTÉRIEUR</text></svg>`
 };
 
 const EV_HINTS={
@@ -2015,8 +2020,8 @@ function evUpdateProgress(){
   txt.textContent=`${n} / 5 photos prises`;
   bar.style.width=pct+'%';
   if(n===5){
-    txt.style.color='#2ECC71';
-    icon.textContent='✅';
+    txt.style.color='#6B8E23';
+    icon.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>';
     btn.disabled=false;
     btn.textContent='📸 Enregistrer l\'état du véhicule';
   }else{
@@ -2034,7 +2039,7 @@ function evViewPhoto(src,label,angle){
     <div style="background:var(--navy2);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
       <button onclick="this.closest('[data-ev-overlay]').remove()" style="background:none;border:none;cursor:pointer;font-size:22px;color:var(--gray)">←</button>
       <div style="flex:1;font-size:13px;font-weight:700;color:var(--white)">${label}</div>
-      <button onclick="evRemovePhotoFromView('${angle}',this)" style="background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:7px 12px;font-size:12px;color:#FC8181;cursor:pointer;font-family:inherit">🗑 Reprendre</button>
+      <button onclick="evRemovePhotoFromView('${angle}',this)" style="background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:7px 12px;font-size:12px;color:#D88888;cursor:pointer;font-family:inherit">🗑 Reprendre</button>
     </div>
     <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:12px;overflow:hidden;">
       <img src="${src}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;">
@@ -2105,7 +2110,7 @@ async function evSubmit(){
 
   const missing=EV_ANGLES.filter(a=>!_evPhotos[a]);
   if(missing.length){
-    showToast(`⚠️ Photos manquantes : ${missing.map(a=>EV_LABELS[a]).join(', ')}`);
+    showToast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Photos manquantes : ${missing.map(a=>EV_LABELS[a]).join(', ')}`);
     return;
   }
 
@@ -2140,14 +2145,14 @@ async function evSubmit(){
       body:JSON.stringify(payload)
     });
     if(!r.ok){const err=await r.text();throw new Error(err);}
-    showToast(`✅ État "${_evType==='depart'?'Départ':'Retour'}" enregistré`);
+    showToast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> État "${_evType==='depart'?'Départ':'Retour'}" enregistré`);
     loadEvHistory();
     setTimeout(()=>{
       const hist=document.getElementById('ev-history');
       if(hist) window.scrollTo(0,Math.max(0,hist.offsetTop-20));
     },400);
   }catch(e){
-    showToast('❌ Erreur: '+e.message);
+    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur: '+e.message);
   }
 }
 
@@ -2179,7 +2184,7 @@ async function loadEvHistory(){
       </div>`;
     }).join('');
   }catch(e){
-    el.innerHTML='<div style="text-align:center;padding:20px;color:#FC8181;font-size:12px">Erreur de chargement</div>';
+    el.innerHTML='<div style="text-align:center;padding:20px;color:#D88888;font-size:12px">Erreur de chargement</div>';
   }
 }
 
@@ -2211,8 +2216,8 @@ async function sendChGroupMessage(){
   if(msg){
     input.value=''; updateChGroupCharCount();
     await loadChGroupMessages(_currentGroupId);
-    showToast('✅ Message envoyé');
-  } else { showToast('❌ Erreur envoi, réessayez'); }
+    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Message envoyé');
+  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur envoi, réessayez'); }
 }
 </script>
 </body>

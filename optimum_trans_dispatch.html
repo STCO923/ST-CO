@@ -18,11 +18,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>T SERVICE & CO — IA Dispatch</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <link rel="stylesheet" href="/fonts.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <style>
-:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+:root{--navy:#0A0A0A;--navy2:#1A1A1A;--navy3:#141414;--blue:#C9A961;--accent:#C9A961;--accent2:#C9A961;--light:#F5F5F0;--white:#FFFFFF;--gray:#8B7355;--gray2:#5A5048;--success:#6B8E23;--error:#8B2C2C;--purple:#4FD1E0;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
 .sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
@@ -49,20 +49,20 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .btn-accent:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(245,166,35,0.35);}
 .btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--gray);}
 .btn-ghost:hover{color:var(--white);border-color:var(--blue);}
-.btn-green{background:linear-gradient(135deg,#27AE60,#2ECC71);color:var(--white);font-weight:700;}
+.btn-green{background:linear-gradient(135deg,#6B8E23,#6B8E23);color:var(--white);font-weight:700;}
 .btn-green:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(39,174,96,0.35);}
 .btn-excel{background:linear-gradient(135deg,#1D6F42,#107C41);color:var(--white);font-weight:700;}
 .btn-excel:hover{filter:brightness(1.1);transform:translateY(-1px);}
-.btn-ai{background:linear-gradient(135deg,#7C3AED,#9F67FA);color:var(--white);font-weight:700;}
+.btn-ai{background:linear-gradient(135deg,#4FD1E0,#9F67FA);color:var(--white);font-weight:700;}
 .btn-ai:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(124,58,237,0.4);}
-.btn-danger{background:linear-gradient(135deg,#E74C3C,#C0392B);color:var(--white);font-weight:700;}
+.btn-danger{background:linear-gradient(135deg,#8B2C2C,#C0392B);color:var(--white);font-weight:700;}
 .content{padding:28px;}
 
 /* Steps */
 .steps-bar{display:flex;align-items:center;gap:0;margin-bottom:28px;background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:16px 20px;overflow-x:auto;}
 .step{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
 .step-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;border:2px solid var(--border);color:var(--gray);background:transparent;transition:all 0.3s;}
-.step.active .step-num{background:linear-gradient(135deg,var(--blue),#2563EB);border-color:var(--blue);color:var(--white);box-shadow:0 0 16px rgba(26,79,191,0.4);}
+.step.active .step-num{background:linear-gradient(135deg,var(--blue),#C9A961);border-color:var(--blue);color:var(--white);box-shadow:0 0 16px rgba(26,79,191,0.4);}
 .step.done .step-num{background:var(--success);border-color:var(--success);color:var(--white);}
 .step-info{min-width:0;}
 .step-title{font-size:12px;font-weight:700;color:var(--gray);white-space:nowrap;transition:color 0.3s;}
@@ -73,9 +73,9 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 /* Cards */
 .dispatch-card{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden;}
 .dispatch-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.dispatch-card.blue::before{background:linear-gradient(90deg,var(--blue),#2563EB);}
+.dispatch-card.blue::before{background:linear-gradient(90deg,var(--blue),#C9A961);}
 .dispatch-card.purple::before{background:linear-gradient(90deg,var(--purple),#9F67FA);}
-.dispatch-card.green::before{background:linear-gradient(90deg,var(--success),#2ECC71);}
+.dispatch-card.green::before{background:linear-gradient(90deg,var(--success),#6B8E23);}
 .dispatch-card.orange::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}
 .card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
 
@@ -93,18 +93,18 @@ tbody tr{border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.
 tbody tr:hover{background:rgba(255,255,255,0.025);}
 tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
 .badge{display:inline-flex;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
-.badge-am{background:rgba(245,166,35,0.15);color:#F5A623;}
+.badge-am{background:rgba(245,166,35,0.15);color:#C9A961;}
 .badge-pm{background:rgba(99,179,237,0.15);color:#63B3ED;}
-.badge-full{background:rgba(39,174,96,0.15);color:#2ECC71;}
-.badge-typo{background:rgba(124,58,237,0.15);color:#A78BFA;font-size:9px;padding:2px 8px;}
+.badge-full{background:rgba(39,174,96,0.15);color:#6B8E23;}
+.badge-typo{background:rgba(124,58,237,0.15);color:#4FD1E0;font-size:9px;padding:2px 8px;}
 
 /* Alerts */
 .alert-box{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.3);border-radius:10px;padding:12px 16px;margin-bottom:12px;}
 .alert-box.red{background:rgba(231,76,60,0.08);border-color:rgba(231,76,60,0.3);}
 .alert-box.green{background:rgba(39,174,96,0.08);border-color:rgba(39,174,96,0.3);}
 .alert-title{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px;}
-.alert-box.red .alert-title{color:#FC8181;}
-.alert-box.green .alert-title{color:#2ECC71;}
+.alert-box.red .alert-title{color:#D88888;}
+.alert-box.green .alert-title{color:#6B8E23;}
 .alert-item{font-size:11px;color:var(--gray);padding:2px 0;display:flex;align-items:flex-start;gap:6px;}
 
 /* Edit controls in dispatch table */
@@ -114,7 +114,7 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
 .edit-input{background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--white);outline:none;width:100%;transition:border-color 0.2s;}
 .edit-input:focus{border-color:var(--blue);}
 .row-delete{background:none;border:none;cursor:pointer;color:var(--gray);font-size:14px;padding:4px 6px;border-radius:6px;transition:all 0.2s;}
-.row-delete:hover{color:#FC8181;background:rgba(231,76,60,0.1);}
+.row-delete:hover{color:#D88888;background:rgba(231,76,60,0.1);}
 
 /* Spinner */
 .spinner{width:20px;height:20px;border:3px solid var(--border);border-top:3px solid var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;display:inline-block;}
@@ -137,8 +137,8 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
 .kpi-card{background:var(--navy2);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;}
 .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.kpi-card.blue::before{background:linear-gradient(90deg,var(--blue),#2563EB);}
-.kpi-card.green::before{background:linear-gradient(90deg,var(--success),#2ECC71);}
+.kpi-card.blue::before{background:linear-gradient(90deg,var(--blue),#C9A961);}
+.kpi-card.green::before{background:linear-gradient(90deg,var(--success),#6B8E23);}
 .kpi-card.orange::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}
 .kpi-card.purple::before{background:linear-gradient(90deg,var(--purple),#9F67FA);}
 .kpi-icon{font-size:20px;margin-bottom:6px;}
@@ -158,6 +158,12 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
@@ -176,22 +182,22 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients &amp; Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients &amp; Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
     <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
     <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item active" href="#"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="location.href='optimum_trans_parametres.html'">
@@ -237,7 +243,7 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
 
     <!-- MODE D'EMPLOI -->
     <div id="section-guide" class="dispatch-card" style="border:1px solid rgba(124,58,237,0.25);background:linear-gradient(135deg,rgba(124,58,237,0.06),rgba(26,79,191,0.04));margin-bottom:24px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7C3AED,#1A4FBF,#F5A623)"></div>
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#4FD1E0,#C9A961,#C9A961)"></div>
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
         <div style="flex:1;min-width:280px">
           <div class="card-title" style="margin-bottom:10px">📖 Mode d'emploi — IA Dispatch</div>
@@ -262,12 +268,12 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
         </div>
       </div>
       <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
-        <div style="font-size:11px;font-weight:700;color:#A78BFA;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">🧠 Ce que l'IA décide automatiquement</div>
+        <div style="font-size:11px;font-weight:700;color:#4FD1E0;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">🧠 Ce que l'IA décide automatiquement</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;">
-          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--light)"><span style="font-size:14px">📅</span> <span><strong>Les jours</strong> — répartition intelligente basée sur l'historique du client</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--light)"><span style="font-size:14px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> <span><strong>Les jours</strong> — répartition intelligente basée sur l'historique du client</span></div>
           <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--light)"><span style="font-size:14px">👷</span> <span><strong>Les chauffeurs</strong> — continuité avec le même chauffeur quand possible</span></div>
           <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--light)"><span style="font-size:14px">🚐</span> <span><strong>Les véhicules</strong> — selon la typologie demandée et le parc disponible</span></div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--light)"><span style="font-size:14px">⏰</span> <span><strong>Les horaires</strong> — reproduit les heures habituelles du client</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--light)"><span style="font-size:14px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></span> <span><strong>Les horaires</strong> — reproduit les heures habituelles du client</span></div>
           <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--light)"><span style="font-size:14px">⛔</span> <span><strong>Les absences</strong> — exclut les chauffeurs en congé ou maladie</span></div>
           <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--light)"><span style="font-size:14px">⚖️</span> <span><strong>L'équilibre</strong> — répartit la charge entre chauffeurs équitablement</span></div>
         </div>
@@ -280,7 +286,7 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
     <!-- SECTION 1 : IMPORT -->
     <div id="section-import">
       <div class="dispatch-card blue">
-        <div class="card-title">📅 Semaine cible</div>
+        <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Semaine cible</div>
         <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
           <div>
             <label style="font-size:11px;color:var(--gray);display:block;margin-bottom:4px">Lundi de la semaine :</label>
@@ -294,7 +300,7 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
       <div class="dispatch-card orange">
         <div class="card-title">📂 Importer le fichier de besoins</div>
         <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
-          <div class="upload-icon">📊</div>
+          <div class="upload-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
           <div class="upload-text">Glissez votre fichier Excel ici ou <strong>cliquez pour parcourir</strong></div>
           <div class="upload-sub">Le client indique combien de tournées AM/PM il veut — l'IA fait le reste</div>
         </div>
@@ -351,13 +357,13 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
       <div class="kpi-grid">
         <div class="kpi-card blue"><div class="kpi-icon">🚐</div><div class="kpi-val" id="v-total">0</div><div class="kpi-label">Tournées proposées</div></div>
         <div class="kpi-card green"><div class="kpi-icon">👷</div><div class="kpi-val" id="v-chauffeurs">0</div><div class="kpi-label">Chauffeurs mobilisés</div></div>
-        <div class="kpi-card orange"><div class="kpi-icon">🏢</div><div class="kpi-val" id="v-clients">0</div><div class="kpi-label">Clients couverts</div></div>
-        <div class="kpi-card purple"><div class="kpi-icon">⚠️</div><div class="kpi-val" id="v-alertes">0</div><div class="kpi-label">Alertes</div></div>
+        <div class="kpi-card orange"><div class="kpi-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg></div><div class="kpi-val" id="v-clients">0</div><div class="kpi-label">Clients couverts</div></div>
+        <div class="kpi-card purple"><div class="kpi-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="kpi-val" id="v-alertes">0</div><div class="kpi-label">Alertes</div></div>
       </div>
 
       <!-- Resume IA -->
       <div class="resume-box" id="resume-box" style="display:none">
-        <div style="font-size:11px;font-weight:700;color:#A78BFA;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🧠 Résumé du dispatch IA</div>
+        <div style="font-size:11px;font-weight:700;color:#4FD1E0;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🧠 Résumé du dispatch IA</div>
         <div class="resume-text" id="resume-text"></div>
       </div>
 
@@ -396,7 +402,7 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
         <div style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end;align-items:center">
           <span style="font-size:11px;color:var(--gray)" id="dispatch-count"></span>
           <button class="btn-sm btn-danger" onclick="goBackToImport()">✕ Annuler</button>
-          <button class="btn-sm btn-green" onclick="confirmSync()" style="font-size:14px;padding:10px 24px">✅ Valider et synchroniser au planning</button>
+          <button class="btn-sm btn-green" onclick="confirmSync()" style="font-size:14px;padding:10px 24px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valider et synchroniser au planning</button>
         </div>
       </div>
     </div>
@@ -405,7 +411,7 @@ tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
     <div id="section-success" style="display:none">
       <div class="dispatch-card green">
         <div style="text-align:center;padding:40px">
-          <div style="font-size:64px;margin-bottom:16px">✅</div>
+          <div style="font-size:64px;margin-bottom:16px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>
           <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);letter-spacing:2px;margin-bottom:8px" id="success-title">Dispatch synchronisé !</div>
           <div style="font-size:13px;color:var(--gray);margin-bottom:24px" id="success-sub"></div>
           <div style="display:flex;gap:10px;justify-content:center">
@@ -515,7 +521,7 @@ function processFile(file) {
       }
       renderBesoins();
       var total = currentBesoins.reduce(function(s, b) { return s + b.nb_am + b.nb_pm; }, 0);
-      toast('✅ ' + currentBesoins.length + ' client(s) importé(s) — ' + total + ' tournées à dispatcher');
+      toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ' + currentBesoins.length + ' client(s) importé(s) — ' + total + ' tournées à dispatcher');
     } catch (err) {
       toast('Erreur lecture fichier : ' + err.message, 'error');
     }
@@ -632,7 +638,7 @@ function renderAlertes(alertes) {
   if (alertes.length === 0) return;
   var box = document.createElement('div');
   box.className = 'alert-box';
-  box.innerHTML = '<div class="alert-title">⚠️ Alertes du dispatch</div>';
+  box.innerHTML = '<div class="alert-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Alertes du dispatch</div>';
   alertes.forEach(function(a) {
     box.innerHTML += '<div class="alert-item"><span>•</span><span>' + a + '</span></div>';
   });
@@ -718,7 +724,7 @@ async function confirmSync() {
     document.getElementById('section-validation').style.display = 'none';
     document.getElementById('section-success').style.display = 'block';
     document.getElementById('success-sub').textContent = count + ' tournées ont été ajoutées au planning. Les chauffeurs verront leurs missions dans le planning semaine.';
-    toast('✅ ' + count + ' tournées synchronisées au planning');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ' + count + ' tournées synchronisées au planning');
   } catch(err) {
     toast('Erreur sync : ' + err.message, 'error');
     setStep(3);

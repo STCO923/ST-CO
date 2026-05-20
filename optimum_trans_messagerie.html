@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>T SERVICE & CO — Messagerie</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <link rel="stylesheet" href="/fonts.css">
 <style>
-:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+:root{--navy:#0A0A0A;--navy2:#1A1A1A;--navy3:#141414;--blue:#C9A961;--accent:#C9A961;--accent2:#C9A961;--light:#F5F5F0;--white:#FFFFFF;--gray:#8B7355;--gray2:#5A5048;--success:#6B8E23;--error:#8B2C2C;--purple:#4FD1E0;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
 /* SIDEBAR */
@@ -71,7 +71,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 /* MESSAGES */
 .msg-list{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:8px;}
 .msg-bubble{max-width:70%;padding:10px 14px;border-radius:14px;word-break:break-word;}
-.msg-bubble.own{align-self:flex-end;background:linear-gradient(135deg,#1A4FBF,#0D3A9E);}
+.msg-bubble.own{align-self:flex-end;background:linear-gradient(135deg,#C9A961,#0D3A9E);}
 .msg-bubble.other{align-self:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);}
 .msg-broadcast-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(245,166,35,0.2);color:var(--accent);border-radius:8px;padding:2px 8px;font-size:10px;font-weight:700;margin-bottom:4px;}
 .msg-content{font-size:13px;color:var(--white);line-height:1.5;}
@@ -129,7 +129,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .modal-name-input:focus{border-color:var(--purple);}
 .modal-name-input::placeholder{color:var(--gray2);}
 .msg-sender-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,0.45);margin-bottom:3px;}
-.btn-modal-delete{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.25);color:#FC8181;border-radius:8px;padding:10px 16px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;margin-right:auto;}
+.btn-modal-delete{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.25);color:#D88888;border-radius:8px;padding:10px 16px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;margin-right:auto;}
 .btn-modal-delete:hover{background:rgba(231,76,60,0.25);}
 /* MOBILE */
 @media(max-width:768px){
@@ -173,6 +173,12 @@ const OT=(()=>{
 })();
 function logout(){OT.logout();}
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 
@@ -191,27 +197,27 @@ function logout(){OT.logout();}
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients &amp; Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients &amp; Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
     <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
     <a class="nav-item active" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar" id="sidebar-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)" id="sidebar-name">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
-      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;">⏻</button>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)" id="sidebar-name">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;">⏻</button>
     </div>
   </div>
 </aside>
@@ -222,8 +228,8 @@ function logout(){OT.logout();}
     <div class="topbar-title">💬 MESSAGERIE</div>
     <div style="display:flex;align-items:center;gap:12px">
       <div style="font-size:11px;color:var(--gray)">⏱ Historique conservé 1 mois</div>
-      <div id="poll-indicator" style="display:flex;align-items:center;gap:5px;font-size:11px;color:#2ECC71">
-        <div style="width:7px;height:7px;border-radius:50%;background:#2ECC71;animation:pulse 2s infinite"></div>LIVE
+      <div id="poll-indicator" style="display:flex;align-items:center;gap:5px;font-size:11px;color:#6B8E23">
+        <div style="width:7px;height:7px;border-radius:50%;background:#6B8E23;animation:pulse 2s infinite"></div>LIVE
       </div>
     </div>
   </div>
@@ -235,7 +241,7 @@ function logout(){OT.logout();}
     <div class="drivers-panel" id="drivers-panel">
       <div class="drivers-panel-header">
         <div class="panel-title">CONVERSATIONS</div>
-        <input class="search-input" id="driver-search" placeholder="🔍 Rechercher..." oninput="filterAll(this.value)">
+        <input class="search-input" id="driver-search" placeholder="<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Rechercher..." oninput="filterAll(this.value)">
         <button class="btn-broadcast" onclick="openBroadcast()">
           📢 Message à TOUS les chauffeurs
         </button>
@@ -304,7 +310,7 @@ function logout(){OT.logout();}
 <!-- GROUP MODAL -->
 <div class="modal-overlay" id="modal-group">
   <div class="modal-box" style="max-height:85vh;display:flex;flex-direction:column;gap:0;">
-    <div class="modal-title" id="group-modal-title">👥 NOUVEAU GROUPE</div>
+    <div class="modal-title" id="group-modal-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> NOUVEAU GROUPE</div>
     <div class="modal-sub">Donnez un nom au groupe et sélectionnez les membres chauffeurs.</div>
     <input class="modal-name-input" id="group-name-input" placeholder="Nom du groupe (ex: Équipe Matin)" maxlength="100">
     <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gray2);margin:14px 0 8px;text-transform:uppercase;">Membres chauffeurs</div>
@@ -312,7 +318,7 @@ function logout(){OT.logout();}
     <div class="modal-actions" style="margin-top:18px;">
       <button class="btn-modal-delete" id="btn-group-delete" onclick="deleteGroupAction()" style="display:none;">🗑 Supprimer</button>
       <button class="btn-modal-cancel" onclick="closeGroupModal()">Annuler</button>
-      <button class="btn-modal-send" id="btn-group-save" onclick="saveGroup()">✅ Créer</button>
+      <button class="btn-modal-send" id="btn-group-save" onclick="saveGroup()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer</button>
     </div>
   </div>
 </div>
@@ -419,7 +425,7 @@ function renderAll(search) {
         ? `<button class="btn-group-opts" onclick="event.stopPropagation();openGroupModal('${escAttr(g.id)}')" title="Modifier">⚙</button>`
         : '';
       html += `<div class="driver-item${isActive?' active':''}" onclick="openGroup('${escAttr(g.id)}','${escAttr(g.name)}')">
-        <div class="driver-av" style="background:linear-gradient(135deg,var(--purple),#6D28D9);font-size:18px">👥</div>
+        <div class="driver-av" style="background:linear-gradient(135deg,var(--purple),#6D28D9);font-size:18px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <div class="driver-info">
           <div class="driver-name">${escHtml(g.name)}</div>
           <div class="driver-preview">${preview}</div>
@@ -518,7 +524,7 @@ async function openGroup(groupId, groupName) {
   const av = document.getElementById('conv-av');
   av.className = 'conv-av';
   av.style.background = 'linear-gradient(135deg,var(--purple),#6D28D9)';
-  av.textContent = '👥';
+  av.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';
   document.getElementById('conv-title').textContent = groupName;
   document.getElementById('conv-sub').textContent   = '⏳ Chargement...';
   renderAll(document.getElementById('driver-search').value);
@@ -526,7 +532,7 @@ async function openGroup(groupId, groupName) {
 
   OT_MSG.loadGroupMembers(groupId).then(members => {
     if (currentGroupId !== groupId) return;
-    document.getElementById('conv-sub').textContent = `👥 ${members.length} membre${members.length > 1 ? 's' : ''}`;
+    document.getElementById('conv-sub').textContent = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ${members.length} membre${members.length > 1 ? 's' : ''}`;
   });
 
   OT_MSG.startGroupPolling(groupId, async (msgs) => {
@@ -574,7 +580,7 @@ function renderBubble(m) {
   const readIcon       = isOwn ? (m.read_at ? '<span class="msg-read" title="Lu">✓✓</span>' : '<span style="color:rgba(255,255,255,0.3)">✓</span>') : '';
   const broadcastBadge = m.is_broadcast ? '<div class="msg-broadcast-badge">📢 TOUS LES CHAUFFEURS</div>' : '';
   const senderLabel    = (currentConvType === 'group' && !isOwn)
-    ? `<div class="msg-sender-lbl">${escHtml(m.sender_name)}${m.sender_role === 'chef_equipe' ? ' · 👔' : m.sender_role === 'admin' ? ' · ⚙️' : ''}</div>`
+    ? `<div class="msg-sender-lbl">${escHtml(m.sender_name)}${m.sender_role === 'chef_equipe' ? ' · 👔' : m.sender_role === 'admin' ? ' · <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' : ''}</div>`
     : '';
   return `<div style="display:flex;flex-direction:column;align-items:${align}">
     <div class="${bubbleClass}">
@@ -594,7 +600,7 @@ async function sendMsg() {
   const btn     = document.getElementById('btn-send');
   const content = ta.value.trim();
   if (!content || (!currentDriver && !currentGroupId)) return;
-  if (content.length > 2000) { showToast('❌ Message trop long (max 2000 caractères)'); return; }
+  if (content.length > 2000) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Message trop long (max 2000 caractères)'); return; }
   ta.disabled = true; btn.disabled = true;
   const isGroup = currentConvType === 'group';
   const msg = isGroup
@@ -603,7 +609,7 @@ async function sendMsg() {
   ta.disabled = false; btn.disabled = false;
   if (msg) {
     ta.value = ''; ta.style.height = 'auto'; updateCharCount();
-    showToast('✅ Message envoyé');
+    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Message envoyé');
     // Re-render immédiat — ne pas attendre WS/polling (évite le délai visuel)
     try {
       if (isGroup && currentGroupId) {
@@ -618,7 +624,7 @@ async function sendMsg() {
       }
     } catch(e) { /* le polling rattrapera */ }
   } else {
-    showToast('❌ Erreur lors de l\'envoi');
+    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de l\'envoi');
   }
 }
 
@@ -628,7 +634,7 @@ async function openBroadcast() {
   const count = allDrivers.length;
   document.getElementById('modal-targets').textContent = count > 0
     ? `🚐 ${count} chauffeur${count > 1 ? 's' : ''} destinataire${count > 1 ? 's' : ''}`
-    : '⚠️ Aucun chauffeur actif trouvé';
+    : '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Aucun chauffeur actif trouvé';
   document.getElementById('broadcast-textarea').value = '';
   document.getElementById('broadcast-char-count').textContent = '0 / 2000';
   setTimeout(() => document.getElementById('broadcast-textarea').focus(), 100);
@@ -637,23 +643,23 @@ function closeBroadcast() { document.getElementById('modal-broadcast').classList
 function updateBroadcastCount() {
   const ta = document.getElementById('broadcast-textarea');
   const el = document.getElementById('broadcast-char-count');
-  if (ta && el) { el.textContent = `${ta.value.length} / 2000`; el.style.color = ta.value.length > 1800 ? '#FC8181' : 'var(--gray)'; }
+  if (ta && el) { el.textContent = `${ta.value.length} / 2000`; el.style.color = ta.value.length > 1800 ? '#D88888' : 'var(--gray)'; }
 }
 async function sendBroadcast() {
   const ta = document.getElementById('broadcast-textarea'), btn = document.getElementById('btn-broadcast-send');
   const content = ta.value.trim();
-  if (!content) { showToast('⚠️ Veuillez saisir un message'); return; }
-  if (content.length > 2000) { showToast('❌ Message trop long (max 2000)'); return; }
-  if (allDrivers.length === 0) { showToast('⚠️ Aucun chauffeur actif'); return; }
+  if (!content) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir un message'); return; }
+  if (content.length > 2000) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Message trop long (max 2000)'); return; }
+  if (allDrivers.length === 0) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Aucun chauffeur actif'); return; }
   btn.disabled = true; btn.textContent = 'Envoi...';
   const msg = await OT_MSG.sendMessage('_BROADCAST_', content, true);
   btn.disabled = false; btn.textContent = '📢 Envoyer à tous';
   if (msg) {
     closeBroadcast();
-    showToast(`✅ Message envoyé à ${allDrivers.length} chauffeur${allDrivers.length>1?'s':''}`);
+    showToast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Message envoyé à ${allDrivers.length} chauffeur${allDrivers.length>1?'s':''}`);
     convList = await OT_MSG.loadConversationList();
     renderAll(document.getElementById('driver-search').value);
-  } else { showToast('❌ Erreur lors de l\'envoi groupé'); }
+  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de l\'envoi groupé'); }
 }
 
 // ── MODAL GROUPE ──────────────────────────────────────────────────
@@ -664,15 +670,15 @@ async function openGroupModal(groupId) {
   const delBtn    = document.getElementById('btn-group-delete');
   nameInput.value = '';
   if (groupId) {
-    document.getElementById('group-modal-title').textContent = '⚙️ MODIFIER LE GROUPE';
+    document.getElementById('group-modal-title').textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> MODIFIER LE GROUPE';
     saveBtn.textContent  = '💾 Enregistrer';
     delBtn.style.display = 'inline-flex';
     const group = groupList.find(g => g.id === groupId);
     if (group) nameInput.value = group.name;
     renderGroupMembersChecklist(await OT_MSG.loadGroupMembers(groupId));
   } else {
-    document.getElementById('group-modal-title').textContent = '👥 NOUVEAU GROUPE';
-    saveBtn.textContent  = '✅ Créer';
+    document.getElementById('group-modal-title').textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> NOUVEAU GROUPE';
+    saveBtn.textContent  = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Créer';
     delBtn.style.display = 'none';
     renderGroupMembersChecklist([]);
   }
@@ -703,7 +709,7 @@ function renderGroupMembersChecklist(selectedNames) {
 async function saveGroup() {
   const nameInput = document.getElementById('group-name-input');
   const name = (nameInput.value || '').trim();
-  if (!name) { showToast('⚠️ Nom du groupe requis'); nameInput.focus(); return; }
+  if (!name) { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Nom du groupe requis'); nameInput.focus(); return; }
   const members = [...document.querySelectorAll('#group-members-list input:checked')].map(cb => cb.value);
   const btn = document.getElementById('btn-group-save');
   btn.disabled = true;
@@ -716,10 +722,10 @@ async function saveGroup() {
   btn.disabled = false;
   if (success) {
     closeGroupModal();
-    showToast(editingGroupId ? '✅ Groupe mis à jour' : '✅ Groupe créé');
+    showToast(editingGroupId ? '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Groupe mis à jour' : '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Groupe créé');
     if (editingGroupId && currentGroupId === editingGroupId) document.getElementById('conv-title').textContent = name;
     await loadGroupListUI();
-  } else { showToast('❌ Erreur lors de la sauvegarde'); }
+  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de la sauvegarde'); }
 }
 async function deleteGroupAction() {
   if (!editingGroupId || !confirm('Supprimer ce groupe et tous ses messages ?')) return;
@@ -735,16 +741,16 @@ async function deleteGroupAction() {
       document.getElementById('msg-input-area').style.display = 'none';
       document.getElementById('conv-av').style.background = '';
     }
-    showToast('✅ Groupe supprimé');
+    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Groupe supprimé');
     await loadGroupListUI();
-  } else { showToast('❌ Erreur lors de la suppression'); }
+  } else { showToast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de la suppression'); }
 }
 
 // ── UTILS ────────────────────────────────────────────────────────
 function autoGrow(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
 function updateCharCount() {
   const ta = document.getElementById('msg-textarea'), el = document.getElementById('char-count');
-  if (ta && el) { el.textContent = `${ta.value.length} / 2000`; el.style.color = ta.value.length > 1800 ? '#FC8181' : 'var(--gray)'; }
+  if (ta && el) { el.textContent = `${ta.value.length} / 2000`; el.style.color = ta.value.length > 1800 ? '#D88888' : 'var(--gray)'; }
 }
 function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
 function escAttr(str) { return String(str).replace(/'/g,'&#39;').replace(/"/g,'&quot;'); }

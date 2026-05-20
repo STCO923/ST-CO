@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>T SERVICE & CO — Dashboard</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="T.S">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts.css">
 <style>
-:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--blue2:#2563EB;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+:root{--navy:#0A0A0A;--navy2:#1A1A1A;--navy3:#141414;--blue:#C9A961;--blue2:#C9A961;--accent:#C9A961;--accent2:#C9A961;--light:#F5F5F0;--white:#FFFFFF;--gray:#8B7355;--gray2:#5A5048;--success:#6B8E23;--error:#8B2C2C;--purple:#4FD1E0;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
 .sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
@@ -54,7 +54,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .kpi:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.3);border-color:rgba(255,255,255,0.15);}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .kpi.blue::before{background:linear-gradient(90deg,var(--blue),var(--blue2));}
-.kpi.green::before{background:linear-gradient(90deg,var(--success),#2ECC71);}
+.kpi.green::before{background:linear-gradient(90deg,var(--success),#6B8E23);}
 .kpi.orange::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}
 .kpi.purple::before{background:linear-gradient(90deg,var(--purple),#9F67FA);}
 .kpi.teal::before{background:linear-gradient(90deg,#0891B2,#06B6D4);}
@@ -86,8 +86,8 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .today-meta{font-size:10px;color:var(--gray);margin-top:1px;}
 .slot-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;}
 .slot-dot.am{background:var(--accent);}
-.slot-dot.pm{background:#60A5FA;}
-.slot-dot.ampm{background:#2ECC71;}
+.slot-dot.pm{background:#E8C66E;}
+.slot-dot.ampm{background:#6B8E23;}
 
 /* RECENT LIST */
 .recent-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
@@ -467,7 +467,7 @@ const OT = (() => {
     }
     if (planEl && s.plan) {
       var labels = { starter:'Starter', pro:'Pro', business:'Business' };
-      var colors = { starter:'var(--gray)', pro:'#60A5FA', business:'#F5A623' };
+      var colors = { starter:'var(--gray)', pro:'#E8C66E', business:'#C9A961' };
       planEl.textContent = labels[s.plan] || s.plan;
       planEl.style.color = colors[s.plan] || 'var(--gray)';
     }
@@ -483,7 +483,7 @@ const OT = (() => {
     if (document.getElementById('ot-suspended-banner')) return;
     var banner = document.createElement('div');
     banner.id = 'ot-suspended-banner';
-    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fecaca;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;border-bottom:2px solid #ef4444;box-shadow:0 4px 20px rgba(239,68,68,0.4)';
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fecaca;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;border-bottom:2px solid #8B2C2C;box-shadow:0 4px 20px rgba(239,68,68,0.4)';
     banner.innerHTML = '<div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">&#9940;</span><div><div style="font-size:14px;font-weight:700;color:#fff">Compte suspendu</div><div style="font-size:11px;font-weight:400;margin-top:2px">Votre acces est temporairement suspendu. Contactez votre administrateur.</div></div></div><button onclick="OT.logout()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:6px 14px;color:#fff;cursor:pointer;font-family:Outfit,sans-serif;font-size:12px;font-weight:600">Se deconnecter</button>';
     document.body.prepend(banner);
     var main = document.querySelector('.main');
@@ -526,7 +526,7 @@ const OT = (() => {
 
   // Page d'acces refuse inline
   function _showAccessDenied(featureLabel) {
-    document.body.innerHTML = '<div style="font-family:Outfit,sans-serif;background:#0A1628;color:#E8EDF5;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;"><div style="max-width:440px"><div style="font-size:64px;margin-bottom:20px">&#128274;</div><div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;margin-bottom:10px">ACCES RESTREINT</div><div style="font-size:14px;color:#8A9BB5;margin-bottom:8px">Cette fonctionnalite n\'est pas incluse dans votre forfait actuel.</div><div style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:10px;padding:12px 16px;margin:16px 0;font-size:13px;color:#F5A623;font-weight:600">&#128275; ' + featureLabel + '</div><div style="font-size:12px;color:#4A5568;margin-bottom:24px">Contactez votre administrateur pour mettre a niveau votre abonnement.</div><button onclick="window.history.back()" style="background:linear-gradient(135deg,#1A4FBF,#2563EB);color:#fff;border:none;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-right:8px">Retour</button><button onclick="window.location.href=\'optimum_trans_dashboard.html\'" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#E8EDF5;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer">Dashboard</button></div></div>';
+    document.body.innerHTML = '<div style="font-family:Outfit,sans-serif;background:#0A0A0A;color:#F5F5F0;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;"><div style="max-width:440px"><div style="font-size:64px;margin-bottom:20px">&#128274;</div><div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;margin-bottom:10px">ACCES RESTREINT</div><div style="font-size:14px;color:#8B7355;margin-bottom:8px">Cette fonctionnalite n\'est pas incluse dans votre forfait actuel.</div><div style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:10px;padding:12px 16px;margin:16px 0;font-size:13px;color:#C9A961;font-weight:600">&#128275; ' + featureLabel + '</div><div style="font-size:12px;color:#5A5048;margin-bottom:24px">Contactez votre administrateur pour mettre a niveau votre abonnement.</div><button onclick="window.history.back()" style="background:linear-gradient(135deg,#C9A961,#C9A961);color:#fff;border:none;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-right:8px">Retour</button><button onclick="window.location.href=\'optimum_trans_dashboard.html\'" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#F5F5F0;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer">Dashboard</button></div></div>';
   }
 
   // REFRESH SESSION - relit le plan/statut depuis Supabase
@@ -653,6 +653,11 @@ function logout() { OT.logout(); }
 // v=1772397756
 
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 <aside class="sidebar">
@@ -669,28 +674,28 @@ function logout() { OT.logout(); }
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH & Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients & Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
       <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
     <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
 
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar">T.S</div>
-      <div><div class="user-name">Admin</div><div class="user-role">⚙️ Paramètres →</div></div>
+      <div><div class="user-name">Admin</div><div class="user-role"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres →</div></div>
     </div>
   </div>
 </aside>
@@ -704,7 +709,7 @@ function logout() { OT.logout(); }
       <div class="topbar-date" id="topbar-date">—</div>
     </div>
     <div class="topbar-right">
-      <span id="sync-info" style="font-size:11px;color:var(--gray)">✅ Connecté</span>
+      <span id="sync-info" style="font-size:11px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Connecté</span>
       <button class="btn-sm btn-ghost" onclick="loadAll()">🔄 Actualiser</button>
       <a href="optimum_trans_saisie.html" class="btn-sm btn-accent">+ Nouvelle tournée</a>
     </div>
@@ -717,7 +722,7 @@ function logout() { OT.logout(); }
       <div class="mob-topbar-title">DASHBOARD</div>
     </div>
     <div class="mob-topbar-right">
-      <span class="mob-topbar-sync" id="mob-sync-info">✅</span>
+      <span class="mob-topbar-sync" id="mob-sync-info"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>
       <div class="mob-topbar-btn" onclick="loadAll()" title="Actualiser">🔄</div>
       <a href="optimum_trans_saisie.html" class="mob-topbar-btn" title="Nouvelle tournée" style="text-decoration:none;font-size:18px">＋</a>
     </div>
@@ -727,7 +732,7 @@ function logout() { OT.logout(); }
 
     <!-- ALERT BANNER -->
     <div class="alert-banner hidden" id="alert-banner">
-      <span style="font-size:20px">⚠️</span>
+      <span style="font-size:20px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
       <div id="alert-text" style="font-size:13px;color:var(--light)"></div>
     </div>
 
@@ -759,7 +764,7 @@ function logout() { OT.logout(); }
         <div class="kpi-sub" id="k-ch-sub">—</div>
       </a>
       <a href="optimum_trans_clients.html" class="kpi teal">
-        <div class="kpi-icon">📈</div>
+        <div class="kpi-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
         <div class="kpi-val" id="k-marge">—</div>
         <div class="kpi-label">Marge ce mois</div>
         <div class="kpi-sub" id="k-marge-sub">—</div>
@@ -798,7 +803,7 @@ function logout() { OT.logout(); }
       <!-- AUJOURD'HUI -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">📅 AUJOURD'HUI</div>
+          <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> AUJOURD'HUI</div>
           <a href="optimum_trans_saisie.html" class="card-link">+ Ajouter →</a>
         </div>
         <div class="card-body">
@@ -811,7 +816,7 @@ function logout() { OT.logout(); }
       <!-- ALERTES -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">🔔 ALERTES</div>
+          <div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> ALERTES</div>
         </div>
         <div class="card-body" id="alertes-content">
           <div style="display:flex;align-items:center;gap:10px;padding:10px 0"><div class="spinner"></div></div>
@@ -868,7 +873,7 @@ const KEY_SB='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 const H=()=>OT.authHeaders();
 const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const DAYS_FR=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-const COLORS=['#1A4FBF','#27AE60','#7C3AED','#F5A623','#E74C3C','#0891B2','#D97706','#059669'];
+const COLORS=['#C9A961','#6B8E23','#4FD1E0','#C9A961','#8B2C2C','#0891B2','#D97706','#059669'];
 
 const now=new Date();
 const _fmtD=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -990,9 +995,9 @@ async function loadAll(){
     renderTopClients(monthReport, clients);
     renderRecent(recent);
     renderAlertes(chauffeurs, month);
-    setSyncInfo(`✅ Mis à jour ${now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})})`,'#2ECC71');
+    setSyncInfo(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Mis à jour ${now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})})`,'#6B8E23');
   }catch(e){
-    setSyncInfo('❌ Erreur connexion','#FC8181');
+    setSyncInfo('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur connexion','#D88888');
   }
 }
 
@@ -1097,7 +1102,7 @@ function renderTopClients(monthReport,clients){
   // Classement par CA réel (même calcul que la page Clients & Facturation)
   const byCl = (monthReport && Array.isArray(monthReport.byClient)) ? monthReport.byClient : [];
   const sorted = byCl.filter(c=>c.tournees>0).slice().sort((a,b)=>b.ca-a.ca).slice(0,6).map(c=>[c.nom, c.tournees, c.ca]);
-  if(!sorted.length){el.innerHTML=`<div class="empty-msg"><div class="e-icon">🏢</div>Aucune donnée ce mois</div>`;return;}
+  if(!sorted.length){el.innerHTML=`<div class="empty-msg"><div class="e-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg></div>Aucune donnée ce mois</div>`;return;}
   const max=sorted[0][2]||1;
   const ranks=['gold','silver','bronze'];
   el.innerHTML='';
@@ -1111,7 +1116,7 @@ function renderTopClients(monthReport,clients){
         <div class="top-bar"><div class="top-bar-fill" style="width:${Math.round(ca/max*100)}%;background:${COLORS[i%COLORS.length]}"></div></div>
       </div>
       <div style="text-align:right">
-        <div class="top-val" style="color:#2ECC71">${fe(ca)}</div>
+        <div class="top-val" style="color:#6B8E23">${fe(ca)}</div>
         <div style="font-size:10px;color:var(--gray)">${nb} tournées</div>
       </div>`;
     el.appendChild(div);
@@ -1147,16 +1152,16 @@ function renderAlertes(chauffeurs,month){
 
   // Chauffeurs sans tournées ce mois
   const sans=chauffeurs.filter(c=>!countsMois[c.nom]);
-  if(sans.length>0) items.push({icon:'😴',color:'#8A9BB5',msg:`${sans.length} chauffeur${sans.length>1?'s':''} sans tournée ce mois`,link:'optimum_trans_chauffeurs.html'});
+  if(sans.length>0) items.push({icon:'😴',color:'#8B7355',msg:`${sans.length} chauffeur${sans.length>1?'s':''} sans tournée ce mois`,link:'optimum_trans_chauffeurs.html'});
 
   // Chauffeurs très actifs
   const top=Object.entries(countsMois).sort((a,b)=>b[1]-a[1])[0];
-  if(top) items.push({icon:'⭐',color:'#F5A623',msg:`${top[0]} — meilleur mois : ${top[1]} tournées`,link:'optimum_trans_chauffeurs.html'});
+  if(top) items.push({icon:'⭐',color:'#C9A961',msg:`${top[0]} — meilleur mois : ${top[1]} tournées`,link:'optimum_trans_chauffeurs.html'});
 
-  if(month.length>0) items.push({icon:'✅',color:'#2ECC71',msg:`${month.length} tournées saisies ce mois — base de données OK`,link:null});
-  else items.push({icon:'⚠️',color:'#FC8181',msg:`Aucune tournée saisie ce mois — commencez la saisie`,link:'optimum_trans_saisie.html'});
+  if(month.length>0) items.push({icon:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>',color:'#6B8E23',msg:`${month.length} tournées saisies ce mois — base de données OK`,link:null});
+  else items.push({icon:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',color:'#D88888',msg:`Aucune tournée saisie ce mois — commencez la saisie`,link:'optimum_trans_saisie.html'});
 
-  if(!items.length){el.innerHTML=`<div class="empty-msg">✅ Tout est en ordre</div>`;return;}
+  if(!items.length){el.innerHTML=`<div class="empty-msg"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tout est en ordre</div>`;return;}
   el.innerHTML='';
   items.forEach(it=>{
     const div=document.createElement('div');
@@ -1172,7 +1177,7 @@ function renderAlertes(chauffeurs,month){
 function fe(n){return Math.round(n).toLocaleString('fr-FR')+'€';}
 function setSyncInfo(msg,color){
   const el=document.getElementById('sync-info');if(el){el.textContent=msg;el.style.color=color;}
-  const mob=document.getElementById('mob-sync-info');if(mob){mob.textContent=msg.startsWith('✅')?'✅':msg.startsWith('❌')?'❌':'🔄';mob.style.color=color;}
+  const mob=document.getElementById('mob-sync-info');if(mob){mob.textContent=msg.startsWith('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>')?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>':msg.startsWith('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>')?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'🔄';mob.style.color=color;}
 }
 </script>
 
@@ -1189,12 +1194,12 @@ document.addEventListener('keydown', function(e){
 <!-- ══ COOKIE BANNER ══ -->
 <div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
   <div style="flex:1;min-width:200px">
-    <div style="font-size:13px;font-weight:600;color:#F0F4FF;margin-bottom:3px">🍪 Cookies</div>
-    <div style="font-size:11px;color:#8899AA">Nous utilisons uniquement des cookies fonctionnels pour votre connexion. <a href="optimum_trans_legal.html#cookies" style="color:#F5A623;text-decoration:none">En savoir plus</a></div>
+    <div style="font-size:13px;font-weight:600;color:#F5F5F0;margin-bottom:3px">🍪 Cookies</div>
+    <div style="font-size:11px;color:#8B7355">Nous utilisons uniquement des cookies fonctionnels pour votre connexion. <a href="optimum_trans_legal.html#cookies" style="color:#C9A961;text-decoration:none">En savoir plus</a></div>
   </div>
   <div style="display:flex;gap:10px;flex-shrink:0">
-    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8899AA;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
-    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;color:#0A1628;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
+    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8B7355;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
+    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#C9A961,#8B7355);border:none;color:#0A0A0A;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
   </div>
 </div>
 <script data-cfasync="false">
@@ -1213,7 +1218,7 @@ document.addEventListener('keydown', function(e){
 
 <!-- Session sync temps réel dashboard -->
 <script>
-async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?'⚠️ Votre compte a été supprimé.':'⚠️ Votre compte a été suspendu.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#1A4FBF;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}if(window.OT_VIS&&OT_VIS.setManagedInterval){OT_VIS.setManagedInterval(check,30000);}else{setInterval(check,30000);}}
+async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été supprimé.':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été suspendu.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}if(window.OT_VIS&&OT_VIS.setManagedInterval){OT_VIS.setManagedInterval(check,30000);}else{setInterval(check,30000);}}
 document.addEventListener('DOMContentLoaded',function(){_startSessionSync();});
 </script>
 

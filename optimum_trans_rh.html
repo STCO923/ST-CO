@@ -22,16 +22,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>T SERVICE & CO — RH & Contrats</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="T.S">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts.css">
 <style>
-:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+:root{--navy:#0A0A0A;--navy2:#1A1A1A;--navy3:#141414;--blue:#C9A961;--accent:#C9A961;--accent2:#C9A961;--light:#F5F5F0;--white:#FFFFFF;--gray:#8B7355;--gray2:#5A5048;--success:#6B8E23;--error:#8B2C2C;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
 .sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
@@ -68,10 +68,10 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;margin-bottom:4px;}
 .card-sub{font-size:12px;color:var(--gray);margin-bottom:16px;}
 .badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
-.badge-green{background:rgba(39,174,96,0.15);color:#2ECC71;}
+.badge-green{background:rgba(39,174,96,0.15);color:#6B8E23;}
 .badge-orange{background:rgba(245,166,35,0.15);color:var(--accent);}
-.badge-red{background:rgba(231,76,60,0.15);color:#FC8181;}
-.badge-blue{background:rgba(26,79,191,0.2);color:#60A5FA;}
+.badge-red{background:rgba(231,76,60,0.15);color:#D88888;}
+.badge-blue{background:rgba(26,79,191,0.2);color:#E8C66E;}
 .badge-gray{background:rgba(255,255,255,0.06);color:var(--gray);}
 .params-table{width:100%;border-collapse:collapse;}
 .params-table th{padding:10px 14px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);text-align:left;border-bottom:1px solid var(--border);background:var(--navy3);}
@@ -98,7 +98,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .pdf-preview-strip .pdf-icon{font-size:22px;flex-shrink:0;}
 .pdf-preview-strip .pdf-name{flex:1;font-size:12px;font-weight:600;color:var(--white);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .pdf-preview-strip .pdf-size{font-size:10px;color:var(--gray);}
-.pdf-preview-strip .pdf-remove{background:none;border:none;cursor:pointer;font-size:14px;color:#FC8181;padding:3px 6px;border-radius:5px;}
+.pdf-preview-strip .pdf-remove{background:none;border:none;cursor:pointer;font-size:14px;color:#D88888;padding:3px 6px;border-radius:5px;}
 .pdf-preview-strip .pdf-remove:hover{background:rgba(231,76,60,0.15);}
 /* PDF viewer in card */
 .pdf-card-viewer{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
@@ -267,14 +267,14 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
   height: 100%;
   cursor: pointer;
   text-decoration: none;
-  color: var(--gray, #8A9BB5);
+  color: var(--gray, #8B7355);
   transition: color 0.2s;
   border-radius: 10px;
   padding: 4px 2px;
   -webkit-tap-highlight-color: transparent;
 }
 .mob-nav-item.active {
-  color: var(--blue, #1A4FBF);
+  color: var(--blue, #C9A961);
   background: rgba(26,79,191,0.12);
 }
 .mob-nav-item .mob-icon { font-size: 20px; line-height: 1; }
@@ -308,7 +308,7 @@ const OT = (() => {
     var avatarEl=document.querySelector('.user-avatar');var nameEl=document.querySelector('.user-card > div > div:first-child');var planEl=document.querySelector('.user-card > div > div:last-child');
     if(avatarEl&&s.name)avatarEl.textContent=s.name.substring(0,2).toUpperCase();
     if(nameEl&&s.name)nameEl.textContent=s.name.length>18?s.name.substring(0,16)+'...':s.name;
-    if(planEl&&s.plan){var labels={starter:'Essentiel',pro:'Pro',business:'Business'};var colors={starter:'var(--gray)',pro:'#60A5FA',business:'#F5A623'};planEl.textContent=labels[s.plan]||s.plan;planEl.style.color=colors[s.plan]||'var(--gray)';}
+    if(planEl&&s.plan){var labels={starter:'Essentiel',pro:'Pro',business:'Business'};var colors={starter:'var(--gray)',pro:'#E8C66E',business:'#C9A961'};planEl.textContent=labels[s.plan]||s.plan;planEl.style.color=colors[s.plan]||'var(--gray)';}
     [
       {href:'optimum_trans_saisie.html',feature:'saisie'},
       {href:'monmarche.html',feature:'monmarche'},
@@ -354,9 +354,14 @@ const OT = (() => {
   return{getSession,authHeaders,anonHeaders,can,logout,requireLogin,getCompanyId,refreshSession};
 })();
 function logout(){OT.logout();}
-async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?'⚠️ Votre compte a été supprimé. Vous allez être déconnecté.':'⚠️ Votre compte a été suspendu. Contactez votre administrateur.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#1A4FBF;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
+async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});if(!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){alert(inv.reason==='deleted'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été supprimé. Vous allez être déconnecté.':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été suspendu. Contactez votre administrateur.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}setInterval(check,30000);}
 if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionSync;}
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 <aside class="sidebar">
@@ -373,28 +378,28 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
     <a class="nav-item active" href="#"><span class="nav-icon">👔</span> RH & Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients & Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
       <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
     <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
-      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
     </div>
   </div>
 </aside>
@@ -403,7 +408,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
   <div class="topbar">
     <div class="topbar-title">👔 RH & CONTRATS</div>
     <div style="display:flex;gap:10px;align-items:center">
-      <span id="sync-info" style="font-size:11px;color:#2ECC71">✅ Connecté</span>
+      <span id="sync-info" style="font-size:11px;color:#6B8E23"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Connecté</span>
       <button class="btn-sm btn-ghost" onclick="switchTabByName('fiches')">💶 Fiches de paie</button>
       <button class="btn-sm btn-accent" onclick="openContratModal()">+ Nouveau contrat</button>
     </div>
@@ -412,9 +417,9 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
     <div class="tabs">
       <div class="tab active" onclick="switchTab('demandes',this)">📥 Demandes <span class="tab-badge-red" id="badge-dem" style="display:none">0</span></div>
-      <div class="tab" onclick="switchTab('absences',this)">📅 Absences & Congés</div>
+      <div class="tab" onclick="switchTab('absences',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Absences & Congés</div>
       <div class="tab" onclick="switchTab('soldes',this)">🏖️ Soldes Congés</div>
-      <div class="tab" onclick="switchTab('contrats',this)">📄 Contrats <span class="tab-badge" id="badge-contrats">0</span></div>
+      <div class="tab" onclick="switchTab('contrats',this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Contrats <span class="tab-badge" id="badge-contrats">0</span></div>
       <div class="tab" onclick="switchTab('fiches',this)">💶 Fiches de paie <span class="tab-badge" id="badge-fiches">0</span></div>
       <div class="tab" onclick="switchTab('calendrier',this)">📆 Calendrier</div>
     </div>
@@ -432,7 +437,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     <div id="tab-absences" style="display:none">
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <div><div class="card-title">📅 ABSENCES & CONGÉS</div><div class="card-sub">Historique des absences validées</div></div>
+          <div><div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ABSENCES & CONGÉS</div><div class="card-sub">Historique des absences validées</div></div>
           <div style="display:flex;gap:8px">
             <select id="abs-filter-type" class="is" style="width:160px" onchange="renderAbsences()"><option value="">Tous les types</option><option value="conge_paye">Congé payé</option><option value="maladie">Maladie</option><option value="absence_injustifiee">Abs. non justifiée</option><option value="jour_ferie">Jour férié</option><option value="formation">Formation</option><option value="autre">Autre</option></select>
             <select id="abs-filter-ch" class="is" style="width:170px" onchange="renderAbsences()"><option value="">Tous les chauffeurs</option></select>
@@ -455,7 +460,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     <div id="tab-contrats" style="display:none">
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <div><div class="card-title">📄 CONTRATS</div><div class="card-sub">Contrats de travail — cliquez sur 📄 pour voir le document PDF</div></div>
+          <div><div class="card-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> CONTRATS</div><div class="card-sub">Contrats de travail — cliquez sur <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> pour voir le document PDF</div></div>
           <button class="btn-sm btn-accent" onclick="openContratModal()">+ Nouveau contrat</button>
         </div>
         <!-- Alertes CDD -->
@@ -499,10 +504,10 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         </div>
         <div id="cal-grid"></div>
         <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
-          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#27AE60;display:inline-block"></span>Congé payé</span>
-          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#E74C3C;display:inline-block"></span>Maladie</span>
-          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#F5A623;display:inline-block"></span>Absence</span>
-          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#7C3AED;display:inline-block"></span>Formation</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#6B8E23;display:inline-block"></span>Congé payé</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#8B2C2C;display:inline-block"></span>Maladie</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#C9A961;display:inline-block"></span>Absence</span>
+          <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#4FD1E0;display:inline-block"></span>Formation</span>
           <span style="font-size:11px;display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#0891B2;display:inline-block"></span>Férié</span>
         </div>
       </div>
@@ -533,7 +538,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     </div>
 
     <div style="margin-bottom:10px">
-      <button type="button" onclick="autoCalculBrut()" style="background:linear-gradient(135deg,#1A4FBF,#3B82F6);border:none;border-radius:9px;padding:8px 16px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px">⚡ Calculer le brut automatiquement</button>
+      <button type="button" onclick="autoCalculBrut()" style="background:linear-gradient(135deg,#C9A961,#C9A961);border:none;border-radius:9px;padding:8px 16px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px">⚡ Calculer le brut automatiquement</button>
       <div id="fp-calcul-info" style="display:none;margin-top:6px;font-size:11px;color:var(--gray)"></div>
     </div>
     <div class="fg fg-2" style="margin-bottom:12px">
@@ -551,7 +556,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         <div class="pdf-upload-hint">PDF uniquement · max 5 Mo</div>
       </div>
       <div id="fp-preview-strip" style="display:none" class="pdf-preview-strip">
-        <span class="pdf-icon">📄</span>
+        <span class="pdf-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
         <div>
           <div class="pdf-name" id="fp-filename">—</div>
           <div class="pdf-size" id="fp-filesize">—</div>
@@ -560,7 +565,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       </div>
       <div id="fp-existing" style="display:none;margin-top:8px">
         <div style="display:flex;align-items:center;gap:8px;background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:8px;padding:9px 12px">
-          <span style="font-size:16px">📄</span>
+          <span style="font-size:16px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
           <span style="font-size:12px;color:var(--light);flex:1" id="fp-existing-name">Fiche existante</span>
           <button onclick="fpViewExisting()" style="background:var(--blue);border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--white);cursor:pointer">👁 Voir</button>
           <button onclick="fpReplace()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--gray);cursor:pointer">🔄 Remplacer</button>
@@ -577,7 +582,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border)">
       <button class="btn-sm btn-ghost" onclick="closeFiche()">Annuler</button>
-      <button class="btn-sm btn-accent" id="btn-save-fiche" onclick="saveFiche()">✅ Enregistrer</button>
+      <button class="btn-sm btn-accent" id="btn-save-fiche" onclick="saveFiche()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer</button>
     </div>
     <input type="hidden" id="fp-edit-id">
   </div>
@@ -586,7 +591,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- ══ MODAL CONTRAT ══ -->
 <div class="modal-overlay" id="modal-contrat" onclick="if(event.target===this)closeContrat()">
   <div class="modal">
-    <div class="modal-title" id="modal-contrat-title">📄 NOUVEAU CONTRAT</div>
+    <div class="modal-title" id="modal-contrat-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> NOUVEAU CONTRAT</div>
     <div class="modal-sub">Ajouter ou modifier un contrat chauffeur</div>
 
     <div style="margin-bottom:12px"><label class="lbl">Chauffeur</label><select id="c-chauffeur" class="is"><option value="">— Sélectionner —</option></select></div>
@@ -613,12 +618,12 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <label class="lbl">📎 Document PDF du contrat</label>
       <div class="pdf-upload-zone" id="pdf-drop-zone" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
         <input type="file" id="c-pdf-input" accept=".pdf,application/pdf" onchange="onPdfSelected(this)">
-        <div class="pdf-upload-icon">📄</div>
+        <div class="pdf-upload-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
         <div class="pdf-upload-label">Cliquez ou glissez votre contrat PDF ici</div>
         <div class="pdf-upload-hint">PDF uniquement · max 5 Mo</div>
       </div>
       <div id="pdf-preview-strip" style="display:none" class="pdf-preview-strip">
-        <span class="pdf-icon">📄</span>
+        <span class="pdf-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
         <div>
           <div class="pdf-name" id="pdf-filename">—</div>
           <div class="pdf-size" id="pdf-filesize">—</div>
@@ -627,7 +632,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       </div>
       <div id="pdf-existing" style="display:none;margin-top:8px">
         <div style="display:flex;align-items:center;gap:8px;background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:8px;padding:9px 12px">
-          <span style="font-size:16px">📄</span>
+          <span style="font-size:16px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
           <span style="font-size:12px;color:var(--light);flex:1" id="pdf-existing-name">Contrat existant</span>
           <button onclick="viewPdfModal()" style="background:var(--blue);border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--white);cursor:pointer">👁 Voir</button>
           <button onclick="replacePdf()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--gray);cursor:pointer">🔄 Remplacer</button>
@@ -644,7 +649,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border)">
       <button class="btn-sm btn-ghost" onclick="closeContrat()">Annuler</button>
-      <button class="btn-sm btn-accent" id="btn-save-contrat" onclick="saveContrat()">✅ Enregistrer</button>
+      <button class="btn-sm btn-accent" id="btn-save-contrat" onclick="saveContrat()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer</button>
     </div>
     <input type="hidden" id="c-edit-id">
   </div>
@@ -655,7 +660,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
   <div class="modal-pdf">
     <div class="modal-pdf-header">
       <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px">📄</span>
+        <span style="font-size:20px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>
         <div>
           <div style="font-size:14px;font-weight:700;color:var(--white)" id="pdf-view-title">Contrat</div>
           <div style="font-size:11px;color:var(--gray)" id="pdf-view-sub">—</div>
@@ -663,13 +668,13 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       </div>
       <div style="display:flex;gap:8px">
         <button onclick="downloadCurrentPdf()" style="background:var(--blue);border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;color:var(--white);cursor:pointer;">⬇ Télécharger</button>
-        <button onclick="closePdfView()" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:7px 12px;font-size:13px;color:#FC8181;cursor:pointer;">✕</button>
+        <button onclick="closePdfView()" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:7px 12px;font-size:13px;color:#D88888;cursor:pointer;">✕</button>
       </div>
     </div>
     <div class="modal-pdf-body">
       <iframe id="pdf-iframe" style="width:100%;height:100%;border:none;display:none"></iframe>
       <div id="pdf-loading" style="display:flex;align-items:center;justify-content:center;height:100%;gap:12px;background:#f5f5f5">
-        <div class="spinner" style="border-top-color:#1A4FBF;border-color:#ddd"></div>
+        <div class="spinner" style="border-top-color:#C9A961;border-color:#ddd"></div>
         <span style="color:#555;font-size:13px">Chargement du PDF...</span>
       </div>
     </div>
@@ -720,8 +725,8 @@ async function autoCalculBrut(){
       details.push(`${t.date} · ${t.client_nom||'?'} (${dayType}) → ${trf}€`);
     });
     document.getElementById('fp-brut').value=Math.round(brut);
-    info.innerHTML=`✅ <strong>${tournees.length} tournées</strong> → Brut calculé : <strong>${Math.round(brut)}€</strong><br><small style="color:var(--gray2)">${details.slice(0,5).join(' | ')}${details.length>5?` … +${details.length-5} autres`:''}</small>`;
-  }catch(e){info.textContent='❌ Erreur : '+e.message;toast('Erreur calcul : '+e.message,'error');}
+    info.innerHTML=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> <strong>${tournees.length} tournées</strong> → Brut calculé : <strong>${Math.round(brut)}€</strong><br><small style="color:var(--gray2)">${details.slice(0,5).join(' | ')}${details.length>5?` … +${details.length-5} autres`:''}</small>`;
+  }catch(e){info.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur : '+e.message;toast('Erreur calcul : '+e.message,'error');}
 }
 let calYear=new Date().getFullYear(), calMonth2=new Date().getMonth();
 
@@ -776,13 +781,13 @@ async function loadDemandes(){
     const badge=document.getElementById('badge-dem');
     if(data.length>0){badge.textContent=data.length;badge.style.display='';}else{badge.style.display='none';}
     const el=document.getElementById('demandes-list');
-    if(!data.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px">✅</div>Aucune demande en attente</div>';return;}
+    if(!data.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>Aucune demande en attente</div>';return;}
     el.innerHTML='';
     data.forEach(d=>{
       const div=document.createElement('div');
       div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;';
-      const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:'⚠️ Abs. non justifiée',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
-      div.innerHTML=`<div style="flex:1"><div style="font-weight:700;color:var(--white);font-size:13px">${d.chauffeur_nom}</div><div style="font-size:11px;color:var(--gray);margin-top:2px">${typeL[d.type]||d.type} · Du ${fmtDate(d.date_debut)} au ${fmtDate(d.date_fin)}</div>${d.note?`<div style="font-size:11px;color:var(--gray2);margin-top:3px;font-style:italic">"${d.note}"</div>`:''}</div><div style="display:flex;gap:8px"><button onclick="approuver('${d.id}')" style="background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#2ECC71;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit">✅ Approuver</button><button onclick="refuser('${d.id}')" style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#FC8181;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit">❌ Refuser</button></div>`;
+      const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Abs. non justifiée',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
+      div.innerHTML=`<div style="flex:1"><div style="font-weight:700;color:var(--white);font-size:13px">${d.chauffeur_nom}</div><div style="font-size:11px;color:var(--gray);margin-top:2px">${typeL[d.type]||d.type} · Du ${fmtDate(d.date_debut)} au ${fmtDate(d.date_fin)}</div>${d.note?`<div style="font-size:11px;color:var(--gray2);margin-top:3px;font-style:italic">"${d.note}"</div>`:''}</div><div style="display:flex;gap:8px"><button onclick="approuver('${d.id}')" style="background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#6B8E23;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuver</button><button onclick="refuser('${d.id}')" style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#D88888;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refuser</button></div>`;
       el.appendChild(div);
     });
   }catch(e){document.getElementById('demandes-list').innerHTML='<div style="color:var(--error);padding:20px">Erreur: '+e.message+'</div>';}
@@ -790,11 +795,11 @@ async function loadDemandes(){
 
 async function approuver(id){
   await fetch(`${SB}/rest/v1/absences?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H(),body:JSON.stringify({statut:'approuve'})});
-  toast('✅ Demande approuvée'); loadAll();
+  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Demande approuvée'); loadAll();
 }
 async function refuser(id){
   await fetch(`${SB}/rest/v1/absences?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:H(),body:JSON.stringify({statut:'refuse'})});
-  toast('❌ Demande refusée'); loadAll();
+  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Demande refusée'); loadAll();
 }
 
 // ── ABSENCES ──
@@ -811,9 +816,9 @@ function renderAbsences(){
   const data=allAbsences.filter(a=>(typeF?a.type===typeF:true)&&(chF?a.chauffeur_nom===chF:true));
   const tbody=document.getElementById('abs-tbody');
   if(!data.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--gray)">Aucune absence</td></tr>';return;}
-  const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:'⚠️ Absence NJ',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
+  const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absence NJ',jour_ferie:'🎉 Jour férié',formation:'📚 Formation',autre:'📌 Autre'};
   const statL={approuve:'badge-green',en_attente:'badge-orange',refuse:'badge-red'};
-  const statTxt={approuve:'✅ Approuvé',en_attente:'⏳ En attente',refuse:'❌ Refusé'};
+  const statTxt={approuve:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuvé',en_attente:'⏳ En attente',refuse:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refusé'};
   tbody.innerHTML='';
   data.forEach(a=>{
     const tr=document.createElement('tr');
@@ -840,7 +845,7 @@ function renderSoldes(){
     const pct=Math.min((s.solde_actuel/25)*100,100);
     const div=document.createElement('div');
     div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:16px;';
-    div.innerHTML=`<div style="font-weight:700;color:var(--white);font-size:13px;margin-bottom:8px">${s.chauffeur_nom}</div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray);margin-bottom:6px"><span>Solde actuel</span><span style="font-weight:700;color:${s.solde_actuel>=5?'#2ECC71':s.solde_actuel>=2?'#F5A623':'#FC8181'};font-size:16px">${s.solde_actuel||0}<span style="font-size:11px;font-weight:400"> j</span></span></div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%;background:${pct>=50?'#27AE60':pct>=25?'#F5A623':'#E74C3C'}"></div></div><div style="font-size:10px;color:var(--gray2);margin-top:6px">Acquis: ${s.jours_acquis||0}j · Pris: ${s.jours_pris||0}j · Mis à jour: ${s.updated_at?fmtDate(s.updated_at.split('T')[0]):'—'}</div>`;
+    div.innerHTML=`<div style="font-weight:700;color:var(--white);font-size:13px;margin-bottom:8px">${s.chauffeur_nom}</div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray);margin-bottom:6px"><span>Solde actuel</span><span style="font-weight:700;color:${s.solde_actuel>=5?'#6B8E23':s.solde_actuel>=2?'#C9A961':'#D88888'};font-size:16px">${s.solde_actuel||0}<span style="font-size:11px;font-weight:400"> j</span></span></div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%;background:${pct>=50?'#6B8E23':pct>=25?'#C9A961':'#8B2C2C'}"></div></div><div style="font-size:10px;color:var(--gray2);margin-top:6px">Acquis: ${s.jours_acquis||0}j · Pris: ${s.jours_pris||0}j · Mis à jour: ${s.updated_at?fmtDate(s.updated_at.split('T')[0]):'—'}</div>`;
     grid.appendChild(div);
   });
 }
@@ -857,7 +862,7 @@ async function loadContrats(){
 
 function renderContrats(){
   const tbody=document.getElementById('contrats-tbody');
-  if(!allContrats.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px">📄</div>Aucun contrat — cliquez "+ Nouveau contrat"</td></tr>';return;}
+  if(!allContrats.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--gray)"><div style="font-size:32px;margin-bottom:8px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>Aucun contrat — cliquez "+ Nouveau contrat"</td></tr>';return;}
   // CDD alerts
   const today=new Date(); today.setHours(0,0,0,0);
   const alerts=allContrats.filter(c=>c.date_fin&&c.type_contrat!=='CDI').map(c=>{
@@ -869,7 +874,7 @@ function renderContrats(){
   alerts.forEach(c=>{
     const div=document.createElement('div');
     div.className='alert-card';
-    div.innerHTML=`<span style="font-size:18px">${c.daysLeft<=7?'🔴':'🟠'}</span><div><strong style="color:var(--white)">${c.chauffeur_nom}</strong> — ${c.type_contrat} expire dans <strong style="color:${c.daysLeft<=7?'#FC8181':'#F5A623'}">${c.daysLeft} jour${c.daysLeft>1?'s':''}</strong> (${fmtDate(c.date_fin)})</div>`;
+    div.innerHTML=`<span style="font-size:18px">${c.daysLeft<=7?'🔴':'🟠'}</span><div><strong style="color:var(--white)">${c.chauffeur_nom}</strong> — ${c.type_contrat} expire dans <strong style="color:${c.daysLeft<=7?'#D88888':'#C9A961'}">${c.daysLeft} jour${c.daysLeft>1?'s':''}</strong> (${fmtDate(c.date_fin)})</div>`;
     alertsEl.appendChild(div);
   });
   tbody.innerHTML='';
@@ -881,11 +886,11 @@ function renderContrats(){
       <td style="font-weight:700;color:var(--white)">${c.chauffeur_nom}</td>
       <td><span class="badge ${typeColors[c.type_contrat]||'badge-gray'}">${c.type_contrat}</span></td>
       <td>${c.date_debut?fmtDate(c.date_debut):'—'}</td>
-      <td>${c.date_fin?`<span style="color:${daysUntil(c.date_fin)<=30?'#FC8181':'var(--light)'}">${fmtDate(c.date_fin)}</span>`:'<span style="color:var(--gray)">—</span>'}</td>
-      <td style="color:#2ECC71;font-weight:600">${c.salaire_base?c.salaire_base+'€/mois':'—'}</td>
+      <td>${c.date_fin?`<span style="color:${daysUntil(c.date_fin)<=30?'#D88888':'var(--light)'}">${fmtDate(c.date_fin)}</span>`:'<span style="color:var(--gray)">—</span>'}</td>
+      <td style="color:#6B8E23;font-weight:600">${c.salaire_base?c.salaire_base+'€/mois':'—'}</td>
       <td>
         ${hasPdf
-          ? `<button onclick="viewContratPdf('${c.id}')" style="background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#60A5FA;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit">📄 Voir PDF</button>`
+          ? `<button onclick="viewContratPdf('${c.id}')" style="background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#E8C66E;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Voir PDF</button>`
           : `<span style="color:var(--gray2);font-size:11px;font-style:italic">Pas de document</span>`
         }
       </td>
@@ -908,8 +913,8 @@ function daysUntil(dateStr){
 function openContratModal(){
   resetPdfState();
   document.getElementById('c-edit-id').value='';
-  document.getElementById('modal-contrat-title').textContent='📄 NOUVEAU CONTRAT';
-  document.getElementById('btn-save-contrat').textContent='✅ Enregistrer';
+  document.getElementById('modal-contrat-title').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> NOUVEAU CONTRAT';
+  document.getElementById('btn-save-contrat').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer';
   document.getElementById('c-chauffeur').value='';
   document.getElementById('c-type').value='CDI';
   document.getElementById('c-debut').value='';
@@ -1050,14 +1055,14 @@ async function saveContrat(){
       const r=await fetch(`${SB}/rest/v1/contrats`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(payload)});
       if(!r.ok) throw new Error(await r.text());
     }
-    toast(`✅ Contrat ${id?'modifié':'ajouté'}${pdfToSave?' avec PDF':''}`);
+    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Contrat ${id?'modifié':'ajouté'}${pdfToSave?' avec PDF':''}`);
     closeContrat();
     await loadContrats();
     switchTabByName('contrats');
   }catch(e){
-    toast('❌ '+e.message,'error');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
   }finally{
-    btn.disabled=false; btn.textContent=id?'💾 Enregistrer':'✅ Enregistrer';
+    btn.disabled=false; btn.textContent=id?'💾 Enregistrer':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer';
     document.getElementById('pdf-upload-progress').style.display='none';
   }
 }
@@ -1120,7 +1125,7 @@ function renderCalendrier(){
   const end=`${calYear}-${String(calMonth2+1).padStart(2,'0')}-${daysInMonth}`;
   const absences=allAbsences.filter(a=>a.statut==='approuve'&&a.date_fin>=start&&a.date_debut<=end);
   const chauffeurs=[...new Set(absences.map(a=>a.chauffeur_nom))].sort();
-  const colors={conge_paye:'#27AE60',maladie:'#E74C3C',absence_injustifiee:'#F5A623',jour_ferie:'#0891B2',formation:'#7C3AED',autre:'#F5A623'};
+  const colors={conge_paye:'#6B8E23',maladie:'#8B2C2C',absence_injustifiee:'#C9A961',jour_ferie:'#0891B2',formation:'#4FD1E0',autre:'#C9A961'};
   const grid=document.getElementById('cal-grid');
   if(!chauffeurs.length){grid.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray)">Aucune absence ce mois</div>';return;}
   const days=Array.from({length:daysInMonth},(_,i)=>i+1);
@@ -1136,7 +1141,7 @@ function renderCalendrier(){
     days.forEach(d=>{
       const dateStr=`${calYear}-${String(calMonth2+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const abs=absences.find(a=>a.chauffeur_nom===nom&&a.date_debut<=dateStr&&a.date_fin>=dateStr);
-      html+=`<td style="padding:2px;border-bottom:1px solid rgba(255,255,255,0.04);text-align:center">${abs?`<div style="width:18px;height:18px;border-radius:4px;background:${colors[abs.type]||'#F5A623'};margin:0 auto" title="${abs.type}"></div>`:''}  </td>`;
+      html+=`<td style="padding:2px;border-bottom:1px solid rgba(255,255,255,0.04);text-align:center">${abs?`<div style="width:18px;height:18px;border-radius:4px;background:${colors[abs.type]||'#C9A961'};margin:0 auto" title="${abs.type}"></div>`:''}  </td>`;
     });
     html+='</tr>';
   });
@@ -1204,13 +1209,13 @@ function renderFiches(){
         </div>
       </div>
       ${f.salaire_net||f.salaire_brut?`<div style="display:flex;gap:16px;margin-bottom:10px">
-        ${f.salaire_net?`<div><div style="font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:1px">Net</div><div style="font-size:16px;font-weight:700;color:#2ECC71">${f.salaire_net.toLocaleString('fr-FR')}€</div></div>`:''}
+        ${f.salaire_net?`<div><div style="font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:1px">Net</div><div style="font-size:16px;font-weight:700;color:#6B8E23">${f.salaire_net.toLocaleString('fr-FR')}€</div></div>`:''}
         ${f.salaire_brut?`<div><div style="font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:1px">Brut</div><div style="font-size:16px;font-weight:700;color:var(--light)">${f.salaire_brut.toLocaleString('fr-FR')}€</div></div>`:''}
       </div>`:''}
       ${f.notes?`<div style="font-size:11px;color:var(--gray2);margin-bottom:10px;font-style:italic">${f.notes}</div>`:''}
       <div style="display:flex;gap:8px">
         ${hasPdf
-          ? `<button onclick="viewFichePdf('${f.id}')" style="flex:1;background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#60A5FA;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit">📄 Voir la fiche</button>`
+          ? `<button onclick="viewFichePdf('${f.id}')" style="flex:1;background:rgba(26,79,191,0.15);border:1px solid rgba(26,79,191,0.3);color:#E8C66E;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Voir la fiche</button>`
           : `<span style="flex:1;font-size:11px;color:var(--gray2);font-style:italic;display:flex;align-items:center">Pas de PDF</span>`
         }
       </div>`;
@@ -1222,7 +1227,7 @@ function openFicheModal(){
   fpResetState();
   document.getElementById('fp-edit-id').value='';
   document.getElementById('modal-fiche-title').textContent='💶 AJOUTER UNE FICHE DE PAIE';
-  document.getElementById('btn-save-fiche').textContent='✅ Enregistrer';
+  document.getElementById('btn-save-fiche').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer';
   document.getElementById('fp-chauffeur').value='';
   const now=new Date();
   document.getElementById('fp-mois').value=now.getMonth()===0?12:now.getMonth();
@@ -1329,11 +1334,11 @@ async function saveFiche(){
       const r=await fetch(`${SB}/rest/v1/fiches_paie`,{method:'POST',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify(payload)});
       if(!r.ok) throw new Error(await r.text());
     }
-    toast(`✅ Fiche de ${chauffeur} — ${MOIS_NOM[mois]} ${annee} ${id?'modifiée':'ajoutée'}${pdfToSave?' avec PDF':''}`);
+    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Fiche de ${chauffeur} — ${MOIS_NOM[mois]} ${annee} ${id?'modifiée':'ajoutée'}${pdfToSave?' avec PDF':''}`);
     closeFiche();
     loadFiches();
-  }catch(e){ toast('❌ '+e.message,'error'); }
-  finally{ btn.disabled=false; btn.textContent=document.getElementById('fp-edit-id').value?'💾 Enregistrer':'✅ Enregistrer'; document.getElementById('fp-upload-progress').style.display='none'; }
+  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error'); }
+  finally{ btn.disabled=false; btn.textContent=document.getElementById('fp-edit-id').value?'💾 Enregistrer':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer'; document.getElementById('fp-upload-progress').style.display='none'; }
 }
 
 async function viewFichePdf(id){
@@ -1357,19 +1362,19 @@ async function viewFichePdf(id){
     iframe.src=viewingPdfBlobUrl;
     iframe.onload=()=>{ document.getElementById('pdf-loading').style.display='none'; iframe.style.display='block'; };
     setTimeout(()=>{ document.getElementById('pdf-loading').style.display='none'; iframe.style.display='block'; },2000);
-  }catch(e){ toast('❌ Erreur chargement PDF','error'); }
+  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur chargement PDF','error'); }
 }
 
 
-function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'❌':'✅'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>'}</span> ${msg}`;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',4500);}
 </script>
 
 
 <div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
-  <div style="flex:1;min-width:200px"><div style="font-size:13px;font-weight:600;color:#F0F4FF;margin-bottom:3px">🍪 Cookies</div><div style="font-size:11px;color:#8899AA">Nous utilisons uniquement des cookies fonctionnels.</div></div>
+  <div style="flex:1;min-width:200px"><div style="font-size:13px;font-weight:600;color:#F5F5F0;margin-bottom:3px">🍪 Cookies</div><div style="font-size:11px;color:#8B7355">Nous utilisons uniquement des cookies fonctionnels.</div></div>
   <div style="display:flex;gap:10px;flex-shrink:0">
-    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8899AA;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
-    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;color:#0A1628;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
+    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8B7355;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
+    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#C9A961,#8B7355);border:none;color:#0A0A0A;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
   </div>
 </div>
 <script data-cfasync="false">

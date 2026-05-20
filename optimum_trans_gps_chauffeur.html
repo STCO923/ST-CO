@@ -6,14 +6,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Suivi GPS — T SERVICE & CO</title>
-<link rel="icon" href="/favicon.ico">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts.css">
 <script src="ot_session.js"></script>
 <style>
 :root{
-  --navy:#0A1628;--navy2:#0D1F3C;--green:#10B981;--green2:#065F46;
-  --blue:#2563EB;--accent:#F5A623;--red:#EF4444;--purple:#8B5CF6;
-  --white:#F0F4FF;--gray:#8A9BB5;--border:rgba(255,255,255,0.08);
+  --navy:#0A0A0A;--navy2:#0D1F3C;--green:#6B8E23;--green2:#065F46;
+  --blue:#C9A961;--accent:#C9A961;--red:#8B2C2C;--purple:#4FD1E0;
+  --white:#F5F5F0;--gray:#8B7355;--border:rgba(255,255,255,0.08);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;overflow:hidden}
@@ -32,7 +32,7 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:Outf
 .logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--white)}
 .logo span{color:var(--accent)}
 .btn-logout{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.2);
-  color:#FC8181;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;
+  color:#D88888;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;
   cursor:pointer;font-family:Outfit,sans-serif}
 
 /* GREETING */
@@ -111,9 +111,9 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:Outf
   display:flex;align-items:center;justify-content:center;gap:6px;
 }
 .btn-statut:active{transform:scale(0.96)}
-.st-en_route{border-color:rgba(96,165,250,0.3);background:rgba(96,165,250,0.08);color:#60A5FA}
-.st-livraison{border-color:rgba(245,166,35,0.3);background:rgba(245,166,35,0.08);color:#F5A623}
-.st-pause{border-color:rgba(139,92,246,0.3);background:rgba(139,92,246,0.08);color:#A78BFA}
+.st-en_route{border-color:rgba(96,165,250,0.3);background:rgba(96,165,250,0.08);color:#E8C66E}
+.st-livraison{border-color:rgba(245,166,35,0.3);background:rgba(245,166,35,0.08);color:#C9A961}
+.st-pause{border-color:rgba(139,92,246,0.3);background:rgba(139,92,246,0.08);color:#4FD1E0}
 .st-fin{border-color:rgba(107,114,128,0.3);background:rgba(107,114,128,0.08);color:#9CA3AF}
 .btn-statut.selected{border-width:2px;filter:brightness(1.3);transform:scale(1.03)}
 
@@ -133,12 +133,12 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:Outf
 
 /* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:var(--navy2);border-top:1px solid var(--border);display:flex;z-index:100;}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px;cursor:pointer;border:none;background:none;color:#8A9BB5;font-family:Outfit,sans-serif;font-size:10px;font-weight:500;gap:3px;transition:color 0.2s;position:relative;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px;cursor:pointer;border:none;background:none;color:#8B7355;font-family:Outfit,sans-serif;font-size:10px;font-weight:500;gap:3px;transition:color 0.2s;position:relative;}
 .nav-btn.active{color:var(--accent);}
 .nav-btn .nav-icon{font-size:20px;}
-.gps-live-dot{display:none;width:7px;height:7px;border-radius:50%;background:#27AE60;position:absolute;top:7px;right:calc(50% - 20px);animation:gps-blink 1.2s infinite;}
-@keyframes gps-blink{0%,100%{opacity:1;box-shadow:0 0 4px #27AE60}50%{opacity:0.4;box-shadow:none}}
-#nav-gps.gps-on{color:#27AE60;}
+.gps-live-dot{display:none;width:7px;height:7px;border-radius:50%;background:#6B8E23;position:absolute;top:7px;right:calc(50% - 20px);animation:gps-blink 1.2s infinite;}
+@keyframes gps-blink{0%,100%{opacity:1;box-shadow:0 0 4px #6B8E23}50%{opacity:0.4;box-shadow:none}}
+#nav-gps.gps-on{color:#6B8E23;}
 
 /* TOAST */
 .toast{
@@ -151,6 +151,11 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:Outf
 
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -199,7 +204,7 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:Outf
     <div class="statuts-title">Mon statut actuel</div>
     <div class="statuts-grid">
       <button class="btn-statut st-en_route selected" id="st-en_route" onclick="setStatut('en_route')">🚐 En route</button>
-      <button class="btn-statut st-livraison" id="st-livraison" onclick="setStatut('livraison')">📦 Livraison</button>
+      <button class="btn-statut st-livraison" id="st-livraison" onclick="setStatut('livraison')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Livraison</button>
       <button class="btn-statut st-pause" id="st-pause" onclick="setStatut('pause')">⏸ Pause</button>
       <button class="btn-statut st-fin" id="st-fin" onclick="setStatut('fin')">🏁 Fin de tournée</button>
     </div>
@@ -212,7 +217,7 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:Outf
 
   <!-- DIAGNOSTIC -->
   <div style="margin-top:12px;text-align:center">
-    <button onclick="showGpsDiag()" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:11px;color:var(--gray);cursor:pointer;font-family:inherit">🔍 Diagnostic</button>
+    <button onclick="showGpsDiag()" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:11px;color:var(--gray);cursor:pointer;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Diagnostic</button>
   </div>
   <pre id="gps-diag-out" style="display:none;white-space:pre-wrap;word-break:break-word;background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:10px;color:#A7F3D0;font-family:monospace;margin-top:10px"></pre>
 </div>
@@ -223,7 +228,7 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:Outf
   <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px">MODULE NON ACTIVÉ</div>
   <div style="font-size:14px;color:var(--gray);line-height:1.6">Le suivi GPS temps réel n'est pas<br>activé sur votre compte.<br>Contactez votre administrateur.</div>
   <div style="font-size:11px;color:var(--gray);margin-top:4px">addon_tracking = false dans la session</div>
-  <button onclick="window.location.href='optimum_trans_dashboard.html'" style="padding:12px 28px;background:linear-gradient(135deg,#1A4FBF,#2563EB);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:Outfit,sans-serif">Retour au dashboard</button>
+  <button onclick="window.location.href='optimum_trans_dashboard.html'" style="padding:12px 28px;background:linear-gradient(135deg,#C9A961,#C9A961);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:Outfit,sans-serif">Retour au dashboard</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -234,17 +239,17 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:Outf
     <span class="nav-icon">📆</span>Planning
   </button>
   <button class="nav-btn" onclick="window.location.href='optimum_trans_chauffeur_vue.html#absences'">
-    <span class="nav-icon">📅</span>Absences
+    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Absences
   </button>
   <button class="nav-btn" onclick="window.location.href='optimum_trans_chauffeur_vue.html#documents'">
-    <span class="nav-icon">📄</span>Documents
+    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></span>Documents
   </button>
   <button class="nav-btn" onclick="window.location.href='optimum_trans_chauffeur_vue.html#gazole'">
-    <span class="nav-icon">⛽</span>Gazole
+    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span>Gazole
   </button>
   <button class="nav-btn active" id="nav-gps">
     <span class="gps-live-dot" id="gps-live-dot"></span>
-    <span class="nav-icon">📍</span>Mon GPS
+    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span>Mon GPS
   </button>
 </nav>
 
@@ -305,7 +310,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Avertissement si app passe en arrière-plan
   document.addEventListener('visibilitychange', function() {
     if (document.hidden && OT_GPS.isActive()) {
-      toast('⚠️ Gardez l\'écran allumé pour continuer le partage GPS');
+      toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Gardez l\'écran allumé pour continuer le partage GPS');
     }
   });
 });

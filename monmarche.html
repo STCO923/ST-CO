@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Mon Marche - T SERVICE & CO</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1f6d2;</text></svg>">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml"><text y='.9em' font-size='90'>&#x1f6d2;</text></svg>">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="/fonts.css">
 <script src="ot_session.js"></script>
@@ -12,9 +12,9 @@
 <style>
 :root{
   --navy:#07111F;--navy2:#0D1B2E;--navy3:#0A1525;--card:#0F1E33;
-  --border:rgba(255,255,255,0.12);--blue:#1A4FBF;--blue2:#2563EB;
-  --accent:#F5A623;--red:#E74C3C;--red2:#FC8181;
-  --green:#2ECC71;--gray:#5A7A9A;--light:#B8D0E8;--white:#EEF4FF;
+  --border:rgba(255,255,255,0.12);--blue:#C9A961;--blue2:#C9A961;
+  --accent:#C9A961;--red:#8B2C2C;--red2:#D88888;
+  --green:#6B8E23;--gray:#5A7A9A;--light:#B8D0E8;--white:#EEF4FF;
   --input-bg:#1a2d45;--input-color:#EEF4FF;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -27,7 +27,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--white);m
 .logo-name{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);line-height:1;margin-top:4px;}
 .logo-name span{color:var(--accent);}
 .sidebar-nav{flex:1;padding:16px 12px;overflow-y:auto;}
-.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#4A5568;padding:8px 8px 4px;margin-top:8px;}
+.nav-section-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#5A5048;padding:8px 8px 4px;margin-top:8px;}
 .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-bottom:2px;font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;}
 .nav-item:hover{background:var(--card);color:var(--light);}
 .nav-item.active{background:linear-gradient(135deg,rgba(26,79,191,0.4),rgba(26,79,191,0.2));color:var(--white);border:1px solid rgba(26,79,191,0.3);}
@@ -177,6 +177,11 @@ tr.summary-row td.lbl{text-align:left;padding-left:10px;color:var(--accent);font
 .mobile-nav-icon{font-size:18px;}
 @media(max-width:768px){.mobile-nav{display:block;}}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 <div class="app">
@@ -198,15 +203,15 @@ tr.summary-row td.lbl{text-align:left;padding-left:10px;color:var(--accent);font
       <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">&#x1f4ca;</span> Clients &amp; Facturation</a>
       <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">&#x1f690;</span> Parc Vehicules</a>
       <a class="nav-item" href="amende.html"><span class="nav-icon">&#x1f694;</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
       <a class="nav-item active" href="monmarche.html"><span class="nav-icon">&#x1f6d2;</span> Mon Marche</a>
       <div class="nav-section-label">Communication</div>
       <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie</a>
       <div class="nav-section-label">Intelligence</div>
-      <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+      <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
       <a class="nav-item" style="display:none" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
-      <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
+      <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
       <div class="nav-section-label">Parametres</div>
       <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">&#x2699;</span> Parametres</a>
     </nav>
@@ -214,7 +219,7 @@ tr.summary-row td.lbl{text-align:left;padding-left:10px;color:var(--accent);font
       <div class="user-card" onclick="window.location='optimum_trans_parametres.html'">
         <div class="user-avatar" id="user-av">T.S</div>
         <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)" id="user-name">Mon compte</div><div style="font-size:10px;color:var(--gray)" id="user-role">Admin</div></div>
-        <button onclick="event.stopPropagation();OT.logout()" title="Deconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:15px;color:#FC8181;line-height:1;">&#x1f6aa;</button>
+        <button onclick="event.stopPropagation();OT.logout()" title="Deconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:15px;color:#D88888;line-height:1;">&#x1f6aa;</button>
       </div>
     </div>
   </aside>
@@ -230,7 +235,7 @@ tr.summary-row td.lbl{text-align:left;padding-left:10px;color:var(--accent);font
         <input type="file" id="xlsx-file-input" accept=".xlsx,.xls" style="display:none" onchange="handleExcelImport(event)">
         <button class="btn-ghost" onclick="document.getElementById('xlsx-file-input').value='';document.getElementById('xlsx-file-input').click()">&#x1f4c2; Importer Excel</button>
         <button class="btn-ghost" onclick="exportExcel()" style="color:var(--green);border-color:rgba(46,204,113,0.4)">&#x1f4e5; Exporter Excel</button>
-        <button class="btn-ghost" style="color:#e74c3c;border-color:rgba(231,76,60,0.4)" onclick="clearWeek()">&#x1f5d1; Vider la semaine</button>
+        <button class="btn-ghost" style="color:#8B2C2C;border-color:rgba(231,76,60,0.4)" onclick="clearWeek()">&#x1f5d1; Vider la semaine</button>
         <button class="btn-primary" onclick="addRow()">+ Ajouter ligne</button>
         <button class="btn-sync" id="btn-sync" onclick="syncToPlanning()">&#x1f504; Synchroniser vers Planning</button>
       </div>
@@ -524,7 +529,7 @@ async function delRow(id){
   const syncedCount=Object.values(shift?.slots||{}).filter(c=>c?.tournee_id).length;
   let msg='Supprimer cette ligne ?';
   if(syncedCount>0){
-    msg=`⚠️ Attention : ${syncedCount} tournée${syncedCount>1?'s':''} synchronisée${syncedCount>1?'s':''} dans le Planning ne seront PAS supprimées automatiquement.\n\nSupprimez-les manuellement dans le Planning si nécessaire.\n\nConfirmer la suppression de cette ligne Mon Marché ?`;
+    msg=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Attention : ${syncedCount} tournée${syncedCount>1?'s':''} synchronisée${syncedCount>1?'s':''} dans le Planning ne seront PAS supprimées automatiquement.\n\nSupprimez-les manuellement dans le Planning si nécessaire.\n\nConfirmer la suppression de cette ligne Mon Marché ?`;
   }
   if(!confirm(msg))return;
   try{
@@ -740,7 +745,7 @@ async function syncToPlanning(){
   }catch(e){
     report.unshift({t:'err',m:'Erreur fatale sync: '+(e?.message||e)});
     showReport(report);
-    toast('❌ Erreur sync: '+(e?.message||e),5000);
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur sync: '+(e?.message||e),5000);
   }finally{
     btn.disabled=false;btn.textContent='\u{1f504} Synchroniser vers Planning';
     _syncing=false;
@@ -984,7 +989,7 @@ async function handleExcelImport(e){
   }catch(err){}
 
   let msg=`Importer ${shifts.length} ligne(s) pour ${wLabel} ?\n\nLes horaires seront pré-remplis. Vous devrez assigner les chauffeurs et véhicules.`;
-  if(existingCount>0)msg=`⚠️ Il y a déjà ${existingCount} ligne(s) pour cette semaine (${wLabel}).\n\nImporter quand même ${shifts.length} nouvelle(s) ligne(s) ?`;
+  if(existingCount>0)msg=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Il y a déjà ${existingCount} ligne(s) pour cette semaine (${wLabel}).\n\nImporter quand même ${shifts.length} nouvelle(s) ligne(s) ?`;
   if(!confirm(msg))return;
 
   /* Naviguer vers la semaine importée */

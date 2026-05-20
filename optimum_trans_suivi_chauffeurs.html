@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Suivi Chauffeurs — T SERVICE & CO</title>
-<link rel="icon" href="/favicon.ico">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="/lib/leaflet.css">
 <script src="/lib/leaflet.js" defer></script>
 <script src="ot_session.js" defer></script>
 <script src="ot_security.js" defer></script>
 <style>
-:root{--navy:#0A1628;--navy2:#0D1F3C;--navy3:#112244;--blue:#2563EB;--accent:#F5A623;--green:#10B981;--red:#EF4444;--purple:#8B5CF6;--white:#F0F4FF;--light:#C8D4E8;--gray:#8A9BB5;--gray2:#4A5568;--border:rgba(255,255,255,0.07);--shadow:0 4px 24px rgba(0,0,0,0.35)}
+:root{--navy:#0A0A0A;--navy2:#0D1F3C;--navy3:#112244;--blue:#C9A961;--accent:#C9A961;--green:#6B8E23;--red:#8B2C2C;--purple:#4FD1E0;--white:#F5F5F0;--light:#C8D4E8;--gray:#8B7355;--gray2:#5A5048;--border:rgba(255,255,255,0.07);--shadow:0 4px 24px rgba(0,0,0,0.35)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;display:flex;height:100vh;overflow:hidden}
 /* SIDEBAR */
@@ -24,7 +24,7 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
 .nav-section-label{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gray2);text-transform:uppercase;padding:10px 16px 4px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;font-weight:500;color:var(--light);text-decoration:none;border-radius:8px;margin:1px 8px;transition:all 0.15s}
 .nav-item:hover{background:rgba(255,255,255,0.05);color:var(--white)}
-.nav-item.active{background:rgba(37,99,235,0.15);color:#60A5FA;border:1px solid rgba(37,99,235,0.2)}
+.nav-item.active{background:rgba(37,99,235,0.15);color:#E8C66E;border:1px solid rgba(37,99,235,0.2)}
 .nav-icon{width:18px;text-align:center;font-size:14px}
 .nav-badge{font-size:8px;font-weight:800;padding:2px 5px;border-radius:4px;background:rgba(245,166,35,0.15);color:var(--accent);letter-spacing:0.5px;margin-left:auto}
 .sidebar-footer{padding:12px;border-top:1px solid var(--border)}
@@ -38,7 +38,7 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
 .btn-sm{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:Outfit,sans-serif;transition:all 0.2s}
 .btn-ghost{background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--light)}
 .btn-ghost:hover{background:rgba(255,255,255,0.1)}
-.btn-accent{background:linear-gradient(135deg,var(--accent),#E8941A);color:#0A1628;font-weight:700}
+.btn-accent{background:linear-gradient(135deg,var(--accent),#8B7355);color:#0A0A0A;font-weight:700}
 /* BODY LAYOUT — positionnement absolu pour Leaflet */
 .app-body{position:relative;flex:1;overflow:hidden}
 /* MAP — positionné en absolu, laisse 320px à droite pour le panel */
@@ -57,17 +57,17 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
 .driver-card:hover{border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.05)}
 .driver-card.selected{border-color:var(--green);background:rgba(16,185,129,0.08)}
 .driver-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.driver-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1A4FBF,#2563EB);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;position:relative}
+.driver-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#C9A961,#C9A961);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;position:relative}
 .driver-dot{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-radius:50%;border:2px solid var(--navy2)}
 .driver-name{font-size:13px;font-weight:700;color:var(--white)}
 .driver-sub{font-size:11px;color:var(--gray);margin-top:1px}
 .driver-meta{display:flex;gap:8px;flex-wrap:wrap}
 .driver-badge{font-size:10px;padding:3px 8px;border-radius:5px;font-weight:600}
-.badge-en_route{background:rgba(96,165,250,0.15);color:#60A5FA}
-.badge-livraison{background:rgba(245,166,35,0.15);color:#F5A623}
-.badge-pause{background:rgba(139,92,246,0.15);color:#A78BFA}
+.badge-en_route{background:rgba(96,165,250,0.15);color:#E8C66E}
+.badge-livraison{background:rgba(245,166,35,0.15);color:#C9A961}
+.badge-pause{background:rgba(139,92,246,0.15);color:#4FD1E0}
 .badge-fin{background:rgba(107,114,128,0.15);color:#9CA3AF}
-.badge-hors_ligne{background:rgba(239,68,68,0.1);color:#FC8181}
+.badge-hors_ligne{background:rgba(239,68,68,0.1);color:#D88888}
 /* EMPTY STATE */
 .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;text-align:center;color:var(--gray);padding:24px}
 /* TOAST */
@@ -76,7 +76,7 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
 /* LAST UPDATE BAR */
 .last-update-bar{padding:8px 16px;background:rgba(0,0,0,0.2);border-top:1px solid var(--border);font-size:10px;color:var(--gray2);text-align:center;flex-shrink:0}
 /* STALE WARNING */
-.stale-warn{font-size:10px;color:#F5A623;margin-top:4px}
+.stale-warn{font-size:10px;color:#C9A961;margin-top:4px}
 /* MOBILE */
 @media(max-width:768px){
   .sidebar{display:none}
@@ -85,7 +85,7 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
   #history-banner{right:10px !important}
 }
 /* HISTORY MODAL — options du <select> lisibles (fond sombre + texte clair) */
-#history-chauffeur option, #activity-chauffeur option, #activity-period option, #activity-type option{background:#0D1F3C;color:#F0F4FF}
+#history-chauffeur option, #activity-chauffeur option, #activity-period option, #activity-type option{background:#0D1F3C;color:#F5F5F0}
 #history-date::-webkit-calendar-picker-indicator{filter:invert(0.8)}
 /* HISTORY MODAL — tabs */
 .history-tabs{display:flex;background:rgba(0,0,0,0.25);border-bottom:1px solid var(--border);flex-shrink:0}
@@ -111,6 +111,11 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
 .activity-empty{padding:32px 16px;text-align:center;color:var(--gray);font-size:13px;line-height:1.6}
 .activity-loading{padding:24px 16px;text-align:center;color:var(--gray);font-size:12px}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -128,28 +133,28 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs & Salaires</a>
     <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH & Contrats</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients & Facturation</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients & Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
     <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
     <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
-    <a class="nav-item active" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item active" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'">
       <div class="user-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
-      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 8px;cursor:pointer;font-size:13px;color:#FC8181">⏻</button>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 8px;cursor:pointer;font-size:13px;color:#D88888">⏻</button>
     </div>
   </div>
 </aside>
@@ -159,8 +164,8 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
     <div class="topbar-title">📡 SUIVI CHAUFFEURS — TEMPS RÉEL</div>
     <div class="topbar-right">
       <span id="realtime-status" style="font-size:11px;color:var(--gray)">⏳ Connexion...</span>
-      <button class="btn-sm btn-ghost" onclick="openHistoryModal()">📅 Historique</button>
-      <button class="btn-sm btn-ghost" onclick="suiviDiagnose()">🔍 Diag</button>
+      <button class="btn-sm btn-ghost" onclick="openHistoryModal()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Historique</button>
+      <button class="btn-sm btn-ghost" onclick="suiviDiagnose()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Diag</button>
       <button class="btn-sm btn-ghost" onclick="loadLocations()">🔄 Actualiser</button>
     </div>
   </div>
@@ -169,7 +174,7 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
     <!-- HISTORY MODE BANNER (hidden by default) -->
     <div id="history-banner" style="display:none;position:absolute;top:10px;left:10px;right:330px;z-index:500;background:rgba(124,58,237,0.95);backdrop-filter:blur(10px);border:1px solid rgba(167,139,250,0.4);border-radius:10px;padding:10px 14px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 16px rgba(0,0,0,0.4);font-family:Outfit,sans-serif">
       <div style="display:flex;align-items:center;gap:10px;min-width:0">
-        <span style="font-size:16px">📅</span>
+        <span style="font-size:16px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
         <div style="min-width:0">
           <div style="font-size:12px;font-weight:700;color:#fff;letter-spacing:0.5px" id="history-banner-title">Historique</div>
           <div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:1px" id="history-banner-sub">—</div>
@@ -200,7 +205,7 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
         <div class="empty-state">
           <div style="font-size:40px;margin-bottom:12px">📡</div>
           <div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">En attente de données</div>
-          <div style="font-size:12px;line-height:1.6">Les chauffeurs doivent activer<br>le partage GPS depuis la page<br><strong>📍 Mon GPS (Chauffeur)</strong></div>
+          <div style="font-size:12px;line-height:1.6">Les chauffeurs doivent activer<br>le partage GPS depuis la page<br><strong><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Mon GPS (Chauffeur)</strong></div>
         </div>
       </div>
 
@@ -214,7 +219,7 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
   <div style="background:var(--navy2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:560px;height:80vh;max-height:720px;box-shadow:0 20px 60px rgba(0,0,0,0.6);overflow:hidden;display:flex;flex-direction:column">
     <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
       <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:#fff">📅 HISTORIQUE & ACTIVITÉ</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;color:#fff"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> HISTORIQUE & ACTIVITÉ</div>
         <div style="font-size:11px;color:var(--gray);margin-top:2px">Journal des actions chauffeurs</div>
       </div>
       <button onclick="closeHistoryModal()" style="background:none;border:none;color:var(--gray);font-size:22px;cursor:pointer;line-height:1;padding:4px 8px">×</button>
@@ -237,10 +242,10 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
         </select>
         <select id="activity-type" onchange="renderActivityFeed()" title="Type d'action">
           <option value="">Tous types</option>
-          <option value="gazole">⛽ Gazole</option>
+          <option value="gazole"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Gazole</option>
           <option value="edl">📸 État des lieux</option>
           <option value="msg">💬 Messages</option>
-          <option value="pos">📍 Positions GPS</option>
+          <option value="pos"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Positions GPS</option>
           <option value="amende">🚔 Amendes</option>
         </select>
         <select id="activity-chauffeur" onchange="renderActivityFeed()" title="Chauffeur">
@@ -286,11 +291,11 @@ function H(){ return OT.authHeaders(); }
 
 // ── STATUT CONFIG ──
 const STATUTS = {
-  en_route:  { label:'En route',  color:'#60A5FA', dot:'#60A5FA', emoji:'🚐' },
-  livraison: { label:'Livraison', color:'#F5A623', dot:'#F5A623', emoji:'📦' },
-  pause:     { label:'Pause',     color:'#A78BFA', dot:'#A78BFA', emoji:'⏸' },
+  en_route:  { label:'En route',  color:'#E8C66E', dot:'#E8C66E', emoji:'🚐' },
+  livraison: { label:'Livraison', color:'#C9A961', dot:'#C9A961', emoji:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>' },
+  pause:     { label:'Pause',     color:'#4FD1E0', dot:'#4FD1E0', emoji:'⏸' },
   fin:       { label:'Fin',       color:'#9CA3AF', dot:'#6B7280', emoji:'🏁' },
-  hors_ligne:{ label:'Hors ligne',color:'#FC8181', dot:'#4B5563', emoji:'📵' },
+  hors_ligne:{ label:'Hors ligne',color:'#D88888', dot:'#4B5563', emoji:'📵' },
 };
 
 let map, markersLayer;
@@ -340,7 +345,7 @@ async function suiviDiagnose() {
     out.rows_raw = r.ok ? await r.json() : await r.text();
   } catch(e) { out.fetch_error = e.message; }
   var w = window.open('', '_blank');
-  if (w) { w.document.body.style.cssText = 'background:#0A1628;color:#A7F3D0;font-family:monospace;padding:20px;white-space:pre-wrap;word-break:break-word;font-size:12px'; w.document.body.textContent = JSON.stringify(out, null, 2); }
+  if (w) { w.document.body.style.cssText = 'background:#0A0A0A;color:#A7F3D0;font-family:monospace;padding:20px;white-space:pre-wrap;word-break:break-word;font-size:12px'; w.document.body.textContent = JSON.stringify(out, null, 2); }
   else { alert(JSON.stringify(out, null, 2).substring(0, 2000)); }
   console.log('[Suivi diagnose]', out);
 }
@@ -388,7 +393,7 @@ function renderDriverList(drivers) {
   });
 
   if (drivers.length === 0) {
-    list.innerHTML = '<div class="empty-state"><div style="font-size:40px;margin-bottom:12px">📡</div><div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">En attente de données</div><div style="font-size:12px;line-height:1.6">Les chauffeurs doivent activer<br>le partage GPS depuis la page<br><strong>📍 Mon GPS (Chauffeur)</strong></div></div>';
+    list.innerHTML = '<div class="empty-state"><div style="font-size:40px;margin-bottom:12px">📡</div><div style="font-size:14px;font-weight:600;color:var(--light);margin-bottom:6px">En attente de données</div><div style="font-size:12px;line-height:1.6">Les chauffeurs doivent activer<br>le partage GPS depuis la page<br><strong><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Mon GPS (Chauffeur)</strong></div></div>';
     return;
   }
 
@@ -398,7 +403,7 @@ function renderDriverList(drivers) {
     var initials = (d.chauffeur_nom || '?').split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
     var ageMin = Math.floor((d._age || 0) / 60000);
     var ageTxt = ageMin < 1 ? 'À l\'instant' : ageMin < 60 ? 'Il y a ' + ageMin + ' min' : 'Il y a ' + Math.floor(ageMin/60) + 'h';
-    var staleWarn = ageMin > 5 ? '<div class="stale-warn">⚠️ Hors ligne depuis ' + ageMin + ' min</div>' : '';
+    var staleWarn = ageMin > 5 ? '<div class="stale-warn"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Hors ligne depuis ' + ageMin + ' min</div>' : '';
 
     var card = document.createElement('div');
     card.className = 'driver-card' + (selectedDriverId === d.chauffeur_id ? ' selected' : '');
@@ -571,7 +576,7 @@ async function loadDriverTrail(chauffeurId) {
 
     // Tracé principal
     L.polyline(smooth, {
-      color: '#60A5FA',
+      color: '#E8C66E',
       weight: 4,
       opacity: 0.75,
       lineJoin: 'round',
@@ -580,7 +585,7 @@ async function loadDriverTrail(chauffeurId) {
 
     // Point de départ (vert)
     L.circleMarker(latlngs[0], {
-      radius: 6, color: '#10B981', fillColor: '#10B981',
+      radius: 6, color: '#6B8E23', fillColor: '#6B8E23',
       fillOpacity: 1, weight: 2
     }).addTo(trailLayer).bindPopup('🟢 Départ');
 
@@ -713,7 +718,7 @@ async function loadActivityFeed() {
     var litres = (p.litres != null) ? Number(p.litres) : null;
     var montant = (p.montant != null) ? Number(p.montant) : null;
     events.push({
-      type: 'gazole', icon: '⛽',
+      type: 'gazole', icon: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg>',
       iso: iso, approx: !p.created_at,
       name: p.chauffeur || '— Non assigné —',
       desc: 'Plein gazole' + (montant ? ' · ' + montant.toFixed(2) + ' €' : '') + (litres ? ' · ' + litres.toFixed(1) + ' L' : ''),
@@ -755,7 +760,7 @@ async function loadActivityFeed() {
     var st = STATUTS[l.statut] || STATUTS.en_route;
     var hasPos = (l.latitude != null && l.longitude != null && !(l.latitude === 0 && l.longitude === 0));
     events.push({
-      type: 'pos', icon: '📍',
+      type: 'pos', icon: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg>',
       iso: l.updated_at,
       name: l.chauffeur_nom || '— Inconnu —',
       desc: 'Dernière position GPS · ' + st.label + (l.vitesse > 0 ? ' · ' + l.vitesse + ' km/h' : ''),
@@ -875,7 +880,7 @@ async function loadHistoryTrail(chauffeurNom, dateStr) {
   // Afficher la bannière
   var banner = document.getElementById('history-banner');
   banner.style.display = 'flex';
-  document.getElementById('history-banner-title').textContent = '📅 Historique — ' + chauffeurNom;
+  document.getElementById('history-banner-title').textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Historique — ' + chauffeurNom;
   var prettyDate = new Date(dateStr + 'T12:00:00').toLocaleDateString('fr-FR', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
   document.getElementById('history-banner-sub').textContent = 'Chargement des positions du ' + prettyDate + '…';
 
@@ -940,10 +945,10 @@ async function loadHistoryTrail(chauffeurNom, dateStr) {
       : (prettyDate + ' · ' + latlngs.length + ' positions');
     var smooth = doSnap ? await snapToRoads(latlngs) : latlngs;
 
-    L.polyline(smooth, { color:'#A78BFA', weight:4, opacity:0.85, lineJoin:'round', lineCap:'round' }).addTo(historyLayer);
-    L.circleMarker(latlngs[0], { radius:7, color:'#10B981', fillColor:'#10B981', fillOpacity:1, weight:2 })
+    L.polyline(smooth, { color:'#4FD1E0', weight:4, opacity:0.85, lineJoin:'round', lineCap:'round' }).addTo(historyLayer);
+    L.circleMarker(latlngs[0], { radius:7, color:'#6B8E23', fillColor:'#6B8E23', fillOpacity:1, weight:2 })
       .addTo(historyLayer).bindPopup('🟢 Départ');
-    L.circleMarker(latlngs[latlngs.length-1], { radius:7, color:'#EF4444', fillColor:'#EF4444', fillOpacity:1, weight:2 })
+    L.circleMarker(latlngs[latlngs.length-1], { radius:7, color:'#8B2C2C', fillColor:'#8B2C2C', fillOpacity:1, weight:2 })
       .addTo(historyLayer).bindPopup('🔴 Arrivée');
 
     map.fitBounds(L.latLngBounds(smooth), { padding:[40,40] });
@@ -999,7 +1004,7 @@ function startRealtime() {
           ws.send(JSON.stringify({ topic: 'phoenix', event: 'heartbeat', payload: {}, ref: null }));
         }
       }, 25000);
-      document.getElementById('realtime-status').innerHTML = '<span style="color:#10B981">● Temps réel actif</span>';
+      document.getElementById('realtime-status').innerHTML = '<span style="color:#6B8E23">● Temps réel actif</span>';
     };
 
     ws.onmessage = function(e) {
@@ -1023,17 +1028,17 @@ function startRealtime() {
     };
 
     ws.onerror = function() {
-      document.getElementById('realtime-status').innerHTML = '<span style="color:#F5A623">⚠️ Polling 30s</span>';
+      document.getElementById('realtime-status').innerHTML = '<span style="color:#C9A961"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Polling 30s</span>';
     };
 
     ws.onclose = function() {
       clearInterval(heartbeat);
-      document.getElementById('realtime-status').innerHTML = '<span style="color:#FC8181">● Déconnecté</span>';
+      document.getElementById('realtime-status').innerHTML = '<span style="color:#D88888">● Déconnecté</span>';
       // Tentative de reconnexion après 5s
       setTimeout(startRealtime, 5000);
     };
   } catch(e) {
-    document.getElementById('realtime-status').innerHTML = '<span style="color:#F5A623">⚠️ Mode polling</span>';
+    document.getElementById('realtime-status').innerHTML = '<span style="color:#C9A961"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Mode polling</span>';
   }
 }
 

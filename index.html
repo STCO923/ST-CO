@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>T SERVICE & CO — Connexion</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,11 +14,11 @@
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png">
 <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--blue2:#2563EB;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;}
+:root{--navy:#0A0A0A;--navy2:#1A1A1A;--navy3:#141414;--blue:#C9A961;--blue2:#C9A961;--accent:#C9A961;--accent2:#C9A961;--light:#F5F5F0;--white:#FFFFFF;--gray:#8B7355;--gray2:#5A5048;--success:#6B8E23;--error:#8B2C2C;--purple:#4FD1E0;}
 html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--navy);}
 body{display:flex;height:100vh;overflow:hidden;align-items:stretch;}
 .left{flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:0;padding:16px 36px 14px;position:relative;overflow:hidden;background:linear-gradient(145deg,var(--navy) 0%,var(--navy2) 50%,#0D1F40 100%);}
@@ -79,7 +79,7 @@ body{display:flex;height:100vh;overflow:hidden;align-items:stretch;}
 .remember input{accent-color:var(--blue);}
 .forgot-link{font-size:12px;color:var(--blue2);cursor:pointer;text-decoration:none;transition:color 0.2s;}
 .forgot-link:hover{color:var(--accent);}
-.error-box{background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:10px 14px;font-size:12px;color:#FC8181;margin-bottom:14px;display:none;}
+.error-box{background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:10px 14px;font-size:12px;color:#D88888;margin-bottom:14px;display:none;}
 .error-box.show{display:block;}
 .btn-login{width:100%;padding:11px;border-radius:10px;border:none;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-weight:700;transition:all 0.2s;position:relative;overflow:hidden;}
 .btn-login:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 20px rgba(245,166,35,0.35);}
@@ -176,8 +176,8 @@ body{display:flex;height:100vh;overflow:hidden;align-items:stretch;}
    JUJU — Telegram Bot Interactive Card
 ═══════════════════════════════════════════════ */
 .juju-card{position:relative;margin-top:6px;border-radius:14px;padding:2px;cursor:pointer;z-index:1;flex-shrink:0;overflow:visible;animation:juju-float 5s ease-in-out infinite;perspective:800px;}
-.juju-card::before{content:'';position:absolute;inset:-1px;border-radius:15px;background:linear-gradient(270deg,#0088cc,#7C3AED,#F5A623,#0088cc,#7C3AED);background-size:600% 600%;animation:juju-gradient 5s ease infinite;z-index:0;}
-.juju-card::after{content:'';position:absolute;inset:-4px;border-radius:18px;background:linear-gradient(270deg,#0088cc,#7C3AED,#F5A623,#0088cc);background-size:600% 600%;animation:juju-gradient 5s ease infinite;filter:blur(14px);opacity:0.3;z-index:-1;pointer-events:none;transition:opacity 0.3s;}
+.juju-card::before{content:'';position:absolute;inset:-1px;border-radius:15px;background:linear-gradient(270deg,#0088cc,#4FD1E0,#C9A961,#0088cc,#4FD1E0);background-size:600% 600%;animation:juju-gradient 5s ease infinite;z-index:0;}
+.juju-card::after{content:'';position:absolute;inset:-4px;border-radius:18px;background:linear-gradient(270deg,#0088cc,#4FD1E0,#C9A961,#0088cc);background-size:600% 600%;animation:juju-gradient 5s ease infinite;filter:blur(14px);opacity:0.3;z-index:-1;pointer-events:none;transition:opacity 0.3s;}
 .juju-card:hover::after{opacity:0.55;}
 @keyframes juju-gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 @keyframes juju-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
@@ -192,12 +192,12 @@ body{display:flex;height:100vh;overflow:hidden;align-items:stretch;}
 .juju-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0088cc 0%,#006699 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;box-shadow:0 0 18px rgba(0,136,204,0.45),inset 0 0 8px rgba(255,255,255,0.08);transition:box-shadow 0.3s,transform 0.3s;}
 .juju-tg-logo{width:22px;height:22px;filter:drop-shadow(0 0 4px rgba(255,255,255,0.3));}
 .juju-card:hover .juju-avatar{box-shadow:0 0 28px rgba(0,136,204,0.6),inset 0 0 12px rgba(255,255,255,0.12);transform:scale(1.08);}
-.juju-avatar-ring{position:absolute;inset:-4px;border-radius:50%;border:2px solid transparent;border-top-color:#F5A623;border-right-color:rgba(245,166,35,0.3);animation:ring-cw 3s linear infinite;}
+.juju-avatar-ring{position:absolute;inset:-4px;border-radius:50%;border:2px solid transparent;border-top-color:#C9A961;border-right-color:rgba(245,166,35,0.3);animation:ring-cw 3s linear infinite;}
 .juju-avatar-ring-2{position:absolute;inset:-8px;border-radius:50%;border:1px solid transparent;border-bottom-color:rgba(124,58,237,0.5);border-left-color:rgba(124,58,237,0.2);animation:ring-ccw 5s linear infinite;}
 .juju-label{display:flex;flex-direction:column;align-items:center;gap:2px;}
 .juju-name{font-family:'Bebas Neue',sans-serif;font-size:13px;color:#fff;letter-spacing:2px;text-shadow:0 0 8px rgba(0,136,204,0.4);line-height:1;}
 .juju-status{font-size:7px;color:var(--gray);display:flex;align-items:center;gap:3px;}
-.juju-status-dot{width:5px;height:5px;border-radius:50%;background:#2ECC71;box-shadow:0 0 6px rgba(46,204,113,0.6);animation:ai-pulse 1.4s ease-in-out infinite;}
+.juju-status-dot{width:5px;height:5px;border-radius:50%;background:#6B8E23;box-shadow:0 0 6px rgba(46,204,113,0.6);animation:ai-pulse 1.4s ease-in-out infinite;}
 /* Chat zone — conversation bubbles */
 .juju-chat-zone{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;position:relative;z-index:2;min-height:42px;justify-content:center;}
 .juju-bubble{font-size:10px;line-height:1.35;padding:4px 9px;border-radius:8px;max-width:92%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateY(6px);transition:opacity 0.35s,transform 0.35s;}
@@ -244,7 +244,7 @@ body{display:flex;height:100vh;overflow:hidden;align-items:stretch;}
 .ring-dot{position:absolute;width:6px;height:6px;border-radius:50%;top:-3px;left:50%;margin-left:-3px;}
 .ring-dot-1{background:var(--accent);box-shadow:0 0 8px 2px rgba(245,166,35,0.8);}
 .ring-dot-2{background:var(--blue2);box-shadow:0 0 7px 2px rgba(37,99,235,0.9);top:auto;bottom:-3px;}
-.ring-dot-3{background:#a78bfa;box-shadow:0 0 7px 2px rgba(167,139,250,0.8);}
+.ring-dot-3{background:#4FD1E0;box-shadow:0 0 7px 2px rgba(167,139,250,0.8);}
 
 /* Radar sweep */
 .ai-radar{position:absolute;width:101px;height:101px;border-radius:50%;top:50%;left:50%;margin:-50.5px 0 0 -50.5px;overflow:hidden;pointer-events:none;}
@@ -301,9 +301,9 @@ body{display:flex;height:100vh;overflow:hidden;align-items:stretch;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 /* ── Badge NEW ── */
 .feat-new::before{content:'NEW';position:absolute;top:4px;right:4px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-size:7px;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:1px;z-index:4;line-height:1;box-shadow:0 2px 6px rgba(245,166,35,0.35);}
-.feat-ai::before{content:'IA';position:absolute;top:4px;right:4px;background:linear-gradient(135deg,#7C3AED,#a78bfa);color:#fff;font-size:7px;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:1px;z-index:4;line-height:1;box-shadow:0 2px 6px rgba(124,58,237,0.35);}
+.feat-ai::before{content:'IA';position:absolute;top:4px;right:4px;background:linear-gradient(135deg,#4FD1E0,#4FD1E0);color:#fff;font-size:7px;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:1px;z-index:4;line-height:1;box-shadow:0 2px 6px rgba(124,58,237,0.35);}
 /* ── AI tag pulsing dot ── */
-.ai-live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#2ECC71;margin-right:5px;animation:ai-pulse 1.4s ease-in-out infinite;}
+.ai-live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#6B8E23;margin-right:5px;animation:ai-pulse 1.4s ease-in-out infinite;}
 @keyframes ai-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.5}}
 /* ── Ticker ── */
 .ticker-wrap{display:flex;align-items:center;gap:10px;margin-top:6px;padding:5px 10px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:8px;overflow:hidden;height:28px;position:relative;z-index:1;}
@@ -323,7 +323,7 @@ body{display:flex;height:100vh;overflow:hidden;align-items:stretch;}
 /* ══════════════════════════════════════════════
    MOBILE SPLASH SCREEN
 ══════════════════════════════════════════════ */
-.mob-splash{display:none;position:fixed;inset:0;background:radial-gradient(ellipse at 30% 35%,#0F2040 0%,#0A1628 65%);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:28px;overflow:hidden;}
+.mob-splash{display:none;position:fixed;inset:0;background:radial-gradient(ellipse at 30% 35%,#1A1A1A 0%,#0A0A0A 65%);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:28px;overflow:hidden;}
 .mob-splash.exit{animation:splash-ppt-zoom 0.45s cubic-bezier(0.4,0,1,1) forwards;pointer-events:none;}
 .mob-splash{display:flex;}
 /* Canvas bg */
@@ -339,7 +339,7 @@ body{display:flex;height:100vh;overflow:hidden;align-items:stretch;}
 .mob-dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-4.5px;left:50%;margin-left:-4.5px;}
 .mob-dot-1{background:var(--accent);box-shadow:0 0 14px 4px rgba(245,166,35,0.9);}
 .mob-dot-2{background:var(--blue2);box-shadow:0 0 12px 3px rgba(37,99,235,0.95);top:auto;bottom:-4.5px;}
-.mob-dot-3{background:#a78bfa;box-shadow:0 0 10px 3px rgba(167,139,250,0.85);}
+.mob-dot-3{background:#4FD1E0;box-shadow:0 0 10px 3px rgba(167,139,250,0.85);}
 /* Radar */
 .mob-radar{position:absolute;width:168px;height:168px;border-radius:50%;top:50%;left:50%;margin:-84px 0 0 -84px;overflow:hidden;}
 .mob-radar::after{content:'';position:absolute;inset:0;background:conic-gradient(from 0deg,transparent 0deg,rgba(37,99,235,0.22) 70deg,transparent 70deg);animation:radar-spin 3.5s linear infinite;}
@@ -374,6 +374,11 @@ async function notifyFirstLogin(companyName, email, plan) {
   console.log('[FirstLogin] désactivé pour', companyName);
 }
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -422,21 +427,21 @@ async function notifyFirstLogin(companyName, email, plan) {
     <h1>Pilotez votre activité<br><span id="tw-target">transport en <span style="color:var(--accent)">temps réel</span></span><span class="tw-cursor"></span></h1>
     <p>De la saisie des tournées à la feuille de route optimisée — chauffeurs, salaires, sous-traitants, véhicules, amendes : tout centralisé, tout en direct. Depuis votre téléphone, 24/24 7/7, en chatant avec <strong style="color:var(--accent)">Juju</strong> sur Telegram.</p>
     <div class="features-grid">
-      <div class="feat"><div class="feat-icon">📅</div><div><div class="feat-title">Planning semaine</div><div class="feat-desc">Affectation AM/PM, vue par chauffeur, navigation rapide</div></div></div>
+      <div class="feat"><div class="feat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div><div class="feat-title">Planning semaine</div><div class="feat-desc">Affectation AM/PM, vue par chauffeur, navigation rapide</div></div></div>
       <div class="feat"><div class="feat-icon">🗺️</div><div><div class="feat-title">Feuille de route</div><div class="feat-desc">Itinéraire optimisé auto, carte interactive OSM</div></div></div>
-      <div class="feat feat-new"><div class="feat-icon">📍</div><div><div class="feat-title">GPS temps réel</div><div class="feat-desc">Position des chauffeurs en direct sur carte</div></div></div>
+      <div class="feat feat-new"><div class="feat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></div><div><div class="feat-title">GPS temps réel</div><div class="feat-desc">Position des chauffeurs en direct sur carte</div></div></div>
       <div class="feat feat-new"><div class="feat-icon">💌</div><div><div class="feat-title">Messagerie pro</div><div class="feat-desc">Chat interne sécurisé chauffeurs/dispatch</div></div></div>
       <div class="feat"><div class="feat-icon">💬</div><div><div class="feat-title">WhatsApp intégré</div><div class="feat-desc">Envoyez la tournée au chauffeur en 1 clic</div></div></div>
       <div class="feat"><div class="feat-icon">🚐</div><div><div class="feat-title">Parc véhicules</div><div class="feat-desc">CT, assurance, alertes d'échéance auto</div></div></div>
       <div class="feat feat-new"><div class="feat-icon">👷</div><div><div class="feat-title">Chauffeurs &amp; Salaires</div><div class="feat-desc">Sous-traitants groupés, marges, soldes</div></div></div>
-      <div class="feat feat-new"><div class="feat-icon">🤝</div><div><div class="feat-title">Réseau sous-traitants</div><div class="feat-desc">Envoyez vos tournées aux ST partenaires, planning auto-rempli</div></div></div>
-      <div class="feat"><div class="feat-icon">📊</div><div><div class="feat-title">Facturation clients</div><div class="feat-desc">Récap mensuel par client, export Excel</div></div></div>
+      <div class="feat feat-new"><div class="feat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div><div><div class="feat-title">Réseau sous-traitants</div><div class="feat-desc">Envoyez vos tournées aux ST partenaires, planning auto-rempli</div></div></div>
+      <div class="feat"><div class="feat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div><div class="feat-title">Facturation clients</div><div class="feat-desc">Récap mensuel par client, export Excel</div></div></div>
       <div class="feat"><div class="feat-icon">👔</div><div><div class="feat-title">RH &amp; Contrats</div><div class="feat-desc">Fiches de paie, congés, absences, PDF</div></div></div>
       <div class="feat feat-new"><div class="feat-icon">🚔</div><div><div class="feat-title">Suivi amendes</div><div class="feat-desc">Infractions, affectation, suivi paiement</div></div></div>
-      <div class="feat"><div class="feat-icon">⛽</div><div><div class="feat-title">Suivi gazole</div><div class="feat-desc">Consommation par véhicule, alertes dépassement</div></div></div>
+      <div class="feat"><div class="feat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></div><div><div class="feat-title">Suivi gazole</div><div class="feat-desc">Consommation par véhicule, alertes dépassement</div></div></div>
       <div class="feat feat-new"><div class="feat-icon">📱</div><div><div class="feat-title">Espace chauffeur</div><div class="feat-desc">App mobile : planning, congés, état véhicule, GPS</div></div></div>
-      <div class="feat"><div class="feat-icon">🔔</div><div><div class="feat-title">Alertes &amp; KPIs</div><div class="feat-desc">Tableaux de bord temps réel, insights auto</div></div></div>
-      <div class="feat feat-ai"><div class="feat-icon">🤖</div><div><div class="feat-title">IA Analyst</div><div class="feat-desc">Rentabilité, performances et coûts par IA</div></div></div>
+      <div class="feat"><div class="feat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div><div class="feat-title">Alertes &amp; KPIs</div><div class="feat-desc">Tableaux de bord temps réel, insights auto</div></div></div>
+      <div class="feat feat-ai"><div class="feat-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></div><div><div class="feat-title">IA Analyst</div><div class="feat-desc">Rentabilité, performances et coûts par IA</div></div></div>
       <div class="feat feat-ai"><div class="feat-icon">🧠</div><div><div class="feat-title">IA Dispatch</div><div class="feat-desc">Planning auto : l'IA affecte chauffeurs/véhicules</div></div></div>
     </div>
 
@@ -488,7 +493,7 @@ async function notifyFirstLogin(companyName, email, plan) {
       <div class="login-title">CONNEXION</div>
       <div class="login-sub">Accédez à votre espace de gestion</div>
     </div>
-    <div class="error-box" id="error-box">⚠️ Email ou mot de passe incorrect.</div>
+    <div class="error-box" id="error-box"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Email ou mot de passe incorrect.</div>
     <div class="form-group">
       <label>Adresse email</label>
       <div class="input-wrap"><span class="inp-icon">✉️</span><input type="email" id="f-email" placeholder="votre@email.com" autocomplete="email"></div>
@@ -526,7 +531,7 @@ async function notifyFirstLogin(companyName, email, plan) {
       <div class="rs-icon">📬</div>
       <div class="rs-title">EMAIL ENVOYÉ !</div>
       <div class="rs-sub">Lien envoyé à <strong id="sent-to" style="color:var(--white)"></strong>. Expire dans <strong style="color:var(--accent)">30 minutes</strong>.</div>
-      <button class="btn-reset" style="margin-top:20px" onclick="closeForgot()">✅ Retour</button>
+      <button class="btn-reset" style="margin-top:20px" onclick="closeForgot()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Retour</button>
     </div>
   </div>
 </div>
@@ -562,7 +567,7 @@ async function notifyFirstLogin(companyName, email, plan) {
       <!-- Honeypot anti-bot : invisible pour les humains -->
       <input type="text" id="c-hp" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
 
-      <div id="contact-error" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:8px 12px;font-size:12px;color:#FC8181;margin-bottom:8px"></div>
+      <div id="contact-error" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:8px 12px;font-size:12px;color:#D88888;margin-bottom:8px"></div>
 
       <button class="btn-send" id="btn-send" onclick="sendContact()">📩 Envoyer le message</button>
       <span class="modal-cancel" onclick="closeContact()">Annuler</span>
@@ -570,10 +575,10 @@ async function notifyFirstLogin(companyName, email, plan) {
 
     <!-- Succès -->
     <div id="contact-success" style="display:none;text-align:center;padding:10px">
-      <div style="font-size:48px;margin-bottom:14px">✅</div>
+      <div style="font-size:48px;margin-bottom:14px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;margin-bottom:8px">MESSAGE ENVOYÉ !</div>
       <div style="font-size:13px;color:var(--gray);line-height:1.8;margin-bottom:20px">Merci pour votre intérêt !<br>Nous vous répondrons sous <strong style="color:var(--white)">24h</strong>.</div>
-      <button class="btn-reset" onclick="closeContact()">✅ Fermer</button>
+      <button class="btn-reset" onclick="closeContact()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Fermer</button>
     </div>
 
   </div>
@@ -584,7 +589,7 @@ async function notifyFirstLogin(companyName, email, plan) {
   <div class="modal">
     <div class="modal-title" id="chgpwd-title">🔐 CRÉER VOTRE MOT DE PASSE</div>
     <div class="modal-sub" id="chgpwd-sub">Première connexion : vous devez définir un nouveau mot de passe personnel avant de continuer.</div>
-    <div id="chgpwd-error" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:8px 12px;font-size:12px;color:#FC8181;margin-bottom:12px"></div>
+    <div id="chgpwd-error" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:8px 12px;font-size:12px;color:#D88888;margin-bottom:12px"></div>
     <label class="field-lbl" style="margin-top:0">Nouveau mot de passe</label>
     <div class="input-wrap" style="margin-bottom:4px">
       <span class="inp-icon">🔒</span>
@@ -606,7 +611,7 @@ async function notifyFirstLogin(companyName, email, plan) {
 
 <!-- ══ SUCCESS OVERLAY ══ -->
 <div class="success-overlay" id="success-overlay">
-  <div class="s-icon">✅</div>
+  <div class="s-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>
   <div class="s-title">CONNEXION RÉUSSIE</div>
   <div class="s-sub" id="s-sub-txt">Chargement de votre espace...</div>
   <div class="progress-bar"><div class="progress-fill"></div></div>
@@ -668,7 +673,7 @@ async function handleLogin(){
   const btn=document.getElementById('btn-login');
   const errBox=document.getElementById('error-box');errBox.classList.remove('show');
   ['f-email','f-pwd'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('err');});
-  if(!email||!pwd){showError('⚠️ Veuillez saisir votre email et votre mot de passe.');return;}
+  if(!email||!pwd){showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir votre email et votre mot de passe.');return;}
   btn.classList.add('loading');btn.disabled=true;
   try{
     const r=await fetch(SB+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},body:JSON.stringify({email,password:pwd})});
@@ -738,9 +743,9 @@ async function handleLogin(){
     if(msg.toLowerCase().includes('rate')||msg.toLowerCase().includes('too many')){
       showError('⏳ Trop de tentatives. Réessayez dans quelques minutes.');
     }else{
-      showError('⚠️ Email ou mot de passe incorrect.');
+      showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Email ou mot de passe incorrect.');
     }
-  }catch(err){showError('❌ Erreur réseau. Vérifiez votre connexion.');}
+  }catch(err){showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur réseau. Vérifiez votre connexion.');}
 }
 
 // ── Démo ──
@@ -813,7 +818,7 @@ async function sendContact(){
       try{sessionStorage.setItem('ot_contact_rl',JSON.stringify({ts:_sessTs}));}catch(_){}
     }
   }catch(_){}
-  if(_rateLimited){errEl.textContent='⚠️ Vous avez atteint la limite d\'envoi. Réessayez dans 1 heure.';errEl.style.display='block';return;}
+  if(_rateLimited){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Vous avez atteint la limite d\'envoi. Réessayez dans 1 heure.';errEl.style.display='block';return;}
   // ───────────────────────────────────────────────────────────────
 
   // ── Validation + nettoyage anti-injection (CRLF / contrôle) ────
@@ -828,9 +833,9 @@ async function sendContact(){
   var telClean    = _stripCtl(tel).slice(0,25);
   var messageClean= _stripCtl(message);
 
-  if(!nomClean){errEl.textContent='⚠️ Veuillez saisir votre nom.';errEl.style.display='block';return;}
-  if(!emailClean||!_emailRe.test(emailClean)){errEl.textContent='⚠️ Veuillez saisir un email valide.';errEl.style.display='block';return;}
-  if(messageClean.length<10){errEl.textContent='⚠️ Veuillez saisir un message (10 caractères minimum).';errEl.style.display='block';return;}
+  if(!nomClean){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir votre nom.';errEl.style.display='block';return;}
+  if(!emailClean||!_emailRe.test(emailClean)){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir un email valide.';errEl.style.display='block';return;}
+  if(messageClean.length<10){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Veuillez saisir un message (10 caractères minimum).';errEl.style.display='block';return;}
 
   const btn=document.getElementById('btn-send');
   btn.disabled=true;btn.textContent='⏳ Envoi en cours...';
@@ -870,13 +875,13 @@ async function sendContact(){
       }
     );
 
-    // ✅ Succès
+    // <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Succès
     document.getElementById('contact-form-zone').style.display='none';
     document.getElementById('contact-success').style.display='block';
 
   }catch(err){
     // Pas de console.error pour éviter de fuiter les détails techniques en prod.
-    errEl.textContent='❌ Erreur lors de l\'envoi. Réessayez dans quelques instants.';
+    errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur lors de l\'envoi. Réessayez dans quelques instants.';
     errEl.style.display='block';
     btn.disabled=false;
     btn.textContent='📩 Envoyer le message';
@@ -886,7 +891,7 @@ async function sendContact(){
 // ── Changement de mot de passe ──
 let _chgToken=null,_chgSession=null,_chgIsRecovery=false;
 function toggleChgPwd(inputId,btnId){const inp=document.getElementById(inputId);inp.type=inp.type==='password'?'text':'password';document.getElementById(btnId).textContent=inp.type==='password'?'👁️':'🙈';}
-function updatePwdStrength(v){const bar=document.getElementById('pwd-strength-bar');const hint=document.getElementById('pwd-hint');if(!v){bar.style.width='0%';hint.textContent='';return;}let score=0;if(v.length>=12)score++;if(v.length>=16)score++;if(/[A-Z]/.test(v)&&/[a-z]/.test(v))score++;if(/[0-9]/.test(v))score++;if(/[^A-Za-z0-9]/.test(v))score++;const levels=[{w:'20%',c:'#E74C3C',t:'Très faible'},{w:'40%',c:'#E67E22',t:'Faible'},{w:'60%',c:'#F5A623',t:'Moyen'},{w:'80%',c:'#2ECC71',t:'Fort'},{w:'100%',c:'#27AE60',t:'Très fort'}];const l=levels[Math.min(score,4)];bar.style.width=l.w;bar.style.background=l.c;hint.textContent=l.t;hint.style.color=l.c;}
+function updatePwdStrength(v){const bar=document.getElementById('pwd-strength-bar');const hint=document.getElementById('pwd-hint');if(!v){bar.style.width='0%';hint.textContent='';return;}let score=0;if(v.length>=12)score++;if(v.length>=16)score++;if(/[A-Z]/.test(v)&&/[a-z]/.test(v))score++;if(/[0-9]/.test(v))score++;if(/[^A-Za-z0-9]/.test(v))score++;const levels=[{w:'20%',c:'#8B2C2C',t:'Très faible'},{w:'40%',c:'#E67E22',t:'Faible'},{w:'60%',c:'#C9A961',t:'Moyen'},{w:'80%',c:'#6B8E23',t:'Fort'},{w:'100%',c:'#6B8E23',t:'Très fort'}];const l=levels[Math.min(score,4)];bar.style.width=l.w;bar.style.background=l.c;hint.textContent=l.t;hint.style.color=l.c;}
 function openForcedChange(session){_chgToken=session.token;_chgSession=session;_chgIsRecovery=false;document.getElementById('chgpwd-title').textContent='🔐 CRÉER VOTRE MOT DE PASSE';document.getElementById('chgpwd-sub').textContent='Première connexion : vous devez définir un nouveau mot de passe personnel avant de continuer.';document.getElementById('chgpwd-new').value='';document.getElementById('chgpwd-confirm').value='';document.getElementById('chgpwd-error').style.display='none';document.getElementById('pwd-strength-bar').style.width='0%';document.getElementById('pwd-hint').textContent='';document.getElementById('modal-chgpwd').classList.add('open');setTimeout(()=>document.getElementById('chgpwd-new').focus(),100);}
 function openSetNewPassword(token){_chgToken=token;_chgSession=null;_chgIsRecovery=true;document.getElementById('chgpwd-title').textContent='🔑 RÉINITIALISER MOT DE PASSE';document.getElementById('chgpwd-sub').textContent='Saisissez votre nouveau mot de passe pour accéder à votre compte.';document.getElementById('chgpwd-new').value='';document.getElementById('chgpwd-confirm').value='';document.getElementById('chgpwd-error').style.display='none';document.getElementById('pwd-strength-bar').style.width='0%';document.getElementById('pwd-hint').textContent='';document.getElementById('modal-chgpwd').classList.add('open');setTimeout(()=>document.getElementById('chgpwd-new').focus(),100);}
 async function submitNewPassword(){
@@ -895,12 +900,12 @@ async function submitNewPassword(){
   const errEl=document.getElementById('chgpwd-error');
   errEl.style.display='none';
   // ── Politique de mot de passe : 12 chars, 1 majuscule, 1 chiffre, 1 symbole ──
-  if(!newPwd||newPwd.length<12){errEl.textContent='⚠️ Le mot de passe doit contenir au moins 12 caractères.';errEl.style.display='block';return;}
-  if(newPwd.length>128){errEl.textContent='⚠️ Mot de passe trop long (max 128 caractères).';errEl.style.display='block';return;}
-  if(!/[A-Z]/.test(newPwd)){errEl.textContent='⚠️ Ajoutez au moins une majuscule.';errEl.style.display='block';return;}
-  if(!/[0-9]/.test(newPwd)){errEl.textContent='⚠️ Ajoutez au moins un chiffre.';errEl.style.display='block';return;}
-  if(!/[^A-Za-z0-9]/.test(newPwd)){errEl.textContent='⚠️ Ajoutez au moins un symbole (!@#$ ...).';errEl.style.display='block';return;}
-  if(newPwd!==confirmPwd){errEl.textContent='⚠️ Les mots de passe ne correspondent pas.';errEl.style.display='block';return;}
+  if(!newPwd||newPwd.length<12){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Le mot de passe doit contenir au moins 12 caractères.';errEl.style.display='block';return;}
+  if(newPwd.length>128){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Mot de passe trop long (max 128 caractères).';errEl.style.display='block';return;}
+  if(!/[A-Z]/.test(newPwd)){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ajoutez au moins une majuscule.';errEl.style.display='block';return;}
+  if(!/[0-9]/.test(newPwd)){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ajoutez au moins un chiffre.';errEl.style.display='block';return;}
+  if(!/[^A-Za-z0-9]/.test(newPwd)){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Ajoutez au moins un symbole (!@#$ ...).';errEl.style.display='block';return;}
+  if(newPwd!==confirmPwd){errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Les mots de passe ne correspondent pas.';errEl.style.display='block';return;}
   const btn=document.getElementById('btn-chgpwd');btn.disabled=true;btn.textContent='⏳ Enregistrement...';
   try{
     const r=await fetch(SB+'/auth/v1/user',{method:'PUT',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+_chgToken},body:JSON.stringify({password:newPwd})});
@@ -919,7 +924,7 @@ async function submitNewPassword(){
       document.getElementById('error-box').style.background='rgba(39,174,96,0.1)';
       document.getElementById('error-box').style.borderColor='rgba(39,174,96,0.25)';
       document.getElementById('error-box').style.color='#6FCF97';
-      showError('✅ Mot de passe mis à jour ! Connectez-vous avec votre nouveau mot de passe.');
+      showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Mot de passe mis à jour ! Connectez-vous avec votre nouveau mot de passe.');
       document.getElementById('error-box').style.display='block';
     }else{
       // NOTE SÉCURITÉ : le PATCH must_change_password ci-dessous DOIT être bloqué côté
@@ -932,7 +937,7 @@ async function submitNewPassword(){
       showSuccess(_chgSession.role||'admin');
     }
   }catch(err){
-    errEl.textContent='❌ '+err.message;
+    errEl.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+err.message;
     errEl.style.display='block';
     btn.disabled=false;
     btn.textContent='🔐 Enregistrer le mot de passe';
@@ -975,7 +980,7 @@ window.addEventListener('load',async function(){
       if(role==='chauffeur') window.location.href='optimum_trans_chauffeur_vue.html';
       else if(role==='chef_equipe') window.location.href='optimum_trans_planning.html';
       else window.location.href='optimum_trans_dashboard.html';
-    }catch(e){showError('❌ Erreur accès compte : '+e.message);}
+    }catch(e){showError('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur accès compte : '+e.message);}
   }
 });
 </script>
@@ -1145,19 +1150,19 @@ window.addEventListener('load',async function(){
   if(!t0||!t1) return;
   const activities=[
     '🚐 DUPONT — Tournée AM validée · Lyon 3ème',
-    '📍 GPS live · MARTIN à 14 Rue de Lyon · 47 km/h',
+    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> GPS live · MARTIN à 14 Rue de Lyon · 47 km/h',
     '💌 Nouveau message — RODRIGUEZ : « Arrivé client »',
     '💶 Salaire calculé — MARTIN · 2 847 €',
-    '✅ Feuille de route générée · 14 points · 38 km',
-    '⚠️ CT expirant dans 12j — Véhicule AB-234-CD',
-    '🤝 4 tournées envoyées à TRANS EXPRESS · reçues dans leur planning',
-    '📊 Facturation CARREFOUR — Export Excel prêt',
+    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Feuille de route générée · 14 points · 38 km',
+    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> CT expirant dans 12j — Véhicule AB-234-CD',
+    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> 4 tournées envoyées à TRANS EXPRESS · reçues dans leur planning',
+    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Facturation CARREFOUR — Export Excel prêt',
     '👷 Sous-traitant TRANS EXPRESS — Marge +23%',
-    '🔔 Absence validée · BENALI · 2 jours',
+    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Absence validée · BENALI · 2 jours',
     '🚔 Amende affectée — RODRIGUEZ · 135 €',
     '🛠️ Check-up véhicule OK — Ford Transit · 0 défaut',
-    '⛽ Plein gazole — Ford Transit · 87L · 131€',
-    '📅 Planning semaine mis à jour · 18 tournées',
+    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> Plein gazole — Ford Transit · 87L · 131€',
+    '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Planning semaine mis à jour · 18 tournées',
     '💬 WhatsApp envoyé → MOUSSA · Tournée PM',
   ];
   let idx=0, active=0;
@@ -1448,18 +1453,18 @@ window.addEventListener('load',async function(){
 
   /* ── Conversations : question utilisateur → réponse Juju ── */
   var convos = [
-    { user: "C'est quoi le planning demain ?",           bot: "📅 12 tournées, 8 chauffeurs affect\u00E9s, 2 dispo" },
+    { user: "C'est quoi le planning demain ?",           bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 12 tournées, 8 chauffeurs affect\u00E9s, 2 dispo" },
     { user: "Combien on a factur\u00E9 ce mois ?",       bot: "💶 45 320\u20AC — marge +12% vs mois dernier" },
-    { user: "Il est o\u00F9 Martin l\u00E0 ?",           bot: "📍 GPS live : 14 Rue de Lyon — arriv\u00E9e 14h20" },
+    { user: "Il est o\u00F9 Martin l\u00E0 ?",           bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> GPS live : 14 Rue de Lyon — arriv\u00E9e 14h20" },
     { user: "Envoie un message \u00E0 Rodriguez",         bot: "💌 Message envoy\u00E9 sur la messagerie pro ✓" },
-    { user: "Envoie 4 tourn\u00E9es \u00E0 Trans Express",     bot: "🤝 Envoy\u00E9es \u2192 affich\u00E9es dans leur planning partenaire \u2713" },
-    { user: "Y a des absences en attente ?",              bot: "⚠️ 2 absences : BENALI (lundi) + DUPONT (mercredi)" },
-    { user: "G\u00E9n\u00E8re la facture Carrefour",     bot: "📊 Facture CARREFOUR g\u00E9n\u00E9r\u00E9e — 8 740\u20AC" },
+    { user: "Envoie 4 tourn\u00E9es \u00E0 Trans Express",     bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> Envoy\u00E9es \u2192 affich\u00E9es dans leur planning partenaire \u2713" },
+    { user: "Y a des absences en attente ?",              bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 2 absences : BENALI (lundi) + DUPONT (mercredi)" },
+    { user: "G\u00E9n\u00E8re la facture Carrefour",     bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Facture CARREFOUR g\u00E9n\u00E9r\u00E9e — 8 740\u20AC" },
     { user: "Qui conduit le AB-234-CD ?",                 bot: "🚐 RODRIGUEZ — CT expire dans 12j, penser au RDV" },
     { user: "Remplace Dupont demain matin",               bot: "👷 BENALI affect\u00E9 en rempla\u00E7ant — planning mis \u00E0 jour" },
     { user: "Envoie le planning WhatsApp",                bot: "💬 Planning envoy\u00E9 \u00E0 8 chauffeurs par WhatsApp" },
     { user: "Des emails importants aujourd'hui ?",        bot: "📧 3 emails : Mon March\u00E9 (sheet), Chronopost, DPD" },
-    { user: "Consommation du Ford Transit ?",             bot: "⛽ 12.8L/100km — +18% vs moyenne, anomalie signal\u00E9e" },
+    { user: "Consommation du Ford Transit ?",             bot: "<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg> 12.8L/100km — +18% vs moyenne, anomalie signal\u00E9e" },
     { user: "Combien on verse \u00E0 Trans Express ?",    bot: "💶 6 840\u20AC ce mois — 23 tourn\u00E9es, marge 19%" },
     { user: "Ajoute une amende pour Rodriguez",           bot: "🚔 Amende enregistr\u00E9e — 135\u20AC, exc\u00E8s de vitesse" },
   ];
@@ -1523,7 +1528,7 @@ window.addEventListener('load',async function(){
       var cardInner = card.querySelector('.juju-inner');
       spark.style.left = (Math.random() * 100) + '%';
       spark.style.top  = (Math.random() * 100) + '%';
-      var colors = ['#0088cc','#F5A623','#7C3AED','#2ECC71','#2563EB'];
+      var colors = ['#0088cc','#C9A961','#4FD1E0','#6B8E23','#C9A961'];
       spark.style.background = colors[Math.floor(Math.random()*colors.length)];
       spark.style.boxShadow = '0 0 6px ' + spark.style.background;
       spark.style.animation = 'juju-sparkle-drift 1.2s ease forwards';

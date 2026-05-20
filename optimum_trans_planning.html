@@ -49,16 +49,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>T SERVICE & CO — Planning Semaine</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="T.S">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts.css">
 <style>
-:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--green-wa:#25D366;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+:root{--navy:#0A0A0A;--navy2:#1A1A1A;--navy3:#141414;--blue:#C9A961;--accent:#C9A961;--accent2:#C9A961;--light:#F5F5F0;--white:#FFFFFF;--gray:#8B7355;--gray2:#5A5048;--success:#6B8E23;--error:#8B2C2C;--green-wa:#25D366;--sidebar-w:240px;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;display:flex;}
 .sidebar{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
@@ -97,7 +97,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .chef-select{width:100%;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.3);border-radius:6px;padding:5px 8px;font-size:10px;color:var(--white);font-family:Outfit,sans-serif;cursor:pointer;outline:none;transition:all 0.2s;}
 .chef-select:focus{border-color:rgba(124,58,237,0.6);}
 .chef-select option{background:#0F1E35;}
-.chef-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,rgba(124,58,237,0.25),rgba(124,58,237,0.1));border:1px solid rgba(124,58,237,0.4);border-radius:6px;padding:3px 8px;font-size:9px;font-weight:700;color:#A78BFA;}
+.chef-badge{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,rgba(124,58,237,0.25),rgba(124,58,237,0.1));border:1px solid rgba(124,58,237,0.4);border-radius:6px;padding:3px 8px;font-size:9px;font-weight:700;color:#4FD1E0;}
 .ch-card-chef{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(124,58,237,0.05));border-color:rgba(124,58,237,0.35)!important;}
 .btn-wa:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(37,211,102,0.4);}
 .content{padding:22px 28px;}
@@ -139,7 +139,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .filter-reset:hover{border-color:var(--blue);color:var(--light);background:rgba(26,79,191,0.06);}
 .filter-day-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:7px;padding:5px 9px;font-size:11px;font-weight:600;color:var(--gray);cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.18s;white-space:nowrap;}
 .filter-day-btn:hover{border-color:var(--blue);color:var(--light);}
-.filter-day-btn.active{background:rgba(26,79,191,0.25);border-color:var(--blue);color:#93c5fd;}
+.filter-day-btn.active{background:rgba(26,79,191,0.25);border-color:var(--blue);color:#F1D27B;}
 .filter-day-group{display:flex;gap:4px;align-items:center;}
 .multisel-wrap{position:relative;}
 .multisel-trigger{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--white);outline:none;cursor:pointer;min-width:220px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:border-color 0.2s;display:flex;align-items:center;justify-content:space-between;gap:6px;}
@@ -159,7 +159,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .multisel-item.checked .multisel-chk{background:var(--accent);border-color:var(--accent);color:#000;}
 .multisel-footer{border-top:1px solid var(--border);padding:6px 10px;display:flex;justify-content:flex-end;}
 .multisel-footer button{background:none;border:none;font-family:'Outfit',sans-serif;font-size:11px;color:var(--gray);cursor:pointer;padding:2px 6px;border-radius:4px;}
-.multisel-footer button:hover{color:#FC8181;}
+.multisel-footer button:hover{color:#D88888;}
 .wa-banner{background:linear-gradient(135deg,rgba(37,211,102,0.11),rgba(18,140,126,0.06));border:1px solid rgba(37,211,102,0.35);border-radius:16px;padding:0;margin-bottom:16px;position:relative;overflow:hidden;}
 .wa-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#25D366,#128C7E);border-radius:16px 16px 0 0;}
 .wa-banner.hidden{display:none;}
@@ -174,7 +174,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .day-date{font-size:10px;color:var(--gray);margin-top:2px;}
 .day-today .day-name{color:var(--accent);}
 .day-today{background:rgba(245,166,35,0.06)!important;}
-.day-count{font-size:9px;font-weight:700;background:linear-gradient(135deg,var(--blue),#2563EB);color:var(--white);padding:2px 7px;border-radius:8px;margin-top:4px;display:inline-block;box-shadow:0 2px 6px rgba(26,79,191,0.3);}
+.day-count{font-size:9px;font-weight:700;background:linear-gradient(135deg,var(--blue),#C9A961);color:var(--white);padding:2px 7px;border-radius:8px;margin-top:4px;display:inline-block;box-shadow:0 2px 6px rgba(26,79,191,0.3);}
 .ch-cell{padding:14px 12px;border-right:1px solid var(--border);border-bottom:1px solid rgba(255,255,255,0.04);background:rgba(15,32,64,0.6);overflow:hidden;}
 .ch-name{font-size:13px;font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ch-meta{font-size:10px;color:var(--gray);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -183,9 +183,9 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .ch-wa-week:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(37,211,102,0.4);filter:brightness(1.08);}
 .ch-wa-call{display:block;margin-top:4px;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);border-radius:8px;padding:5px 8px;font-size:10px;font-weight:700;color:#25D366;cursor:pointer;transition:all 0.2s;width:100%;text-align:center;letter-spacing:0.3px;}
 .ch-wa-call:hover{background:rgba(37,211,102,0.25);transform:translateY(-1px);}
-.ch-stt-week{display:block;margin-top:4px;background:linear-gradient(135deg,#10B981,#059669);border:none;border-radius:8px;padding:7px 8px;font-size:10px;font-weight:700;color:#fff;cursor:pointer;transition:all 0.2s;width:100%;text-align:center;letter-spacing:0.3px;box-shadow:0 2px 8px rgba(16,185,129,0.25);white-space:normal;word-break:break-word;line-height:1.3;}
+.ch-stt-week{display:block;margin-top:4px;background:linear-gradient(135deg,#6B8E23,#059669);border:none;border-radius:8px;padding:7px 8px;font-size:10px;font-weight:700;color:#fff;cursor:pointer;transition:all 0.2s;width:100%;text-align:center;letter-spacing:0.3px;box-shadow:0 2px 8px rgba(16,185,129,0.25);white-space:normal;word-break:break-word;line-height:1.3;}
 .ch-stt-week:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(16,185,129,0.4);filter:brightness(1.08);}
-.ch-stt-week.stt-sent{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#10B981;box-shadow:none;}
+.ch-stt-week.stt-sent{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6B8E23;box-shadow:none;}
 
 .btn-dup-ch{display:block;margin-top:6px;background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(99,102,241,0.1));border:1px solid rgba(99,102,241,0.3);border-radius:8px;padding:6px 8px;font-size:10px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;text-align:center;color:#818CF8;white-space:normal;word-break:break-word;line-height:1.3;box-shadow:0 2px 8px rgba(99,102,241,0.15);}
 .btn-dup-ch:hover{background:linear-gradient(135deg,rgba(99,102,241,0.35),rgba(99,102,241,0.2));transform:translateY(-1px);box-shadow:0 4px 12px rgba(99,102,241,0.3);}
@@ -194,22 +194,22 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .t-badge{border-radius:7px;padding:5px 7px;font-size:9px;font-weight:600;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:space-between;gap:3px;}
 .t-badge:hover{filter:brightness(1.2);transform:translateY(-1px);}
 .t-badge.am{background:rgba(245,166,35,0.18);border:1px solid rgba(245,166,35,0.4);color:var(--accent);}
-.t-badge.pm{background:rgba(26,79,191,0.22);border:1px solid rgba(26,79,191,0.45);color:#60A5FA;}
-.t-badge.ampm{background:rgba(39,174,96,0.18);border:1px solid rgba(39,174,96,0.4);color:#2ECC71;}
+.t-badge.pm{background:rgba(26,79,191,0.22);border:1px solid rgba(26,79,191,0.45);color:#E8C66E;}
+.t-badge.ampm{background:rgba(39,174,96,0.18);border:1px solid rgba(39,174,96,0.4);color:#6B8E23;}
 .t-del{background:rgba(255,255,255,0.08);border:none;cursor:pointer;font-size:8px;color:inherit;opacity:0.7;padding:2px 4px;flex-shrink:0;border-radius:3px;transition:all 0.15s;}
 .t-del:hover{opacity:1;background:rgba(231,76,60,0.3);}
 .add-slot{background:none;border:1px dashed rgba(255,255,255,0.14);border-radius:7px;padding:6px 4px;width:100%;font-size:9px;color:var(--gray2);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:3px;}
 .add-slot:hover{border-color:var(--blue);color:var(--blue);background:rgba(26,79,191,0.08);border-style:solid;}
 .t-actions{display:flex;gap:2px;margin-top:3px;}
 .btn-val{border:none;border-radius:5px;padding:2px 5px;font-size:8px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;text-align:center;}
-.btn-val-ok{background:rgba(39,174,96,0.18);color:#2ECC71;border:1px solid rgba(39,174,96,0.35);}
+.btn-val-ok{background:rgba(39,174,96,0.18);color:#6B8E23;border:1px solid rgba(39,174,96,0.35);}
 .btn-val-ok:hover{background:rgba(39,174,96,0.35);}
-.btn-val-pen{background:rgba(231,76,60,0.15);color:#FC8181;border:1px solid rgba(231,76,60,0.3);}
+.btn-val-pen{background:rgba(231,76,60,0.15);color:#D88888;border:1px solid rgba(231,76,60,0.3);}
 .btn-val-pen:hover{background:rgba(231,76,60,0.3);}
 .t-badge.validated{opacity:0.7;position:relative;}
-.t-badge.validated::after{content:'✅';position:absolute;top:-4px;right:-4px;font-size:8px;}
+.t-badge.validated::after{content:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>';position:absolute;top:-4px;right:-4px;font-size:8px;}
 .t-badge.penalized{opacity:0.7;position:relative;}
-.t-badge.penalized::after{content:'⚠️';position:absolute;top:-4px;right:-4px;font-size:8px;}
+.t-badge.penalized::after{content:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';position:absolute;top:-4px;right:-4px;font-size:8px;}
 /* ─── SÉPARATION VISUELLE DES LIGNES PAR CHAUFFEUR ─── */
 .planning-table tbody tr:not(.chef-row):hover td.slot-cell{filter:brightness(1.25);transition:filter 0.15s;}
 .planning-table tbody tr:not(.chef-row):hover td.ch-cell{filter:brightness(1.25);transition:filter 0.15s;}
@@ -222,7 +222,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .pen-opt.selected{border-color:rgba(231,76,60,0.6);background:rgba(231,76,60,0.1);}
 .pen-opt-icon{font-size:20px;width:30px;text-align:center;}
 .pen-opt-label{flex:1;font-size:13px;font-weight:600;color:var(--white);}
-.pen-opt-amount{font-size:13px;font-weight:700;color:#FC8181;}
+.pen-opt-amount{font-size:13px;font-weight:700;color:#D88888;}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(5px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .modal-overlay.show{opacity:1;pointer-events:all;}
 .modal{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:28px;width:460px;max-width:95vw;transform:translateY(20px);transition:transform 0.3s;}
@@ -414,14 +414,14 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .mob-slot.validated { opacity: .72; }
 .mob-slot-pill { font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 8px; flex-shrink: 0; letter-spacing: .5px; text-transform: uppercase; }
 .mob-slot.am   .mob-slot-pill { background: rgba(245,166,35,.2); color: var(--accent); }
-.mob-slot.pm   .mob-slot-pill { background: rgba(26,79,191,.2);  color: #60A5FA; }
-.mob-slot.ampm .mob-slot-pill { background: rgba(39,174,96,.2);  color: #2ECC71; }
+.mob-slot.pm   .mob-slot-pill { background: rgba(26,79,191,.2);  color: #E8C66E; }
+.mob-slot.ampm .mob-slot-pill { background: rgba(39,174,96,.2);  color: #6B8E23; }
 .mob-slot-info   { flex: 1; min-width: 0; }
 .mob-slot-client { font-size: 13px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mob-slot-time   { font-size: 11px; color: var(--gray); margin-top: 2px; }
 .mob-slot-del {
   background: rgba(231,76,60,.1); border: 1px solid rgba(231,76,60,.2); border-radius: 9px;
-  color: #FC8181; cursor: pointer; font-size: 14px;
+  color: #D88888; cursor: pointer; font-size: 14px;
   width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; -webkit-tap-highlight-color: transparent;
 }
@@ -433,19 +433,19 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
   font-family: 'Outfit', sans-serif; cursor: pointer; min-height: 42px;
   -webkit-tap-highlight-color: transparent;
 }
-.mob-val-btn.ok  { background: rgba(39,174,96,.12); border: 1px solid rgba(39,174,96,.3); color: #2ECC71; }
-.mob-val-btn.pen { background: rgba(231,76,60,.1);  border: 1px solid rgba(231,76,60,.3); color: #FC8181; }
+.mob-val-btn.ok  { background: rgba(39,174,96,.12); border: 1px solid rgba(39,174,96,.3); color: #6B8E23; }
+.mob-val-btn.pen { background: rgba(231,76,60,.1);  border: 1px solid rgba(231,76,60,.3); color: #D88888; }
 .mob-val-btn.rst { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); color: var(--gray2); }
 
 /* ── Absence ── */
-.mob-absence { background: rgba(231,76,60,.08); border: 1px solid rgba(231,76,60,.2); border-radius: 10px; padding: 10px 12px; font-size: 12px; font-weight: 600; color: #FC8181; text-align: center; margin-bottom: 8px; }
+.mob-absence { background: rgba(231,76,60,.08); border: 1px solid rgba(231,76,60,.2); border-radius: 10px; padding: 10px 12px; font-size: 12px; font-weight: 600; color: #D88888; text-align: center; margin-bottom: 8px; }
 
 /* ── Véhicule ── */
 .mob-veh-sel { width: 100%; background: rgba(26,79,191,.06); border: 1px solid rgba(26,79,191,.18); border-radius: 10px; padding: 10px 14px; font-size: 14px; color: white; font-family: 'Outfit', sans-serif; cursor: pointer; min-height: 44px; margin-top: 8px; }
 .mob-veh-sel option { background: #0F1E35; }
 
 /* ── Bouton Ajouter ── */
-.mob-add-btn { width: 100%; background: rgba(26,79,191,.08); border: 1px dashed rgba(26,79,191,.35); border-radius: 12px; padding: 13px; font-size: 13px; font-weight: 700; color: #60A5FA; cursor: pointer; text-align: center; font-family: 'Outfit', sans-serif; margin-top: 6px; min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 6px; -webkit-tap-highlight-color: transparent; transition: background .15s; }
+.mob-add-btn { width: 100%; background: rgba(26,79,191,.08); border: 1px dashed rgba(26,79,191,.35); border-radius: 12px; padding: 13px; font-size: 13px; font-weight: 700; color: #E8C66E; cursor: pointer; text-align: center; font-family: 'Outfit', sans-serif; margin-top: 6px; min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 6px; -webkit-tap-highlight-color: transparent; transition: background .15s; }
 .mob-add-btn:active { background: rgba(26,79,191,.2); }
 
 /* ── WA ── */
@@ -463,7 +463,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .mob-filter-sel { flex: 1; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 0 12px; font-size: 14px; color: white; font-family: 'Outfit', sans-serif; cursor: pointer; min-height: 44px; height: 44px; appearance: auto; -webkit-appearance: auto; }
 .mob-filter-sel option { background: #0F1E35; }
 .mob-filter-sel.active { border-color: var(--accent); color: var(--accent); background: rgba(245,166,35,.08); }
-.mob-filter-reset { background: rgba(231,76,60,.1); border: 1px solid rgba(231,76,60,.2); border-radius: 10px; color: #FC8181; font-size: 17px; cursor: pointer; min-width: 44px; min-height: 44px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; font-family: 'Outfit', sans-serif; }
+.mob-filter-reset { background: rgba(231,76,60,.1); border: 1px solid rgba(231,76,60,.2); border-radius: 10px; color: #D88888; font-size: 17px; cursor: pointer; min-width: 44px; min-height: 44px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; font-family: 'Outfit', sans-serif; }
 
 /* ── FAB ── */
 #mob-fab {
@@ -518,12 +518,12 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
   align-items: center; justify-content: center;
   gap: 2px; flex: 0 0 62px; height: 100%;
   cursor: pointer; text-decoration: none;
-  color: var(--gray, #8A9BB5); transition: color 0.2s;
+  color: var(--gray, #8B7355); transition: color 0.2s;
   border-radius: 10px; padding: 4px 2px;
   -webkit-tap-highlight-color: transparent; user-select: none;
 }
-.mob-nav-item.active { color: var(--blue, #1A4FBF); background: rgba(26,79,191,0.12); }
-.mob-nav-item.mob-nav-logout { color: #FC8181; }
+.mob-nav-item.active { color: var(--blue, #C9A961); background: rgba(26,79,191,0.12); }
+.mob-nav-item.mob-nav-logout { color: #D88888; }
 .mob-nav-item .mob-icon { font-size: 20px; line-height: 1; }
 .mob-nav-item .mob-label { font-size: 9px; font-weight: 600; text-transform: uppercase; white-space: nowrap; text-align: center; }
 @media (max-width: 768px) {
@@ -624,7 +624,7 @@ const OT = (() => {
     if (nameEl && s.name) nameEl.textContent = s.name.length > 18 ? s.name.substring(0, 16) + '...' : s.name;
     if (planEl && s.plan) {
       var labels = { starter:'Essentiel', pro:'Pro', business:'Business' };
-      var colors = { starter:'var(--gray)', pro:'#60A5FA', business:'#F5A623' };
+      var colors = { starter:'var(--gray)', pro:'#E8C66E', business:'#C9A961' };
       planEl.textContent = labels[s.plan] || s.plan;
       planEl.style.color = colors[s.plan] || 'var(--gray)';
     }
@@ -634,8 +634,8 @@ const OT = (() => {
     if (document.getElementById('ot-suspended-banner')) return;
     var banner = document.createElement('div');
     banner.id = 'ot-suspended-banner';
-    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fecaca;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;border-bottom:2px solid #ef4444;';
-    banner.innerHTML = '<div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">&#9940;</span><div><div style="font-size:14px;font-weight:700;color:#fff">Compte suspendu</div></div></div><button onclick="OT.logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>';
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fecaca;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;border-bottom:2px solid #8B2C2C;';
+    banner.innerHTML = '<div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">&#9940;</span><div><div style="font-size:14px;font-weight:700;color:#fff">Compte suspendu</div></div></div><button onclick="OT.logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>';
     document.body.prepend(banner);
     var main = document.querySelector('.main');
     if (main) main.style.marginTop = '52px';
@@ -665,7 +665,7 @@ const OT = (() => {
     return true;
   }
   function _showAccessDenied(featureLabel) {
-    document.body.innerHTML = '<div style="font-family:Outfit,sans-serif;background:#0A1628;color:#E8EDF5;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;"><div style="max-width:440px"><div style="font-size:64px;margin-bottom:20px">&#128274;</div><div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;margin-bottom:10px">ACCES RESTREINT</div><button onclick="window.history.back()" style="background:linear-gradient(135deg,#1A4FBF,#2563EB);color:#fff;border:none;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Retour</button></div></div>';
+    document.body.innerHTML = '<div style="font-family:Outfit,sans-serif;background:#0A0A0A;color:#F5F5F0;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;"><div style="max-width:440px"><div style="font-size:64px;margin-bottom:20px">&#128274;</div><div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;margin-bottom:10px">ACCES RESTREINT</div><button onclick="window.history.back()" style="background:linear-gradient(135deg,#C9A961,#C9A961);color:#fff;border:none;border-radius:10px;padding:12px 28px;font-family:Outfit,sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Retour</button></div></div>';
   }
   async function refreshSession() {
     var s = getSession();
@@ -745,10 +745,15 @@ const OT = (() => {
 })();
 function logout() { OT.logout(); }
 var _syncIntervalId=null;
-async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;if(_syncIntervalId){clearInterval(_syncIntervalId);_syncIntervalId=null;}sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var ctrl=new AbortController();var timer=setTimeout(()=>ctrl.abort(),8000);var r;try{r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY},signal:ctrl.signal});}finally{clearTimeout(timer);}if(!r||!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){clearInterval(_syncIntervalId);_syncIntervalId=null;alert(inv.reason==='deleted'?'⚠️ Votre compte a été supprimé. Vous allez être déconnecté.':'⚠️ Votre compte a été suspendu. Contactez votre administrateur.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#1A4FBF;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}window.addEventListener('beforeunload',function(){if(_syncIntervalId){clearInterval(_syncIntervalId);_syncIntervalId=null;}});_syncIntervalId=setInterval(check,30000);}
+async function _startSessionSync(){var s=OT.getSession();if(!s||!s.id||s.id==='demo')return;if(_syncIntervalId){clearInterval(_syncIntervalId);_syncIntervalId=null;}sessionStorage.setItem('ot_sync_last',new Date().toISOString());async function check(){try{var s2=OT.getSession();if(!s2)return;var cid2=s2.company_id||s2.id;var lc=sessionStorage.getItem('ot_sync_last')||new Date().toISOString();var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';var ctrl=new AbortController();var timer=setTimeout(()=>ctrl.abort(),8000);var r;try{r=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/rest/v1/session_invalidations?company_id=eq.'+cid2+'&created_at=gt.'+encodeURIComponent(lc)+'&order=created_at.desc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY},signal:ctrl.signal});}finally{clearTimeout(timer);}if(!r||!r.ok)return;var data=await r.json();if(!data.length)return;var inv=data[0];sessionStorage.setItem('ot_sync_last',inv.created_at);if(inv.reason==='deleted'||inv.reason==='suspended'){clearInterval(_syncIntervalId);_syncIntervalId=null;alert(inv.reason==='deleted'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été supprimé. Vous allez être déconnecté.':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Votre compte a été suspendu. Contactez votre administrateur.');OT.logout();return;}var store=localStorage.getItem('ot_session')?localStorage:sessionStorage;var sess=JSON.parse(store.getItem('ot_session')||'{}');if(inv.new_plan)sess.plan=inv.new_plan;if(inv.new_status)sess.status=inv.new_status;if(inv.new_quotas){sess.addon_route=inv.new_quotas.addon_route===true;sess.addon_saisie=inv.new_quotas.addon_saisie===true;sess.max_admins=inv.new_quotas.max_admins;sess.max_chefs=inv.new_quotas.max_chefs;sess.max_chauffeurs=inv.new_quotas.max_chauffeurs;}store.setItem('ot_session',JSON.stringify(sess));var t=document.createElement('div');t.style.cssText='position:fixed;bottom:80px;right:28px;background:#C9A961;color:#fff;border-radius:12px;padding:14px 20px;font-size:13px;font-family:Outfit,sans-serif;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)';t.textContent='🔄 Votre compte a été mis à jour. Rechargement...';document.body.appendChild(t);setTimeout(function(){window.location.reload();},2500);}catch(e){}}window.addEventListener('beforeunload',function(){if(_syncIntervalId){clearInterval(_syncIntervalId);_syncIntervalId=null;}});_syncIntervalId=setInterval(check,30000);}
 if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionSync;}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 <aside class="sidebar">
@@ -764,29 +769,29 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     <a class="nav-item" style="display:none" href="optimum_trans_saisie.html" id="nav-saisie-link"><span class="nav-icon">📝</span> Saisie Tournées</a>
     <div class="nav-section-label">Gestion</div>
     <a class="nav-item" style="display:none" href="optimum_trans_chauffeurs.html"><span class="nav-icon">👷</span> Chauffeurs &amp; Salaires</a>
-    <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats <span id="rh-sidebar-badge" style="display:none;background:#E74C3C;color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:700;margin-left:auto;align-items:center;justify-content:center">0</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon">⛽</span> Suivi Gazole</a>
-    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon">📊</span> Clients &amp; Facturation</a>
+    <a class="nav-item" href="optimum_trans_rh.html"><span class="nav-icon">👔</span> RH &amp; Contrats <span id="rh-sidebar-badge" style="display:none;background:#8B2C2C;color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:700;margin-left:auto;align-items:center;justify-content:center">0</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gazole.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span> Suivi Gazole</a>
+    <a class="nav-item" href="optimum_trans_clients.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Clients &amp; Facturation</a>
     <a class="nav-item" style="display:none" href="optimum_trans_vehicules.html"><span class="nav-icon">🚐</span> Parc Véhicules</a>
     <a class="nav-item" href="amende.html"><span class="nav-icon">🚔</span> Amendes</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon">📈</span> Décompte ST</a>
-    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#A78BFA">NEW</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_decompte_st.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span> Décompte ST</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_etat_vehicule.html"><span class="nav-icon">📸</span> État des Lieux <span class="nav-badge" style="background:rgba(124,58,237,0.3);color:#4FD1E0">NEW</span></a>
       <a class="nav-item" style="display:none" href="monmarche.html"><span class="nav-icon">🛒</span> Mon Marché</a>
     <div class="nav-section-label">Communication</div>
     <a class="nav-item" href="optimum_trans_messagerie.html"><span class="nav-icon">💬</span> Messagerie <span class="nav-badge" id="nav-msg-badge" style="display:none">0</span></a>
     <div class="nav-section-label">Intelligence</div>
-    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon">🤖</span> IA Analyst <span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="optimum_trans_ia.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span> IA Analyst <span class="nav-badge">NEW</span></a>
     <a class="nav-item" href="optimum_trans_dispatch.html"><span class="nav-icon">🧠</span> IA Dispatch <span class="nav-badge">NEW</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#10B981">LIVE</span></a>
-    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon">📍</span> Mon GPS (Chauffeur)</a>
+    <a class="nav-item" style="display:none" href="optimum_trans_suivi_chauffeurs.html"><span class="nav-icon">📡</span> Suivi Temps Réel <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:#6B8E23">LIVE</span></a>
+    <a class="nav-item" style="display:none" href="optimum_trans_gps_chauffeur.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></span> Mon GPS (Chauffeur)</a>
     <div class="nav-section-label">Paramètres</div>
-    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon">⚙️</span> Paramètres</a>
+    <a class="nav-item" href="optimum_trans_parametres.html"><span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Paramètres</a>
   </nav>
   <div class="sidebar-footer">
     <div class="user-card" onclick="window.location='optimum_trans_parametres.html'" style="cursor:pointer">
       <div class="user-avatar">T.S</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)">⚙️ Paramètres</div></div>
-      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#FC8181;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
+      <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--white)">Mon compte</div><div style="font-size:10px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Paramètres</div></div>
+      <button onclick="event.stopPropagation();logout()" title="Déconnexion" style="background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:16px;color:#D88888;line-height:1;display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:30px;width:auto;height:auto;">⏻</button>
     </div>
   </div>
 </aside>
@@ -795,15 +800,15 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
   <div class="topbar">
     <div class="topbar-title">📆 PLANNING</div>
     <div class="topbar-right">
-      <span id="sync-info" style="font-size:11px;color:var(--gray)">✅ Connecté</span>
+      <span id="sync-info" style="font-size:11px;color:var(--gray)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Connecté</span>
       <button class="btn-sm btn-ghost" onclick="loadWeek()" title="Actualiser">🔄 Actualiser</button>
-      <button class="btn-sm btn-excel" onclick="exportPlanningExcel()" title="Exporter en Excel">📊 Excel</button>
+      <button class="btn-sm btn-excel" onclick="exportPlanningExcel()" title="Exporter en Excel"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Excel</button>
       <button class="btn-sm btn-ghost" onclick="printPlanning()" title="Aperçu / Impression" style="border-color:rgba(255,255,255,0.15)">🖨️ Imprimer</button>
       <button class="btn-sm btn-wa" id="btn-send-all-wa" onclick="sendAllWA()" style="display:flex;align-items:center;gap:6px">💬 <span>Envoyer tout</span></button>
       <button class="btn-sm btn-overview" onclick="openOverviewModal()" title="Vue d'ensemble du planning" style="display:flex;align-items:center;gap:4px;">👁 <span>Vue d'ensemble</span></button>
-      <button id="btn-send-stt" class="btn-sm" onclick="openSendSTTModal()" title="Envoyer la semaine aux sous-traitants T SERVICE & CO" style="display:none;align-items:center;gap:4px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:#10B981;font-weight:700">🔗 <span>Envoyer STT</span></button>
+      <button id="btn-send-stt" class="btn-sm" onclick="openSendSTTModal()" title="Envoyer la semaine aux sous-traitants T SERVICE & CO" style="display:none;align-items:center;gap:4px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:#6B8E23;font-weight:700">🔗 <span>Envoyer STT</span></button>
       <button class="btn-sm btn-ghost" onclick="openDupModal()" title="Dupliquer une semaine entière" style="display:flex;align-items:center;gap:4px;border-color:rgba(245,166,35,0.3);color:var(--accent)">📋 <span>Dupliquer</span></button>
-      <button class="btn-sm" onclick="openDelWeekModal()" title="Supprimer toutes les tournées de cette semaine" style="display:flex;align-items:center;gap:4px;background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.5);color:#FC8181;font-weight:700;">🗑 <span>Vider semaine</span></button>
+      <button class="btn-sm" onclick="openDelWeekModal()" title="Supprimer toutes les tournées de cette semaine" style="display:flex;align-items:center;gap:4px;background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.5);color:#D88888;font-weight:700;">🗑 <span>Vider semaine</span></button>
       <button class="btn-sm btn-accent" onclick="openAddModal()" style="display:flex;align-items:center;gap:4px">＋ <span>Tournée</span></button>
     </div>
   </div>
@@ -817,7 +822,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
             <div class="week-label" id="week-label">—</div>
             <div class="week-dates" id="week-dates">—</div>
           </div>
-          <span class="cal-icon">📅</span>
+          <span class="cal-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
         </div>
         <div class="cal-popup hidden" id="cal-popup">
           <div class="cal-header">
@@ -851,11 +856,11 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <div class="kpi"><div class="kpi-ico">👷</div><div><div class="kpi-val" id="k-actifs">—</div><div class="kpi-lbl">Chauffeurs actifs</div></div></div>
       <div class="kpi"><div class="kpi-ico">🌅</div><div><div class="kpi-val" id="k-am">—</div><div class="kpi-lbl">Tournées AM</div></div></div>
       <div class="kpi"><div class="kpi-ico">🌆</div><div><div class="kpi-val" id="k-pm">—</div><div class="kpi-lbl">Tournées PM</div></div></div>
-      <div class="kpi" id="kpi-dispo" onclick="toggleDispoPanel()" style="cursor:pointer;border-color:rgba(52,211,153,0.3);transition:all 0.2s;" title="Voir les chauffeurs disponibles par jour"><div class="kpi-ico">🟢</div><div><div class="kpi-val" id="k-dispo" style="color:#34D399">—</div><div class="kpi-lbl" id="kpi-dispo-lbl" style="color:#34D399">Dispo aujourd'hui ▾</div></div></div>
-      <div class="kpi" id="kpi-incomplete" onclick="openIncompleteModal()" style="cursor:pointer;border-color:rgba(231,76,60,0.3);transition:all 0.2s;" title="Voir les tournées avec saisies manquantes"><div class="kpi-ico">⚠️</div><div><div class="kpi-val" id="k-incomplete" style="color:#FC8181">—</div><div class="kpi-lbl" id="kpi-incomplete-lbl" style="color:#FC8181">Saisies manquantes ▾</div></div></div>
+      <div class="kpi" id="kpi-dispo" onclick="toggleDispoPanel()" style="cursor:pointer;border-color:rgba(52,211,153,0.3);transition:all 0.2s;" title="Voir les chauffeurs disponibles par jour"><div class="kpi-ico">🟢</div><div><div class="kpi-val" id="k-dispo" style="color:#A8C078">—</div><div class="kpi-lbl" id="kpi-dispo-lbl" style="color:#A8C078">Dispo aujourd'hui ▾</div></div></div>
+      <div class="kpi" id="kpi-incomplete" onclick="openIncompleteModal()" style="cursor:pointer;border-color:rgba(231,76,60,0.3);transition:all 0.2s;" title="Voir les tournées avec saisies manquantes"><div class="kpi-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="kpi-val" id="k-incomplete" style="color:#D88888">—</div><div class="kpi-lbl" id="kpi-incomplete-lbl" style="color:#D88888">Saisies manquantes ▾</div></div></div>
     </div>
     <div id="dispo-panel" style="display:none;background:var(--navy2);border:1px solid rgba(52,211,153,0.25);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
-      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#34D399;margin-bottom:12px">📅 Chauffeurs disponibles — par jour</div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#A8C078;margin-bottom:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Chauffeurs disponibles — par jour</div>
       <div id="dispo-list" style="display:flex;gap:0;overflow-x:auto"></div>
     </div>
 
@@ -870,7 +875,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         </div>
       </div>
       <span style="margin-left:20px;opacity:0.3">|</span>
-      <span class="filter-label" style="margin-left:12px">🏢 Client :</span>
+      <span class="filter-label" style="margin-left:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Client :</span>
       <div class="multisel-wrap" id="multisel-wrap-cl">
         <button class="multisel-trigger" id="multisel-trig-cl" onclick="toggleMultiDrop('cl')"><span>— Tous les clients —</span></button>
         <div class="multisel-panel" id="multisel-panel-cl">
@@ -880,7 +885,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         </div>
       </div>
       <span style="margin-left:20px;opacity:0.3">|</span>
-      <span class="filter-label" style="margin-left:12px">📅 Jour :</span>
+      <span class="filter-label" style="margin-left:12px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Jour :</span>
       <div class="filter-day-group" id="filter-day-group">
         <button class="filter-day-btn" data-day="0" onclick="toggleFilterDay(0)">Lun</button>
         <button class="filter-day-btn" data-day="1" onclick="toggleFilterDay(1)">Mar</button>
@@ -918,7 +923,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
           <option value="">👷 Tous les chauffeurs</option>
         </select>
         <select class="mob-filter-sel" id="mob-filter-cl" onchange="_applyMobFilter()">
-          <option value="">🏢 Tous les clients</option>
+          <option value=""><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Tous les clients</option>
         </select>
         <button class="mob-filter-reset" id="mob-filter-reset" onclick="_resetMobFilters()" style="display:none" title="Réinitialiser les filtres">✕</button>
       </div>
@@ -934,7 +939,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL PÉNALITÉ -->
 <div class="modal-overlay" id="modal-pen" onclick="if(event.target===this)closePenModal()">
   <div class="modal-pen">
-    <div class="modal-title" style="color:#FC8181">⚠️ VALIDER AVEC PÉNALITÉ</div>
+    <div class="modal-title" style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> VALIDER AVEC PÉNALITÉ</div>
     <div class="modal-sub" id="pen-sub" style="margin-bottom:16px">Sélectionnez le motif de la pénalité</div>
     <div id="pen-options"></div>
     <div id="pen-custom-block" style="display:none;margin-bottom:12px">
@@ -943,7 +948,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border);margin-top:4px">
       <button style="padding:9px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;border:1px solid var(--border);background:none;color:var(--gray)" onclick="closePenModal()">Annuler</button>
-      <button id="btn-pen-confirm" style="padding:9px 20px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,#E74C3C,#C0392B);color:var(--white)" onclick="confirmPenalty()">⚠️ Appliquer la pénalité</button>
+      <button id="btn-pen-confirm" style="padding:9px 20px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,#8B2C2C,#C0392B);color:var(--white)" onclick="confirmPenalty()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Appliquer la pénalité</button>
     </div>
   </div>
 </div>
@@ -958,7 +963,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <select id="m-chauffeur"><option value="">— Sélectionner —</option></select>
     </div>
     <div class="form-group">
-      <label>📅 Date</label>
+      <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Date</label>
       <input type="date" id="m-date">
     </div>
     <div class="form-group">
@@ -966,11 +971,11 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <select id="m-vehicule"><option value="">— Aucun —</option></select>
     </div>
     <div class="form-group">
-      <label>🏢 Client</label>
+      <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Client</label>
       <select id="m-client" onchange="onModalClientChange()"><option value="">— Sélectionner —</option></select>
     </div>
     <div id="m-points-group" class="form-group" style="display:none">
-      <label>📦 Nombre de points estimé</label>
+      <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Nombre de points estimé</label>
       <input type="number" id="m-nb-points" min="0" step="1" placeholder="Ex: 45" value="">
     </div>
     <div id="m-heures-group" class="form-group" style="display:none">
@@ -978,20 +983,20 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <input type="number" id="m-nb-heures" min="0" step="0.5" placeholder="Ex: 4.5" value="">
     </div>
     <div id="m-zone-group" style="display:none">
-      <div style="font-size:11px;color:#93C5FD;margin:6px 0 8px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase">📍 Lignes de livraison par ville</div>
+      <div style="font-size:11px;color:#F1D27B;margin:6px 0 8px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Lignes de livraison par ville</div>
       <div id="m-zone-lines" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
-      <button type="button" onclick="addZoneLine()" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.35);border-radius:8px;padding:7px 12px;font-size:12px;color:#93C5FD;cursor:pointer;font-family:inherit;font-weight:600;margin-bottom:10px">+ Ajouter une ville</button>
-      <div id="m-zone-info" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:9px 12px;font-size:11px;color:#93C5FD;margin:0 0 10px;line-height:1.5">📍 Ajoute au moins une ligne (ville + nb points)…</div>
+      <button type="button" onclick="addZoneLine()" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.35);border-radius:8px;padding:7px 12px;font-size:12px;color:#F1D27B;cursor:pointer;font-family:inherit;font-weight:600;margin-bottom:10px">+ Ajouter une ville</button>
+      <div id="m-zone-info" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:9px 12px;font-size:11px;color:#F1D27B;margin:0 0 10px;line-height:1.5"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Ajoute au moins une ligne (ville + nb points)…</div>
     </div>
     <div id="m-forfait-group" style="display:none">
-      <div id="m-forfait-info" style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:10px;padding:9px 12px;font-size:11px;color:#F5A623;margin-bottom:10px;line-height:1.5"></div>
+      <div id="m-forfait-info" style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:10px;padding:9px 12px;font-size:11px;color:#C9A961;margin-bottom:10px;line-height:1.5"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div class="form-group">
-          <label>⏰ Heure début estimée</label>
+          <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Heure début estimée</label>
           <input type="time" id="m-heure-debut-estime" value="06:00">
         </div>
         <div class="form-group">
-          <label>⏰ Heure fin estimée</label>
+          <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Heure fin estimée</label>
           <input type="time" id="m-heure-fin-estime" value="12:00">
         </div>
       </div>
@@ -1002,13 +1007,13 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
         <select id="m-slot" onchange="onModalSlotChange()"><option value="AM">🌅 AM</option><option value="PM">🌆 PM</option><option value="AM+PM">☀️ AM+PM</option></select>
       </div>
       <div class="form-group">
-        <label>⏰ Heure</label>
+        <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Heure</label>
         <input type="time" id="m-heure" value="06:00">
       </div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel-m" onclick="closeModal()">Annuler</button>
-      <button class="btn-submit" id="btn-modal-submit" onclick="saveTournee()">✅ Enregistrer</button>
+      <button class="btn-submit" id="btn-modal-submit" onclick="saveTournee()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer</button>
     </div>
   </div>
 </div>
@@ -1030,11 +1035,11 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     <div class="modal-title">📋 DUPLIQUER UNE SEMAINE</div>
     <div class="modal-sub" id="dup-modal-sub">Copie toutes les tournées vers une autre semaine</div>
     <div class="form-group">
-      <label>📅 Semaine source</label>
+      <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Semaine source</label>
       <input type="week" id="dup-src-week" onchange="onDupSrcChange()">
     </div>
     <div class="form-group">
-      <label>📅 Semaine cible</label>
+      <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Semaine cible</label>
       <input type="week" id="dup-tgt-week" onchange="onDupTgtChange()">
     </div>
     <div id="dup-warning" style="display:none;background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--accent);margin-bottom:12px"></div>
@@ -1058,15 +1063,15 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
       <span style="font-size:12px;font-weight:700;color:#818CF8" id="dup-ch-name-label">—</span>
     </div>
     <div class="form-group">
-      <label>📅 Semaine source</label>
+      <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Semaine source</label>
       <input type="week" id="dup-ch-src-week" disabled style="opacity:0.7">
     </div>
     <div class="form-group">
-      <label>📅 Date début (semaine cible)</label>
+      <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Date début (semaine cible)</label>
       <input type="week" id="dup-ch-tgt-start" onchange="onDupChTgtChange()">
     </div>
     <div class="form-group">
-      <label>📅 Date fin (semaine cible)</label>
+      <label><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Date fin (semaine cible)</label>
       <input type="week" id="dup-ch-tgt-end" onchange="onDupChTgtChange()">
     </div>
     <div id="dup-ch-info" style="display:none;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);border-radius:8px;padding:10px 12px;font-size:11px;color:#818CF8;margin-bottom:12px"></div>
@@ -1077,7 +1082,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
     </div>
     <div class="modal-actions">
       <button class="btn-cancel-m" onclick="closeDupChModal()">Annuler</button>
-      <button class="btn-submit" id="btn-dup-ch-submit" onclick="executeDuplicateChauffeur()" style="background:linear-gradient(135deg,#6366F1,#818CF8)">📋 Dupliquer</button>
+      <button class="btn-submit" id="btn-dup-ch-submit" onclick="executeDuplicateChauffeur()" style="background:linear-gradient(135deg,#4FD1E0,#818CF8)">📋 Dupliquer</button>
     </div>
   </div>
 </div>
@@ -1085,16 +1090,16 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL SUPPRIMER SEMAINE -->
 <div class="modal-overlay" id="modal-del-week" onclick="if(event.target===this)closeDelWeekModal()">
   <div class="modal" style="border-color:rgba(231,76,60,0.4);">
-    <div class="modal-title" style="color:#FC8181">🗑 SUPPRIMER LA SEMAINE</div>
+    <div class="modal-title" style="color:#D88888">🗑 SUPPRIMER LA SEMAINE</div>
     <div class="modal-sub" id="del-week-sub">Cette action est irréversible</div>
     <div style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:10px;padding:14px 16px;margin-bottom:18px;text-align:center;">
-      <div style="font-size:13px;color:#FC8181;font-weight:700;margin-bottom:6px">⚠️ ATTENTION</div>
+      <div style="font-size:13px;color:#D88888;font-weight:700;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ATTENTION</div>
       <div style="font-size:12px;color:var(--gray);line-height:1.6">Toutes les tournées de la semaine affichée seront définitivement supprimées.<br>Les validations et pénalités associées seront également perdues.</div>
     </div>
-    <div style="text-align:center;font-size:22px;font-family:'Bebas Neue',sans-serif;color:#FC8181;letter-spacing:2px;margin-bottom:18px" id="del-week-count-label">— tournées à supprimer</div>
+    <div style="text-align:center;font-size:22px;font-family:'Bebas Neue',sans-serif;color:#D88888;letter-spacing:2px;margin-bottom:18px" id="del-week-count-label">— tournées à supprimer</div>
     <div class="modal-actions">
       <button class="btn-cancel-m" onclick="closeDelWeekModal()">Annuler</button>
-      <button id="btn-del-week-confirm" onclick="deleteWeekTournees()" style="background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:100%;">🗑 Confirmer la suppression</button>
+      <button id="btn-del-week-confirm" onclick="deleteWeekTournees()" style="background:linear-gradient(135deg,#8B2C2C,#c0392b);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:100%;">🗑 Confirmer la suppression</button>
     </div>
   </div>
 </div>
@@ -1114,7 +1119,7 @@ if(typeof startSessionSync==='undefined'){window.startSessionSync=_startSessionS
 <!-- MODAL SAISIES MANQUANTES -->
 <div class="modal-overlay" id="modal-incomplete" onclick="if(event.target===this)closeIncompleteModal()">
   <div class="modal" style="max-width:520px">
-    <div class="modal-title" style="color:#FC8181">⚠️ SAISIES MANQUANTES</div>
+    <div class="modal-title" style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> SAISIES MANQUANTES</div>
     <div class="modal-sub" id="incomplete-modal-sub">Tournées avec des données non saisies cette semaine</div>
     <div id="incomplete-list" style="max-height:420px;overflow-y:auto;padding-right:4px;margin-bottom:8px"></div>
     <div class="modal-actions" style="justify-content:flex-end">
@@ -1141,16 +1146,16 @@ function _getJF(y){if(_JF[y])return _JF[y];const f=[`${y}-01-01`,`${y}-05-01`,`$
 function getDayType(dateStr){if(!dateStr)return'semaine';const s=dateStr.substring(0,10);const y=parseInt(s);if(_getJF(y).has(s))return'ferie';const dow=new Date(s+'T12:00:00').getDay();return dow===0?'dimanche':'semaine';}
 // Palette de couleurs pour la séparation visuelle des lignes chauffeur
 const ROW_PALETTE=[
-  {c:'#60A5FA',bg:'rgba(59,130,246,0.18)', slotBg:'rgba(59,130,246,0.09)', sep:'rgba(59,130,246,0.6)'},
-  {c:'#34D399',bg:'rgba(16,185,129,0.18)', slotBg:'rgba(16,185,129,0.09)', sep:'rgba(16,185,129,0.6)'},
+  {c:'#E8C66E',bg:'rgba(59,130,246,0.18)', slotBg:'rgba(59,130,246,0.09)', sep:'rgba(59,130,246,0.6)'},
+  {c:'#A8C078',bg:'rgba(16,185,129,0.18)', slotBg:'rgba(16,185,129,0.09)', sep:'rgba(16,185,129,0.6)'},
   {c:'#FBBF24',bg:'rgba(245,158,11,0.18)', slotBg:'rgba(245,158,11,0.09)', sep:'rgba(245,158,11,0.6)'},
   {c:'#F472B6',bg:'rgba(236,72,153,0.18)', slotBg:'rgba(236,72,153,0.09)', sep:'rgba(236,72,153,0.6)'},
-  {c:'#A78BFA',bg:'rgba(139,92,246,0.18)', slotBg:'rgba(139,92,246,0.09)', sep:'rgba(139,92,246,0.6)'},
+  {c:'#4FD1E0',bg:'rgba(139,92,246,0.18)', slotBg:'rgba(139,92,246,0.09)', sep:'rgba(139,92,246,0.6)'},
   {c:'#22D3EE',bg:'rgba(6,182,212,0.18)',  slotBg:'rgba(6,182,212,0.09)',  sep:'rgba(6,182,212,0.6)'},
   {c:'#FB923C',bg:'rgba(249,115,22,0.18)', slotBg:'rgba(249,115,22,0.09)', sep:'rgba(249,115,22,0.6)'},
   {c:'#2DD4BF',bg:'rgba(20,184,166,0.18)', slotBg:'rgba(20,184,166,0.09)', sep:'rgba(20,184,166,0.6)'},
   {c:'#818CF8',bg:'rgba(99,102,241,0.18)', slotBg:'rgba(99,102,241,0.09)', sep:'rgba(99,102,241,0.6)'},
-  {c:'#F87171',bg:'rgba(239,68,68,0.18)',  slotBg:'rgba(239,68,68,0.09)',  sep:'rgba(239,68,68,0.6)'},
+  {c:'#D88888',bg:'rgba(239,68,68,0.18)',  slotBg:'rgba(239,68,68,0.09)',  sep:'rgba(239,68,68,0.6)'},
 ];
 
 let weekOffset=0, allChauffeurs=[], allClients=[], allTournees=[], allVehicules=[], affectationsVehicule={};
@@ -1173,14 +1178,14 @@ async function loadPenalites(){
   catch(e){ penalitesConfig=getDefaultPenalites(); }
 }
 function getDefaultPenalites(){
-  return [{id:'retard',label:'Retard',icon:'⏰',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}];
+  return [{id:'retard',label:'Retard',icon:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}];
 }
 function getValidationMap(){
   return OT_SYNC.getValidationMap();
 }
 async function validateTournee(tourneeId,chauffeurNom){
   await OT_SYNC.validateTournee(tourneeId,chauffeurNom);
-  toast('✅ Tournée validée');
+  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée validée');
   renderPlanning(getWeekDates());
 }
 function openPenaltyModal(tourneeId,chauffeurNom,clientNom){
@@ -1208,7 +1213,7 @@ async function confirmPenalty(){
   const t=allTournees.find(x=>x.id===penModal_tourneeId);
   const chauffeurNom=t?t.chauffeur_nom:'';
   await OT_SYNC.penalizeTournee(penModal_tourneeId,chauffeurNom,penModal_selectedMotif.label,penModal_selectedMotif.id,montant);
-  toast(`⚠️ Pénalité "${penModal_selectedMotif.label}" — -${montant}€`);
+  toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité "${penModal_selectedMotif.label}" — -${montant}€`);
   closePenModal();
   renderPlanning(getWeekDates());
 }
@@ -1233,9 +1238,9 @@ document.addEventListener('DOMContentLoaded',async()=>{
     setInterval(async function(){ await OT.refreshSession(); }, 10*60*1000);
   }catch(e){
     const cont=document.getElementById('planning-container');
-    if(cont) cont.innerHTML=`<div style="padding:40px;text-align:center;color:var(--error)">❌ Erreur d'initialisation : ${e.message}<br><br><button onclick="window.location.reload()" style="padding:10px 20px;background:#1A4FBF;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px">🔄 Recharger la page</button></div>`;
+    if(cont) cont.innerHTML=`<div style="padding:40px;text-align:center;color:var(--error)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur d'initialisation : ${e.message}<br><br><button onclick="window.location.reload()" style="padding:10px 20px;background:#C9A961;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px">🔄 Recharger la page</button></div>`;
     const si=document.getElementById('sync-info');
-    if(si){si.textContent='❌ Erreur connexion';si.style.color='#FC8181';}
+    if(si){si.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur connexion';si.style.color='#D88888';}
     console.error('Planning init error:',e);
   }
 });
@@ -1345,7 +1350,7 @@ async function saveChefJour(dateStr, chauffeurNom){
       toast('👔 Chef d\'équipe retiré');
     }
     renderPlanning(getWeekDates());
-  }catch(e){ toast('❌ '+e.message,'error'); }
+  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error'); }
 }
 async function saveAffectationVehicule(chauffeurNom,dateStr,vehiculeId){
   const k=vehKey(chauffeurNom,dateStr);
@@ -1360,7 +1365,7 @@ async function saveAffectationVehicule(chauffeurNom,dateStr,vehiculeId){
     }
     // Synchroniser le champ vehicule dans toutes les tournées de ce chauffeur/jour
     await fetch(`${SB}/rest/v1/tournees?chauffeur_nom=eq.${encodeURIComponent(chauffeurNom)}&date=eq.${dateStr}&company_id=eq.${OT.getCompanyId()}`,{method:'PATCH',headers:{...H(),'Prefer':'return=minimal'},body:JSON.stringify({vehicule:immat})});
-  }catch(e){ toast('❌ Erreur véhicule: '+e.message,'error'); }
+  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur véhicule: '+e.message,'error'); }
 }
 async function loadWeek(){
   const dates=getWeekDates();
@@ -1388,12 +1393,12 @@ async function loadWeek(){
     renderSTTReceivedPanel();
     updateKPIs();
     updateWABanner(dates);
-    document.getElementById('sync-info').textContent=`✅ ${allTournees.length} tournée${allTournees.length>1?'s':''} cette semaine`;
-    document.getElementById('sync-info').style.color='#2ECC71';
+    document.getElementById('sync-info').textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${allTournees.length} tournée${allTournees.length>1?'s':''} cette semaine`;
+    document.getElementById('sync-info').style.color='#6B8E23';
   }catch(e){
-    document.getElementById('sync-info').textContent='❌ '+e.message;
-    document.getElementById('sync-info').style.color='#FC8181';
-    document.getElementById('planning-container').innerHTML=`<div style="padding:40px;text-align:center;color:var(--error)">❌ ${e.message}</div>`;
+    document.getElementById('sync-info').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message;
+    document.getElementById('sync-info').style.color='#D88888';
+    document.getElementById('planning-container').innerHTML=`<div style="padding:40px;text-align:center;color:var(--error)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;
   }
 }
 // ── Multi-select chauffeur/client ────────────────────────────────────────────
@@ -1617,7 +1622,7 @@ function renderPlanning(dates){
       <div class="ch-meta">${c.type==='salarié'?'Salarié':(c.entreprise_nom?c.entreprise_nom+' · S/T':'S/T')}${hasTel?' · 💬':''}</div>
       ${weekTotal>0?`<div class="ch-week-total">${weekTotal} tournée${weekTotal>1?'s':''} / sem.</div>`:''}
       ${hasTel&&weekTotal>0&&OT_WA?`<button class="ch-wa-week" onclick="sendChWeekWA('${c.nom}')">💬 Envoyer semaine</button>`:''}
-      ${hasTel?`<button class="ch-wa-call" onclick="openWAConversation(normalizePhone('${c.tel}'))" title="Appeler via WhatsApp">📞 WhatsApp</button>`:''}
+      ${hasTel?`<button class="ch-wa-call" onclick="openWAConversation(normalizePhone('${c.tel}'))" title="Appeler via WhatsApp"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> WhatsApp</button>`:''}
       ${_sttRel&&weekTotal>0?`<button class="ch-stt-week${_sttPending===0?' stt-sent':''}" onclick="sendChSTTWeek('${_safeCh}')">${_sttPending>0?`🔗 Envoyer STT (${_sttPending})`:'✓ STT envoyé'}</button>`:''}`;
     const btnDupCh=document.createElement('button');
     btnDupCh.className='btn-dup-ch';
@@ -1650,7 +1655,7 @@ function renderPlanning(dates){
         badge.onclick=(()=>{const _id=t.id;return()=>openTourneeInfo(_id);})();
         // Badge statut STT (calculé avant innerHTML pour inclure la ligne de statut)
         const _sttO=sttOrdersByTourneeId[t.id];
-        const _sttMeta=_sttO?({pending_config:{e:'🔧',c:'#F5A623',l:'Config. STT'},pending:{e:'🕐',c:'#60A5FA',l:'En attente'},assigned:{e:'✓',c:'#10B981',l:'Assigné'},modified:{e:'⚠',c:'#F5A623',l:'Modifié'},cancelled:{e:'✕',c:'#FC8181',l:'Annulé'},refused:{e:'✕',c:'#FC8181',l:'Refusé'},validated:{e:'✓✓',c:'#10B981',l:'Validé'}}[_sttO.status]||{e:'🔗',c:'#60A5FA',l:'STT'}):null;
+        const _sttMeta=_sttO?({pending_config:{e:'🔧',c:'#C9A961',l:'Config. STT'},pending:{e:'🕐',c:'#E8C66E',l:'En attente'},assigned:{e:'✓',c:'#6B8E23',l:'Assigné'},modified:{e:'⚠',c:'#C9A961',l:'Modifié'},cancelled:{e:'✕',c:'#D88888',l:'Annulé'},refused:{e:'✕',c:'#D88888',l:'Refusé'},validated:{e:'✓✓',c:'#6B8E23',l:'Validé'}}[_sttO.status]||{e:'🔗',c:'#E8C66E',l:'STT'}):null;
         if(_sttO){badge.style.flexDirection='column';badge.style.alignItems='flex-start';badge.style.gap='2px';}
         const _sttAssignee=_sttO&&_sttO.chauffeur_nom_assigne?_sttO.chauffeur_nom_assigne.split(' ')[0]:'';
         const _sttLine=_sttMeta&&_sttO.status!=='cancelled'?`<div style="width:100%;font-size:8px;font-weight:700;color:${_sttMeta.c};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2" title="${_sttMeta.l}${_sttO.chauffeur_nom_assigne?' · '+_sttO.chauffeur_nom_assigne:''}">${_sttMeta.e} ${_sttAssignee||_sttMeta.l}</div>`:'';
@@ -1663,14 +1668,14 @@ function renderPlanning(dates){
         if(!valInfo||valInfo.statut==='penalisee'){
           const btnV=document.createElement('button');
           btnV.className='btn-val btn-val-ok';
-          btnV.textContent=valInfo?'✅ Re-val':'✅ Valider';
+          btnV.textContent=valInfo?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Re-val':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valider';
           btnV.onclick=()=>validateTournee(t.id,c.nom);
           actDiv.appendChild(btnV);
         }
         if(!valInfo||valInfo.statut==='validee'){
           const btnP=document.createElement('button');
           btnP.className='btn-val btn-val-pen';
-          btnP.textContent='⚠️ Pén.';
+          btnP.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pén.';
           btnP.onclick=()=>openPenaltyModal(t.id,c.nom,t.client_nom);
           actDiv.appendChild(btnP);
         }
@@ -1685,9 +1690,9 @@ function renderPlanning(dates){
       });
       const absKey=c.nom+'|||'+dateStr;
       if(absMap[absKey]){
-        const absLabels={conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'⚠️ Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'};
+        const absLabels={conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'};
         const absDiv=document.createElement('div');
-        absDiv.style.cssText='background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:4px 6px;font-size:9px;font-weight:600;color:#FC8181;text-align:center;margin:2px 0;';
+        absDiv.style.cssText='background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.2);border-radius:6px;padding:4px 6px;font-size:9px;font-weight:600;color:#D88888;text-align:center;margin:2px 0;';
         absDiv.textContent=absLabels[absMap[absKey]]||'Absent';
         inner.appendChild(absDiv);
       } else {
@@ -1711,7 +1716,7 @@ function renderPlanning(dates){
         if(val){
           const ch=allChauffeurs.find(x=>x.nom===c.nom);
           if(ch?.type==='sous-traitant'&&ch?.entreprise_nom){
-            const ok=confirm(`⚠️ Attention\n\n${c.nom} est rattaché à ${ch.entreprise_nom} qui dispose de ses propres véhicules.\n\nSouhaitez-vous quand même assigner ce véhicule ?`);
+            const ok=confirm(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Attention\n\n${c.nom} est rattaché à ${ch.entreprise_nom} qui dispose de ses propres véhicules.\n\nSouhaitez-vous quand même assigner ce véhicule ?`);
             if(!ok){this.value=affectationsVehicule[vehKey(c.nom,dateStr)]||'';return;}
           }
         }
@@ -1795,10 +1800,10 @@ function updateKPIs(){
     const dayName=DAYS[d.getDay()===0?6:d.getDay()-1];
     const isToday=fd(d)===fd(new Date());
     const badges=libres.length>0
-      ?libres.map(c=>`<span style="display:block;background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.2);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;color:#34D399;margin-bottom:3px">${c.nom}</span>`).join('')
+      ?libres.map(c=>`<span style="display:block;background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.2);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;color:#A8C078;margin-bottom:3px">${c.nom}</span>`).join('')
       :`<span style="font-size:11px;color:var(--gray);font-style:italic">Tous actifs</span>`;
     return `<div style="flex:1;min-width:90px;border-right:1px solid var(--border);padding:0 10px 0 0;margin-right:0">
-      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:${isToday?'var(--accent)':'var(--gray)'};margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)">${dayName}<br><span style="font-size:9px;font-weight:400">${d.getDate()} ${MONTHS_S[d.getMonth()]}</span>${libres.length>0?` <span style="background:rgba(52,211,153,0.2);color:#34D399;border-radius:8px;padding:1px 5px;font-size:9px">${libres.length}</span>`:''}</div>
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:${isToday?'var(--accent)':'var(--gray)'};margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)">${dayName}<br><span style="font-size:9px;font-weight:400">${d.getDate()} ${MONTHS_S[d.getMonth()]}</span>${libres.length>0?` <span style="background:rgba(52,211,153,0.2);color:#A8C078;border-radius:8px;padding:1px 5px;font-size:9px">${libres.length}</span>`:''}</div>
       ${badges}
     </div>`;
   });
@@ -1827,12 +1832,12 @@ function updateKPIs(){
   const kpiIncCard=document.getElementById('kpi-incomplete');
   if(kpiIncVal) kpiIncVal.textContent=incompleteCount;
   if(incompleteCount===0){
-    if(kpiIncVal) kpiIncVal.style.color='#2ECC71';
-    if(kpiIncLbl){kpiIncLbl.textContent='Tout est saisi ✓';kpiIncLbl.style.color='#2ECC71';}
+    if(kpiIncVal) kpiIncVal.style.color='#6B8E23';
+    if(kpiIncLbl){kpiIncLbl.textContent='Tout est saisi ✓';kpiIncLbl.style.color='#6B8E23';}
     if(kpiIncCard){kpiIncCard.style.borderColor='rgba(39,174,96,0.3)';kpiIncCard.style.background='';}
   } else {
-    if(kpiIncVal) kpiIncVal.style.color='#FC8181';
-    if(kpiIncLbl){kpiIncLbl.textContent='Saisies manquantes ▾';kpiIncLbl.style.color='#FC8181';}
+    if(kpiIncVal) kpiIncVal.style.color='#D88888';
+    if(kpiIncLbl){kpiIncLbl.textContent='Saisies manquantes ▾';kpiIncLbl.style.color='#D88888';}
     if(kpiIncCard){kpiIncCard.style.borderColor='rgba(231,76,60,0.5)';kpiIncCard.style.background='rgba(231,76,60,0.05)';}
   }
 }
@@ -1865,21 +1870,21 @@ function openIncompleteModal(){
   }).sort((a,b)=>a.date.localeCompare(b.date)||a.chauffeur_nom.localeCompare(b.chauffeur_nom));
   const count=incomplete.length;
   const sub=document.getElementById('incomplete-modal-sub');
-  if(sub) sub.textContent=count>0?`${count} tournée${count>1?'s':''} avec des saisies manquantes cette semaine`:'Aucune saisie manquante — tout est complet ✅';
+  if(sub) sub.textContent=count>0?`${count} tournée${count>1?'s':''} avec des saisies manquantes cette semaine`:'Aucune saisie manquante — tout est complet <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>';
   const container=document.getElementById('incomplete-list');
   if(!container) return;
   if(!count){
-    container.innerHTML='<div style="text-align:center;padding:28px 20px;color:#2ECC71;font-size:14px;font-weight:600">✅ Toutes les saisies sont complètes !</div>';
+    container.innerHTML='<div style="text-align:center;padding:28px 20px;color:#6B8E23;font-size:14px;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Toutes les saisies sont complètes !</div>';
   } else {
     container.innerHTML=incomplete.map(t=>{
       const cl=allClients.find(c=>c.nom===t.client_nom);
       const tp=cl?.type_paiement||'fixe';
-      const missingLabel=tp==='point'?'📦 Points réels manquants':(tp==='forfait_heures'?'⏰ Heures début/fin réelles manquantes':(tp==='zone'?'📍 Points + CP de livraison manquants':'⏱ Heures réelles manquantes'));
-      const missingColor=tp==='point'?'#60A5FA':(tp==='forfait_heures'?'#F5A623':(tp==='zone'?'#60A5FA':'#A78BFA'));
+      const missingLabel=tp==='point'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Points réels manquants':(tp==='forfait_heures'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Heures début/fin réelles manquantes':(tp==='zone'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Points + CP de livraison manquants':'⏱ Heures réelles manquantes'));
+      const missingColor=tp==='point'?'#E8C66E':(tp==='forfait_heures'?'#C9A961':(tp==='zone'?'#E8C66E':'#4FD1E0'));
       const dateF=new Date(t.date+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
       const slotCls=t.slot==='AM'?'am':t.slot==='PM'?'pm':'ampm';
       const slotColors={'am':'rgba(245,166,35,0.15)','pm':'rgba(26,79,191,0.2)','ampm':'rgba(39,174,96,0.15)'};
-      const slotTextColors={'am':'var(--accent)','pm':'#60A5FA','ampm':'#2ECC71'};
+      const slotTextColors={'am':'var(--accent)','pm':'#E8C66E','ampm':'#6B8E23'};
       return `<div onclick="closeIncompleteModal();openTourneeInfo('${t.id}')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:background 0.15s;margin-bottom:7px" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
         <div style="display:flex;align-items:center;gap:10px;overflow:hidden">
           <div style="width:32px;height:32px;border-radius:8px;background:${slotColors[slotCls]};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${slotTextColors[slotCls]};flex-shrink:0">${t.slot}</div>
@@ -1922,7 +1927,7 @@ function _syncMobFilterDropdowns() {
   chSel.value = currentFilterChauffeurs.size===1 ? [...currentFilterChauffeurs][0] : '';
 
   // Rebuild client options
-  clSel.innerHTML = '<option value="">🏢 Tous les clients</option>';
+  clSel.innerHTML = '<option value=""><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Tous les clients</option>';
   allClients.forEach(c => {
     const o = document.createElement('option');
     o.value = c.nom; o.textContent = c.nom;
@@ -2032,7 +2037,7 @@ function _renderMobDayContent(dateStr, dates) {
     while (d <= fin) { absMap[a.chauffeur_nom + '|||' + fd(d)] = a.type; d.setDate(d.getDate() + 1); }
   });
 
-  const ABS_LABELS = { conge_paye:'🏖️ Congé payé', maladie:'🤒 Maladie', absence_injustifiee:'⚠️ Absence injustifiée', jour_ferie:'🎉 Jour férié', formation:'📚 Formation', autre:'📌 Absent' };
+  const ABS_LABELS = { conge_paye:'🏖️ Congé payé', maladie:'🤒 Maladie', absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absence injustifiée', jour_ferie:'🎉 Jour férié', formation:'📚 Formation', autre:'📌 Absent' };
 
   // Filtrer les tournées par client si filtre actif
   const tourneesFilteredMob = currentFilterClients.size > 0
@@ -2060,7 +2065,7 @@ function _renderMobDayContent(dateStr, dates) {
 
   if (sorted.length === 0) {
     html += `<div class="mob-empty-day">
-      <div class="mob-empty-icon">📅</div>
+      <div class="mob-empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
       <div class="mob-empty-text">Aucune tournée ce jour</div>
       <div class="mob-empty-sub">Appuie sur ＋ pour ajouter une tournée</div>
     </div>`;
@@ -2101,10 +2106,10 @@ function _renderMobDayContent(dateStr, dates) {
         const cls     = t.slot === 'AM' ? 'am' : t.slot === 'PM' ? 'pm' : 'ampm';
         const valInfo = _valMap[t.id] || null;
         const extra   = valInfo ? (valInfo.statut === 'validee' ? ' validated' : ' penalized') : '';
-        const icon    = valInfo ? (valInfo.statut === 'validee' ? ' ✅' : ' ⚠️') : '';
+        const icon    = valInfo ? (valInfo.statut === 'validee' ? ' <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>' : ' <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>') : '';
         const sc      = t.client_nom.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
         const _mobSttO = sttOrdersByTourneeId[t.id];
-        const _mobSttM = _mobSttO ? ({pending_config:{e:'🔧',c:'#F5A623'},pending:{e:'🕐',c:'#60A5FA'},assigned:{e:'✓',c:'#10B981'},modified:{e:'⚠',c:'#F5A623'},cancelled:{e:'✕',c:'#FC8181'},refused:{e:'✕',c:'#FC8181'},validated:{e:'✓✓',c:'#10B981'}}[_mobSttO.status]||{e:'🔗',c:'#60A5FA'}) : null;
+        const _mobSttM = _mobSttO ? ({pending_config:{e:'🔧',c:'#C9A961'},pending:{e:'🕐',c:'#E8C66E'},assigned:{e:'✓',c:'#6B8E23'},modified:{e:'⚠',c:'#C9A961'},cancelled:{e:'✕',c:'#D88888'},refused:{e:'✕',c:'#D88888'},validated:{e:'✓✓',c:'#6B8E23'}}[_mobSttO.status]||{e:'🔗',c:'#E8C66E'}) : null;
         const _mobSttLine = _mobSttM && _mobSttO.status !== 'cancelled'
           ? `<div style="font-size:8px;font-weight:700;color:${_mobSttM.c};margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${_mobSttM.e} STT${_mobSttO.chauffeur_nom_assigne?' · '+_mobSttO.chauffeur_nom_assigne.split(' ')[0]:''}</div>` : '';
 
@@ -2123,8 +2128,8 @@ function _renderMobDayContent(dateStr, dates) {
         const showRst = !!valInfo;
         if (showOk || showPen || showRst) {
           html += `<div class="mob-slot-val-row">`;
-          if (showOk)  html += `<button class="mob-val-btn ok"  onclick="validateTournee('${t.id}','${safeName}')">✅ Valider</button>`;
-          if (showPen) html += `<button class="mob-val-btn pen" onclick="openPenaltyModal('${t.id}','${safeName}','${sc}')">⚠️ Pén.</button>`;
+          if (showOk)  html += `<button class="mob-val-btn ok"  onclick="validateTournee('${t.id}','${safeName}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valider</button>`;
+          if (showPen) html += `<button class="mob-val-btn pen" onclick="openPenaltyModal('${t.id}','${safeName}','${sc}')"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pén.</button>`;
           if (showRst) html += `<button class="mob-val-btn rst" onclick="resetValidation('${t.id}')">↩ Reset</button>`;
           html += `</div>`;
         }
@@ -2144,7 +2149,7 @@ function _renderMobDayContent(dateStr, dates) {
         html += `<button class="mob-wa-btn" onclick="sendChDayWA(allChauffeurs.find(x=>x.nom==='${safeName}'),'${dateStr}')">💬 Envoyer WhatsApp</button>`;
       }
       if (c.tel) {
-        html += `<button class="mob-wa-call-btn" onclick="openWAConversation(normalizePhone('${c.tel}'))">📞 Appeler via WhatsApp</button>`;
+        html += `<button class="mob-wa-call-btn" onclick="openWAConversation(normalizePhone('${c.tel}'))"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Appeler via WhatsApp</button>`;
       }
 
       // Bouton STT (sous-traitant avec relation active)
@@ -2195,7 +2200,7 @@ async function deleteWeekTournees(){
     await loadWeek();
     toast('🗑 Toutes les tournées de la semaine supprimées');
   }catch(e){
-    toast('❌ '+e.message,'error');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
     btn.disabled=false; btn.textContent='🗑 Confirmer la suppression';
   }
 }
@@ -2230,11 +2235,11 @@ function buildMsg(c,tours,dateStr){
   const vehId=affectationsVehicule[vehKey(c.nom,dateStr)];
   const veh=vehId?allVehicules.find(v=>v.id===vehId):null;
   const vehLabel=veh?veh.immatriculation+(veh.typologie?' ['+veh.typologie+']':'')+(veh.marque?' · '+veh.marque:''):null;
-  let msg=`🚐 *${_co} — Planning*\nBonjour ${c.nom},\n\n📅 *${dateF}*\n`;
+  let msg=`🚐 *${_co} — Planning*\nBonjour ${c.nom},\n\n<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> *${dateF}*\n`;
   if(vehLabel) msg+=`🚐 Véhicule : ${vehLabel}\n`;
   msg+=`\n`;
   tours.forEach((t,i)=>{msg+=`${i+1}. *${t.client_nom}*\n   🕐 ${t.heure||'—'} · ${t.slot}\n\n`;});
-  msg+=`✅ Bonne journée !\n_${_co}_`;
+  msg+=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Bonne journée !\n_${_co}_`;
   return msg;
 }
 function _reculer30min(h){
@@ -2252,7 +2257,7 @@ function buildWeekMsg(c,dates){
   if(!tours.length) return null;
   const dateDebut=dates[0].toLocaleDateString('fr-FR',{day:'numeric',month:'long'});
   const dateFin=dates[6].toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
-  let msg=`🚐 *${_co} — Planning Semaine*\nBonjour ${c.nom},\n\n📅 *Du ${dateDebut} au ${dateFin}*\n\n`;
+  let msg=`🚐 *${_co} — Planning Semaine*\nBonjour ${c.nom},\n\n<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> *Du ${dateDebut} au ${dateFin}*\n\n`;
   dates.forEach(d=>{
     const t=tours.filter(x=>x.date===fd(d));
     if(!t.length) return;
@@ -2263,7 +2268,7 @@ function buildWeekMsg(c,dates){
       msg+=`  • ${x.client_nom} — ${x.slot}${heure?' à '+heure:''}\n`;
     });
   });
-  msg+=`\n✅ Bonne semaine !\n_${_co}_`;
+  msg+=`\n<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Bonne semaine !\n_${_co}_`;
   return msg;
 }
 function normalizePhone(tel){
@@ -2364,7 +2369,7 @@ function openOverviewModal(){
         html+=`<div style="flex:1;display:flex;flex-wrap:wrap;gap:4px;">`;
         dayTours.forEach(t=>{
           const cls=t.slot==='AM'?'rgba(52,211,153,0.15)':t.slot==='PM'?'rgba(99,179,237,0.15)':'rgba(245,166,35,0.15)';
-          const clr=t.slot==='AM'?'#34D399':t.slot==='PM'?'#63B3ED':'var(--accent)';
+          const clr=t.slot==='AM'?'#A8C078':t.slot==='PM'?'#63B3ED':'var(--accent)';
           html+=`<span style="background:${cls};color:${clr};padding:3px 8px;border-radius:6px;font-size:10px;font-weight:600">${_escH(t.client_nom)} · ${t.slot} ${t.heure||''}</span>`;
         });
         html+=`</div></div>`;
@@ -2435,23 +2440,23 @@ async function openTourneeInfo(id){
   let tarifHtml='';
   if(tp==='point'){
     const estime=t.nb_points_estime!=null?`${t.nb_points_estime} pts`:'—';
-    const reelDisplay=t.nb_points_reel!=null?`<span style="color:#2ECC71;font-weight:700">${t.nb_points_reel} pts ✅</span>`:`<span style="color:#F5A623">En attente chauffeur</span>`;
+    const reelDisplay=t.nb_points_reel!=null?`<span style="color:#6B8E23;font-weight:700">${t.nb_points_reel} pts <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>`:`<span style="color:#C9A961">En attente chauffeur</span>`;
     const reelEdit=`<div style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="number" min="0" step="1" id="admin-pts-reel-${t.id}" value="${t.nb_points_reel!=null?t.nb_points_reel:''}" placeholder="Saisir pts réels" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealValue('${t.id}','nb_points_reel',document.getElementById('admin-pts-reel-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️ Modifier</button></div>`;
     const isPM=t.slot==='PM';const dayTypePt=getDayType(t.date);
     const pu=dayTypePt==='ferie'?(isPM?(parseFloat(cl?.tarif_point_pm_ferie)||parseFloat(cl?.tarif_point_pm)||0):(parseFloat(cl?.tarif_point_am_ferie)||parseFloat(cl?.tarif_point_am)||0)):(isPM?(parseFloat(cl?.tarif_point_pm)||0):(parseFloat(cl?.tarif_point_am)||0));
     const slotLbl=t.slot||'AM';const ferieLbl=dayTypePt==='ferie'?' férié':'';
     const ptFallback=window._ptCountByTournee?.[t.id]||0;
     const caVal=t.nb_points_reel!=null?`${(t.nb_points_reel*pu).toLocaleString('fr-FR')}€`:(t.nb_points_estime!=null?`~${(t.nb_points_estime*pu).toLocaleString('fr-FR')}€ estimé`:(ptFallback>0?`~${(ptFallback*pu).toLocaleString('fr-FR')}€ (${ptFallback} pts comptés)`:'—'));
-    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#60A5FA;letter-spacing:1px;margin-bottom:6px">📦 FACTURATION AU POINT — ${slotLbl}${ferieLbl}</div><div>Points estimés : <strong>${estime}</strong></div><div>Points réels : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">CA : <strong style="color:#60A5FA">${caVal}</strong> (${pu}€/pt ${slotLbl}${ferieLbl})</div></div>`;
+    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> FACTURATION AU POINT — ${slotLbl}${ferieLbl}</div><div>Points estimés : <strong>${estime}</strong></div><div>Points réels : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">CA : <strong style="color:#E8C66E">${caVal}</strong> (${pu}€/pt ${slotLbl}${ferieLbl})</div></div>`;
   } else if(tp==='heure'){
     const estime=t.nb_heures_estime!=null?`${t.nb_heures_estime}h`:'—';
-    const reelDisplay=t.nb_heures_reel!=null?`<span style="color:#2ECC71;font-weight:700">${t.nb_heures_reel}h ✅</span>`:`<span style="color:#F5A623">En attente chauffeur</span>`;
+    const reelDisplay=t.nb_heures_reel!=null?`<span style="color:#6B8E23;font-weight:700">${t.nb_heures_reel}h <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>`:`<span style="color:#C9A961">En attente chauffeur</span>`;
     const reelEdit=`<div style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="number" min="0" step="0.5" id="admin-hrs-reel-${t.id}" value="${t.nb_heures_reel!=null?t.nb_heures_reel:''}" placeholder="Saisir heures réelles" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealValue('${t.id}','nb_heures_reel',document.getElementById('admin-hrs-reel-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️ Modifier</button></div>`;
     const isPM=t.slot==='PM';const dayTypeHr=getDayType(t.date);
     const pu=dayTypeHr==='ferie'?(isPM?(parseFloat(cl?.tarif_heure_pm_ferie)||parseFloat(cl?.tarif_heure_pm)||0):(parseFloat(cl?.tarif_heure_am_ferie)||parseFloat(cl?.tarif_heure_am)||0)):(isPM?(parseFloat(cl?.tarif_heure_pm)||0):(parseFloat(cl?.tarif_heure_am)||0));
     const slotLbl=t.slot||'AM';const ferieLbl=dayTypeHr==='ferie'?' férié':'';
     const caVal=t.nb_heures_reel!=null?`${(t.nb_heures_reel*pu).toLocaleString('fr-FR')}€`:(t.nb_heures_estime!=null?`~${(t.nb_heures_estime*pu).toLocaleString('fr-FR')}€ estimé`:'—');
-    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#A78BFA;letter-spacing:1px;margin-bottom:6px">⏱ FACTURATION À L'HEURE — ${slotLbl}${ferieLbl}</div><div>Heures estimées : <strong>${estime}</strong></div><div>Heures réelles : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">CA : <strong style="color:#A78BFA">${caVal}</strong> (${pu}€/h ${slotLbl}${ferieLbl})</div></div>`;
+    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#4FD1E0;letter-spacing:1px;margin-bottom:6px">⏱ FACTURATION À L'HEURE — ${slotLbl}${ferieLbl}</div><div>Heures estimées : <strong>${estime}</strong></div><div>Heures réelles : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">CA : <strong style="color:#4FD1E0">${caVal}</strong> (${pu}€/h ${slotLbl}${ferieLbl})</div></div>`;
   } else if(tp==='forfait_heures'){
     const dayTypeF=getDayType(t.date);
     const slotLbl=t.slot||'AM';const ferieLbl=dayTypeF==='ferie'?' férié':(dayTypeF==='dimanche'?' dimanche':'');
@@ -2468,11 +2473,11 @@ async function openTourneeInfo(id){
     const depassMin=(dureeUsed!=null&&minutesIncl>0)?Math.max(0,dureeUsed-minutesIncl):0;
     const depassEur=depassMin*tmin;
     const ca=forfait+depassEur;
-    const reelDisplay=(debutReel&&finReel)?`<span style="color:#2ECC71;font-weight:700">${debutReel.substring(0,5)} → ${finReel.substring(0,5)} (${_planMinToHmm(dureeReelle)}) ✅</span>`:`<span style="color:#F5A623">En attente chauffeur</span>`;
+    const reelDisplay=(debutReel&&finReel)?`<span style="color:#6B8E23;font-weight:700">${debutReel.substring(0,5)} → ${finReel.substring(0,5)} (${_planMinToHmm(dureeReelle)}) <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>`:`<span style="color:#C9A961">En attente chauffeur</span>`;
     const reelEdit=`<div style="margin-top:6px"><div style="font-size:10px;color:var(--gray);margin-bottom:4px">Saisir/modifier les heures réelles :</div><div style="display:flex;gap:6px;align-items:center"><input type="time" id="admin-debut-reel-${t.id}" value="${debutReel?debutReel.substring(0,5):''}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><span style="color:var(--gray)">→</span><input type="time" id="admin-fin-reel-${t.id}" value="${finReel?finReel.substring(0,5):''}" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealHours('${t.id}')" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️</button></div></div>`;
-    const depassHtml=depassMin>0?`<div style="margin-top:4px;color:#F5A623">⚠️ Dépassement : ${depassMin} min × ${tmin.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€ = <strong>+${depassEur.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div>`:`<div style="margin-top:4px;color:var(--gray);font-size:11px">Dans le forfait — pas de dépassement</div>`;
+    const depassHtml=depassMin>0?`<div style="margin-top:4px;color:#C9A961"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Dépassement : ${depassMin} min × ${tmin.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€ = <strong>+${depassEur.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div>`:`<div style="margin-top:4px;color:var(--gray);font-size:11px">Dans le forfait — pas de dépassement</div>`;
     const caLbl=dureeReelle!=null?'CA':'CA estimé';
-    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#F5A623;letter-spacing:1px;margin-bottom:6px">⏰ FORFAIT + DÉPASSEMENT — ${slotLbl}${ferieLbl}</div><div>Forfait : <strong>${forfait.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong> pour ${_planMinToHmm(minutesIncl)} inclus</div><div>Heures estimées : ${debutEst.substring?debutEst.substring(0,5):debutEst} → ${finEst.substring?finEst.substring(0,5):finEst}${dureeEst!=null?` (${_planMinToHmm(dureeEst)})`:''}</div><div>Heures réelles : ${reelDisplay}</div>${reelEdit}${depassHtml}<div style="margin-top:6px">${caLbl} : <strong style="color:#F5A623">${ca.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div></div>`;
+    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#C9A961;letter-spacing:1px;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> FORFAIT + DÉPASSEMENT — ${slotLbl}${ferieLbl}</div><div>Forfait : <strong>${forfait.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong> pour ${_planMinToHmm(minutesIncl)} inclus</div><div>Heures estimées : ${debutEst.substring?debutEst.substring(0,5):debutEst} → ${finEst.substring?finEst.substring(0,5):finEst}${dureeEst!=null?` (${_planMinToHmm(dureeEst)})`:''}</div><div>Heures réelles : ${reelDisplay}</div>${reelEdit}${depassHtml}<div style="margin-top:6px">${caLbl} : <strong style="color:#C9A961">${ca.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div></div>`;
   } else if(tp==='zone'){
     if(Array.isArray(t.zone_lines) && t.zone_lines.length>0){
       // Multi-lignes : afficher toutes les villes + points + zone résolue
@@ -2483,19 +2488,19 @@ async function openTourneeInfo(id){
         const est=line.nb_points_estime!=null?line.nb_points_estime:'—';
         const reel=line.nb_points_reel!=null?line.nb_points_reel:null;
         const zoneLbl=l.zone?`Z${l.zone}`:'(?)';
-        const sourceColor=l.source==='exact_ville'?'#34D399':(!l.source?'#F87171':'#FBBF24');
-        const sourceIcon=l.source==='exact_ville'?'✅':(!l.source?'⚠️':'⚠️');
+        const sourceColor=l.source==='exact_ville'?'#A8C078':(!l.source?'#D88888':'#FBBF24');
+        const sourceIcon=l.source==='exact_ville'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>':(!l.source?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>');
         const lineCa=(reel!=null?reel:line.nb_points_estime||0)*l.tarif;
         return `<div style="display:flex;align-items:center;gap:6px;font-size:11px;padding:5px 8px;background:rgba(255,255,255,0.03);border-radius:6px;margin-top:3px">
           <span style="flex:1"><strong>${l.ville||'(?)'}</strong> <span style="color:${sourceColor}">${sourceIcon} ${zoneLbl}</span></span>
           <span style="color:var(--gray);font-size:10px">est. ${est}</span>
           <input type="number" min="0" step="1" id="admin-zline-${t.id}-${i}" value="${reel!=null?reel:''}" placeholder="réel" style="width:55px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:4px 6px;font-size:11px;color:var(--white);outline:none;font-family:inherit">
           <button onclick="adminSaveZoneLineReel('${t.id}',${i})" style="background:var(--blue);border:none;border-radius:6px;padding:4px 8px;font-size:10px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️</button>
-          <span style="color:#60A5FA;font-weight:700;min-width:60px;text-align:right">${lineCa.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</span>
+          <span style="color:#E8C66E;font-weight:700;min-width:60px;text-align:right">${lineCa.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</span>
         </div>`;
       }).join('');
       const totalLbl=allReel?'CA total':'CA estimé';
-      tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#60A5FA;letter-spacing:1px;margin-bottom:6px">📍 FACTURATION À LA ZONE — ${t.zone_lines.length} ville${t.zone_lines.length>1?'s':''}</div>${rows}<div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.1);text-align:right">${totalLbl} : <strong style="color:#60A5FA">${calc.total.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div></div>`;
+      tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> FACTURATION À LA ZONE — ${t.zone_lines.length} ville${t.zone_lines.length>1?'s':''}</div>${rows}<div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.1);text-align:right">${totalLbl} : <strong style="color:#E8C66E">${calc.total.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}€</strong></div></div>`;
     } else {
       // Legacy single-line
       const cp=t.code_postal_livraison||'';
@@ -2503,25 +2508,25 @@ async function openTourneeInfo(id){
       const ptsReel=t.nb_points_reel!=null?parseFloat(t.nb_points_reel):null;
       const zone=window.OT_ZONE?OT_ZONE.findZone(t.ville_livraison||cl?.ville||'',cp):'';
       const tpu=window.OT_ZONE?OT_ZONE.tarifPoint(zone):0;
-      const reelDisplay=ptsReel!=null?`<span style="color:#2ECC71;font-weight:700">${ptsReel} pts ✅</span>`:`<span style="color:#F5A623">En attente chauffeur</span>`;
+      const reelDisplay=ptsReel!=null?`<span style="color:#6B8E23;font-weight:700">${ptsReel} pts <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></span>`:`<span style="color:#C9A961">En attente chauffeur</span>`;
       const reelEdit=`<div style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="number" min="0" step="1" id="admin-pts-zone-reel-${t.id}" value="${ptsReel!=null?ptsReel:''}" placeholder="Saisir pts réels" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--white);outline:none;font-family:inherit"><button onclick="adminSaveRealValue('${t.id}','nb_points_reel',document.getElementById('admin-pts-zone-reel-${t.id}').value)" style="background:var(--blue);border:none;border-radius:8px;padding:6px 10px;font-size:11px;color:var(--white);cursor:pointer;font-family:inherit;font-weight:600">✏️ Modifier</button></div>`;
       const ptsForCa=ptsReel!=null?ptsReel:(ptsEst||0);
       const caVal=zone&&tpu>0?(ptsForCa*tpu).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€':'—';
       const caLbl=ptsReel!=null?'CA':'CA estimé';
       const villeLbl=t.ville_livraison?`<strong>${t.ville_livraison}</strong>`:'';
-      const zoneLbl=zone?`Zone <strong>Z${zone}</strong> · ${tpu.toFixed(2)}€/pt`:`<span style="color:#F87171">⚠️ zone non trouvée</span>`;
-      tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#60A5FA;letter-spacing:1px;margin-bottom:6px">📍 FACTURATION À LA ZONE (legacy)</div><div>📍 ${villeLbl}${cp?' · CP '+cp:''} · ${zoneLbl}</div><div>Points estimés : <strong>${ptsEst!=null?ptsEst+' pts':'—'}</strong></div><div>Points réels : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">${caLbl} : <strong style="color:#60A5FA">${caVal}</strong></div></div>`;
+      const zoneLbl=zone?`Zone <strong>Z${zone}</strong> · ${tpu.toFixed(2)}€/pt`:`<span style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> zone non trouvée</span>`;
+      tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#E8C66E;letter-spacing:1px;margin-bottom:6px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> FACTURATION À LA ZONE (legacy)</div><div><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> ${villeLbl}${cp?' · CP '+cp:''} · ${zoneLbl}</div><div>Points estimés : <strong>${ptsEst!=null?ptsEst+' pts':'—'}</strong></div><div>Points réels : ${reelDisplay}</div>${reelEdit}<div style="margin-top:6px">${caLbl} : <strong style="color:#E8C66E">${caVal}</strong></div></div>`;
     }
   } else {
     const dayType=getDayType(t.date);
     const pu=cl?(dayType==='ferie'?(parseFloat(cl.tarif_ferie)||parseFloat(cl.tarif_dim)||parseFloat(cl.tarif)||0):dayType==='dimanche'?(parseFloat(cl.tarif_dim)||parseFloat(cl.tarif)||0):(parseFloat(cl.tarif)||0)):0;
     const dayLabel=dayType==='ferie'?'jour férié':dayType==='dimanche'?'dimanche':'semaine';
-    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#2ECC71;letter-spacing:1px;margin-bottom:6px">🔒 TARIF FIXE</div><div>CA : <strong style="color:#2ECC71">${pu}€</strong> / tournée (${dayLabel})</div></div>`;
+    tarifHtml=`<div style="margin-top:10px;padding:10px 12px;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2);border-radius:8px"><div style="font-size:10px;font-weight:700;color:#6B8E23;letter-spacing:1px;margin-bottom:6px">🔒 TARIF FIXE</div><div>CA : <strong style="color:#6B8E23">${pu}€</strong> / tournée (${dayLabel})</div></div>`;
   }
   let valHtml='';
   if(val){
-    if(val.statut==='validee') valHtml=`<div style="margin-top:8px;color:#2ECC71;font-weight:600">✅ Tournée validée</div>`;
-    else if(val.statut==='penalisee') valHtml=`<div style="margin-top:8px;color:#FC8181;font-weight:600">⚠️ Pénalisée — ${val.motif}${val.montant>0?' (-'+val.montant+'€)':''}</div>`;
+    if(val.statut==='validee') valHtml=`<div style="margin-top:8px;color:#6B8E23;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée validée</div>`;
+    else if(val.statut==='penalisee') valHtml=`<div style="margin-top:8px;color:#D88888;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalisée — ${val.motif}${val.montant>0?' (-'+val.montant+'€)':''}</div>`;
   } else {
     valHtml=`<div style="margin-top:8px;color:var(--gray);font-size:11px">Non validée</div>`;
   }
@@ -2554,7 +2559,7 @@ async function adminSaveRealHours(tourneeId){
     if(!r.ok) throw new Error(await r.text());
     const t=allTournees.find(x=>x.id===tourneeId);
     if(t){t.heure_debut_reel=debut;t.heure_fin_reel=fin;}
-    toast('✅ Heures réelles mises à jour');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Heures réelles mises à jour');
     closeInfoModal();renderPlanning(getWeekDates());
   }catch(e){toast('Erreur: '+e.message,'error');}
 }
@@ -2581,7 +2586,7 @@ async function adminSaveZoneLineReel(tourneeId, lineIdx){
     if(!r.ok) throw new Error(await r.text());
     t.zone_lines=newLines;
     t.nb_points_reel=payload.nb_points_reel;
-    toast('✅ Ligne mise à jour');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Ligne mise à jour');
     closeInfoModal();renderPlanning(getWeekDates());
   }catch(e){toast('Erreur: '+e.message,'error');}
 }
@@ -2608,7 +2613,7 @@ async function adminSaveRealValue(tourneeId, field, rawVal){
     if(!r.ok) throw new Error(await r.text());
     const t=allTournees.find(x=>x.id===tourneeId);
     if(t) t[field]=val;
-    toast('✅ Valeur réelle mise à jour');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valeur réelle mise à jour');
     closeInfoModal();renderPlanning(getWeekDates());
   }catch(e){toast('Erreur: '+e.message,'error');}
 }
@@ -2783,11 +2788,11 @@ function _refreshZoneInfo(){
   const clientNom=document.getElementById('m-client').value;
   const cl=allClients.find(c=>c.nom===clientNom);
   if(!cl||cl.type_paiement!=='zone'){el.textContent='';return;}
-  if(!window.OT_ZONE){el.innerHTML='⚠️ Module zone non chargé';return;}
+  if(!window.OT_ZONE){el.innerHTML='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Module zone non chargé';return;}
   const lines=readZoneLines();
   if(lines.length===0){
-    el.innerHTML='📍 Ajoute au moins une ligne (ville + nb points)…';
-    el.style.color='#93C5FD';el.style.background='rgba(59,130,246,0.08)';el.style.borderColor='rgba(59,130,246,0.25)';
+    el.innerHTML='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg> Ajoute au moins une ligne (ville + nb points)…';
+    el.style.color='#F1D27B';el.style.background='rgba(59,130,246,0.08)';el.style.borderColor='rgba(59,130,246,0.25)';
     return;
   }
   const calc=OT_ZONE.computeLinesCA(lines);
@@ -2798,12 +2803,12 @@ function _refreshZoneInfo(){
     if(incomplete) hasIncomplete=true;
     if(l.source && l.source!=='exact_ville') hasImprecise=true;
     let badge='';
-    if(!l.ville) badge='<span style="color:#F87171">⚠️ ville manquante</span>';
-    else if(!l.zone) badge='<span style="color:#F87171">⚠️ zone introuvable</span>';
-    else if(l.source==='exact_ville') badge='<span style="color:#34D399">✅ Z'+l.zone+'</span>';
-    else if(l.source==='fuzzy_ville') badge='<span style="color:#FBBF24">⚠️ Z'+l.zone+' (flou)</span>';
-    else if(l.source==='cp_prefix')   badge='<span style="color:#FBBF24">⚠️ Z'+l.zone+' (préfixe)</span>';
-    else if(l.source==='default')     badge='<span style="color:#FBBF24">⚠️ Z'+l.zone+' (défaut)</span>';
+    if(!l.ville) badge='<span style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ville manquante</span>';
+    else if(!l.zone) badge='<span style="color:#D88888"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> zone introuvable</span>';
+    else if(l.source==='exact_ville') badge='<span style="color:#A8C078"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Z'+l.zone+'</span>';
+    else if(l.source==='fuzzy_ville') badge='<span style="color:#FBBF24"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Z'+l.zone+' (flou)</span>';
+    else if(l.source==='cp_prefix')   badge='<span style="color:#FBBF24"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Z'+l.zone+' (préfixe)</span>';
+    else if(l.source==='default')     badge='<span style="color:#FBBF24"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Z'+l.zone+' (défaut)</span>';
     const lblPts = (lines[i].nb_points_estime>0) ? lines[i].nb_points_estime+' pts' : '— pts';
     const lblCa  = l.ca>0 ? l.ca.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€' : '—';
     return '<div style="display:flex;justify-content:space-between;font-size:11px;margin-top:2px">'
@@ -2811,15 +2816,15 @@ function _refreshZoneInfo(){
          + '<span>'+badge+' · '+lblCa+'</span></div>';
   }).join('');
   if(hasIncomplete){
-    el.style.color='#F87171';el.style.background='rgba(248,113,113,0.08)';el.style.borderColor='rgba(248,113,113,0.25)';
+    el.style.color='#D88888';el.style.background='rgba(248,113,113,0.08)';el.style.borderColor='rgba(248,113,113,0.25)';
   } else if(hasImprecise){
     el.style.color='#FBBF24';el.style.background='rgba(245,158,11,0.10)';el.style.borderColor='rgba(245,158,11,0.35)';
   } else {
-    el.style.color='#34D399';el.style.background='rgba(52,211,153,0.08)';el.style.borderColor='rgba(52,211,153,0.25)';
+    el.style.color='#A8C078';el.style.background='rgba(52,211,153,0.08)';el.style.borderColor='rgba(52,211,153,0.25)';
   }
   el.innerHTML = rows
     + '<div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.1);font-size:12px;font-weight:700">Total : '+calc.total.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€</div>'
-    + (hasImprecise ? '<div style="margin-top:4px;font-size:10px;color:#FCD34D">⚠️ Au moins une ligne a un match imprécis. Le CA peut être faussé.</div>' : '');
+    + (hasImprecise ? '<div style="margin-top:4px;font-size:10px;color:#FCD34D"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Au moins une ligne a un match imprécis. Le CA peut être faussé.</div>' : '');
 }
 async function saveTournee(){
   const chauffeur=document.getElementById('m-chauffeur').value;
@@ -2854,7 +2859,7 @@ async function saveTournee(){
           const lbl = l.source==='fuzzy_ville'?'match approximatif':l.source==='cp_prefix'?'préfixe CP':l.source==='default'?'zone par défaut':l.source;
           return `  • ${l.ville} → Z${l.zone||'?'} (${lbl})`;
         }).join('\n');
-        const ok = confirm('⚠️ '+imprecises.length+' ligne(s) ont un match imprécis :\n\n'+detail+'\n\nLe CA peut être faussé. Pour un calcul exact, ajoute ces villes exactes dans Paramètres → Zones.\n\nEnregistrer quand même ?');
+        const ok = confirm('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> '+imprecises.length+' ligne(s) ont un match imprécis :\n\n'+detail+'\n\nLe CA peut être faussé. Pour un calcul exact, ajoute ces villes exactes dans Paramètres → Zones.\n\nEnregistrer quand même ?');
         if(!ok) return;
       }
     }
@@ -2882,12 +2887,12 @@ async function saveTournee(){
     if(vehiculeId) await saveAffectationVehicule(chauffeur,date,vehiculeId);
     closeModal();
     const vehLabel=vehiculeId?(' 🚐 '+(allVehicules.find(v=>v.id===vehiculeId)?.immatriculation||'')):'';
-    toast(`✅ Tournée ajoutée — ${chauffeur} → ${client}${vehLabel}`);
+    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée ajoutée — ${chauffeur} → ${client}${vehLabel}`);
     renderPlanning(getWeekDates());
     updateKPIs();
     updateWABanner(getWeekDates());
-  }catch(e){toast('❌ '+e.message,'error');}
-  finally{btn.disabled=false;btn.textContent='✅ Enregistrer';}
+  }catch(e){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');}
+  finally{btn.disabled=false;btn.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Enregistrer';}
 }
 async function deleteTournee(e,id){
   e.stopPropagation();
@@ -2898,7 +2903,7 @@ async function deleteTournee(e,id){
   if(sttO && ['pending_config','pending','assigned','modified'].includes(sttO.status)){
     const isActive = ['assigned','modified'].includes(sttO.status);
     const msg = isActive
-      ? `⚠️ ATTENTION\n\nCette tournée a déjà été assignée par le sous-traitant${sttO.chauffeur_nom_assigne?' ('+sttO.chauffeur_nom_assigne+')':''}.\n\nLa supprimer annulera la commande STT. Le sous-traitant en sera notifié.\n\nContinuer quand même ?`
+      ? `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ATTENTION\n\nCette tournée a déjà été assignée par le sous-traitant${sttO.chauffeur_nom_assigne?' ('+sttO.chauffeur_nom_assigne+')':''}.\n\nLa supprimer annulera la commande STT. Le sous-traitant en sera notifié.\n\nContinuer quand même ?`
       : `Cette tournée a été envoyée en sous-traitance (statut : en attente).\n\nLa supprimer annulera la commande STT.\n\nContinuer ?`;
     if(!confirm(msg)) return;
   }
@@ -2973,7 +2978,7 @@ async function deleteTournee(e,id){
     const rd=await fetch(`${SB}/rest/v1/tournees?id=eq.${id}&company_id=eq.${OT.getCompanyId()}`,{method:'DELETE',headers:H()});
     if(!rd.ok){await loadWeek();throw new Error(await rd.text());}
     toast('🗑 Tournée supprimée');
-  }catch(ex){toast('❌ '+ex.message,'error');}
+  }catch(ex){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+ex.message,'error');}
 }
 // ── DUPLIQUER SEMAINE ────────────────────────────────────────────────────────
 function getISOWeekStr(mondayDate){
@@ -3026,7 +3031,7 @@ async function onDupTgtChange(){
     if(r.ok){
       const existing=await r.json();
       if(existing.length>0){
-        warn.textContent=`⚠️ Cette semaine contient déjà ${existing.length} tournée${existing.length>1?'s':''}. Les doublons exacts (même chauffeur + jour + créneau + client) seront automatiquement ignorés.`;
+        warn.textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Cette semaine contient déjà ${existing.length} tournée${existing.length>1?'s':''}. Les doublons exacts (même chauffeur + jour + créneau + client) seront automatiquement ignorés.`;
         warn.style.display='block';
       } else { warn.style.display='none'; }
     }
@@ -3106,9 +3111,9 @@ async function executeDuplicate(){
     await loadWeek();
     const affMsg=includeAff&&affCount>0?` + ${affCount} affectation${affCount>1?'s':''}`:'' ;
     const skipMsg=skippedDup>0?` (${skippedDup} doublon${skippedDup>1?'s':''} ignoré${skippedDup>1?'s':''})`:'' ;
-    toast(`✅ ${toInsert.length} tournée${toInsert.length>1?'s':''} dupliquée${toInsert.length>1?'s':''}${affMsg}${skipMsg}`);
+    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${toInsert.length} tournée${toInsert.length>1?'s':''} dupliquée${toInsert.length>1?'s':''}${affMsg}${skipMsg}`);
   }catch(e){
-    toast('❌ '+e.message,'error');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
     btn.disabled=false; btn.textContent='📋 Dupliquer';
   }
 }
@@ -3116,7 +3121,7 @@ async function executeDuplicate(){
 var _dupChNom='';
 function openDupChModal(nom){
   _dupChNom=nom;
-  document.getElementById('dup-ch-name-label').textContent='👤 '+nom;
+  document.getElementById('dup-ch-name-label').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> '+nom;
   const dates=getWeekDates();
   document.getElementById('dup-ch-src-week').value=getISOWeekStr(dates[0]);
   const nextMon=new Date(dates[0]); nextMon.setDate(dates[0].getDate()+7);
@@ -3139,7 +3144,7 @@ async function onDupChTgtChange(){
   if(!startVal||!endVal){info.style.display='none';warn.style.display='none';return;}
   const startMon=weekStrToMonday(startVal);
   const endMon=weekStrToMonday(endVal);
-  if(endMon<startMon){warn.textContent='⚠️ La semaine de fin doit être après la semaine de début.';warn.style.display='block';info.style.display='none';return;}
+  if(endMon<startMon){warn.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> La semaine de fin doit être après la semaine de début.';warn.style.display='block';info.style.display='none';return;}
   const nbWeeks=Math.round((endMon-startMon)/(7*86400000))+1;
   info.textContent=`ℹ️ La semaine sera dupliquée sur ${nbWeeks} semaine${nbWeeks>1?'s':''} pour ${_dupChNom}.`;
   info.style.display='block';
@@ -3152,7 +3157,7 @@ async function onDupChTgtChange(){
     if(r.ok){
       const existing=await r.json();
       if(existing.length>0){
-        warn.textContent=`⚠️ ${_dupChNom} a déjà ${existing.length} tournée${existing.length>1?'s':''} sur cette période. Les doublons exacts (même jour + créneau + client) seront automatiquement ignorés.`;
+        warn.textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${_dupChNom} a déjà ${existing.length} tournée${existing.length>1?'s':''} sur cette période. Les doublons exacts (même jour + créneau + client) seront automatiquement ignorés.`;
         warn.style.display='block';
       } else {warn.style.display='none';}
     }
@@ -3250,15 +3255,15 @@ async function executeDuplicateChauffeur(){
     await loadWeek();
     const affMsg=includeAff&&affCount>0?` + ${affCount} affectation${affCount>1?'s':''}`:'' ;
     const skipMsgCh=skippedDupCh>0?` (${skippedDupCh} doublon${skippedDupCh>1?'s':''} ignoré${skippedDupCh>1?'s':''})`:'' ;
-    toast(`✅ ${toInsertCh.length} tournée${toInsertCh.length>1?'s':''} dupliquée${toInsertCh.length>1?'s':''} pour ${_dupChNom}${affMsg}${skipMsgCh}`);
+    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${toInsertCh.length} tournée${toInsertCh.length>1?'s':''} dupliquée${toInsertCh.length>1?'s':''} pour ${_dupChNom}${affMsg}${skipMsgCh}`);
   }catch(e){
-    toast('❌ '+e.message,'error');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error');
     btn.disabled=false; btn.textContent='📋 Dupliquer';
   }
 }
 // ─────────────────────────────────────────────────────────────────────────────
 var _toastTimer=null;
-function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'❌':'✅'}</span> ${msg}`;t.className=`toast ${type} show`;if(_toastTimer)clearTimeout(_toastTimer);_toastTimer=setTimeout(()=>{t.className='toast';_toastTimer=null;},4000);}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.innerHTML=`<span>${type==='error'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>'}</span> ${msg}`;t.className=`toast ${type} show`;if(_toastTimer)clearTimeout(_toastTimer);_toastTimer=setTimeout(()=>{t.className='toast';_toastTimer=null;},4000);}
 
 function printPlanning(){
   const dates=getWeekDates();
@@ -3297,10 +3302,10 @@ function printPlanning(){
     const rowBg=isST?'#fff8f0':'#f0f6ff';
     rows+=`<tr style="background:${rowBg}">
       <td style="font-weight:700;color:#0f2b5b;background:${rowBg};text-align:left;padding-left:10px">${c.nom}</td>
-      <td style="font-weight:700;font-size:10px;color:${isST?'#b84800':'#1a4fbf'};background:${rowBg}">${isST?'S/T':'Sal.'}</td>
+      <td style="font-weight:700;font-size:10px;color:${isST?'#b84800':'#C9A961'};background:${rowBg}">${isST?'S/T':'Sal.'}</td>
       <td style="font-size:10px;color:#5566aa;font-style:italic;background:#f4f6fa;text-align:left;padding-left:8px">${veh}</td>
       ${dayCells}
-      <td style="font-weight:700;color:${total?'#1a4fbf':'#ccc'};background:#dbeafe">${total||'—'}</td>
+      <td style="font-weight:700;color:${total?'#C9A961':'#ccc'};background:#dbeafe">${total||'—'}</td>
     </tr>`;
   });
 
@@ -3320,7 +3325,7 @@ function printPlanning(){
   .title-main{font-size:20px;font-weight:700;letter-spacing:1px}
   .title-sub{font-size:11px;color:#8eb4e3;margin-top:3px}
   table{width:100%;border-collapse:collapse;margin-top:10px}
-  th{background:#1a4fbf;color:#fff;padding:8px 6px;text-align:center;font-size:10px;border:1px solid #2c5282;line-height:1.3}
+  th{background:#C9A961;color:#fff;padding:8px 6px;text-align:center;font-size:10px;border:1px solid #2c5282;line-height:1.3}
   td{padding:7px 6px;text-align:center;border:1px solid #dde3f0;vertical-align:middle;line-height:1.4}
   tr:hover td{filter:brightness(0.97)}
   .tot-row td{background:#0f2b5b!important;color:#fff;font-weight:700;padding:8px 6px}
@@ -3337,9 +3342,9 @@ function printPlanning(){
   }
 </style></head><body>
 <div class="page">
-  <div class="no-print" style="background:#1a4fbf;color:#fff;padding:10px 16px;border-radius:8px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
+  <div class="no-print" style="background:#C9A961;color:#fff;padding:10px 16px;border-radius:8px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
     <span style="font-weight:700">📋 Aperçu Planning — S${weekNum} ${year}</span>
-    <button onclick="window.print()" style="background:#fff;color:#1a4fbf;border:none;padding:8px 18px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px">🖨️ Imprimer / PDF</button>
+    <button onclick="window.print()" style="background:#fff;color:#C9A961;border:none;padding:8px 18px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px">🖨️ Imprimer / PDF</button>
   </div>
   <div class="title-block">
     <div class="title-main">PLANNING — SEMAINE ${weekNum}  ·  ${year}  ·  ${companyName.toUpperCase()}</div>
@@ -3364,7 +3369,7 @@ function printPlanning(){
   w.document.write(html);w.document.close();
 }
 async function exportPlanningExcel(){
-  if(typeof ExcelJS==='undefined'){toast('❌ Bibliothèque Excel non chargée','error');return;}
+  if(typeof ExcelJS==='undefined'){toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Bibliothèque Excel non chargée','error');return;}
   if(!allChauffeurs.length){toast('Aucun chauffeur','error');return;}
 
   // ── Détection des filtres actifs ──
@@ -3373,10 +3378,10 @@ async function exportPlanningExcel(){
     const dlbls=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
     const parts=[];
     if(currentFilterChauffeurs.size>0) parts.push(`👷 Chauffeurs : ${[...currentFilterChauffeurs].join(', ')}`);
-    if(currentFilterClients.size>0) parts.push(`🏢 Clients : ${[...currentFilterClients].join(', ')}`);
-    if(currentFilterDays.size>0) parts.push(`📅 Jours : ${[...currentFilterDays].sort().map(i=>dlbls[i]).join(', ')}`);
+    if(currentFilterClients.size>0) parts.push(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><line x1="9" y1="13" x2="9.01" y2="13"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="9" y1="17" x2="9.01" y2="17"/><line x1="15" y1="17" x2="15.01" y2="17"/></svg> Clients : ${[...currentFilterClients].join(', ')}`);
+    if(currentFilterDays.size>0) parts.push(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Jours : ${[...currentFilterDays].sort().map(i=>dlbls[i]).join(', ')}`);
     if(currentShowMode==='with-tours') parts.push('📋 Affichage : chauffeurs avec tournées uniquement');
-    const msg='⚠️ DES FILTRES SONT ACTIFS\n\n'+parts.join('\n')+'\n\nL\'export Excel ne contiendra QUE les données filtrées.\n\nPour exporter le planning complet, cliquez sur Annuler puis retirez tous les filtres.\n\nContinuer l\'export filtré ?';
+    const msg='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> DES FILTRES SONT ACTIFS\n\n'+parts.join('\n')+'\n\nL\'export Excel ne contiendra QUE les données filtrées.\n\nPour exporter le planning complet, cliquez sur Annuler puis retirez tous les filtres.\n\nContinuer l\'export filtré ?';
     if(!confirm(msg)) return;
   }
 
@@ -3565,7 +3570,7 @@ async function exportPlanningExcel(){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download=`Planning_S${weekNum}_${year}${hasFilters?'_filtre':''}.xlsx`;a.click();
   URL.revokeObjectURL(url);
-  toast('📊 Export Excel téléchargé');
+  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Export Excel téléchargé');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -3638,14 +3643,14 @@ function openSendSTTModal() {
       const pending = g.tournees.filter(t => !sttOrdersByTourneeId[t.id]);
       const sent    = g.tournees.filter(t =>  sttOrdersByTourneeId[t.id]);
       html += `<div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:14px;margin-bottom:12px">
-        <div style="font-weight:700;color:#10B981;margin-bottom:8px;font-size:13px">→ ${g.rel.entreprise_nom_ref}</div>`;
+        <div style="font-weight:700;color:#6B8E23;margin-bottom:8px;font-size:13px">→ ${g.rel.entreprise_nom_ref}</div>`;
 
       if (sent.length) {
         html += `<div style="font-size:11px;color:var(--gray);margin-bottom:6px">${sent.length} tournée(s) déjà envoyée(s) :</div>`;
         sent.forEach(t => {
           const o = sttOrdersByTourneeId[t.id];
           const statusLabel = {pending_config:'🔧 Config.',pending:'🕐 Attente',assigned:'✓ Assigné',modified:'⚠ Modifié',cancelled:'✕ Annulé',refused:'✕ Refusé',validated:'✓✓ Validé'}[o.status]||o.status;
-          html += `<div style="font-size:11px;color:var(--gray);padding:2px 0;display:flex;justify-content:space-between"><span>${t.date} · ${t.slot} · ${t.chauffeur_nom} · ${t.client_nom}</span><span style="color:#60A5FA">${statusLabel}</span></div>`;
+          html += `<div style="font-size:11px;color:var(--gray);padding:2px 0;display:flex;justify-content:space-between"><span>${t.date} · ${t.slot} · ${t.chauffeur_nom} · ${t.client_nom}</span><span style="color:#E8C66E">${statusLabel}</span></div>`;
         });
       }
       if (pending.length) {
@@ -3654,9 +3659,9 @@ function openSendSTTModal() {
           html += `<div style="font-size:11px;color:var(--white);padding:2px 0">${t.date} · ${t.slot} · ${t.chauffeur_nom} · ${t.client_nom}</div>`;
         });
         const ids = pending.map(t => t.id).join(',');
-        html += `<button onclick="sendSTTGroup('${g.rel.id}',this)" data-ids="${ids}" style="margin-top:10px;padding:7px 16px;background:linear-gradient(135deg,#10B981,#059669);border:none;color:#fff;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">↗ Envoyer ${pending.length} tournée(s) à ${g.rel.entreprise_nom_ref}</button>`;
+        html += `<button onclick="sendSTTGroup('${g.rel.id}',this)" data-ids="${ids}" style="margin-top:10px;padding:7px 16px;background:linear-gradient(135deg,#6B8E23,#059669);border:none;color:#fff;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">↗ Envoyer ${pending.length} tournée(s) à ${g.rel.entreprise_nom_ref}</button>`;
       } else {
-        html += `<div style="font-size:11px;color:#10B981;margin-top:6px">✓ Toutes les tournées ont déjà été envoyées.</div>`;
+        html += `<div style="font-size:11px;color:#6B8E23;margin-top:6px">✓ Toutes les tournées ont déjà été envoyées.</div>`;
       }
       html += `</div>`;
     });
@@ -3710,8 +3715,8 @@ async function sendSTTGroup(relId, btn) {
     if (!r.ok) throw new Error(await r.text());
     btn.textContent = `✓ Envoyé !`;
     btn.style.background = 'rgba(16,185,129,0.3)';
-    btn.style.color = '#10B981';
-    toast(`✅ ${tournees.length} tournée(s) envoyée(s) à ${rel.entreprise_nom_ref}`);
+    btn.style.color = '#6B8E23';
+    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${tournees.length} tournée(s) envoyée(s) à ${rel.entreprise_nom_ref}`);
     // Recharger les données STT pour mettre à jour les badges
     const start = fd(dates[0]), end = fd(dates[6]);
     await loadSTTWeekData(start, end);
@@ -3719,7 +3724,7 @@ async function sendSTTGroup(relId, btn) {
   } catch(e) {
     btn.disabled = false;
     btn.textContent = '↗ Réessayer';
-    toast('❌ Erreur envoi STT: ' + e.message, 'error');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur envoi STT: ' + e.message, 'error');
   }
 }
 
@@ -3765,12 +3770,12 @@ async function sendChSTTWeek(chauffeurNom) {
       body: JSON.stringify(payload),
     });
     if (!r.ok) throw new Error(await r.text());
-    toast(`✅ ${pending.length} tournée(s) envoyée(s) à ${rel.entreprise_nom_ref}`);
+    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${pending.length} tournée(s) envoyée(s) à ${rel.entreprise_nom_ref}`);
     const start = fd(dates[0]), end = fd(dates[6]);
     await loadSTTWeekData(start, end);
     renderPlanning(dates);
   } catch(e) {
-    toast('❌ Erreur envoi STT: ' + e.message, 'error');
+    toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Erreur envoi STT: ' + e.message, 'error');
   }
 }
 
@@ -3810,17 +3815,17 @@ function renderSTTReceivedPanel() {
   });
 
   const STATUS = {
-    pending_config: { label:'🔧 Config. requise', color:'#F5A623' },
-    pending:        { label:'⏳ À affecter',       color:'#60A5FA' },
-    assigned:       { label:'✓ Assigné',           color:'#10B981' },
-    modified:       { label:'⚠ Modifié',           color:'#F5A623' },
-    cancelled:      { label:'✕ Annulé',            color:'#FC8181' },
-    refused:        { label:'✕ Refusé',            color:'#FC8181' },
-    validated:      { label:'✓✓ Validé',           color:'#10B981' },
+    pending_config: { label:'🔧 Config. requise', color:'#C9A961' },
+    pending:        { label:'⏳ À affecter',       color:'#E8C66E' },
+    assigned:       { label:'✓ Assigné',           color:'#6B8E23' },
+    modified:       { label:'⚠ Modifié',           color:'#C9A961' },
+    cancelled:      { label:'✕ Annulé',            color:'#D88888' },
+    refused:        { label:'✕ Refusé',            color:'#D88888' },
+    validated:      { label:'✓✓ Validé',           color:'#6B8E23' },
   };
 
   let html = `<div style="background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:14px;padding:18px 20px">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#10B981;letter-spacing:2px;margin-bottom:14px">📥 TOURNÉES REÇUES — SOUS-TRAITANCE</div>`;
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#6B8E23;letter-spacing:2px;margin-bottom:14px">📥 TOURNÉES REÇUES — SOUS-TRAITANCE</div>`;
 
   if (!sttOrdersReceived.length) {
     html += `<div style="color:var(--gray);font-size:12px">Aucune tournée reçue pour cette semaine.</div>`;
@@ -3850,14 +3855,14 @@ function renderSTTReceivedPanel() {
         const rowStyle = isCancelled ? 'opacity:0.45;' : '';
         const actionBtn = isCancelled ? '' :
           isDone
-            ? `<button onclick="openSTTAssignModal('${o.id}')" style="padding:4px 10px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#10B981;border-radius:6px;font-size:11px;cursor:pointer">✏ Modifier</button>`
-            : `<button onclick="openSTTAssignModal('${o.id}')" style="padding:4px 10px;background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.4);color:#60A5FA;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">→ Affecter</button>`;
+            ? `<button onclick="openSTTAssignModal('${o.id}')" style="padding:4px 10px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6B8E23;border-radius:6px;font-size:11px;cursor:pointer">✏ Modifier</button>`
+            : `<button onclick="openSTTAssignModal('${o.id}')" style="padding:4px 10px;background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.4);color:#E8C66E;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">→ Affecter</button>`;
         html += `<tr style="${rowStyle}">
           <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)">${o.date}</td>
           <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)">${o.slot}</td>
           <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--white);font-weight:600">${o.client_nom}</td>
           <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--gray)">${o.chauffeur_nom_propose}</td>
-          <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--white)">${o.chauffeur_nom_assigne||'—'}${o.changement_chauffeur?'<span title="Chauffeur modifié" style="color:#F5A623;margin-left:4px">⚠</span>':''}</td>
+          <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--white)">${o.chauffeur_nom_assigne||'—'}${o.changement_chauffeur?'<span title="Chauffeur modifié" style="color:#C9A961;margin-left:4px">⚠</span>':''}</td>
           <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--gray)">${o.vehicule_assigne||'—'}</td>
           <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)"><span style="color:${st.color};font-size:11px;font-weight:700">${st.label}</span></td>
           <td style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.03)">${actionBtn}</td>
@@ -3878,9 +3883,9 @@ function openSTTAssignModal(orderId) {
 
   const clientExists = allClients.find(c => c.nom === o.client_nom);
   const clientWarn = !clientExists
-    ? `<div style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:8px;padding:10px 12px;font-size:11px;color:#F5A623;margin-bottom:12px">
-        ⚠️ Le client <strong>${o.client_nom}</strong> n'existe pas encore dans vos paramètres.<br>
-        La tournée sera créée mais sans tarifs configurés. <a href="optimum_trans_clients.html" style="color:#F5A623">→ Configurer le client</a>
+    ? `<div style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:8px;padding:10px 12px;font-size:11px;color:#C9A961;margin-bottom:12px">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Le client <strong>${o.client_nom}</strong> n'existe pas encore dans vos paramètres.<br>
+        La tournée sera créée mais sans tarifs configurés. <a href="optimum_trans_clients.html" style="color:#C9A961">→ Configurer le client</a>
        </div>` : '';
 
   const vehOptions = allVehicules.map(v =>
@@ -3913,10 +3918,10 @@ function openSTTAssignModal(orderId) {
         </select>
       </div>
     </div>
-    <div id="stt-assign-err" style="font-size:11px;color:#FC8181;margin-bottom:8px;display:none"></div>
+    <div id="stt-assign-err" style="font-size:11px;color:#D88888;margin-bottom:8px;display:none"></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border)">
       <button onclick="document.getElementById('stt-assign-modal').style.display='none'" style="padding:8px 18px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--gray);border-radius:8px;cursor:pointer;font-size:12px">Annuler</button>
-      <button onclick="saveSTTAssignment('${orderId}')" style="padding:8px 20px;background:linear-gradient(135deg,#10B981,#059669);border:none;color:#fff;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer" id="stt-assign-save">✓ Valider l'assignation</button>
+      <button onclick="saveSTTAssignment('${orderId}')" style="padding:8px 20px;background:linear-gradient(135deg,#6B8E23,#059669);border:none;color:#fff;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer" id="stt-assign-save">✓ Valider l'assignation</button>
     </div>`;
 
   // Pré-remplir si déjà assigné
@@ -3934,8 +3939,8 @@ async function saveSTTAssignment(orderId) {
   const errEl        = document.getElementById('stt-assign-err');
   const saveBtn      = document.getElementById('stt-assign-save');
   errEl.style.display = 'none';
-  if (!chauffeurNom) { errEl.textContent = '⚠️ Sélectionnez un chauffeur.'; errEl.style.display = 'block'; return; }
-  if (!vehicule)     { errEl.textContent = '⚠️ Sélectionnez un véhicule.';  errEl.style.display = 'block'; return; }
+  if (!chauffeurNom) { errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Sélectionnez un chauffeur.'; errEl.style.display = 'block'; return; }
+  if (!vehicule)     { errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Sélectionnez un véhicule.';  errEl.style.display = 'block'; return; }
 
   saveBtn.disabled = true; saveBtn.textContent = '⏳...';
   const cid = OT.getCompanyId();
@@ -3991,7 +3996,7 @@ async function saveSTTAssignment(orderId) {
     }
 
     document.getElementById('stt-assign-modal').style.display = 'none';
-    toast(`✅ Tournée assignée — ${chauffeurNom} · ${vehicule}`);
+    toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée assignée — ${chauffeurNom} · ${vehicule}`);
     const dates = getWeekDates();
     await Promise.all([
       loadSTTReceivedOrders(fd(dates[0]), fd(dates[6])),
@@ -4001,26 +4006,26 @@ async function saveSTTAssignment(orderId) {
     renderSTTReceivedPanel();
   } catch(e) {
     saveBtn.disabled = false; saveBtn.textContent = '✓ Valider l\'assignation';
-    errEl.textContent = '❌ ' + e.message; errEl.style.display = 'block';
+    errEl.textContent = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ' + e.message; errEl.style.display = 'block';
   }
 }
 </script>
 
 <!-- Modal STT Envoi (donneur) -->
 <div id="stt-send-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:400;align-items:center;justify-content:center;">
-  <div style="background:#0F2040;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;width:560px;max-width:96vw;max-height:88vh;overflow-y:auto;" id="stt-send-modal-body"></div>
+  <div style="background:#1A1A1A;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;width:560px;max-width:96vw;max-height:88vh;overflow-y:auto;" id="stt-send-modal-body"></div>
 </div>
 
 <!-- Modal STT Assignation (receveur) -->
 <div id="stt-assign-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:400;align-items:center;justify-content:center;">
-  <div style="background:#0F2040;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;width:520px;max-width:96vw;" id="stt-assign-modal-body"></div>
+  <div style="background:#1A1A1A;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;width:520px;max-width:96vw;" id="stt-assign-modal-body"></div>
 </div>
 
 <div id="ot-cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(to top,rgba(10,22,40,0.99),rgba(15,30,53,0.98));backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.3);padding:16px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
-  <div style="flex:1;min-width:200px"><div style="font-size:13px;font-weight:600;color:#F0F4FF;margin-bottom:3px">🍪 Cookies</div><div style="font-size:11px;color:#8899AA">Nous utilisons uniquement des cookies fonctionnels. <a href="optimum_trans_legal.html#cookies" style="color:#F5A623;text-decoration:none">En savoir plus</a></div></div>
+  <div style="flex:1;min-width:200px"><div style="font-size:13px;font-weight:600;color:#F5F5F0;margin-bottom:3px">🍪 Cookies</div><div style="font-size:11px;color:#8B7355">Nous utilisons uniquement des cookies fonctionnels. <a href="optimum_trans_legal.html#cookies" style="color:#C9A961;text-decoration:none">En savoir plus</a></div></div>
   <div style="display:flex;gap:10px;flex-shrink:0">
-    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8899AA;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
-    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;color:#0A1628;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
+    <button type="button" onclick="otCookieChoice('essential')" style="padding:8px 16px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8B7355;border-radius:7px;cursor:pointer;font-size:12px;font-family:inherit">Essentiels uniquement</button>
+    <button type="button" onclick="otCookieChoice('accepted')" style="padding:8px 16px;background:linear-gradient(135deg,#C9A961,#8B7355);border:none;color:#0A0A0A;border-radius:7px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✓ Accepter</button>
   </div>
 </div>
 <script data-cfasync="false">

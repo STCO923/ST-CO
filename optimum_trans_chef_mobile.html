@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>T SERVICE & CO — Chef d'équipe</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1628">
+<meta name="theme-color" content="#0A0A0A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="T.S">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+<link rel="icon" href="lib/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts.css">
 <style>
-:root{--navy:#0A1628;--navy2:#0F2040;--navy3:#142952;--blue:#1A4FBF;--accent:#F5A623;--accent2:#FF6B35;--light:#E8EDF5;--white:#FFFFFF;--gray:#8A9BB5;--gray2:#4A5568;--success:#27AE60;--error:#E74C3C;--purple:#7C3AED;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+:root{--navy:#0A0A0A;--navy2:#1A1A1A;--navy3:#141414;--blue:#C9A961;--accent:#C9A961;--accent2:#C9A961;--light:#F5F5F0;--white:#FFFFFF;--gray:#8B7355;--gray2:#5A5048;--success:#6B8E23;--error:#8B2C2C;--purple:#4FD1E0;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);min-height:100vh;max-width:480px;margin:0 auto;padding-bottom:80px;}
 
@@ -23,9 +23,9 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .app-header{background:var(--navy2);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
 .header-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:2px;}
 .header-logo span{color:var(--accent);}
-.header-role{background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:700;color:#A78BFA;letter-spacing:1px;}
+.header-role{background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:700;color:#4FD1E0;letter-spacing:1px;}
 .ch-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--white);}
-.logout-btn{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:12px;color:#FC8181;font-family:inherit;}
+.logout-btn{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.2);border-radius:7px;padding:5px 9px;cursor:pointer;font-size:12px;color:#D88888;font-family:inherit;}
 
 /* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--navy2);border-top:1px solid var(--border);display:flex;z-index:50;}
@@ -77,26 +77,26 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .t-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;position:relative;overflow:hidden;}
 .t-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
 .t-card.am::before{background:var(--accent);}
-.t-card.pm::before{background:#60A5FA;}
-.t-card.ampm::before{background:#2ECC71;}
+.t-card.pm::before{background:#E8C66E;}
+.t-card.ampm::before{background:#6B8E23;}
 .t-client{font-size:13px;font-weight:700;color:var(--white);}
 .t-meta{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;}
 .t-chip{background:rgba(255,255,255,0.06);border-radius:5px;padding:2px 7px;font-size:10px;color:var(--gray);}
 .t-chip.am{background:rgba(245,166,35,0.15);color:var(--accent);}
-.t-chip.pm{background:rgba(26,79,191,0.2);color:#60A5FA;}
-.t-chip.ampm{background:rgba(39,174,96,0.2);color:#2ECC71;}
+.t-chip.pm{background:rgba(26,79,191,0.2);color:#E8C66E;}
+.t-chip.ampm{background:rgba(39,174,96,0.2);color:#6B8E23;}
 
 /* VALIDATION ACTIONS */
 .val-actions{display:flex;gap:6px;margin-top:8px;}
 .btn-val{flex:1;border:none;border-radius:7px;padding:7px 8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;}
-.btn-ok{background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#2ECC71;}
+.btn-ok{background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#6B8E23;}
 .btn-ok:active{background:rgba(39,174,96,0.3);}
-.btn-pen{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.25);color:#FC8181;}
+.btn-pen{background:rgba(231,76,60,0.12);border:1px solid rgba(231,76,60,0.25);color:#D88888;}
 .btn-pen:active{background:rgba(231,76,60,0.25);}
 .btn-reset{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:var(--gray2);font-size:10px;}
 .val-badge{display:inline-flex;align-items:center;gap:4px;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;margin-top:5px;}
-.val-badge.ok{background:rgba(39,174,96,0.15);color:#2ECC71;}
-.val-badge.pen{background:rgba(231,76,60,0.12);color:#FC8181;}
+.val-badge.ok{background:rgba(39,174,96,0.15);color:#6B8E23;}
+.val-badge.pen{background:rgba(231,76,60,0.12);color:#D88888;}
 
 /* VEHICULE SELECT */
 .veh-select-m{width:100%;background:rgba(26,79,191,0.08);border:1px solid rgba(26,79,191,0.2);border-radius:7px;padding:5px 8px;font-size:11px;color:var(--white);font-family:'Outfit',sans-serif;outline:none;margin-top:6px;}
@@ -118,7 +118,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .pen-opt.selected{border-color:rgba(231,76,60,0.5);background:rgba(231,76,60,0.08);}
 .pen-opt-icon{font-size:18px;width:28px;text-align:center;}
 .pen-opt-label{flex:1;font-size:13px;font-weight:600;color:var(--white);}
-.pen-opt-amount{font-size:13px;font-weight:700;color:#FC8181;}
+.pen-opt-amount{font-size:13px;font-weight:700;color:#D88888;}
 .btn-primary-m{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);border:none;border-radius:10px;padding:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;}
 .btn-secondary-m{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--gray);border-radius:10px;padding:11px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;margin-top:8px;}
 
@@ -132,9 +132,14 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 
 .badge{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;}
-.badge-green{background:rgba(39,174,96,0.15);color:#2ECC71;}
+.badge-green{background:rgba(39,174,96,0.15);color:#6B8E23;}
 .badge-orange{background:rgba(245,166,35,0.15);color:var(--accent);}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -186,7 +191,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
     <span class="nav-icon">📆</span>Planning
   </button>
   <button class="nav-btn" onclick="window.location.href='optimum_trans_gazole.html'">
-    <span class="nav-icon">⛽</span>Gazole
+    <span class="nav-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h12v-9l3 3v3a3 3 0 0 0 6 0V10l-3-3"/><path d="M3 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/></svg></span>Gazole
   </button>
   <button class="nav-btn" id="nav-vehicules" onclick="showScreen('vehicules');loadVehicules()">
     <span class="nav-icon">🚐</span>Véhicules
@@ -197,14 +202,14 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 <div class="modal-overlay" id="modal-pen" onclick="if(event.target===this)closePenModal()">
   <div class="modal-sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title">⚠️ PÉNALITÉ</div>
+    <div class="sheet-title"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> PÉNALITÉ</div>
     <div class="sheet-sub" id="pen-sub">Sélectionnez le motif</div>
     <div id="pen-options"></div>
     <div id="pen-custom-block" style="display:none;margin-bottom:10px">
       <label style="font-size:10px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px">Montant personnalisé (€)</label>
       <input type="number" id="pen-custom-amount" min="0" value="0" style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--white);outline:none;width:100%">
     </div>
-    <button class="btn-primary-m" onclick="confirmPenalty()">⚠️ Appliquer la pénalité</button>
+    <button class="btn-primary-m" onclick="confirmPenalty()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Appliquer la pénalité</button>
     <button class="btn-secondary-m" onclick="closePenModal()">Annuler</button>
   </div>
 </div>
@@ -219,7 +224,7 @@ const DAYS_SHORT=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 const DAYS_FULL=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
 const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const MONTHS_S=['jan','fév','mar','avr','mai','jun','jul','aoû','sep','oct','nov','déc'];
-const COLORS=['#1A4FBF','#27AE60','#7C3AED','#F5A623','#E74C3C','#0891B2','#D97706','#059669','#DC2626','#7C3AED'];
+const COLORS=['#C9A961','#6B8E23','#4FD1E0','#C9A961','#8B2C2C','#0891B2','#D97706','#059669','#8B2C2C','#4FD1E0'];
 
 let weekOffset=0, selectedDayIdx=0;
 let allChauffeurs=[], allTournees=[], allVehicules=[], allAbsences=[];
@@ -323,10 +328,10 @@ async function loadWeek(){
     updateKPIs();
     buildDaysStrip(dates);
     renderDay(dates[selectedDayIdx]);
-    document.getElementById('sync-info').textContent=`✅ ${allTournees.length}t`;
+    document.getElementById('sync-info').textContent=`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> ${allTournees.length}t`;
   }catch(e){
-    document.getElementById('sync-info').textContent='❌';
-    document.getElementById('day-content').innerHTML=`<div class="empty-day"><div class="empty-icon">❌</div>${e.message}</div>`;
+    document.getElementById('sync-info').textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    document.getElementById('day-content').innerHTML=`<div class="empty-day"><div class="empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>${e.message}</div>`;
   }
 }
 
@@ -380,7 +385,7 @@ function renderDay(date){
 
   // Absences ce jour
   const absMap={};
-  const absLabels={conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'⚠️ Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'};
+  const absLabels={conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'};
   allAbsences.filter(a=>a.date_debut<=dateStr&&a.date_fin>=dateStr).forEach(a=>{absMap[a.chauffeur_nom]=a.type;});
 
   cont.innerHTML=`<div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:10px">${dayLabel} · ${tours.length} tournée${tours.length>1?'s':''}</div>`;
@@ -414,8 +419,8 @@ function buildChauffeurSection(nom,tours,dateStr,idx,chefDuJour,absType){
   header.innerHTML=`
     <div class="ch-avatar-sm" style="background:${color}">${ini}</div>
     <div style="flex:1;min-width:0">
-      <div class="ch-name-m">${nom}${isChef?' <span style="font-size:9px;background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);border-radius:5px;padding:1px 5px;color:#A78BFA;vertical-align:middle">👔</span>':''}</div>
-      <div class="ch-meta-m">${absType?`<span style="color:#FC8181">${{conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'⚠️ Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'}[absType]||'Absent'}</span>`:tours.length>0?`${tours.length} tournée${tours.length>1?'s':''} · ${nbVal} validée${nbVal>1?'s':''}`:''}</div>
+      <div class="ch-name-m">${nom}${isChef?' <span style="font-size:9px;background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);border-radius:5px;padding:1px 5px;color:#4FD1E0;vertical-align:middle">👔</span>':''}</div>
+      <div class="ch-meta-m">${absType?`<span style="color:#D88888">${{conge_paye:'🏖️ Congé',maladie:'🤒 Maladie',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Absent',jour_ferie:'🎉 Férié',formation:'📚 Formation',autre:'📌 Absent'}[absType]||'Absent'}</span>`:tours.length>0?`${tours.length} tournée${tours.length>1?'s':''} · ${nbVal} validée${nbVal>1?'s':''}`:''}</div>
     </div>
     <div class="ch-count">${tours.length||''}</div>
     <div style="font-size:16px;color:var(--gray);margin-left:6px" class="chevron">▾</div>`;
@@ -424,7 +429,7 @@ function buildChauffeurSection(nom,tours,dateStr,idx,chefDuJour,absType){
   body.className='ch-body open';
 
   if(absType&&!tours.length){
-    body.innerHTML=`<div style="padding:8px 4px;font-size:12px;color:#FC8181;text-align:center">{{absLabels[absType]||'Absent ce jour'}}</div>`;
+    body.innerHTML=`<div style="padding:8px 4px;font-size:12px;color:#D88888;text-align:center">{{absLabels[absType]||'Absent ce jour'}}</div>`;
   } else if(!tours.length){
     body.innerHTML='<div style="padding:8px 4px;font-size:11px;color:var(--gray2);text-align:center">Aucune tournée</div>';
   }
@@ -460,8 +465,8 @@ function buildChauffeurSection(nom,tours,dateStr,idx,chefDuJour,absType){
     card.className=`t-card ${cls}`;
     let valHtml='';
     if(valInfo){
-      if(valInfo.statut==='validee') valHtml=`<div class="val-badge ok">✅ Validée</div>`;
-      else if(valInfo.statut==='penalisee') valHtml=`<div class="val-badge pen">⚠️ ${valInfo.motif}${valInfo.montant>0?' (-'+valInfo.montant+'€)':''}</div>`;
+      if(valInfo.statut==='validee') valHtml=`<div class="val-badge ok"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Validée</div>`;
+      else if(valInfo.statut==='penalisee') valHtml=`<div class="val-badge pen"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ${valInfo.motif}${valInfo.montant>0?' (-'+valInfo.montant+'€)':''}</div>`;
     }
     card.innerHTML=`
       <div class="t-client">${t.client_nom}</div>
@@ -477,14 +482,14 @@ function buildChauffeurSection(nom,tours,dateStr,idx,chefDuJour,absType){
     if(!valInfo||valInfo.statut==='penalisee'){
       const btnV=document.createElement('button');
       btnV.className='btn-val btn-ok';
-      btnV.textContent='✅ Valider';
+      btnV.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Valider';
       btnV.onclick=()=>{ validateTournee(t.id,nom); };
       actDiv.appendChild(btnV);
     }
     if(!valInfo||valInfo.statut==='validee'){
       const btnP=document.createElement('button');
       btnP.className='btn-val btn-pen';
-      btnP.textContent='⚠️ Pénalité';
+      btnP.textContent='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité';
       btnP.onclick=()=>{ openPenModal(t.id,nom,t.client_nom); };
       actDiv.appendChild(btnP);
     }
@@ -523,7 +528,7 @@ async function saveChefJour(dateStr,chauffeurNom){
       toast('Chef du jour retiré');
     }
     renderDay(getWeekDates()[selectedDayIdx]);
-  }catch(e){ toast('❌ '+e.message,'error'); }
+  }catch(e){ toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> '+e.message,'error'); }
 }
 
 // VALIDATION
@@ -532,7 +537,7 @@ function getValidationMap(){ return OT_SYNC.getValidationMap(); }
 
 async function validateTournee(tourneeId,chauffeurNom){
   await OT_SYNC.validateTournee(tourneeId,chauffeurNom);
-  toast('✅ Tournée validée');
+  toast('<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Tournée validée');
   updateKPIs();
   renderDay(getWeekDates()[selectedDayIdx]);
 }
@@ -549,7 +554,7 @@ let penalitesConfig=[];
 async function loadPenalites(){
   penalitesConfig = await OT_SYNC.loadPenalitesConfig();
 }
-function defaultPen(){return [{id:'retard',label:'Retard',icon:'⏰',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}];}
+function defaultPen(){return [{id:'retard',label:'Retard',icon:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>',montant:20},{id:'absence_nj',label:'Absence non justifiée',icon:'🚫',montant:50},{id:'absence',label:'Absence',icon:'📋',montant:0}];}
 
 async function openPenModal(tourneeId,chauffeurNom,clientNom){
   await loadPenalites();
@@ -580,7 +585,7 @@ async function confirmPenalty(){
   let montant=penModal_selectedMotif.montant;
   if(montant===0) montant=parseFloat(document.getElementById('pen-custom-amount').value)||0;
   await OT_SYNC.penalizeTournee(penModal_tourneeId,penModal_chauffeurNom,penModal_selectedMotif.label,penModal_selectedMotif.id,montant);
-  toast(`⚠️ Pénalité ${penModal_selectedMotif.label} — -${montant}€`);
+  toast(`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pénalité ${penModal_selectedMotif.label} — -${montant}€`);
   closePenModal();
   updateKPIs();
   renderDay(getWeekDates()[selectedDayIdx]);
@@ -605,8 +610,8 @@ async function loadDemandes(){
     const r=await fetch(`${SB}/rest/v1/absences?company_id=eq.${companyId}&statut=eq.en_attente&order=created_at.desc`,{headers:H()});
     const data=r.ok?await r.json():[];
     const el=document.getElementById('demandes-list');
-    const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',formation:'📚 Formation',autre:'📌 Autre',absence_injustifiee:'⚠️ Abs. NJ',jour_ferie:'🎉 Férié'};
-    if(!data.length){el.innerHTML='<div class="empty-day"><div class="empty-icon">✅</div><div style="font-size:13px">Aucune demande en attente</div></div>';return;}
+    const typeL={conge_paye:'🏖️ Congé payé',maladie:'🤒 Maladie',formation:'📚 Formation',autre:'📌 Autre',absence_injustifiee:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Abs. NJ',jour_ferie:'🎉 Férié'};
+    if(!data.length){el.innerHTML='<div class="empty-day"><div class="empty-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div><div style="font-size:13px">Aucune demande en attente</div></div>';return;}
     el.innerHTML='';
     data.forEach(d=>{
       const div=document.createElement('div');
@@ -616,17 +621,17 @@ async function loadDemandes(){
         <div style="font-size:11px;color:var(--gray);margin:3px 0">${typeL[d.type]||d.type} · ${fmtDate(d.date_debut)} → ${fmtDate(d.date_fin)}</div>
         ${d.note?`<div style="font-size:11px;color:var(--gray2);font-style:italic;margin-bottom:8px">"${d.note}"</div>`:'<div style="margin-bottom:8px"></div>'}
         <div style="display:flex;gap:8px">
-          <button onclick="actionDemande('${d.id}','approuve')" style="flex:1;background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#2ECC71;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">✅ Approuver</button>
-          <button onclick="actionDemande('${d.id}','refuse')" style="flex:1;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#FC8181;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">❌ Refuser</button>
+          <button onclick="actionDemande('${d.id}','approuve')" style="flex:1;background:rgba(39,174,96,0.15);border:1px solid rgba(39,174,96,0.3);color:#6B8E23;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuver</button>
+          <button onclick="actionDemande('${d.id}','refuse')" style="flex:1;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);color:#D88888;border-radius:8px;padding:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refuser</button>
         </div>`;
       el.appendChild(div);
     });
-  }catch(e){document.getElementById('demandes-list').innerHTML=`<div style="color:#FC8181;padding:20px;text-align:center">❌ ${e.message}</div>`;}
+  }catch(e){document.getElementById('demandes-list').innerHTML=`<div style="color:#D88888;padding:20px;text-align:center"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;}
 }
 
 async function actionDemande(id,statut){
   await fetch(`${SB}/rest/v1/absences?id=eq.${id}`,{method:'PATCH',headers:H(),body:JSON.stringify({statut})});
-  toast(statut==='approuve'?'✅ Approuvée':'❌ Refusée');
+  toast(statut==='approuve'?'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Approuvée':'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Refusée');
   loadDemandes();loadDemandesCount();
 }
 
@@ -639,26 +644,26 @@ async function loadVehicules(){
     const el=document.getElementById('vehicules-list');
     if(!data.length){el.innerHTML='<div class="empty-day"><div class="empty-icon">🚐</div><div style="font-size:13px">Aucun véhicule</div></div>';return;}
     el.innerHTML='';
-    const statColors={disponible:'#2ECC71',en_mission:'#F5A623',maintenance:'#FC8181',hors_service:'#4A5568'};
-    const statLabels={disponible:'✅ Disponible',en_mission:'🟠 En mission',maintenance:'🔧 Maintenance',hors_service:'⛔ Hors service'};
+    const statColors={disponible:'#6B8E23',en_mission:'#C9A961',maintenance:'#D88888',hors_service:'#5A5048'};
+    const statLabels={disponible:'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Disponible',en_mission:'🟠 En mission',maintenance:'🔧 Maintenance',hors_service:'⛔ Hors service'};
     data.forEach(v=>{
       const today=new Date();today.setHours(0,0,0,0);
       const ctDays=v.date_ct?Math.round((new Date(v.date_ct)-today)/86400000):null;
       const assurDays=v.date_assurance?Math.round((new Date(v.date_assurance)-today)/86400000):null;
-      const alertCT=ctDays!==null&&ctDays<=30?`<span style="font-size:10px;color:${ctDays<=0?'#FC8181':'#F5A623'}">⚠️ CT ${ctDays<=0?'expiré':'dans '+ctDays+'j'}</span>`:'';
-      const alertAssur=assurDays!==null&&assurDays<=30?`<span style="font-size:10px;color:${assurDays<=0?'#FC8181':'#F5A623'}">⚠️ Assur. ${assurDays<=0?'expirée':'dans '+assurDays+'j'}</span>`:'';
+      const alertCT=ctDays!==null&&ctDays<=30?`<span style="font-size:10px;color:${ctDays<=0?'#D88888':'#C9A961'}"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> CT ${ctDays<=0?'expiré':'dans '+ctDays+'j'}</span>`:'';
+      const alertAssur=assurDays!==null&&assurDays<=30?`<span style="font-size:10px;color:${assurDays<=0?'#D88888':'#C9A961'}"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Assur. ${assurDays<=0?'expirée':'dans '+assurDays+'j'}</span>`:'';
       const div=document.createElement('div');
       div.style.cssText='background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;';
       div.innerHTML=`
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-          <div style="font-weight:700;color:var(--white);font-size:14px">🚐 ${v.immatriculation}${v.typologie?' <span style="font-size:10px;color:#60A5FA;font-weight:600">['+v.typologie+']</span>':''}</div>
+          <div style="font-weight:700;color:var(--white);font-size:14px">🚐 ${v.immatriculation}${v.typologie?' <span style="font-size:10px;color:#E8C66E;font-weight:600">['+v.typologie+']</span>':''}</div>
           <span style="font-size:11px;font-weight:700;color:${statColors[v.statut]||'var(--gray)'}">${statLabels[v.statut]||v.statut}</span>
         </div>
         <div style="font-size:11px;color:var(--gray)">${v.marque||''} ${v.modele||''}</div>
         ${alertCT||alertAssur?`<div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap">${alertCT}${alertAssur}</div>`:''}`;
       el.appendChild(div);
     });
-  }catch(e){document.getElementById('vehicules-list').innerHTML=`<div style="color:#FC8181;padding:20px;text-align:center">❌ ${e.message}</div>`;}
+  }catch(e){document.getElementById('vehicules-list').innerHTML=`<div style="color:#D88888;padding:20px;text-align:center"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${e.message}</div>`;}
 }
 
 function fmtDate(d){if(!d)return '—';const[y,m,j]=d.split('-');return`${j}/${m}/${y}`;}
