@@ -1407,7 +1407,7 @@ async function saveCompany(){
       setProgress(50,' Création compte admin...');
       // Create auth user (mot de passe déjà validé en début de fonction)
       const pwd=document.getElementById('co-pwd').value;
-      const authR=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1/create-auth-user',{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON_KEY},body:JSON.stringify({email,password:pwd,metadata:{company_id:companyId,role:'admin',name,plan:selectedPlan,max_admins:maxAdmins,max_chefs:maxChefs,max_chauffeurs:maxChauffeurs}})});
+      const authR=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1/create-auth-user',{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON_KEY,'Authorization':'Bearer '+getSAToken()},body:JSON.stringify({email,password:pwd,metadata:{company_id:companyId,role:'admin',name,plan:selectedPlan,max_admins:maxAdmins,max_chefs:maxChefs,max_chauffeurs:maxChauffeurs}})});
       const authJson=await authR.json();
       if(authJson.error) throw new Error('Erreur création compte: '+authJson.error);
       const authData={user:authJson.user};
@@ -1713,7 +1713,7 @@ async function saveUser(){
     } else {
       // Création : d'abord créer le compte Auth
       if(!pwd||pwd.length<8){throw new Error('Mot de passe min. 8 caractères');}
-      const authR=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1/create-auth-user',{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON_KEY},body:JSON.stringify({email,password:pwd,metadata:{company_id:drawerCompanyId,role,name:nom,chauffeur_nom:(role==='chauffeur'||role==='chef_equipe')?(chauffeurNom||null):null}})});
+      const authR=await fetch('https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1/create-auth-user',{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON_KEY,'Authorization':'Bearer '+getSAToken()},body:JSON.stringify({email,password:pwd,metadata:{company_id:drawerCompanyId,role,name:nom,chauffeur_nom:(role==='chauffeur'||role==='chef_equipe')?(chauffeurNom||null):null}})});
       const authJson=await authR.json();
       if(authJson.error) throw new Error('Erreur Auth: '+authJson.error);
       const authData={user:authJson.user};
