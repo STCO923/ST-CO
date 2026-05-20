@@ -959,7 +959,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 async function loadAll(){
-  setSyncInfo('🔄 Actualisation...','var(--gray)');
+  if(typeof OT==='undefined') return;
+  setSyncInfo('Actualisation...','var(--gray)');
   try{
     const week=getWeekBounds();
     const cf=OT.companyFilter();
