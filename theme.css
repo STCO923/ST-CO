@@ -36,6 +36,11 @@
   --success-bg:     rgba(107, 142, 35, 0.15);
   --warning:        #B8860B;
 
+  /* ── Accent tech / IA (secondaire) ── */
+  --ai-cyan:        #4FD1E0;
+  --ai-cyan-dim:    #2A8A95;
+  --ai-glow:        rgba(79, 209, 224, 0.45);
+
   /* ── Effets ── */
   --shadow-gold:    0 0 24px rgba(201, 169, 97, 0.15);
   --shadow-deep:    0 10px 40px rgba(0, 0, 0, 0.6);
