@@ -368,7 +368,7 @@ function logout() { OT.logout(); }
 
 // ── Raccourci superadmin Ctrl+Shift+A (toutes les pages) ─────
 document.addEventListener('keydown', function(e) {
-  if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+  if (e.ctrlKey && e.shiftKey && e.key === 'Y') {
     var _r = localStorage.getItem('ot_session') || sessionStorage.getItem('ot_session');
     var _s = null;
     try { _s = JSON.parse(_r || ''); } catch(_) {}
