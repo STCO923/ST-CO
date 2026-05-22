@@ -1005,9 +1005,9 @@ async function loadAll(){
     // Données additionnelles pour calculer la marge "réelle" (= même formule
     // que la page Clients & Facturation) : gazole, véhicules, maintenance, entreprise.
     const[today,week2,month,chauffeurs,clients,recent,gazole,vehicules,maintenance,entrepriseRes]=await Promise.all([
-      fetchAllRows(`${URL_SB}/rest/v1/tournees?${cfq}date=eq.${TODAY}&order=heure`,H()).catch(()=>[]),
-      fetchAllRows(`${URL_SB}/rest/v1/tournees?${cfq}date=gte.${week.start}&date=lte.${week.end}`,H()).catch(()=>[]),
-      fetchAllRows(`${URL_SB}/rest/v1/tournees?${cfq}date=gte.${MONTH_START}&date=lte.${MONTH_END}`,H()).catch(()=>[]),
+      fetchAllRows(`${URL_SB}/rest/v1/tournees?${cfq}date=eq.${TODAY}&order=id`,H()).catch(()=>[]),
+      fetchAllRows(`${URL_SB}/rest/v1/tournees?${cfq}date=gte.${week.start}&date=lte.${week.end}&order=id`,H()).catch(()=>[]),
+      fetchAllRows(`${URL_SB}/rest/v1/tournees?${cfq}date=gte.${MONTH_START}&date=lte.${MONTH_END}&order=id`,H()).catch(()=>[]),
       fetch(`${URL_SB}/rest/v1/chauffeurs?${cfq}order=nom`,{headers:H()}).then(r=>r.ok?r.json():[]).catch(()=>[]),
       fetch(`${URL_SB}/rest/v1/clients?${cfq}order=nom`,{headers:H()}).then(r=>r.ok?r.json():[]).catch(()=>[]),
       fetch(`${URL_SB}/rest/v1/tournees?${cfq}order=created_at.desc&limit=8`,{headers:H()}).then(r=>r.ok?r.json():[]).catch(()=>[]),
@@ -1033,7 +1033,7 @@ async function loadAll(){
     try{ renderTopChauffeurs(monthReport, chauffeurs); }catch(_){}
     try{ renderTopClients(monthReport, clients); }catch(_){}
     try{ renderRecent(recent); }catch(_){}
-    try{ renderAlertes(chauffeurs, month); }catch(_){}
+    try{ renderAlertes(chauffeurs, monthForReport); }catch(_){}
     setSyncInfo(`Mis à jour ${now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}`,'#6B8E23');
   }catch(e){
     console.warn('loadAll error:',e);
