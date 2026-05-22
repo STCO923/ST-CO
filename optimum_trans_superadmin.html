@@ -1989,10 +1989,27 @@ async function loadBillingData() {
 }
 
 // ── Éditeur de facture interne ────────────────────
+const EUR_TO_XOF = 655.957;
 let _feData = {};
+let _feCurrency = 'EUR'; // 'EUR' | 'XOF'
+
+function feSetCurrency(cur) {
+  _feCurrency = cur;
+  const isXOF = cur === 'XOF';
+  document.getElementById('fe-btn-eur').style.cssText = `flex:1;padding:8px;border-radius:8px;border:1px solid ${isXOF?'#3A3328':'#C9A961'};background:${isXOF?'transparent':'#C9A961'};color:${isXOF?'var(--gray)':'#0A0A0A'};font-weight:700;font-size:13px;cursor:pointer;transition:all .2s`;
+  document.getElementById('fe-btn-xof').style.cssText = `flex:1;padding:8px;border-radius:8px;border:1px solid ${isXOF?'#C9A961':'#3A3328'};background:${isXOF?'#C9A961':'transparent'};color:${isXOF?'#0A0A0A':'var(--gray)'};font-weight:700;font-size:13px;cursor:pointer;transition:all .2s`;
+  const sym = isXOF ? 'F CFA' : '€';
+  const r = n => isXOF ? Math.round(n * EUR_TO_XOF) : n;
+  document.getElementById('fe-hint-admin').textContent = `× ${r(500).toLocaleString('fr-FR')} ${sym}`;
+  document.getElementById('fe-hint-chef').textContent  = `× ${r(330).toLocaleString('fr-FR')} ${sym}`;
+  document.getElementById('fe-hint-chauff').textContent= `× ${r(299.99).toLocaleString('fr-FR')} ${sym}`;
+  feUpdatePreview();
+}
+
 function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price, isCustom) {
   const now = new Date();
   _feData = { coId, coName, isCustom, price };
+  _feCurrency = 'EUR';
   const m = document.getElementById('facture-editor-modal');
   document.getElementById('fe-mois').value    = now.getMonth();
   document.getElementById('fe-annee').value   = now.getFullYear();
@@ -2006,9 +2023,10 @@ function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price,
   document.getElementById('fe-penalite-val').value = '0';
   document.getElementById('fe-note').value    = '';
   m.style.display = 'flex';
-  feUpdatePreview();
+  feSetCurrency('EUR');
 }
 function closeFactureEditor() { document.getElementById('facture-editor-modal').style.display='none'; }
+
 function feUpdatePreview() {
   const a=Number(document.getElementById('fe-admins').value)||0;
   const ch=Number(document.getElementById('fe-chefs').value)||0;
@@ -2018,21 +2036,25 @@ function feUpdatePreview() {
   const rVal=Number(document.getElementById('fe-remise-val').value)||0;
   const pType=document.getElementById('fe-penalite-type').value;
   const pVal=Number(document.getElementById('fe-penalite-val').value)||0;
-  let ht = +(a*PRICE_ADMIN + ch*PRICE_CHEF + ca*PRICE_CHAUFFEUR).toFixed(2);
-  const remise  = rType==='pct' ? +(ht*rVal/100).toFixed(2) : +rVal.toFixed(2);
-  const penalite= pType==='pct' ? +(ht*pVal/100).toFixed(2) : +pVal.toFixed(2);
-  ht = +(ht - remise + penalite).toFixed(2);
-  const tva = +(ht*tvaRate/100).toFixed(2);
-  const ttc = +(ht + tva).toFixed(2);
-  const ff = n => n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€';
+  const isXOF = _feCurrency === 'XOF';
+  const rate = isXOF ? EUR_TO_XOF : 1;
+  const sym = isXOF ? ' F CFA' : ' €';
+  let ht = +((a*PRICE_ADMIN + ch*PRICE_CHEF + ca*PRICE_CHAUFFEUR) * rate).toFixed(isXOF?0:2);
+  const remise  = rType==='pct' ? +(ht*rVal/100).toFixed(isXOF?0:2) : +rVal.toFixed(isXOF?0:2);
+  const penalite= pType==='pct' ? +(ht*pVal/100).toFixed(isXOF?0:2) : +pVal.toFixed(isXOF?0:2);
+  ht = +(ht - remise + penalite).toFixed(isXOF?0:2);
+  const tva = +(ht*tvaRate/100).toFixed(isXOF?0:2);
+  const ttc = +(ht + tva).toFixed(isXOF?0:2);
+  const ff = n => n.toLocaleString('fr-FR',{minimumFractionDigits:isXOF?0:2,maximumFractionDigits:isXOF?0:2})+sym;
   document.getElementById('fe-preview').innerHTML =
     `<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;font-size:12px">
       <div style="background:#1a1a1a;border-radius:6px;padding:8px;text-align:center"><div style="color:var(--gray);font-size:10px">Total HT</div><div style="color:var(--white);font-weight:700">${ff(ht)}</div></div>
       <div style="background:#1a1a1a;border-radius:6px;padding:8px;text-align:center"><div style="color:var(--gray);font-size:10px">TVA ${tvaRate}%</div><div style="color:var(--white);font-weight:700">${ff(tva)}</div></div>
       <div style="background:#1a1a1a;border-radius:6px;padding:8px;text-align:center"><div style="color:var(--gray);font-size:10px">Remise</div><div style="color:#D88888;font-weight:700">-${ff(remise)}</div></div>
       <div style="background:#C9A961;border-radius:6px;padding:8px;text-align:center"><div style="color:#0A0A0A;font-size:10px">TOTAL TTC</div><div style="color:#0A0A0A;font-weight:800;font-size:14px">${ff(ttc)}</div></div>
-    </div>`;
+    </div>${isXOF?`<div style="font-size:10px;color:var(--gray);margin-top:6px;text-align:right">Taux fixe : 1 EUR = 655,957 XOF (parité BCEAO)</div>`:''}`;
 }
+
 function submitFactureEditor() {
   const moisIdx=Number(document.getElementById('fe-mois').value);
   const annee  =Number(document.getElementById('fe-annee').value);
@@ -2046,24 +2068,31 @@ function submitFactureEditor() {
   const pVal=Number(document.getElementById('fe-penalite-val').value)||0;
   const note=document.getElementById('fe-note').value.trim();
   closeFactureEditor();
-  genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom);
+  genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency);
 }
 
-function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom) {
+function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR') {
   const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   const moisNom = MOIS_FR[moisIdx];
   const now     = new Date();
   const num     = `TS-${annee}${String(moisIdx+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
-  const ligneAdmin = nbAdmins * 500;
-  const ligneChef  = +(nbChefs  * 330).toFixed(2);
-  const ligneChauf = +(nbChauffeurs * 299.99).toFixed(2);
-  let   totalHT    = +(ligneAdmin + ligneChef + ligneChauf).toFixed(2);
-  const remise     = rType==='pct' ? +(totalHT*rVal/100).toFixed(2) : +Number(rVal).toFixed(2);
-  const penalite   = pType==='pct' ? +(totalHT*pVal/100).toFixed(2) : +Number(pVal).toFixed(2);
-  totalHT          = +(totalHT - remise + penalite).toFixed(2);
-  const tva        = +(totalHT * tvaRate / 100).toFixed(2);
-  const ttc        = +(totalHT + tva).toFixed(2);
-  const f = n => n.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const isXOF   = currency === 'XOF';
+  const rate    = isXOF ? EUR_TO_XOF : 1;
+  const sym     = isXOF ? 'F CFA' : '€';
+  const dec     = isXOF ? 0 : 2;
+  const ligneAdmin = +((nbAdmins * 500) * rate).toFixed(dec);
+  const ligneChef  = +((nbChefs  * 330) * rate).toFixed(dec);
+  const ligneChauf = +((nbChauffeurs * 299.99) * rate).toFixed(dec);
+  const puAdmin    = +(500 * rate).toFixed(dec);
+  const puChef     = +(330 * rate).toFixed(dec);
+  const puChauf    = +(299.99 * rate).toFixed(dec);
+  let   totalHT    = +(ligneAdmin + ligneChef + ligneChauf).toFixed(dec);
+  const remise     = rType==='pct' ? +(totalHT*rVal/100).toFixed(dec) : +Number(rVal).toFixed(dec);
+  const penalite   = pType==='pct' ? +(totalHT*pVal/100).toFixed(dec) : +Number(pVal).toFixed(dec);
+  totalHT          = +(totalHT - remise + penalite).toFixed(dec);
+  const tva        = +(totalHT * tvaRate / 100).toFixed(dec);
+  const ttc        = +(totalHT + tva).toFixed(dec);
+  const f = n => n.toLocaleString('fr-FR', {minimumFractionDigits:dec, maximumFractionDigits:dec}) + ' ' + sym;
 
   const html = `<!DOCTYPE html>
 <html lang="fr">
@@ -2170,9 +2199,9 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
     <tr><th>Description</th><th style="text-align:center">Qté</th><th style="text-align:right">P.U. HT</th><th style="text-align:right">Total HT</th></tr>
   </thead>
   <tbody>
-    ${nbAdmins>0?`<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${nbAdmins}</td><td style="text-align:right">${f(500)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>`:''}
-    ${nbChefs>0?`<tr><td>Licence chef d'équipe — supervision & dispatch</td><td style="text-align:center">${nbChefs}</td><td style="text-align:right">${f(330)}</td><td style="text-align:right">${f(ligneChef)}</td></tr>`:''}
-    ${nbChauffeurs>0?`<tr><td>Licence chauffeur — gestion tournées &amp; suivi</td><td style="text-align:center">${nbChauffeurs}</td><td style="text-align:right">${f(299.99)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`:''}
+    ${nbAdmins>0?`<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${nbAdmins}</td><td style="text-align:right">${f(puAdmin)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>`:''}
+    ${nbChefs>0?`<tr><td>Licence chef d'équipe — supervision &amp; dispatch</td><td style="text-align:center">${nbChefs}</td><td style="text-align:right">${f(puChef)}</td><td style="text-align:right">${f(ligneChef)}</td></tr>`:''}
+    ${nbChauffeurs>0?`<tr><td>Licence chauffeur — gestion tournées &amp; suivi</td><td style="text-align:center">${nbChauffeurs}</td><td style="text-align:right">${f(puChauf)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`:''}
     ${remise>0?`<tr style="color:#c0392b"><td>Remise${rType==='pct'?' ('+rVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">- ${f(remise)}</td></tr>`:''}
     ${penalite>0?`<tr style="color:#e67e22"><td>Pénalité de retard${pType==='pct'?' ('+pVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">+ ${f(penalite)}</td></tr>`:''}
     ${note?`<tr><td colspan="4" style="font-size:11px;color:#666;border-top:1px dashed #eee;padding-top:10px"><em>Note : ${note}</em></td></tr>`:''}
@@ -2192,6 +2221,7 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
   Conditions de paiement : 30 jours net · Virement bancaire<br>
   En cas de retard de paiement, des pénalités sont exigibles de plein droit, sans rappel préalable, au taux légal majoré.<br>
   Pour les clients établis en France : application de l'art. L.441-10 C.com. (3× le taux légal + indemnité forfaitaire de 40 €).
+  ${isXOF ? '<br>Montants exprimés en Francs CFA (XOF) — taux de conversion fixe : 1 EUR = 655,957 XOF (parité BCEAO / Trésor français).' : ''}
 </div>
 </body>
 </html>`;
@@ -2708,7 +2738,15 @@ async function deleteSTTRelation(id, donorName, receiverName) {
       <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#C9A961" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       ÉDITER LA FACTURE
     </div>
-    <div style="font-size:11px;color:var(--gray);margin-bottom:20px">Période · Licences · Remise · Pénalité · TVA</div>
+    <div style="font-size:11px;color:var(--gray);margin-bottom:16px">Période · Licences · Remise · Pénalité · TVA · Devise</div>
+
+    <!-- Devise -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;align-items:center">
+      <div class="field-lbl" style="margin:0">Devise</div>
+      <button id="fe-btn-eur" onclick="feSetCurrency('EUR')" style="flex:1;padding:8px;border-radius:8px;border:1px solid #C9A961;background:#C9A961;color:#0A0A0A;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s">€ EUR</button>
+      <button id="fe-btn-xof" onclick="feSetCurrency('XOF')" style="flex:1;padding:8px;border-radius:8px;border:1px solid #3A3328;background:transparent;color:var(--gray);font-weight:700;font-size:13px;cursor:pointer;transition:all .2s">F CFA (XOF)</button>
+      <div id="fe-rate-info" style="font-size:10px;color:var(--gray);white-space:nowrap">1 EUR = 655,957 XOF</div>
+    </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
       <div>
@@ -2731,17 +2769,17 @@ async function deleteSTTRelation(id, donorName, receiverName) {
       <div>
         <div class="field-lbl">Admins</div>
         <input type="number" id="fe-admins" class="ii" style="width:100%" min="0" onchange="feUpdatePreview()" oninput="feUpdatePreview()">
-        <div style="font-size:10px;color:var(--gray);margin-top:3px">× 500 €</div>
+        <div id="fe-hint-admin" style="font-size:10px;color:var(--gray);margin-top:3px">× 500 €</div>
       </div>
       <div>
         <div class="field-lbl">Chefs d'équipe</div>
         <input type="number" id="fe-chefs" class="ii" style="width:100%" min="0" onchange="feUpdatePreview()" oninput="feUpdatePreview()">
-        <div style="font-size:10px;color:var(--gray);margin-top:3px">× 330 €</div>
+        <div id="fe-hint-chef" style="font-size:10px;color:var(--gray);margin-top:3px">× 330 €</div>
       </div>
       <div>
         <div class="field-lbl">Chauffeurs</div>
         <input type="number" id="fe-chauff" class="ii" style="width:100%" min="0" onchange="feUpdatePreview()" oninput="feUpdatePreview()">
-        <div style="font-size:10px;color:var(--gray);margin-top:3px">× 299,99 €</div>
+        <div id="fe-hint-chauff" style="font-size:10px;color:var(--gray);margin-top:3px">× 299,99 €</div>
       </div>
     </div>
 
