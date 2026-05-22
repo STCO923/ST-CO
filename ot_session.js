@@ -51,7 +51,7 @@ const OT = (() => {
     const s = getSession();
     if (!s) return;
 
-    document.querySelectorAll('a[href="' + SUPERADMIN_PAGE + '"]').forEach(function(el) {
+    document.querySelectorAll('a[href="' + SUPERADMIN_PAGE + '"]:not(#ot-sa-btn)').forEach(function(el) {
       el.style.display = 'none';
     });
 
