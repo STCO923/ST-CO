@@ -1811,7 +1811,7 @@ async function resetTempPassword(userId, authUid, userNom){
     // 1. Changer le mot de passe via Edge Function (service_role côté serveur)
     const r=await fetch(`${SB}/functions/v1/reset-user-password`,{
       method:'POST',
-      headers:{'Content-Type':'application/json','apikey':ANON_KEY},
+      headers:{'Content-Type':'application/json','apikey':ANON_KEY,'Authorization':'Bearer '+getSAToken()},
       body:JSON.stringify({user_id:authUid,password:tmpPwd})
     });
     const rData=await r.json();
