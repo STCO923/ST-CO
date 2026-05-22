@@ -42,8 +42,8 @@ const OT = (() => {
     if (feature === 'decompte_st') return s.addon_decompte_st === true;
     if (feature === 'zone_billing') return s.addon_zone === true;
     if (feature === 'etat_vehicule') return s.addon_etat_vehicule === true;
-    // addon_saisie : false en base = désactivé, tout autre valeur = activé
-    if (feature === 'saisie') return s.addon_saisie === true;
+    // Saisie : "Inclus" dans tous les plans → plan ou addon
+    if (feature === 'saisie') return (PLAN_MODULES[s.plan] || PLAN_MODULES.starter).saisie === true || s.addon_saisie === true;
     return (PLAN_MODULES[s.plan] || PLAN_MODULES.starter)[feature] === true;
   }
 

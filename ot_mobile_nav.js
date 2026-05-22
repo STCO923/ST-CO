@@ -203,7 +203,7 @@
       };
       if (feature === 'feuille_route') return s.addon_route === true;
       if (feature === 'dispatch')      return s.addon_dispatch === true;
-      if (feature === 'saisie')        return s.addon_saisie === true;
+      if (feature === 'saisie')        return !!((PLAN[s.plan] || PLAN.starter).saisie) || s.addon_saisie === true;
       return !!((PLAN[s.plan] || PLAN.starter)[feature]);
     } catch(e) { return true; }
   }
