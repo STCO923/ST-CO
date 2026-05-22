@@ -485,6 +485,22 @@ const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
 const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
 function getH(extra={}){return{...OT.authHeaders(),...extra};}
 const H=()=>getH();
+async function fetchAllRows(url, headers){
+  const PAGE=1000;
+  let offset=0, all=[];
+  while(true){
+    const h=Object.assign({},headers,{'Range-Unit':'items','Range':`${offset}-${offset+PAGE-1}`});
+    const r=await fetch(url,{headers:h});
+    if(!r.ok) return all;
+    const chunk=await r.json();
+    if(!Array.isArray(chunk)||chunk.length===0) break;
+    all=all.concat(chunk);
+    if(chunk.length<PAGE) break;
+    offset+=PAGE;
+    if(offset>50000) break;
+  }
+  return all;
+}
 const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
 let currentYear=new Date().getFullYear(),currentMonth=new Date().getMonth(),currentWeek=0;
@@ -557,7 +573,7 @@ async function loadData(){
     const _zoneLoad=(window.OT_ZONE && OT.can && OT.can('zone_billing'))?OT_ZONE.load(cid):Promise.resolve();
     const[r1,r2,r3,r4,r5,r6,r7,r8]=await Promise.all([
       fetch(`${SB}/rest/v1/clients?company_id=eq.${cid}&order=nom`,{headers:H()}),
-      fetch(`${SB}/rest/v1/tournees?company_id=eq.${cid}&date=gte.${start}&date=lte.${end}&order=date&select=id,client_nom,chauffeur_nom,date,vehicule,slot,heure,commentaire,nb_points_estime,nb_heures_estime,nb_points_reel,nb_heures_reel,heure_debut_estime,heure_fin_estime,heure_debut_reel,heure_fin_reel,code_postal_livraison,ville_livraison,zone_lines`,{headers:H()}),
+      fetchAllRows(`${SB}/rest/v1/tournees?company_id=eq.${cid}&date=gte.${start}&date=lte.${end}&order=id&select=id,client_nom,chauffeur_nom,date,vehicule,slot,heure,commentaire,nb_points_estime,nb_heures_estime,nb_points_reel,nb_heures_reel,heure_debut_estime,heure_fin_estime,heure_debut_reel,heure_fin_reel,code_postal_livraison,ville_livraison,zone_lines`,H()).then(rows=>({ok:true,_rows:rows})).catch(()=>({ok:false,_rows:[]})),
       fetch(`${SB}/rest/v1/chauffeurs?company_id=eq.${cid}&order=nom&select=nom,type`,{headers:H()}),
       fetch(`${SB}/rest/v1/gazole_pleins?company_id=eq.${cid}&date=gte.${start}&date=lte.${end}&select=vehicule,montant`,{headers:H()}).catch(()=>({ok:false})),
       fetch(`${SB}/rest/v1/vehicules?company_id=eq.${cid}&select=immatriculation,assurance_mensuel,type_propriete,tarif_location`,{headers:H()}).catch(()=>({ok:false})),
@@ -566,7 +582,7 @@ async function loadData(){
       fetch(`${SB}/rest/v1/maintenance_vehicules?company_id=eq.${cid}&date_maintenance=gte.${start}&date_maintenance=lte.${end}&select=vehicule_immat,cout`,{headers:H()}).catch(()=>({ok:false}))
     ]);
     allClients=r1.ok?await r1.json():[];
-    allTournees=r2.ok?await r2.json():[];
+    allTournees=r2.ok?r2._rows:[];
     await _zoneLoad;
     allChauffeurs=r3.ok?await r3.json():[];
     allGazole=r4.ok?await r4.json():[];

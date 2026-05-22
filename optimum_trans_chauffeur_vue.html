@@ -695,6 +695,22 @@ function logout(){OT.logout();}
 const SB='https://kfdyqcbclueppmvkccdz.supabase.co';
 const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZHlxY2JjbHVlcHBtdmtjY2R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjAxNTQsImV4cCI6MjA5NDc5NjE1NH0.gj0eT27HcdkPw6fTZRBbSflVv5Yh1SPA9o8vAAiX_CU';
 function H(){return OT.authHeaders();}
+async function fetchAllRows(url, headers){
+  const PAGE=1000;
+  let offset=0, all=[];
+  while(true){
+    const h=Object.assign({},headers,{'Range-Unit':'items','Range':`${offset}-${offset+PAGE-1}`});
+    const r=await fetch(url,{headers:h,cache:'no-store'});
+    if(!r.ok) return all;
+    const chunk=await r.json();
+    if(!Array.isArray(chunk)||chunk.length===0) break;
+    all=all.concat(chunk);
+    if(chunk.length<PAGE) break;
+    offset+=PAGE;
+    if(offset>50000) break;
+  }
+  return all;
+}
 
 const DAYS_SHORT=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 const DAYS_FULL=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
@@ -924,8 +940,7 @@ async function loadWeek(){
     // Si chef du jour → charger TOUTES les tournées de la semaine (tous chauffeurs)
     // Sinon → seulement les siennes
     const filtreChauffeur=isChefDuJourToday?'':(`&chauffeur_nom=eq.${encodeURIComponent(chauffeurNom)}`);
-    const r=await fetch(`${SB}/rest/v1/tournees?company_id=eq.${companyId}${filtreChauffeur}&date=gte.${start}&date=lte.${end}&order=date,chauffeur_nom&select=id,chauffeur_nom,client_nom,date,slot,heure,vehicule,nb_points_estime,nb_heures_estime,nb_points_reel,nb_heures_reel,heure_debut_estime,heure_fin_estime,heure_debut_reel,heure_fin_reel,code_postal_livraison,ville_livraison,zone_lines`,{headers:H(),cache:'no-store'});
-    const data=await r.json();
+    const data=await fetchAllRows(`${SB}/rest/v1/tournees?company_id=eq.${companyId}${filtreChauffeur}&date=gte.${start}&date=lte.${end}&order=id&select=id,chauffeur_nom,client_nom,date,slot,heure,vehicule,nb_points_estime,nb_heures_estime,nb_points_reel,nb_heures_reel,heure_debut_estime,heure_fin_estime,heure_debut_reel,heure_fin_reel,code_postal_livraison,ville_livraison,zone_lines`,H());
     allTournees=Array.isArray(data)?data:[];
   }catch(e){allTournees=[];}
 
