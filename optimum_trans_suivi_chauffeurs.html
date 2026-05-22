@@ -16,7 +16,7 @@
 body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;display:flex;height:100vh;overflow:hidden}
 /* SIDEBAR */
 .sidebar{width:220px;background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;z-index:10}
-.sidebar-logo{padding:20px 16px 16px;cursor:pointer;border-bottom:1px solid var(--border)}
+.sidebar-logo{padding:0;cursor:pointer;border-bottom:1px solid var(--border);overflow:hidden}
 .logo-tag{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:2px}
 .logo-name{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;line-height:1.1}
 .logo-name span{color:var(--accent)}
@@ -121,7 +121,7 @@ body{background:var(--navy);color:var(--white);font-family:Outfit,sans-serif;dis
 
 <aside class="sidebar">
   <div class="sidebar-logo" onclick="window.location.href='optimum_trans_dashboard.html'" style="transition:opacity 0.2s" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-    <img src="lib/logo-mark.svg" alt="T.S" style="width:88px;height:auto;display:block;margin:4px auto;filter:drop-shadow(0 0 10px rgba(201,169,97,0.2))">
+    <img src="lib/logo-mark.svg" alt="T.S" style="width:100%;height:auto;display:block;">
   </div>
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
