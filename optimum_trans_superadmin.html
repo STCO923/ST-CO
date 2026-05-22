@@ -14,6 +14,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .topbar-title{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--white);letter-spacing:2px;}
 .content{padding:28px;max-width:1400px;margin:0 auto;}
 .btn-sm{padding:7px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+.field-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);font-family:'Bebas Neue',sans-serif;margin-bottom:5px;display:block;}
 .btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-weight:700;}
 .btn-accent:hover{transform:translateY(-1px);}
 .btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--gray);}
@@ -1153,7 +1154,11 @@ function filterCompanies(q){
 function updateKPIs(){
   const active=allCompanies.filter(c=>c.status==='active');
   document.getElementById('k-total').textContent=active.length;
-  const mrr=allCompanies.filter(c=>c.status==='active').reduce((s,c)=>s+Number((c.custom_price!=null&&c.custom_price!=='')?c.custom_price:c.price||0),0); // custom_price override le prix calculé
+  const mrr=allCompanies.filter(c=>c.status==='active').reduce((s,c)=>{
+    if(c.custom_price!=null&&c.custom_price!=='') return s+Number(c.custom_price);
+    const a=Number(c.max_admins||1),ch=Number(c.max_chefs||0),chauff=_actualChauffeurCounts[c.id]||0;
+    return s+(a*PRICE_ADMIN)+(ch*PRICE_CHEF)+(chauff*PRICE_CHAUFFEUR);
+  },0);
   document.getElementById('k-mrr').textContent=mrr.toLocaleString('fr-FR',{minimumFractionDigits:2})+'€';
   const dist=Object.entries(PLANS).map(([k,p])=>{const n=allCompanies.filter(c=>c.plan===k&&c.status==='active').length;return n?`${p.emoji}${p.nom}:${n}`:null;}).filter(Boolean).join(' · ')||'—';
   document.getElementById('k-plans').innerHTML=dist;
@@ -1888,11 +1893,13 @@ async function deleteUser(id,nom){
 // FACTURATION SAAS — Stripe
 // ══════════════════════════════════════════════
 
-// Tarification à la tête : 500€/admin + 299.99€/chauffeur
-// La facture est calculée dynamiquement via openSendInvoiceModal (custom_price recommandé)
+// Tarification à la tête
 const PLAN_PRICES_TTC = { starter:500, pro:500, business:500 };
 const PRICE_ADMIN     = 500;
+const PRICE_CHEF      = 330;
 const PRICE_CHAUFFEUR = 299.99;
+let   _actualChauffeurCounts = {};
+const esc = s => String(s).replace(/'/g,"&#39;").replace(/"/g,"&quot;");
 const PLAN_LABELS_FR  = { starter:'Essentiel 🥉', pro:'Pro 🥈', business:'Business 🥇' };
 const SB_FUNCTIONS_URL = 'https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1';
 
@@ -1916,10 +1923,16 @@ async function loadBillingData() {
   const tbody = document.getElementById('billing-tbody');
   tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px"><div class="spinner" style="margin:0 auto"></div></td></tr>`;
 
-  const [companies, subs] = await Promise.all([
-    fetch(`${SB}/rest/v1/sa_companies?order=name&select=id,name,plan,status,billing_email,stripe_customer_id,price,custom_price,max_admins,max_chauffeurs`, { headers: H() }).then(r=>r.json()),
-    fetch(`${SB}/rest/v1/saas_subscriptions?order=created_at.desc&select=*`, { headers: H() }).then(r=>r.json())
+  const [companies, subs, allChauffeurs] = await Promise.all([
+    fetch(`${SB}/rest/v1/sa_companies?order=name&select=id,name,plan,status,billing_email,stripe_customer_id,price,custom_price,max_admins,max_chefs,max_chauffeurs`, { headers: H() }).then(r=>r.json()),
+    fetch(`${SB}/rest/v1/saas_subscriptions?order=created_at.desc&select=*`, { headers: H() }).then(r=>r.json()),
+    fetch(`${SB}/rest/v1/chauffeurs?select=company_id`, { headers: H() }).then(r=>r.json()).catch(()=>[])
   ]);
+  // Comptes réels de chauffeurs par entreprise
+  _actualChauffeurCounts = {};
+  (Array.isArray(allChauffeurs)?allChauffeurs:[]).forEach(c => {
+    _actualChauffeurCounts[c.company_id] = (_actualChauffeurCounts[c.company_id]||0) + 1;
+  });
 
   // KPIs
   const pays = subs.filter(s => s.statut === 'payee');
@@ -1938,20 +1951,21 @@ async function loadBillingData() {
   tbody.innerHTML = '';
   companies.filter(c => c.status !== 'suspended').forEach(co => {
     const hasCustom    = co.custom_price != null && co.custom_price !== '';
-    const nbAdmins     = Number(co.max_admins     || 1);
-    const nbChauffeurs = Number(co.max_chauffeurs  || 0);
-    const prixCalcule  = (nbAdmins * PRICE_ADMIN) + (nbChauffeurs * PRICE_CHAUFFEUR);
+    const nbAdmins     = Number(co.max_admins || 1);
+    const nbChefs      = Number(co.max_chefs  || 0);
+    const nbChauffeurs = _actualChauffeurCounts[co.id] || 0;
+    const prixCalcule  = (nbAdmins * PRICE_ADMIN) + (nbChefs * PRICE_CHEF) + (nbChauffeurs * PRICE_CHAUFFEUR);
     const price        = hasCustom ? Number(co.custom_price) : prixCalcule;
     const lastSub = subs.find(s => s.company_id === co.id);
     const statut = lastSub?.statut || '—';
     const statutHtml = statut === 'payee' ? '<span style="color:#6B8E23;font-weight:600"> Payée</span>' : statut === 'envoyee' ? '<span style="color:#E8C66E;font-weight:600">Envoyée</span>' : statut === 'en_attente' ? '<span style="color:var(--accent);font-weight:600">⏳ En attente</span>' : statut === 'echouee' ? '<span style="color:#D88888;font-weight:600">Échouée</span>' : '<span style="color:var(--gray)">—</span>';
     const lastDate = lastSub ? new Date(lastSub.created_at).toLocaleDateString('fr-FR') : '—';
-    const detail = `${nbAdmins}×500€ + ${nbChauffeurs}×299,99€`;
+    const detail = `${nbAdmins}×500€ + ${nbChefs}×330€ + ${nbChauffeurs}×299,99€`;
 
     const tr = document.createElement('tr');
     tr.innerHTML = `<td style="font-weight:700;color:var(--white)">${co.name}</td>
       <td style="font-size:11px;color:var(--gray)" title="${detail}">
-        <span style="color:var(--accent)">${nbAdmins} admin${nbAdmins>1?'s':''}</span> · <span style="color:var(--white)">${nbChauffeurs} chauffeur${nbChauffeurs>1?'s':''}</span>
+        <span style="color:var(--accent)">${nbAdmins} admin${nbAdmins>1?'s':''}</span>${nbChefs?' · <span style="color:#9BB3D4">'+nbChefs+' chef'+(nbChefs>1?'s':'')+'</span>':''} · <span style="color:var(--white)">${nbChauffeurs} chauffeur${nbChauffeurs>1?'s':''}</span>
       </td>
       <td style="font-weight:700;color:#6B8E23" title="${detail}">${price.toLocaleString('fr-FR',{minimumFractionDigits:2})}€${hasCustom?' <span style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:4px">Manuel</span>':''}</td>
       <td>
@@ -1960,7 +1974,7 @@ async function loadBillingData() {
       <td style="font-size:11px;color:var(--gray)">${lastDate}</td>
       <td>${statutHtml}</td>
       <td style="white-space:nowrap;display:flex;gap:6px;flex-wrap:wrap">
-        <button class="btn-sm btn-accent" style="font-size:11px;padding:5px 10px" onclick="genererFactureInterne('${co.id}','${co.name}',${nbAdmins},${nbChauffeurs},${price},${hasCustom?1:0})">
+        <button class="btn-sm btn-accent" style="font-size:11px;padding:5px 10px" onclick="openFactureEditor('${co.id}','${esc(co.name)}',${nbAdmins},${nbChefs},${nbChauffeurs},${price},${hasCustom?1:0})">
           <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg> Facture
         </button>
         <button class="btn-sm btn-ghost" style="font-size:11px;padding:5px 10px" onclick="openSendInvoiceModal('${co.id}','${co.name}','${co.plan}','${co.stripe_customer_id||''}',${price})">
@@ -1972,16 +1986,81 @@ async function loadBillingData() {
   });
 }
 
-function genererFactureInterne(coId, coName, nbAdmins, nbChauffeurs, totalTTC, isCustom) {
+// ── Éditeur de facture interne ────────────────────
+let _feData = {};
+function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price, isCustom) {
+  const now = new Date();
+  _feData = { coId, coName, isCustom, price };
+  const m = document.getElementById('facture-editor-modal');
+  document.getElementById('fe-mois').value    = now.getMonth();
+  document.getElementById('fe-annee').value   = now.getFullYear();
+  document.getElementById('fe-admins').value  = nbAdmins;
+  document.getElementById('fe-chefs').value   = nbChefs;
+  document.getElementById('fe-chauff').value  = nbChauffeurs;
+  document.getElementById('fe-tva').value     = '20';
+  document.getElementById('fe-remise-type').value  = 'pct';
+  document.getElementById('fe-remise-val').value   = '0';
+  document.getElementById('fe-penalite-type').value= 'pct';
+  document.getElementById('fe-penalite-val').value = '0';
+  document.getElementById('fe-note').value    = '';
+  m.style.display = 'flex';
+  feUpdatePreview();
+}
+function closeFactureEditor() { document.getElementById('facture-editor-modal').style.display='none'; }
+function feUpdatePreview() {
+  const a=Number(document.getElementById('fe-admins').value)||0;
+  const ch=Number(document.getElementById('fe-chefs').value)||0;
+  const ca=Number(document.getElementById('fe-chauff').value)||0;
+  const tvaRate=Number(document.getElementById('fe-tva').value)||0;
+  const rType=document.getElementById('fe-remise-type').value;
+  const rVal=Number(document.getElementById('fe-remise-val').value)||0;
+  const pType=document.getElementById('fe-penalite-type').value;
+  const pVal=Number(document.getElementById('fe-penalite-val').value)||0;
+  let ht = +(a*PRICE_ADMIN + ch*PRICE_CHEF + ca*PRICE_CHAUFFEUR).toFixed(2);
+  const remise  = rType==='pct' ? +(ht*rVal/100).toFixed(2) : +rVal.toFixed(2);
+  const penalite= pType==='pct' ? +(ht*pVal/100).toFixed(2) : +pVal.toFixed(2);
+  ht = +(ht - remise + penalite).toFixed(2);
+  const tva = +(ht*tvaRate/100).toFixed(2);
+  const ttc = +(ht + tva).toFixed(2);
+  const ff = n => n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'€';
+  document.getElementById('fe-preview').innerHTML =
+    `<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;font-size:12px">
+      <div style="background:#1a1a1a;border-radius:6px;padding:8px;text-align:center"><div style="color:var(--gray);font-size:10px">Total HT</div><div style="color:var(--white);font-weight:700">${ff(ht)}</div></div>
+      <div style="background:#1a1a1a;border-radius:6px;padding:8px;text-align:center"><div style="color:var(--gray);font-size:10px">TVA ${tvaRate}%</div><div style="color:var(--white);font-weight:700">${ff(tva)}</div></div>
+      <div style="background:#1a1a1a;border-radius:6px;padding:8px;text-align:center"><div style="color:var(--gray);font-size:10px">Remise</div><div style="color:#D88888;font-weight:700">-${ff(remise)}</div></div>
+      <div style="background:#C9A961;border-radius:6px;padding:8px;text-align:center"><div style="color:#0A0A0A;font-size:10px">TOTAL TTC</div><div style="color:#0A0A0A;font-weight:800;font-size:14px">${ff(ttc)}</div></div>
+    </div>`;
+}
+function submitFactureEditor() {
+  const moisIdx=Number(document.getElementById('fe-mois').value);
+  const annee  =Number(document.getElementById('fe-annee').value);
+  const a =Number(document.getElementById('fe-admins').value)||0;
+  const ch=Number(document.getElementById('fe-chefs').value)||0;
+  const ca=Number(document.getElementById('fe-chauff').value)||0;
+  const tvaRate=Number(document.getElementById('fe-tva').value)||0;
+  const rType=document.getElementById('fe-remise-type').value;
+  const rVal=Number(document.getElementById('fe-remise-val').value)||0;
+  const pType=document.getElementById('fe-penalite-type').value;
+  const pVal=Number(document.getElementById('fe-penalite-val').value)||0;
+  const note=document.getElementById('fe-note').value.trim();
+  closeFactureEditor();
+  genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom);
+}
+
+function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom) {
+  const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  const moisNom = MOIS_FR[moisIdx];
   const now     = new Date();
-  const moisNom = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][now.getMonth()];
-  const annee   = now.getFullYear();
-  const num     = `TS-${annee}${String(now.getMonth()+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
-  const ligneAdmin  = nbAdmins * 500;
-  const ligneChauf  = +(nbChauffeurs * 299.99).toFixed(2);
-  const totalHT     = isCustom ? +(totalTTC / 1.2).toFixed(2) : +(ligneAdmin + ligneChauf).toFixed(2);
-  const tva         = +(totalHT * 0.2).toFixed(2);
-  const ttc         = isCustom ? totalTTC : +(totalHT + tva).toFixed(2);
+  const num     = `TS-${annee}${String(moisIdx+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
+  const ligneAdmin = nbAdmins * 500;
+  const ligneChef  = +(nbChefs  * 330).toFixed(2);
+  const ligneChauf = +(nbChauffeurs * 299.99).toFixed(2);
+  let   totalHT    = +(ligneAdmin + ligneChef + ligneChauf).toFixed(2);
+  const remise     = rType==='pct' ? +(totalHT*rVal/100).toFixed(2) : +Number(rVal).toFixed(2);
+  const penalite   = pType==='pct' ? +(totalHT*pVal/100).toFixed(2) : +Number(pVal).toFixed(2);
+  totalHT          = +(totalHT - remise + penalite).toFixed(2);
+  const tva        = +(totalHT * tvaRate / 100).toFixed(2);
+  const ttc        = +(totalHT + tva).toFixed(2);
   const f = n => n.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
 
   const html = `<!DOCTYPE html>
@@ -2089,16 +2168,19 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChauffeurs, totalTTC, i
     <tr><th>Description</th><th style="text-align:center">Qté</th><th style="text-align:right">P.U. HT</th><th style="text-align:right">Total HT</th></tr>
   </thead>
   <tbody>
-    ${isCustom ? `<tr><td>Abonnement T SERVICE &amp; CO — ${moisNom} ${annee}</td><td style="text-align:center">1</td><td style="text-align:right">${f(totalHT)}</td><td style="text-align:right">${f(totalHT)}</td></tr>` :
-    `<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${nbAdmins}</td><td style="text-align:right">${f(500)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>
-    <tr><td>Licence chauffeur — gestion tournées & suivi</td><td style="text-align:center">${nbChauffeurs}</td><td style="text-align:right">${f(299.99)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`}
+    ${nbAdmins>0?`<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${nbAdmins}</td><td style="text-align:right">${f(500)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>`:''}
+    ${nbChefs>0?`<tr><td>Licence chef d'équipe — supervision & dispatch</td><td style="text-align:center">${nbChefs}</td><td style="text-align:right">${f(330)}</td><td style="text-align:right">${f(ligneChef)}</td></tr>`:''}
+    ${nbChauffeurs>0?`<tr><td>Licence chauffeur — gestion tournées &amp; suivi</td><td style="text-align:center">${nbChauffeurs}</td><td style="text-align:right">${f(299.99)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`:''}
+    ${remise>0?`<tr style="color:#c0392b"><td>Remise${rType==='pct'?' ('+rVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">- ${f(remise)}</td></tr>`:''}
+    ${penalite>0?`<tr style="color:#e67e22"><td>Pénalité de retard${pType==='pct'?' ('+pVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">+ ${f(penalite)}</td></tr>`:''}
+    ${note?`<tr><td colspan="4" style="font-size:11px;color:#666;border-top:1px dashed #eee;padding-top:10px"><em>Note : ${note}</em></td></tr>`:''}
   </tbody>
 </table>
 
 <div class="totaux">
   <table>
     <tr class="ht"><td>Total HT</td><td style="text-align:right;font-weight:600">${f(totalHT)}</td></tr>
-    <tr class="tva"><td>TVA (20%)</td><td style="text-align:right">${f(tva)}</td></tr>
+    <tr class="tva"><td>TVA (${tvaRate}%)</td><td style="text-align:right">${f(tva)}</td></tr>
     <tr class="ttc"><td>TOTAL TTC</td><td style="text-align:right">${f(ttc)}</td></tr>
   </table>
 </div>
@@ -2114,6 +2196,20 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChauffeurs, totalTTC, i
   const w = window.open('', '_blank', 'width=900,height=720');
   w.document.write(html);
   w.document.close();
+
+  // Sauvegarde en base (suivi sans Stripe)
+  const periodeDebut = `${annee}-${String(moisIdx+1).padStart(2,'0')}-01`;
+  const _lastDay = new Date(annee, moisIdx+1, 0);
+  const periodeFin = `${_lastDay.getFullYear()}-${String(_lastDay.getMonth()+1).padStart(2,'0')}-${String(_lastDay.getDate()).padStart(2,'0')}`;
+  fetch(`${SB}/rest/v1/saas_subscriptions`, {
+    method:'POST', headers:{...H(),'Prefer':'return=minimal'},
+    body: JSON.stringify({
+      company_id: coId, plan: 'internal', numero_facture: num,
+      montant_ht: totalHT, montant_ttc: ttc, tva: tvaRate,
+      statut: 'en_attente', periode_debut: periodeDebut, periode_fin: periodeFin,
+      description_json: JSON.stringify({ nbAdmins, nbChefs, nbChauffeurs, remise, penalite, note, tvaRate })
+    })
+  }).then(() => loadInvoiceHistory()).catch(()=>{});
 }
 
 async function saveBillingEmail(companyId, email) {
@@ -2142,23 +2238,53 @@ async function loadInvoiceHistory() {
     return;
   }
 
-  subs.forEach((s, i) => {
-    const statutHtml = s.statut === 'payee' ? '<span style="color:#6B8E23;font-size:11px"> Payée</span>' : s.statut === 'envoyee' ? '<span style="color:#E8C66E;font-size:11px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Envoyée</span>' : s.statut === 'en_attente' ? '<span style="color:var(--accent);font-size:11px">⏳ En attente</span>' : '<span style="color:#D88888;font-size:11px"> Échouée</span>';
+  subs.forEach((s) => {
+    let statutLabel, statutColor;
+    switch(s.statut) {
+      case 'payee':      statutLabel='Payée';      statutColor='#6B8E23'; break;
+      case 'envoyee':    statutLabel='Envoyée';    statutColor='#E8C66E'; break;
+      case 'en_attente': statutLabel='En attente'; statutColor='var(--accent)'; break;
+      case 'annulee':    statutLabel='Annulée';    statutColor='#888'; break;
+      default:           statutLabel='Échouée';    statutColor='#D88888';
+    }
+    const statutHtml = `<span style="color:${statutColor};font-size:11px;font-weight:600">${statutLabel}</span>`;
+
+    const actions = [];
+    if (s.statut !== 'payee' && s.statut !== 'annulee') {
+      actions.push(`<button class="btn-sm" style="font-size:10px;padding:3px 8px;background:#6B8E23;color:#fff;border:none;border-radius:4px;cursor:pointer" onclick="setInvoiceStatut('${s.id}','payee')">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg> Payée</button>`);
+    }
+    if (s.statut !== 'annulee' && s.statut !== 'payee') {
+      actions.push(`<button class="btn-sm" style="font-size:10px;padding:3px 8px;background:transparent;color:#888;border:1px solid #444;border-radius:4px;cursor:pointer" onclick="setInvoiceStatut('${s.id}','annulee')">Annuler</button>`);
+    }
+    if (s.stripe_invoice_url) {
+      actions.push(`<a href="${s.stripe_invoice_url}" target="_blank" style="color:#E8C66E;font-size:11px;text-decoration:none">↗</a>`);
+    }
 
     const tr = document.createElement('tr');
-    tr.innerHTML = ` <td style="font-size:11px;color:var(--gray)">${s.numero_facture||'—'}</td>
+    tr.id = `inv-row-${s.id}`;
+    tr.innerHTML = `<td style="font-size:11px;color:var(--gray)">${s.numero_facture||'—'}</td>
       <td style="font-size:11px">${new Date(s.created_at).toLocaleDateString('fr-FR')}</td>
       <td style="font-weight:600;color:var(--white)">${coMap[s.company_id]||'—'}</td>
-      <td style="font-size:11px"><span style="background:rgba(26,79,191,0.2);color:#E8C66E;padding:2px 8px;border-radius:10px">${PLAN_LABELS_FR[s.plan]||s.plan}</span></td>
+      <td style="font-size:11px"><span style="background:rgba(201,169,97,0.1);color:#E8C66E;padding:2px 8px;border-radius:10px">${s.periode_debut?s.periode_debut.substring(0,7):s.plan}</span></td>
       <td style="font-weight:700;color:#6B8E23">${Number(s.montant_ttc||0).toLocaleString('fr-FR',{minimumFractionDigits:2})}€</td>
       <td>${statutHtml}</td>
       <td style="font-size:11px;color:var(--gray)">${s.email_sent_at ? new Date(s.email_sent_at).toLocaleDateString('fr-FR') : '—'}</td>
-      <td style="font-size:11px;color:var(--gray)">${s.paid_at ? new Date(s.paid_at).toLocaleDateString('fr-FR') : '—'}</td>
-      <td style="white-space:nowrap">
-        ${s.stripe_invoice_url ? `<a href="${s.stripe_invoice_url}" target="_blank" style="color:#E8C66E;font-size:11px">👁 Voir</a>` : '—'}
-      </td>`;
+      <td style="font-size:11px;color:${s.paid_at?'#6B8E23':'var(--gray)'}">${s.paid_at ? new Date(s.paid_at).toLocaleDateString('fr-FR') : '—'}</td>
+      <td style="white-space:nowrap;display:flex;gap:4px;flex-wrap:wrap">${actions.join('')}</td>`;
     tbody.appendChild(tr);
   });
+}
+
+async function setInvoiceStatut(invoiceId, newStatut) {
+  const patch = { statut: newStatut };
+  if (newStatut === 'payee') patch.paid_at = new Date().toISOString();
+  await fetch(`${SB}/rest/v1/saas_subscriptions?id=eq.${invoiceId}`, {
+    method: 'PATCH', headers: H(), body: JSON.stringify(patch)
+  });
+  toast(newStatut === 'payee' ? ' Facture marquée payée' : 'Facture annulée');
+  loadInvoiceHistory();
+  loadBillingData();
 }
 
 // ── Modal envoi facture ──────────────────────────
@@ -2570,6 +2696,100 @@ async function deleteSTTRelation(id, donorName, receiverName) {
 }
 
 </script>
+
+<!-- ── Éditeur de facture interne ─────────────────────── -->
+<div id="facture-editor-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);z-index:600;align-items:center;justify-content:center" onclick="if(event.target===this)closeFactureEditor()">
+  <div style="background:#141414;border:1px solid rgba(201,169,97,0.4);border-radius:16px;width:min(620px,96vw);padding:28px 28px 20px;position:relative;max-height:90vh;overflow-y:auto">
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#C9A961,#F1D27B,#C9A961);border-radius:16px 16px 0 0"></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--white);margin-bottom:4px">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#C9A961" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      ÉDITER LA FACTURE
+    </div>
+    <div style="font-size:11px;color:var(--gray);margin-bottom:20px">Période · Licences · Remise · Pénalité · TVA</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div class="field-lbl">Mois</div>
+        <select id="fe-mois" class="ii" style="width:100%" onchange="feUpdatePreview()">
+          <option value="0">Janvier</option><option value="1">Février</option><option value="2">Mars</option>
+          <option value="3">Avril</option><option value="4">Mai</option><option value="5">Juin</option>
+          <option value="6">Juillet</option><option value="7">Août</option><option value="8">Septembre</option>
+          <option value="9">Octobre</option><option value="10">Novembre</option><option value="11">Décembre</option>
+        </select>
+      </div>
+      <div>
+        <div class="field-lbl">Année</div>
+        <input type="number" id="fe-annee" class="ii" style="width:100%" min="2024" max="2099" onchange="feUpdatePreview()">
+      </div>
+    </div>
+
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:8px;font-family:'Bebas Neue',sans-serif">Licences</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div>
+        <div class="field-lbl">Admins</div>
+        <input type="number" id="fe-admins" class="ii" style="width:100%" min="0" onchange="feUpdatePreview()" oninput="feUpdatePreview()">
+        <div style="font-size:10px;color:var(--gray);margin-top:3px">× 500 €</div>
+      </div>
+      <div>
+        <div class="field-lbl">Chefs d'équipe</div>
+        <input type="number" id="fe-chefs" class="ii" style="width:100%" min="0" onchange="feUpdatePreview()" oninput="feUpdatePreview()">
+        <div style="font-size:10px;color:var(--gray);margin-top:3px">× 330 €</div>
+      </div>
+      <div>
+        <div class="field-lbl">Chauffeurs</div>
+        <input type="number" id="fe-chauff" class="ii" style="width:100%" min="0" onchange="feUpdatePreview()" oninput="feUpdatePreview()">
+        <div style="font-size:10px;color:var(--gray);margin-top:3px">× 299,99 €</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div>
+        <div class="field-lbl">Remise</div>
+        <div style="display:flex;gap:4px">
+          <select id="fe-remise-type" class="ii" style="width:64px;flex-shrink:0" onchange="feUpdatePreview()">
+            <option value="pct">%</option>
+            <option value="eur">€</option>
+          </select>
+          <input type="number" id="fe-remise-val" class="ii" style="flex:1" min="0" step="0.01" value="0" oninput="feUpdatePreview()">
+        </div>
+      </div>
+      <div>
+        <div class="field-lbl">Pénalité retard</div>
+        <div style="display:flex;gap:4px">
+          <select id="fe-penalite-type" class="ii" style="width:64px;flex-shrink:0" onchange="feUpdatePreview()">
+            <option value="pct">%</option>
+            <option value="eur">€</option>
+          </select>
+          <input type="number" id="fe-penalite-val" class="ii" style="flex:1" min="0" step="0.01" value="0" oninput="feUpdatePreview()">
+        </div>
+      </div>
+      <div>
+        <div class="field-lbl">Taux TVA</div>
+        <select id="fe-tva" class="ii" style="width:100%" onchange="feUpdatePreview()">
+          <option value="20">20 %</option>
+          <option value="5">5 %</option>
+          <option value="0">0 % (exonéré)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div class="field-lbl">Note libre (optionnel)</div>
+      <textarea id="fe-note" class="ii" rows="2" style="width:100%;resize:none" placeholder="Ex : régularisation mars, remise fidélité…"></textarea>
+    </div>
+
+    <!-- Aperçu totaux -->
+    <div id="fe-preview" style="margin-bottom:18px"></div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn-sm btn-ghost" onclick="closeFactureEditor()">Annuler</button>
+      <button class="btn-sm btn-accent" style="font-size:12px;padding:8px 18px" onclick="submitFactureEditor()">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        Générer la facture
+      </button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
