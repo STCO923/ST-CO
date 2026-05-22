@@ -1536,6 +1536,16 @@ window.addEventListener('load',async function(){
   }
   window.addEventListener('load', function(){ pageReady = true; tryExit(); });
   setTimeout(function(){ delayDone = true; tryExit(); }, 2500);
+
+  // bfcache : quand le navigateur restaure la page depuis l'historique,
+  // le splash peut être bloqué devant tout — on le cache immédiatement.
+  window.addEventListener('pageshow', function(e){
+    if(e.persisted){
+      alive = false;
+      splash.classList.add('exit');
+      splash.style.display = 'none';
+    }
+  });
 })();
 </script>
 
