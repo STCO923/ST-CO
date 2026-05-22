@@ -204,25 +204,116 @@
 
   /* Modals */
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px); z-index: 200;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px); z-index: 200;
     opacity: 0; pointer-events: none;
     transition: opacity 0.25s;
     display: grid; place-items: center;
+    padding: 16px;
   }
   .modal-overlay.open { opacity: 1; pointer-events: auto; }
   .modal-overlay .modal {
-    width: 100%; max-width: 440px;
-    background: linear-gradient(180deg, var(--bg-surface), var(--bg-elevated));
+    width: 100%; max-width: 460px;
+    background: linear-gradient(160deg, #161616, #111111);
     border: 1px solid var(--border-gold);
     border-radius: var(--radius-lg);
-    padding: 26px;
+    padding: 32px 28px 24px;
     transform: translateY(20px) scale(0.96);
-    transition: transform 0.25s;
-    box-shadow: var(--shadow-deep);
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: var(--shadow-deep), 0 0 60px rgba(201,169,97,0.08);
     position: relative;
+    overflow: hidden;
+  }
+  .modal-overlay .modal::before {
+    content:''; position:absolute; top:0; left:50%;
+    transform:translateX(-50%); width:60%; height:1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
   }
   .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+  /* Modal form elements */
+  .modal-title {
+    font-family: var(--font-serif);
+    font-size: 1.15rem; font-weight: 600;
+    color: var(--gold); letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .modal-sub {
+    font-size: 0.82rem; color: var(--text-muted);
+    margin-bottom: 22px; line-height: 1.5;
+  }
+  .modal-divider {
+    height: 1px; background: var(--border-gold);
+    opacity: 0.4; margin: 0 -28px 22px;
+  }
+  .field-lbl {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    color: var(--gold); text-transform: uppercase;
+    margin: 14px 0 6px;
+  }
+  .field-lbl:first-child, .field-lbl[style*="margin-top:0"] { margin-top: 0; }
+  .modal-input, .modal-textarea {
+    width: 100%;
+    padding: 11px 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,169,97,0.2);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-family: var(--font-sans); font-size: 0.88rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .modal-input::placeholder, .modal-textarea::placeholder { color: var(--text-faint); }
+  .modal-input:focus, .modal-textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,169,97,0.1);
+    background: rgba(255,255,255,0.06);
+  }
+  .modal-textarea { min-height: 100px; resize: vertical; }
+  .modal-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn-send {
+    width: 100%; margin-top: 20px;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold) 60%, var(--gold-dim));
+    border: none; border-radius: var(--radius);
+    color: var(--bg-deep);
+    font-family: var(--font-serif); font-size: 0.85rem;
+    font-weight: 700; letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    cursor: pointer; transition: all 0.25s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-send:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-light));
+    box-shadow: 0 4px 20px rgba(201,169,97,0.35);
+    transform: translateY(-1px);
+  }
+  .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-reset {
+    width: 100%; margin-top: 14px;
+    padding: 12px;
+    background: rgba(201,169,97,0.08);
+    border: 1px solid var(--border-gold);
+    border-radius: var(--radius);
+    color: var(--gold);
+    font-family: var(--font-serif); font-size: 0.82rem;
+    font-weight: 600; letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-reset:hover { background: rgba(201,169,97,0.14); border-color: var(--gold); }
+  .modal-cancel {
+    display: block; text-align: center; margin-top: 12px;
+    font-size: 0.8rem; color: var(--text-faint);
+    cursor: pointer; transition: color 0.2s;
+  }
+  .modal-cancel:hover { color: var(--text-muted); }
 
   @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr; gap: 28px; padding: 28px 20px 80px; }
@@ -477,10 +568,14 @@ document.getElementById('f-email').addEventListener('keydown',e=>{ if(e.key==='E
 
     <!-- Formulaire -->
     <div id="contact-form-zone">
-      <div class="modal-title">📩 NOUS CONTACTER</div>
+      <div class="modal-title">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Nous contacter
+      </div>
       <div class="modal-sub">Remplissez ce formulaire, nous vous répondrons sous 24h.</div>
+      <div class="modal-divider"></div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="modal-form-grid">
         <div>
           <label class="field-lbl" style="margin-top:0">Nom *</label>
           <input type="text" class="modal-input" id="c-nom" placeholder="Votre nom" maxlength="80" autocomplete="name">
@@ -495,25 +590,34 @@ document.getElementById('f-email').addEventListener('keydown',e=>{ if(e.key==='E
       <input type="email" class="modal-input" id="c-email" placeholder="votre@email.com" maxlength="120" autocomplete="email">
 
       <label class="field-lbl">Téléphone</label>
-      <input type="tel" class="modal-input" id="c-tel" placeholder="06 xx xx xx xx" maxlength="25" autocomplete="tel">
+      <input type="tel" class="modal-input" id="c-tel" placeholder="+33 6 xx xx xx xx" maxlength="25" autocomplete="tel">
 
       <label class="field-lbl">Message *</label>
       <textarea class="modal-textarea" id="c-message" placeholder="Décrivez votre besoin : nombre de chauffeurs, véhicules, tournées par mois..." maxlength="2000"></textarea>
-      <!-- Honeypot anti-bot : invisible pour les humains -->
+
+      <!-- Honeypot anti-bot -->
       <input type="text" id="c-hp" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
 
-      <div id="contact-error" style="display:none;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:8px 12px;font-size:12px;color:#D88888;margin-bottom:8px"></div>
+      <div id="contact-error" style="display:none;background:rgba(139,44,44,0.12);border:1px solid rgba(139,44,44,0.3);border-radius:8px;padding:9px 13px;font-size:12px;color:#D88;margin-top:12px"></div>
 
-      <button class="btn-send" id="btn-send" onclick="sendContact()">📩 Envoyer le message</button>
+      <button class="btn-send" id="btn-send" onclick="sendContact()">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Envoyer le message
+      </button>
       <span class="modal-cancel" onclick="closeContact()">Annuler</span>
     </div>
 
     <!-- Succès -->
-    <div id="contact-success" style="display:none;text-align:center;padding:10px">
-      <div style="font-size:48px;margin-bottom:14px"></div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--white);letter-spacing:2px;margin-bottom:8px">MESSAGE ENVOYÉ !</div>
-      <div style="font-size:13px;color:var(--gray);line-height:1.8;margin-bottom:20px">Merci pour votre intérêt !<br>Nous vous répondrons sous <strong style="color:var(--white)">24h</strong>.</div>
-      <button class="btn-reset" onclick="closeContact()"> Fermer</button>
+    <div id="contact-success" style="display:none;text-align:center;padding:20px 10px">
+      <div style="width:56px;height:56px;margin:0 auto 16px;border-radius:50%;background:rgba(201,169,97,0.12);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5" width="28" height="28"><polyline points="20,6 9,17 4,12"/></svg>
+      </div>
+      <div style="font-family:var(--font-serif);font-size:1.2rem;color:var(--gold);letter-spacing:var(--tracking-wide);text-transform:uppercase;margin-bottom:8px">Message envoyé</div>
+      <div style="font-size:0.84rem;color:var(--text-muted);line-height:1.8;margin-bottom:20px">Merci pour votre intérêt.<br>Nous vous répondrons sous <strong style="color:var(--text-primary)">24h</strong>.</div>
+      <button class="btn-reset" onclick="closeContact()">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Fermer
+      </button>
     </div>
 
   </div>
