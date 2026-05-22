@@ -279,10 +279,9 @@ const OT = (() => {
   };
   function can(feature){
     const s=getSession();if(!s)return false;if(s.id==='demo'){if(feature==='saisie'||feature==='feuille_route'||feature==='monmarche')return false;return true;}
-    if(s.role==='superadmin'||s.role==='admin')return true;
+    if(s.role==='superadmin')return true;
     if(feature==='feuille_route')return s.addon_route===true;
-    // ── FIX : addon_saisie override ──
-    if(feature==='saisie')return s.addon_saisie===true;
+    if(feature==='saisie')return (PLAN_MODULES[s.plan]||PLAN_MODULES.starter).saisie===true||s.addon_saisie===true;
     if(feature==='monmarche')return s.addon_monmarche===true;
     if(feature==='dispatch')return s.addon_dispatch===true;
     if(feature==='tracking')return s.addon_tracking===true;if(feature==='etat_vehicule')return s.addon_etat_vehicule===true;
