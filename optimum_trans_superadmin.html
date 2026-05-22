@@ -423,62 +423,47 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 
     <div class="plans-page">
       <h1>T SERVICE & CO — Grille Tarifaire 2026</h1>
-      <p class="plans-subtitle">Solutions de gestion de transport sur mesure pour votre entreprise</p>
+      <p class="plans-subtitle">Tarification à la tête — facturation mensuelle basée sur les effectifs réels</p>
 
-      <div class="plans-cards">
-        <!-- Essentiel -->
-        <div class="plan-card">
-          <h2>🥉 Essentiel</h2>
-          <div class="plan-price">1500€ <span>/mois HT</span></div>
-          <ul>
-            <li class="feat-ok">Tableau de bord & KPIs</li>
-            <li class="feat-ok">Planning semaine complet</li>
-            <li class="feat-ok">Saisie des tournées</li>
-            <li class="feat-ok">Parc véhicules</li>
-            <li class="feat-ok">Clients & Export CSV</li>
-            <li class="feat-ok">RH, Contrats & Fiches de paie</li>
-            <li class="feat-ok">Paramètres entreprise</li>
-            <li class="feat-ok"> IA Analyst (inclus)</li>
-            <li class="feat-no">WhatsApp chauffeurs</li>
-            <li class="feat-no">Facturation Excel</li>
-            <li class="feat-no">Chauffeurs & Salaires</li>
-            <li class="feat-no">Suivi Gazole</li>
-          </ul>
-        </div>
-        <!-- Pro -->
+      <div class="plans-cards" style="grid-template-columns:1fr 1fr;max-width:720px;margin:0 auto 32px">
+        <!-- Admin -->
         <div class="plan-card popular">
-          <div class="plan-badge">POPULAIRE</div>
-          <h2>🥈 Pro</h2>
-          <div class="plan-price">2500€ <span>/mois HT</span></div>
+          <div class="plan-badge">COMPTE ADMIN</div>
+          <h2><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:28px;height:28px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Administrateur</h2>
+          <div class="plan-price">500€ <span>/compte / mois</span></div>
           <ul>
-            <li class="feat-ok">Tout Essentiel</li>
-            <li class="feat-ok">WhatsApp tournées par chauffeur</li>
-            <li class="feat-ok">WhatsApp groupé toutes tournées</li>
-            <li class="feat-ok">Facturation Excel par client</li>
-            <li class="feat-ok">Chauffeurs & Salaires</li>
-            <li class="feat-ok">Validation tournées + pénalités</li>
-            <li class="feat-ok">Export CSV salaires & tournées</li>
-            <li class="feat-ok"> IA Analyst (inclus)</li>
-            <li class="feat-no">Suivi Gazole</li>
-            <li class="feat-no">Export Excel gazole</li>
-            <li class="feat-no">WhatsApp récap salaire</li>
+            <li class="feat-ok">Accès complet tableau de bord</li>
+            <li class="feat-ok">Gestion planning & tournées</li>
+            <li class="feat-ok">Saisie & validation</li>
+            <li class="feat-ok">RH, contrats, salaires</li>
+            <li class="feat-ok">Clients & facturation</li>
+            <li class="feat-ok">Paramètres entreprise</li>
+            <li class="feat-ok">IA Analyst inclus</li>
           </ul>
+          <div style="margin-top:16px;padding:10px 14px;background:rgba(201,169,97,0.08);border:1px solid rgba(201,169,97,0.2);border-radius:8px;font-size:12px;color:var(--accent)">
+            Exemple : 2 admins = <strong>1 000 € / mois</strong>
+          </div>
         </div>
-        <!-- Business -->
+        <!-- Chauffeur -->
         <div class="plan-card">
-          <h2>🥇 Business</h2>
-          <div class="plan-price">3500€ <span>/mois HT</span></div>
+          <h2><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:28px;height:28px"><rect x="1" y="3" width="15" height="13"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Chauffeur</h2>
+          <div class="plan-price">299,99€ <span>/chauffeur / mois</span></div>
           <ul>
-            <li class="feat-ok">Tout Pro</li>
-            <li class="feat-ok">Suivi Gazole par chauffeur</li>
-            <li class="feat-ok">Export Excel gazole</li>
-            <li class="feat-ok">WhatsApp récap salaire mensuel</li>
-            <li class="feat-ok">Export CSV salaires complet</li>
-            <li class="feat-ok">2 admins + 5 chefs d'équipe</li>
-            <li class="feat-ok">Chauffeurs illimités</li>
-            <li class="feat-ok"> IA Analyst (inclus)</li>
+            <li class="feat-ok">Facturé par chauffeur enregistré</li>
+            <li class="feat-ok">Compte utilisateur optionnel</li>
+            <li class="feat-ok">Basé sur l'effectif réel</li>
+            <li class="feat-ok">WhatsApp tournées inclus</li>
+            <li class="feat-ok">Fiche salaire mensuelle</li>
+            <li class="feat-ok">Suivi activité & KPIs</li>
           </ul>
+          <div style="margin-top:16px;padding:10px 14px;background:rgba(201,169,97,0.08);border:1px solid rgba(201,169,97,0.2);border-radius:8px;font-size:12px;color:var(--accent)">
+            Exemple : 45 chauffeurs = <strong>13 499,55 € / mois</strong>
+          </div>
         </div>
+      </div>
+
+      <div style="max-width:720px;margin:0 auto 32px;padding:16px 20px;background:rgba(201,169,97,0.06);border:1px solid rgba(201,169,97,0.25);border-radius:12px;font-size:13px;color:var(--white)">
+        <strong style="color:var(--accent)">Exemple complet :</strong> 2 admins + 45 chauffeurs = (2 × 500 €) + (45 × 299,99 €) = <strong style="color:#6B8E23;font-size:15px"> 14 499,55 € / mois</strong>
       </div>
 
       <!-- Addons -->
@@ -1903,7 +1888,11 @@ async function deleteUser(id,nom){
 // FACTURATION SAAS — Stripe
 // ══════════════════════════════════════════════
 
-const PLAN_PRICES_TTC = { starter:1500, pro:2500, business:3500 };
+// Tarification à la tête : 500€/admin + 299.99€/chauffeur
+// La facture est calculée dynamiquement via openSendInvoiceModal (custom_price recommandé)
+const PLAN_PRICES_TTC = { starter:500, pro:500, business:500 };
+const PRICE_ADMIN     = 500;
+const PRICE_CHAUFFEUR = 299.99;
 const PLAN_LABELS_FR  = { starter:'Essentiel 🥉', pro:'Pro 🥈', business:'Business 🥇' };
 const SB_FUNCTIONS_URL = 'https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1';
 
