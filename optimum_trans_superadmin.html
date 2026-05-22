@@ -421,6 +421,7 @@ select option:checked{background:#2a2a2a !important;}
         .addons-section, .ai-section { page-break-inside:avoid; break-inside:avoid; }
         .addons-section h3, .ai-section h3 { page-break-after:avoid; break-after:avoid; }
         .plans-footer { margin-top:12px !important; }
+        .no-print-plans { display:none !important; }
       }
     </style>
 
@@ -428,12 +429,20 @@ select option:checked{background:#2a2a2a !important;}
       <h1>T SERVICE & CO — Grille Tarifaire 2026</h1>
       <p class="plans-subtitle">Tarification à la tête — facturation mensuelle basée sur les effectifs réels</p>
 
-      <div class="plans-cards" style="grid-template-columns:1fr 1fr;max-width:720px;margin:0 auto 32px">
+      <!-- Toggle devise -->
+      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px;align-items:center" class="no-print-plans">
+        <span style="font-size:12px;color:var(--gray)">Devise :</span>
+        <button id="pg-btn-eur" onclick="setPlansCurrency('EUR')" style="padding:7px 20px;border-radius:8px;border:1px solid #C9A961;background:#C9A961;color:#0A0A0A;font-weight:700;font-size:13px;cursor:pointer">€ EUR</button>
+        <button id="pg-btn-xof" onclick="setPlansCurrency('XOF')" style="padding:7px 20px;border-radius:8px;border:1px solid #3A3328;background:transparent;color:var(--gray);font-weight:700;font-size:13px;cursor:pointer">F CFA (XOF)</button>
+        <span id="pg-rate" style="font-size:11px;color:var(--gray)">1 EUR = 655,957 XOF</span>
+      </div>
+
+      <div class="plans-cards" style="grid-template-columns:repeat(3,1fr);max-width:1060px;margin:0 auto 32px">
         <!-- Admin -->
         <div class="plan-card popular">
           <div class="plan-badge">COMPTE ADMIN</div>
-          <h2><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:28px;height:28px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Administrateur</h2>
-          <div class="plan-price">500€ <span>/compte / mois</span></div>
+          <h2><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Administrateur</h2>
+          <div class="plan-price"><span id="pg-price-admin">500€</span> <span id="pg-unit-admin" style="font-size:.9rem;font-weight:400;color:var(--gray)">/compte / mois</span></div>
           <ul>
             <li class="feat-ok">Accès complet tableau de bord</li>
             <li class="feat-ok">Gestion planning & tournées</li>
@@ -444,13 +453,30 @@ select option:checked{background:#2a2a2a !important;}
             <li class="feat-ok">IA Analyst inclus</li>
           </ul>
           <div style="margin-top:16px;padding:10px 14px;background:rgba(201,169,97,0.08);border:1px solid rgba(201,169,97,0.2);border-radius:8px;font-size:12px;color:var(--accent)">
-            Exemple : 2 admins = <strong>1 000 € / mois</strong>
+            Exemple : 2 admins = <strong id="pg-ex-admin">1 000 € / mois</strong>
+          </div>
+        </div>
+        <!-- Chef d'équipe -->
+        <div class="plan-card">
+          <div class="plan-badge" style="background:rgba(155,179,212,0.9);color:#0A0A0A">CHEF D'ÉQUIPE</div>
+          <h2><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Chef d'équipe</h2>
+          <div class="plan-price"><span id="pg-price-chef">330€</span> <span style="font-size:.9rem;font-weight:400;color:var(--gray)">/compte / mois</span></div>
+          <ul>
+            <li class="feat-ok">Supervision tournées & chauffeurs</li>
+            <li class="feat-ok">Dispatch & affectations</li>
+            <li class="feat-ok">Validation feuilles de route</li>
+            <li class="feat-ok">Accès planning équipe</li>
+            <li class="feat-ok">Rapports d'activité</li>
+            <li class="feat-ok">Messagerie interne</li>
+          </ul>
+          <div style="margin-top:16px;padding:10px 14px;background:rgba(155,179,212,0.08);border:1px solid rgba(155,179,212,0.2);border-radius:8px;font-size:12px;color:#9BB3D4">
+            Exemple : 5 chefs = <strong id="pg-ex-chef">1 650 € / mois</strong>
           </div>
         </div>
         <!-- Chauffeur -->
         <div class="plan-card">
-          <h2><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:28px;height:28px"><rect x="1" y="3" width="15" height="13"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Chauffeur</h2>
-          <div class="plan-price">299,99€ <span>/chauffeur / mois</span></div>
+          <h2><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px"><rect x="1" y="3" width="15" height="13"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Chauffeur</h2>
+          <div class="plan-price"><span id="pg-price-chauff">299,99€</span> <span style="font-size:.9rem;font-weight:400;color:var(--gray)">/chauffeur / mois</span></div>
           <ul>
             <li class="feat-ok">Facturé par chauffeur enregistré</li>
             <li class="feat-ok">Compte utilisateur optionnel</li>
@@ -460,13 +486,13 @@ select option:checked{background:#2a2a2a !important;}
             <li class="feat-ok">Suivi activité & KPIs</li>
           </ul>
           <div style="margin-top:16px;padding:10px 14px;background:rgba(201,169,97,0.08);border:1px solid rgba(201,169,97,0.2);border-radius:8px;font-size:12px;color:var(--accent)">
-            Exemple : 45 chauffeurs = <strong>13 499,55 € / mois</strong>
+            Exemple : 45 chauffeurs = <strong id="pg-ex-chauff">13 499,55 € / mois</strong>
           </div>
         </div>
       </div>
 
-      <div style="max-width:720px;margin:0 auto 32px;padding:16px 20px;background:rgba(201,169,97,0.06);border:1px solid rgba(201,169,97,0.25);border-radius:12px;font-size:13px;color:var(--white)">
-        <strong style="color:var(--accent)">Exemple complet :</strong> 2 admins + 45 chauffeurs = (2 × 500 €) + (45 × 299,99 €) = <strong style="color:#6B8E23;font-size:15px"> 14 499,55 € / mois</strong>
+      <div style="max-width:1060px;margin:0 auto 32px;padding:16px 20px;background:rgba(201,169,97,0.06);border:1px solid rgba(201,169,97,0.25);border-radius:12px;font-size:13px;color:var(--white)" id="pg-example-full">
+        <strong style="color:var(--accent)">Exemple complet :</strong> 2 admins + 5 chefs + 45 chauffeurs = <strong style="color:#6B8E23;font-size:15px" id="pg-ex-total"> 16 149,55 € / mois</strong>
       </div>
 
       <!-- Addons -->
@@ -506,7 +532,7 @@ select option:checked{background:#2a2a2a !important;}
         </div>
       </div>
 
-      <button class="plans-dl-btn" onclick="window.print()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Télécharger PDF</button>
+      <button class="plans-dl-btn no-print-plans" onclick="window.print()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Télécharger PDF</button>
 
       <div class="plans-footer">T SERVICE & CO — tserviceco5@gmail.com</div>
     </div>
@@ -1923,6 +1949,30 @@ function switchSATab(name, el) {
 // Stripe key gérée côté serveur (Edge Function Supabase)
 function checkStripeConfig() { /* clé côté serveur */ }
 function saveStripeKey() { /* clé côté serveur */ }
+
+// ── Grille tarifaire : toggle devise ──
+let _pgCurrency = 'EUR';
+function setPlansCurrency(cur) {
+  _pgCurrency = cur;
+  const isXOF = cur === 'XOF';
+  const r = n => isXOF ? Math.round(n * EUR_TO_XOF) : n;
+  const sym = isXOF ? ' F CFA' : ' €';
+  const fmt = n => r(n).toLocaleString('fr-FR', {minimumFractionDigits: isXOF?0:2, maximumFractionDigits: isXOF?0:2}) + sym;
+
+  document.getElementById('pg-btn-eur').style.cssText = `padding:7px 20px;border-radius:8px;border:1px solid ${isXOF?'#3A3328':'#C9A961'};background:${isXOF?'transparent':'#C9A961'};color:${isXOF?'var(--gray)':'#0A0A0A'};font-weight:700;font-size:13px;cursor:pointer`;
+  document.getElementById('pg-btn-xof').style.cssText = `padding:7px 20px;border-radius:8px;border:1px solid ${isXOF?'#C9A961':'#3A3328'};background:${isXOF?'#C9A961':'transparent'};color:${isXOF?'#0A0A0A':'var(--gray)'};font-weight:700;font-size:13px;cursor:pointer`;
+
+  document.getElementById('pg-price-admin').textContent  = fmt(500);
+  document.getElementById('pg-price-chef').textContent   = fmt(330);
+  document.getElementById('pg-price-chauff').textContent = isXOF ? r(299.99).toLocaleString('fr-FR') + ' F CFA' : '299,99 €';
+  document.getElementById('pg-ex-admin').textContent     = fmt(2*500) + ' / mois';
+  document.getElementById('pg-ex-chef').textContent      = fmt(5*330) + ' / mois';
+  document.getElementById('pg-ex-chauff').textContent    = (isXOF ? r(45*299.99).toLocaleString('fr-FR')+' F CFA' : (45*299.99).toLocaleString('fr-FR',{minimumFractionDigits:2})+'€') + ' / mois';
+  const total = 2*500 + 5*330 + 45*299.99;
+  document.getElementById('pg-ex-total').textContent = (isXOF ? r(total).toLocaleString('fr-FR')+' F CFA' : total.toLocaleString('fr-FR',{minimumFractionDigits:2})+'€') + ' / mois';
+  if(isXOF) document.getElementById('pg-rate').textContent='Taux fixe BCEAO : 1 EUR = 655,957 XOF';
+  else document.getElementById('pg-rate').textContent='1 EUR = 655,957 XOF';
+}
 
 const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
