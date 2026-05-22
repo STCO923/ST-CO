@@ -403,7 +403,8 @@ const OT = (() => {
     if (!s) return;
 
     // 1. Masquer la sidebar Super Admin pour les clients
-    document.querySelectorAll('a[href="' + SUPERADMIN_PAGE + '"]').forEach(function(el) {
+    //    (mais préserver le bouton flottant #ot-sa-btn créé ci-dessous)
+    document.querySelectorAll('a[href="' + SUPERADMIN_PAGE + '"]:not(#ot-sa-btn)').forEach(function(el) {
       el.style.display = 'none';
     });
 
