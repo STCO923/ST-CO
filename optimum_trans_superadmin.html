@@ -1917,7 +1917,7 @@ async function loadBillingData() {
   tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px"><div class="spinner" style="margin:0 auto"></div></td></tr>`;
 
   const [companies, subs] = await Promise.all([
-    fetch(`${SB}/rest/v1/sa_companies?order=name&select=id,name,plan,status,billing_email,stripe_customer_id,price,custom_price`, { headers: H() }).then(r=>r.json()),
+    fetch(`${SB}/rest/v1/sa_companies?order=name&select=id,name,plan,status,billing_email,stripe_customer_id,price,custom_price,max_admins,max_chauffeurs`, { headers: H() }).then(r=>r.json()),
     fetch(`${SB}/rest/v1/saas_subscriptions?order=created_at.desc&select=*`, { headers: H() }).then(r=>r.json())
   ]);
 
@@ -1937,31 +1937,183 @@ async function loadBillingData() {
 
   tbody.innerHTML = '';
   companies.filter(c => c.status !== 'suspended').forEach(co => {
-    const hasCustom = co.custom_price != null && co.custom_price !== '';
-    const price = hasCustom ? Number(co.custom_price) : (PLAN_PRICES_TTC[co.plan] || 1500);
+    const hasCustom    = co.custom_price != null && co.custom_price !== '';
+    const nbAdmins     = Number(co.max_admins     || 1);
+    const nbChauffeurs = Number(co.max_chauffeurs  || 0);
+    const prixCalcule  = (nbAdmins * PRICE_ADMIN) + (nbChauffeurs * PRICE_CHAUFFEUR);
+    const price        = hasCustom ? Number(co.custom_price) : prixCalcule;
     const lastSub = subs.find(s => s.company_id === co.id);
     const statut = lastSub?.statut || '—';
-    const statutHtml = statut === 'payee' ? '<span style="color:#6B8E23;font-weight:600"> Payée</span>' : statut === 'envoyee' ? '<span style="color:#E8C66E;font-weight:600"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Envoyée</span>' : statut === 'en_attente' ? '<span style="color:var(--accent);font-weight:600">⏳ En attente</span>' : statut === 'echouee' ? '<span style="color:#D88888;font-weight:600"> Échouée</span>' : '<span style="color:var(--gray)">— Jamais facturé</span>';
-
+    const statutHtml = statut === 'payee' ? '<span style="color:#6B8E23;font-weight:600"> Payée</span>' : statut === 'envoyee' ? '<span style="color:#E8C66E;font-weight:600">Envoyée</span>' : statut === 'en_attente' ? '<span style="color:var(--accent);font-weight:600">⏳ En attente</span>' : statut === 'echouee' ? '<span style="color:#D88888;font-weight:600">Échouée</span>' : '<span style="color:var(--gray)">—</span>';
     const lastDate = lastSub ? new Date(lastSub.created_at).toLocaleDateString('fr-FR') : '—';
+    const detail = `${nbAdmins}×500€ + ${nbChauffeurs}×299,99€`;
 
     const tr = document.createElement('tr');
-    tr.innerHTML = ` <td style="font-weight:700;color:var(--white)">${co.name}</td>
-      <td><span style="background:rgba(26,79,191,0.2);color:#E8C66E;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600">${PLAN_LABELS_FR[co.plan]||co.plan}</span></td>
-      <td style="font-weight:700;color:#6B8E23">${price.toLocaleString('fr-FR',{minimumFractionDigits:2})}€ TTC${hasCustom?' <span title="Prix personnalisé" style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:4px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Manuel</span>':''}</td>
+    tr.innerHTML = `<td style="font-weight:700;color:var(--white)">${co.name}</td>
+      <td style="font-size:11px;color:var(--gray)" title="${detail}">
+        <span style="color:var(--accent)">${nbAdmins} admin${nbAdmins>1?'s':''}</span> · <span style="color:var(--white)">${nbChauffeurs} chauffeur${nbChauffeurs>1?'s':''}</span>
+      </td>
+      <td style="font-weight:700;color:#6B8E23" title="${detail}">${price.toLocaleString('fr-FR',{minimumFractionDigits:2})}€${hasCustom?' <span style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:4px">Manuel</span>':''}</td>
       <td>
-        <input type="email" class="ii" style="font-size:11px;padding:5px 8px;width:200px" id="email-${co.id}" value="${co.billing_email||''}" placeholder="email@client.fr" onblur="saveBillingEmail('${co.id}',this.value)">
+        <input type="email" class="ii" style="font-size:11px;padding:5px 8px;width:180px" id="email-${co.id}" value="${co.billing_email||''}" placeholder="email@client.fr" onblur="saveBillingEmail('${co.id}',this.value)">
       </td>
       <td style="font-size:11px;color:var(--gray)">${lastDate}</td>
       <td>${statutHtml}</td>
-      <td style="white-space:nowrap">
-        <button class="btn-sm btn-accent" style="font-size:11px;padding:5px 12px" onclick="openSendInvoiceModal('${co.id}','${co.name}','${co.plan}','${co.stripe_customer_id||''}',${hasCustom?Number(co.custom_price):'null'})">
-          🧾 Facturer
+      <td style="white-space:nowrap;display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn-sm btn-accent" style="font-size:11px;padding:5px 10px" onclick="genererFactureInterne('${co.id}','${co.name}',${nbAdmins},${nbChauffeurs},${price},${hasCustom?1:0})">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg> Facture
         </button>
-        ${lastSub?.stripe_invoice_url ? `<a href="${lastSub.stripe_invoice_url}" target="_blank" class="btn-sm btn-ghost" style="font-size:11px;padding:5px 12px;text-decoration:none;display:inline-block;margin-left:4px">👁 Voir</a>` : ''}
+        <button class="btn-sm btn-ghost" style="font-size:11px;padding:5px 10px" onclick="openSendInvoiceModal('${co.id}','${co.name}','${co.plan}','${co.stripe_customer_id||''}',${price})">
+          Stripe
+        </button>
+        ${lastSub?.stripe_invoice_url ? `<a href="${lastSub.stripe_invoice_url}" target="_blank" class="btn-sm btn-ghost" style="font-size:11px;padding:5px 8px;text-decoration:none">👁</a>` : ''}
       </td>`;
     tbody.appendChild(tr);
   });
+}
+
+function genererFactureInterne(coId, coName, nbAdmins, nbChauffeurs, totalTTC, isCustom) {
+  const now     = new Date();
+  const moisNom = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][now.getMonth()];
+  const annee   = now.getFullYear();
+  const num     = `TS-${annee}${String(now.getMonth()+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
+  const ligneAdmin  = nbAdmins * 500;
+  const ligneChauf  = +(nbChauffeurs * 299.99).toFixed(2);
+  const totalHT     = isCustom ? +(totalTTC / 1.2).toFixed(2) : +(ligneAdmin + ligneChauf).toFixed(2);
+  const tva         = +(totalHT * 0.2).toFixed(2);
+  const ttc         = isCustom ? totalTTC : +(totalHT + tva).toFixed(2);
+  const f = n => n.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Facture ${num}</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:#1a1a1a;background:#fff;padding:40px}
+  .header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px;padding-bottom:24px;border-bottom:3px solid #C9A961}
+  .logo-zone{display:flex;align-items:center;gap:14px}
+  .logo-svg{width:72px;height:72px;flex-shrink:0}
+  .logo-zone h1{font-size:22px;font-weight:800;letter-spacing:2px;color:#0A0A0A}
+  .logo-zone .sub{font-size:10px;color:#8B7355;letter-spacing:3px;text-transform:uppercase;margin-top:2px}
+  .logo-zone .rccm{font-size:10px;color:#8B7355;margin-top:6px}
+  .inv-meta{text-align:right}
+  .inv-meta .num{font-size:18px;font-weight:700;color:#C9A961}
+  .inv-meta .date{font-size:12px;color:#666;margin-top:4px}
+  .parties{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:36px}
+  .partie h3{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#8B7355;margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:4px}
+  .partie p{font-size:13px;line-height:1.8}
+  .partie strong{font-size:14px;font-weight:700}
+  table{width:100%;border-collapse:collapse;margin-bottom:24px}
+  thead th{background:#0A0A0A;color:#C9A961;padding:10px 14px;font-size:11px;text-transform:uppercase;letter-spacing:1px;text-align:left}
+  tbody td{padding:12px 14px;border-bottom:1px solid #f0f0f0;font-size:13px}
+  tbody tr:last-child td{border-bottom:none}
+  .totaux{margin-left:auto;width:320px}
+  .totaux table{border:1px solid #e0e0e0;border-radius:8px;overflow:hidden}
+  .totaux td{padding:10px 16px}
+  .totaux tr.ht td{background:#fafafa}
+  .totaux tr.tva td{background:#fafafa;color:#666;font-size:12px}
+  .totaux tr.ttc td{background:#C9A961;color:#0A0A0A;font-weight:800;font-size:15px}
+  .footer{margin-top:48px;padding-top:20px;border-top:1px solid #eee;font-size:10px;color:#999;text-align:center;line-height:2}
+  @media print{body{padding:20px}.no-print{display:none}}
+  .print-btn{display:inline-flex;align-items:center;gap:8px;background:#C9A961;color:#0A0A0A;border:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:24px}
+  .periode-badge{display:inline-block;background:#f5f0e8;border:1px solid #C9A961;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;color:#8B7355;margin-bottom:16px}
+</style>
+</head>
+<body>
+<button class="print-btn no-print" onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+
+<div class="header">
+  <div class="logo-zone">
+    <svg class="logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="400" height="400" fill="#0A0A0A" rx="40"/>
+      <g transform="translate(200 200)" fill="none" stroke="#C9A961" stroke-width="2.4" opacity="0.9">
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(0)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(15)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(30)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(45)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(60)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(75)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(90)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(105)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(120)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(135)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(150)"/>
+        <ellipse cx="0" cy="0" rx="160" ry="22" transform="rotate(165)"/>
+      </g>
+      <g transform="translate(155 195)" fill="none" stroke="#C9A961" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="0" y="-12" width="28" height="16" rx="1.5"/>
+        <path d="M 28 -7 L 38 -7 L 44 0 L 44 4 L 28 4 Z"/>
+        <circle cx="7" cy="7" r="3.5" fill="#C9A961"/>
+        <circle cx="18" cy="7" r="3.5" fill="#C9A961"/>
+        <circle cx="37" cy="7" r="3.5" fill="#C9A961"/>
+      </g>
+      <line x1="208" y1="160" x2="208" y2="240" stroke="#C9A961" stroke-width="2.2"/>
+      <text x="220" y="222" font-family="Georgia,serif" font-weight="700" font-size="56" fill="#C9A961" letter-spacing="1">T.S</text>
+    </svg>
+    <div>
+      <h1>T SERVICE &amp; CO</h1>
+      <div class="sub">T Service pilote votre logistique</div>
+      <div class="rccm">SARL · RCCM SN.DKR.2026.B.15266 · Capital 1.000.000 F CFA<br>
+      Commune Ngor Quartier Almadie Zone 14, Dakar (Sénégal)<br>
+      tserviceco5@gmail.com</div>
+    </div>
+  </div>
+  <div class="inv-meta">
+    <div class="num">FACTURE N° ${num}</div>
+    <div class="date">Date : ${now.toLocaleDateString('fr-FR')}</div>
+    <div class="date">Échéance : 30 jours</div>
+  </div>
+</div>
+
+<div class="parties">
+  <div class="partie">
+    <h3>Émetteur</h3>
+    <p><strong>T-SERVICE &amp; CO SUARL</strong><br>
+    Commune Ngor Almadie Zone 14<br>
+    Dakar, Sénégal<br>
+    RCCM : SN.DKR.2026.B.15266</p>
+  </div>
+  <div class="partie">
+    <h3>Client</h3>
+    <p><strong>${coName}</strong><br>
+    <span style="color:#666;font-size:12px">Abonnement T SERVICE &amp; CO SaaS</span></p>
+  </div>
+</div>
+
+<div class="periode-badge">Période de facturation : ${moisNom} ${annee}</div>
+
+<table>
+  <thead>
+    <tr><th>Description</th><th style="text-align:center">Qté</th><th style="text-align:right">P.U. HT</th><th style="text-align:right">Total HT</th></tr>
+  </thead>
+  <tbody>
+    ${isCustom ? `<tr><td>Abonnement T SERVICE &amp; CO — ${moisNom} ${annee}</td><td style="text-align:center">1</td><td style="text-align:right">${f(totalHT)}</td><td style="text-align:right">${f(totalHT)}</td></tr>` :
+    `<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${nbAdmins}</td><td style="text-align:right">${f(500)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>
+    <tr><td>Licence chauffeur — gestion tournées & suivi</td><td style="text-align:center">${nbChauffeurs}</td><td style="text-align:right">${f(299.99)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`}
+  </tbody>
+</table>
+
+<div class="totaux">
+  <table>
+    <tr class="ht"><td>Total HT</td><td style="text-align:right;font-weight:600">${f(totalHT)}</td></tr>
+    <tr class="tva"><td>TVA (20%)</td><td style="text-align:right">${f(tva)}</td></tr>
+    <tr class="ttc"><td>TOTAL TTC</td><td style="text-align:right">${f(ttc)}</td></tr>
+  </table>
+</div>
+
+<div class="footer">
+  T-SERVICE &amp; CO SUARL · RCCM SN.DKR.2026.B.15266 · Gérant : SOW Ibrahima<br>
+  Conditions de paiement : 30 jours net · Virement bancaire<br>
+  En cas de retard, des pénalités de 3× le taux légal s'appliquent de plein droit (L.441-10 C.com.)
+</div>
+</body>
+</html>`;
+
+  const w = window.open('', '_blank', 'width=900,height=720');
+  w.document.write(html);
+  w.document.close();
 }
 
 async function saveBillingEmail(companyId, email) {
