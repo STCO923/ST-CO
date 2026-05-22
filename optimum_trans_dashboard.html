@@ -1020,11 +1020,9 @@ async function loadAll(){
     const entreprise = (Array.isArray(entrepriseRes) && entrepriseRes[0]) || {};
 
     // Rapport financier complet du mois (même calcul que Clients & Facturation)
-    // Exclure les TOURNEE ANNULEE du calcul (cohérent avec OT)
-    const monthForReport = month.filter(t=>t.client_nom!=='TOURNEE ANNULEE');
     let monthReport = null;
     try{ monthReport = window.OT_FINANCE ? OT_FINANCE.computeReport({
-      clients, tournees: monthForReport, chauffeurs, vehicules, gazole, maintenance, entreprise,
+      clients, tournees: month, chauffeurs, vehicules, gazole, maintenance, entreprise,
       period: { start: MONTH_START, end: MONTH_END }
     }) : null; }catch(_){}
 
@@ -1033,7 +1031,7 @@ async function loadAll(){
     try{ renderTopChauffeurs(monthReport, chauffeurs); }catch(_){}
     try{ renderTopClients(monthReport, clients); }catch(_){}
     try{ renderRecent(recent); }catch(_){}
-    try{ renderAlertes(chauffeurs, monthForReport); }catch(_){}
+    try{ renderAlertes(chauffeurs, month); }catch(_){}
     setSyncInfo(`Mis à jour ${now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}`,'#6B8E23');
   }catch(e){
     console.warn('loadAll error:',e);
@@ -1042,10 +1040,8 @@ async function loadAll(){
 }
 
 function renderKPIs(today,week,month,chauffeurs,clients,monthReport){
-  // Exclure les tournées "TOURNEE ANNULEE" des KPIs (cohérent avec OT)
-  today = (today||[]).filter(t=>t.client_nom!=='TOURNEE ANNULEE');
-  week  = (week||[]).filter(t=>t.client_nom!=='TOURNEE ANNULEE');
-  month = (month||[]).filter(t=>t.client_nom!=='TOURNEE ANNULEE');
+  // Note: le dashboard inclut TOURNEE ANNULEE dans ses KPIs (cohérent avec OT).
+  // Le filtrage des annulées est appliqué côté planning uniquement.
   const activeToday=new Set(today.map(t=>t.chauffeur_nom)).size;
   document.getElementById('k-today').textContent=today.length;
   document.getElementById('k-today-sub').textContent=`${activeToday} chauffeur${activeToday>1?'s':''} actifs`;
