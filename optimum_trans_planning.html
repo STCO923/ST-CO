@@ -1526,7 +1526,7 @@ function renderPlanning(dates){
   allTournees.forEach(t=>{const k=`${t.chauffeur_nom}|||${t.date}`;if(!map[k])map[k]=[];map[k].push(t);});
   tourneesFiltered.forEach(t=>{_weekTotals[t.chauffeur_nom]=(_weekTotals[t.chauffeur_nom]||0)+1;});
   const countByDate={};
-  tourneesFiltered.forEach(t=>{countByDate[t.date]=(countByDate[t.date]||0)+1;});
+  tourneesFiltered.forEach(t=>{ if(t.client_nom==='TOURNEE ANNULEE') return; countByDate[t.date]=(countByDate[t.date]||0)+1;});
   let chauffeursToShow=[...allChauffeurs];
   if(currentFilterChauffeurs.size>0){
     chauffeursToShow=allChauffeurs.filter(c=>currentFilterChauffeurs.has(c.nom));
@@ -1756,11 +1756,13 @@ function updateKPIs(){
     kpiTournees=kpiTournees.filter(t=>allowedNoms.has(t.chauffeur_nom));
   }
 
-  const tot=kpiTournees.length;
-  const activeNoms=new Set(kpiTournees.map(t=>t.chauffeur_nom));
+  // OT exclut les tournées "TOURNEE ANNULEE" des KPIs globaux mais les affiche dans la grille
+  const kpiActifsTournees=kpiTournees.filter(t=>t.client_nom!=='TOURNEE ANNULEE');
+  const tot=kpiActifsTournees.length;
+  const activeNoms=new Set(kpiActifsTournees.map(t=>t.chauffeur_nom));
   const actifs=activeNoms.size;
-  const am=kpiTournees.filter(t=>t.slot==='AM'||t.slot==='AM+PM').length;
-  const pm=kpiTournees.filter(t=>t.slot==='PM'||t.slot==='AM+PM').length;
+  const am=kpiActifsTournees.filter(t=>t.slot==='AM'||t.slot==='AM+PM').length;
+  const pm=kpiActifsTournees.filter(t=>t.slot==='PM'||t.slot==='AM+PM').length;
   document.getElementById('k-tournees').textContent=tot;
   document.getElementById('k-actifs').textContent=actifs;
   document.getElementById('k-am').textContent=am;
