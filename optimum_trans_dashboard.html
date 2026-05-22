@@ -407,6 +407,19 @@ const OT = (() => {
       el.style.display = 'none';
     });
 
+    // 1bis. Bouton flottant Super Admin (UID propriétaire uniquement)
+    if (s.id === 'f38392d8-984b-4124-ac07-b6fbda633b2d' && !document.getElementById('ot-sa-btn')) {
+      var saBtn = document.createElement('a');
+      saBtn.id = 'ot-sa-btn';
+      saBtn.href = 'optimum_trans_superadmin.html';
+      saBtn.title = 'Super Admin';
+      saBtn.style.cssText = 'position:fixed;top:14px;right:14px;z-index:99998;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;background:linear-gradient(135deg,#C9A961,#B8924A);border:1px solid #C9A961;border-radius:10px;color:#0A0A0A;text-decoration:none;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 4px 14px rgba(201,169,97,0.35);transition:transform 0.15s ease;';
+      saBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> SUPER ADMIN';
+      saBtn.onmouseover = function(){ this.style.transform = 'translateY(-1px)'; };
+      saBtn.onmouseout  = function(){ this.style.transform = 'translateY(0)'; };
+      document.body.appendChild(saBtn);
+    }
+
     // 2. Modules conditionnels
     var rules = [
       { href: 'optimum_trans_feuille_route.html',   feature: 'feuille_route'  },
