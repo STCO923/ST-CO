@@ -880,6 +880,22 @@ const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6
 function getH(extra={}){return{...OT.authHeaders(),...extra};}
 const H=()=>getH();
 const H_MINIMAL=()=>getH({'Prefer':'return=minimal'});
+async function fetchAllRows(url, headers){
+  const PAGE=1000;
+  let offset=0, all=[];
+  while(true){
+    const h=Object.assign({},headers,{'Range-Unit':'items','Range':`${offset}-${offset+PAGE-1}`});
+    const r=await fetch(url,{headers:h});
+    if(!r.ok) return all;
+    const chunk=await r.json();
+    if(!Array.isArray(chunk)||chunk.length===0) break;
+    all=all.concat(chunk);
+    if(chunk.length<PAGE) break;
+    offset+=PAGE;
+    if(offset>50000) break;
+  }
+  return all;
+}
 const COLORS=['#C9A961','#6B8E23','#4FD1E0','#C9A961','#8B2C2C','#0891B2'];
 const STATUTS={'disponible':{badge:'badge-green',lbl:' Disponible'},'en mission':{badge:'badge-orange',lbl:'🚐 En mission'},'maintenance':{badge:'badge-orange',lbl:'🔧 Maintenance'},'hors service':{badge:'badge-red',lbl:' Hors service'}};
 let allV=[],filteredV=[],allChauffeurs=[],tourneesMonth=[];
@@ -896,8 +912,7 @@ async function loadAll(){
     const sel=document.getElementById('v-chauffeur');sel.innerHTML='<option value="">— Aucun —</option>';
     allChauffeurs.forEach(c=>{const o=document.createElement('option');o.value=c.nom;o.textContent=c.nom;sel.appendChild(o);});
     const now=new Date();const ms=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;const _meD=new Date(now.getFullYear(),now.getMonth()+1,0);const me=`${_meD.getFullYear()}-${String(_meD.getMonth()+1).padStart(2,'0')}-${String(_meD.getDate()).padStart(2,'0')}`;
-    const rt=await fetch(`${SB}/rest/v1/tournees?${OT.companyFilter()}&date=gte.${ms}&date=lte.${me}`,{headers:H()});
-    tourneesMonth=rt.ok?await rt.json():[];
+    tourneesMonth=await fetchAllRows(`${SB}/rest/v1/tournees?${OT.companyFilter()}&date=gte.${ms}&date=lte.${me}&order=id`,H());
     const rv=await fetch(`${SB}/rest/v1/vehicules?${OT.companyFilter()}&order=immatriculation&select=*,assurance_mensuel`,{headers:H()});
     if(!rv.ok){const txt=await rv.text();if(txt.includes('42P01')||txt.includes('does not exist')){if(txt.includes('typologie')){document.getElementById('sql-migrate-typologie-banner').style.display='block';setSyncInfo(' Migration requise','#C9A961');}else if(txt.includes('type_propriete')||txt.includes('tarif_location')){document.getElementById('sql-migrate-location-banner').style.display='block';setSyncInfo(' Migration requise','#C9A961');}else if(txt.includes('assurance_mensuel')){document.getElementById('sql-migrate-banner').style.display='block';setSyncInfo(' Migration requise','#C9A961');}else{document.getElementById('sql-banner').style.display='block';renderEmpty('Créez la table Supabase');setSyncInfo(' Table manquante','#C9A961');}return;}throw new Error(`Erreur ${rv.status}`);}
     allV=await rv.json();filteredV=[...allV];renderAll();setSyncInfo(` ${allV.length} véhicule${allV.length>1?'s':''}chargé`,'#6B8E23');
