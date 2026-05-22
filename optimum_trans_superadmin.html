@@ -15,6 +15,7 @@ body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--light);m
 .content{padding:28px;max-width:1400px;margin:0 auto;}
 .btn-sm{padding:7px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
 .field-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);font-family:'Bebas Neue',sans-serif;margin-bottom:5px;display:block;}
+#facture-editor-modal select option{background:#1e1e1e;color:#f5f5f0;}
 .btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--navy);font-weight:700;}
 .btn-accent:hover{transform:translateY(-1px);}
 .btn-ghost{background:var(--card);border:1px solid var(--border);color:var(--gray);}
@@ -1085,9 +1086,14 @@ async function loadCompanies(){
   const tbody=document.getElementById('companies-tbody');
   tbody.innerHTML='<tr><td colspan="8"><div style="padding:30px;text-align:center;display:flex;gap:10px;justify-content:center;align-items:center"><div class="spinner"></div><span style="color:var(--gray);font-size:12px">Chargement...</span></div></td></tr>';
   try{
-    const r=await fetch(`${SB}/rest/v1/sa_companies?order=created_at.desc`,{headers:H()});
-    if(!r.ok) throw new Error(`HTTP ${r.status}`);
-    const data=await r.json();
+    const [data, allChauffeurs] = await Promise.all([
+      fetch(`${SB}/rest/v1/sa_companies?order=created_at.desc`,{headers:H()}).then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();}),
+      fetch(`${SB}/rest/v1/chauffeurs?select=company_id&actif=eq.true`,{headers:H()}).then(r=>r.json()).catch(()=>[])
+    ]);
+    _actualChauffeurCounts={};
+    (Array.isArray(allChauffeurs)?allChauffeurs:[]).forEach(c=>{
+      _actualChauffeurCounts[c.company_id]=(_actualChauffeurCounts[c.company_id]||0)+1;
+    });
     allCompanies=Array.isArray(data)?data:[];
     renderCompanies(allCompanies);
     updateKPIs();
@@ -1132,7 +1138,12 @@ function renderCompanies(data){
       </td>
       <td><span style="font-weight:700;color:${planColor}">${p.emoji} ${p.nom}</span><br><span style="font-size:10px;color:var(--gray)">${p.prix.toLocaleString('fr-FR',{minimumFractionDigits:2})}€/mois</span></td>
       <td>${usersHtml}</td>
-      <td style="font-weight:700;color:#6B8E23">${(co.custom_price!=null&&co.custom_price!=='')?`<span title="Prix personnalisé (override)">${Number(co.custom_price).toLocaleString('fr-FR',{minimumFractionDigits:2})}€ <span style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:3px;vertical-align:middle"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Manuel</span></span>`:(co.price?Number(co.price).toLocaleString('fr-FR',{minimumFractionDigits:2})+'€':'—')}</td>
+      <td style="font-weight:700;color:#6B8E23">${(()=>{
+        if(co.custom_price!=null&&co.custom_price!=='') return `<span title="Prix personnalisé">${Number(co.custom_price).toLocaleString('fr-FR',{minimumFractionDigits:2})}€ <span style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:3px">Manuel</span></span>`;
+        const a=Number(co.max_admins||1),ch=Number(co.max_chefs||0),cauff=_actualChauffeurCounts[co.id]||0;
+        const ps=a*500+ch*330+cauff*299.99;
+        return `<span title="${a}×500 + ${ch}×330 + ${cauff}×299,99">${ps.toLocaleString('fr-FR',{minimumFractionDigits:2})}€</span>`;
+      })()}</td>
       <td>${expiryHtml}</td>
       <td>${addonsHtml}</td>
       <td><span class="badge ${co.status==='active'?'badge-green':co.status==='suspended'?'badge-red':'badge-orange'}">${co.status==='active'?' Actif':co.status==='suspended'?'🔴 Suspendu':'⏳ '+co.status}</span></td>
@@ -1926,7 +1937,7 @@ async function loadBillingData() {
   const [companies, subs, allChauffeurs] = await Promise.all([
     fetch(`${SB}/rest/v1/sa_companies?order=name&select=id,name,plan,status,billing_email,stripe_customer_id,price,custom_price,max_admins,max_chefs,max_chauffeurs`, { headers: H() }).then(r=>r.json()),
     fetch(`${SB}/rest/v1/saas_subscriptions?order=created_at.desc&select=*`, { headers: H() }).then(r=>r.json()),
-    fetch(`${SB}/rest/v1/chauffeurs?select=company_id`, { headers: H() }).then(r=>r.json()).catch(()=>[])
+    fetch(`${SB}/rest/v1/chauffeurs?select=company_id&actif=eq.true`, { headers: H() }).then(r=>r.json()).catch(()=>[])
   ]);
   // Comptes réels de chauffeurs par entreprise
   _actualChauffeurCounts = {};
