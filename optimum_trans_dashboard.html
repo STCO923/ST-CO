@@ -1031,7 +1031,7 @@ async function loadAll(){
     try{ renderTopChauffeurs(monthReport, chauffeurs); }catch(_){}
     try{ renderTopClients(monthReport, clients); }catch(_){}
     try{ renderRecent(recent); }catch(_){}
-    try{ renderAlertes(chauffeurs, monthForReport); }catch(_){}
+    try{ renderAlertes(chauffeurs, month); }catch(_){}
     setSyncInfo(`Mis à jour ${now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}`,'#6B8E23');
   }catch(e){
     console.warn('loadAll error:',e);
