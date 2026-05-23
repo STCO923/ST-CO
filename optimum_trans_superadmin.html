@@ -2447,6 +2447,39 @@ function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price,
 }
 function closeFactureEditor() { document.getElementById('facture-editor-modal').style.display='none'; }
 
+async function autoFillMaintenance(btn) {
+  const moisIdx = Number(document.getElementById('fe-mois').value);
+  const annee = Number(document.getElementById('fe-annee').value);
+  const original = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10" stroke-dasharray="50" stroke-dashoffset="20"/></svg> Analyse en cours…';
+  try {
+    const res = await fetch(`${SB}/functions/v1/maintenance-summary`, {
+      method: 'POST',
+      headers: { ...H(), 'content-type': 'application/json' },
+      body: JSON.stringify({ year: annee, month: moisIdx + 1, tjm: 600 })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      throw new Error(data.error || data.message || `HTTP ${res.status}`);
+    }
+    if (!data.detail || data.commit_count === 0) {
+      toast('Aucune activité significative ce mois-ci');
+      return;
+    }
+    document.getElementById('fe-maint-detail').value = data.detail;
+    document.getElementById('fe-maintenance').value = data.suggested_amount;
+    feUpdatePreview();
+    toast(`${data.commit_count} commits → ${data.intervention_count} interventions, ${data.hours}h, tarif indicatif ${data.suggested_amount} €`);
+  } catch(e) {
+    toast('Erreur : ' + e.message);
+    console.error('autoFillMaintenance', e);
+  } finally {
+    btn.innerHTML = original;
+    btn.disabled = false;
+  }
+}
+
 function feUpdatePreview() {
   const a=Number(document.getElementById('fe-admins').value)||0;
   const ch=Number(document.getElementById('fe-chefs').value)||0;
@@ -4081,9 +4114,15 @@ function generateContratPDF(p) {
     </div>
 
     <div style="margin-bottom:14px" id="fe-maint-detail-wrap">
-      <div class="field-lbl">Détail des interventions de maintenance du mois</div>
-      <textarea id="fe-maint-detail" class="ii" rows="3" style="width:100%;resize:vertical" placeholder="Ex :&#10;- 12/05 : correctif bug affectation chauffeur (1h30)&#10;- 18/05 : ajout colonne export Excel (2h)&#10;- 24/05 : optimisation requêtes dashboard (1h)"></textarea>
-      <div style="font-size:10px;color:var(--gray);margin-top:3px">Affiché sous la ligne « Frais de maintenance » sur la facture. Laisser vide si forfait fixe sans détail.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div class="field-lbl" style="margin:0">Détail des interventions de maintenance du mois</div>
+        <button type="button" class="btn-sm" onclick="autoFillMaintenance(this)" style="font-size:10px;padding:5px 10px;background:rgba(79,209,224,0.12);border:1px solid rgba(79,209,224,0.35);color:#4FD1E0;display:inline-flex;align-items:center;gap:5px">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          Générer depuis l'activité du mois
+        </button>
+      </div>
+      <textarea id="fe-maint-detail" class="ii" rows="4" style="width:100%;resize:vertical" placeholder="Ex :&#10;- 12/05 : correctif bug affectation chauffeur (1h30)&#10;- 18/05 : ajout colonne export Excel (2h)&#10;- 24/05 : optimisation requêtes dashboard (1h)"></textarea>
+      <div style="font-size:10px;color:var(--gray);margin-top:3px">Affiché sous la ligne « Frais de maintenance » sur la facture. Le bouton analyse les commits Git du mois et pré-remplit le détail + tarif indicatif (TJM 600 €).</div>
     </div>
 
     <!-- Aperçu totaux -->
