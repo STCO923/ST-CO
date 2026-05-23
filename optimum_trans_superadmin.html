@@ -326,20 +326,27 @@ select option:checked{background:#2a2a2a !important;}
     if (d.nbAdmins > 0)     rows.push(['Licence administrateur',      d.nbAdmins,     ff(d.puAdmin), ff(d.ligneAdmin)]);
     if (d.nbChefs > 0)      rows.push(["Licence chef d'equipe",       d.nbChefs,      ff(d.puChef),  ff(d.ligneChef)]);
     if (d.nbChauffeurs > 0) rows.push(['Licence chauffeur',           d.nbChauffeurs, ff(d.puChauf), ff(d.ligneChauf)]);
-    if (d.ligneMaint > 0)   rows.push(['Frais de maintenance',        1,              ff(d.ligneMaint), ff(d.ligneMaint)]);
+    if (d.ligneMaint > 0)   rows.push(['Frais de maintenance',        1,              ff(d.ligneMaint), ff(d.ligneMaint), d.maintDetail||'']);
     if (d.ligneGest > 0)    rows.push(['Pilotage Complet TS CO',      1,              ff(d.ligneGest),  ff(d.ligneGest)]);
     if (d.remise > 0)       rows.push(['Remise' + (d.rType==='pct'?' ('+d.rVal+'%)':''), '—', '—', '- '+ff(d.remise)]);
     if (d.penalite > 0)     rows.push(['Penalite retard'+(d.pType==='pct'?' ('+d.pVal+'%)':''), '—', '—', '+ '+ff(d.penalite)]);
 
     doc.setTextColor(0,0,0);
     rows.forEach((row, i) => {
-      if (i%2===0) { doc.setFillColor(250,250,250); doc.rect(15, y, 180, 8, 'F'); }
-      doc.setFontSize(9); doc.setFont('helvetica','normal');
+      const detail = row[4] || '';
+      const detailLines = detail ? doc.splitTextToSize(detail, 95) : [];
+      const rowH = 8 + (detailLines.length ? detailLines.length * 3.8 + 1.5 : 0);
+      if (i%2===0) { doc.setFillColor(250,250,250); doc.rect(15, y, 180, rowH, 'F'); }
+      doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.setTextColor(0,0,0);
       doc.text(String(row[0]), 17, y+5.5);
       doc.text(String(row[1]), 118, y+5.5, { align:'center' });
       doc.text(String(row[2]), 155, y+5.5, { align:'right' });
       doc.text(String(row[3]), 193, y+5.5, { align:'right' });
-      y += 8;
+      if (detailLines.length) {
+        doc.setFontSize(7.5); doc.setFont('helvetica','italic'); doc.setTextColor(100,100,100);
+        detailLines.forEach((ln, k) => doc.text(ln, 19, y + 9.5 + k * 3.8));
+      }
+      y += rowH;
     });
 
     if (d.note) {
@@ -2432,12 +2439,46 @@ function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price,
   document.getElementById('fe-modepay').value = 'virement';
   document.getElementById('fe-note').value    = '';
   document.getElementById('fe-maintenance').value = '0';
+  document.getElementById('fe-maint-detail').value = '';
   document.getElementById('fe-gestion').value = gestionActive ? (prixGestion || PRICE_GESTION) : '0';
   document.getElementById('fe-gestion-hint').textContent = PRICE_GESTION;
   m.style.display = 'flex';
   feSetCurrency('EUR');
 }
 function closeFactureEditor() { document.getElementById('facture-editor-modal').style.display='none'; }
+
+async function autoFillMaintenance(btn) {
+  const moisIdx = Number(document.getElementById('fe-mois').value);
+  const annee = Number(document.getElementById('fe-annee').value);
+  const original = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10" stroke-dasharray="50" stroke-dashoffset="20"/></svg> Analyse en cours…';
+  try {
+    const res = await fetch(`${SB}/functions/v1/maintenance-summary`, {
+      method: 'POST',
+      headers: { ...H(), 'content-type': 'application/json' },
+      body: JSON.stringify({ year: annee, month: moisIdx + 1, tjm: 600 })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      throw new Error(data.error || data.message || `HTTP ${res.status}`);
+    }
+    if (!data.detail || data.commit_count === 0) {
+      toast('Aucune activité significative ce mois-ci');
+      return;
+    }
+    document.getElementById('fe-maint-detail').value = data.detail;
+    document.getElementById('fe-maintenance').value = data.suggested_amount;
+    feUpdatePreview();
+    toast(`${data.commit_count} commits → ${data.intervention_count} interventions, ${data.hours}h, tarif indicatif ${data.suggested_amount} €`);
+  } catch(e) {
+    toast('Erreur : ' + e.message);
+    console.error('autoFillMaintenance', e);
+  } finally {
+    btn.innerHTML = original;
+    btn.disabled = false;
+  }
+}
 
 function feUpdatePreview() {
   const a=Number(document.getElementById('fe-admins').value)||0;
@@ -2482,10 +2523,11 @@ async function submitFactureEditor() {
   const pVal=Number(document.getElementById('fe-penalite-val').value)||0;
   const note     = document.getElementById('fe-note').value.trim();
   const maint    = Number(document.getElementById('fe-maintenance').value)||0;
+  const maintDetail = document.getElementById('fe-maint-detail').value.trim();
   const gest     = Number(document.getElementById('fe-gestion').value)||0;
   const modepay  = document.getElementById('fe-modepay').value;
   closeFactureEditor();
-  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay, { city:_feData.city, siret:_feData.siret, resp:_feData.resp, phone:_feData.phone });
+  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay, { city:_feData.city, siret:_feData.siret, resp:_feData.resp, phone:_feData.phone }, maintDetail);
 }
 
 async function genNumFacture() {
@@ -2504,7 +2546,7 @@ async function genNumFacture() {
 }
 
 let _lastGeneratedInvoice = null;
-async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement', coInfo={}) {
+async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement', coInfo={}, maintDetail='') {
   const { city='', siret='', resp='', phone='' } = coInfo;
   const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   const moisNom = MOIS_FR[moisIdx];
@@ -2639,7 +2681,7 @@ async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeu
     ${nbAdmins>0?`<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${nbAdmins}</td><td style="text-align:right">${f(puAdmin)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>`:''}
     ${nbChefs>0?`<tr><td>Licence chef d'équipe — supervision &amp; dispatch</td><td style="text-align:center">${nbChefs}</td><td style="text-align:right">${f(puChef)}</td><td style="text-align:right">${f(ligneChef)}</td></tr>`:''}
     ${nbChauffeurs>0?`<tr><td>Licence chauffeur — gestion tournées &amp; suivi</td><td style="text-align:center">${nbChauffeurs}</td><td style="text-align:right">${f(puChauf)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`:''}
-    ${ligneMaint>0?`<tr><td>Frais de maintenance logicielle</td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneMaint)}</td><td style="text-align:right">${f(ligneMaint)}</td></tr>`:''}
+    ${ligneMaint>0?`<tr><td>Frais de maintenance logicielle${maintDetail?`<br><span style="font-size:11px;color:#666;white-space:pre-line;line-height:1.5">${maintDetail.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span>`:''}</td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneMaint)}</td><td style="text-align:right">${f(ligneMaint)}</td></tr>`:''}
     ${ligneGest>0?`<tr style="background:#fafcff"><td><strong>Pilotage Complet par T SERVICE &amp; CO</strong><br><span style="font-size:11px;color:#666">Gestion administrative complète : tournées, chauffeurs, facturation, prestations</span></td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneGest)}</td><td style="text-align:right">${f(ligneGest)}</td></tr>`:''}
     ${remise>0?`<tr style="color:#c0392b"><td>Remise${rType==='pct'?' ('+rVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">- ${f(remise)}</td></tr>`:''}
     ${penalite>0?`<tr style="color:#e67e22"><td>Pénalité de retard${pType==='pct'?' ('+pVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">+ ${f(penalite)}</td></tr>`:''}
@@ -2683,7 +2725,8 @@ ${(modePaiement==='virement'||modePaiement==='swift')&&(BANK_IBAN||BANK_BIC||BAN
     totalHT, tva, ttc, tvaRate, currency, sym, modePaiement,
     bankTitulaire: BANK_TITULAIRE, bankBanque: BANK_BANQUE,
     bankIban: BANK_IBAN, bankBic: BANK_BIC,
-    coCity: city, coSiret: siret, coResp: resp, coPhone: phone
+    coCity: city, coSiret: siret, coResp: resp, coPhone: phone,
+    maintDetail
   });
   _lastGeneratedInvoice = {
     coId, num,
@@ -3273,7 +3316,23 @@ async function deleteSTTRelation(id, donorName, receiverName) {
 // ══════════════════════════════
 let _cmCompanyId = null;
 
+function _loadTsLogo() {
+  if (window._tsLogoB64) return;
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    try {
+      const c = document.createElement('canvas');
+      c.width = img.width; c.height = img.height;
+      c.getContext('2d').drawImage(img, 0, 0);
+      window._tsLogoB64 = c.toDataURL('image/png').split(',')[1];
+    } catch(e) {}
+  };
+  img.src = '/icons/icon-192.png';
+}
+
 function openContratModal(coId) {
+  _loadTsLogo();
   _cmCompanyId = coId;
   const co = (allCompanies||[]).find(c => c.id === coId) || {};
   document.getElementById('cm-company-name').textContent = co.name || '';
@@ -3544,10 +3603,14 @@ function generateContratPDF(p) {
   // ── HEADER PAGE 1 ──
   doc.setFillColor(10,10,10);
   doc.rect(0, 0, W, 45, 'F');
-  doc.setFillColor(201,169,97);
-  doc.circle(ML+8, 22.5, 8, 'F');
-  doc.setTextColor(10,10,10); doc.setFontSize(9); doc.setFont('helvetica','bold');
-  doc.text('TS', ML+8, 25, {align:'center'});
+  if (window._tsLogoB64) {
+    doc.addImage(window._tsLogoB64, 'PNG', ML, 14, 16, 16);
+  } else {
+    doc.setFillColor(201,169,97);
+    doc.circle(ML+8, 22.5, 8, 'F');
+    doc.setTextColor(10,10,10); doc.setFontSize(9); doc.setFont('helvetica','bold');
+    doc.text('TS', ML+8, 25, {align:'center'});
+  }
   doc.setTextColor(201,169,97); doc.setFontSize(16); doc.setFont('helvetica','bold');
   doc.text('T SERVICE & CO', ML+20, 19);
   doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.setTextColor(150,150,150);
@@ -3700,7 +3763,7 @@ function generateContratPDF(p) {
     ? `Le montant mensuel dû par le Client au titre du présent contrat est de ${fmtEur(p.ht)} net, le Prestataire étant non assujetti à la TVA (TVA non applicable, conformément à la réglementation fiscale applicable au Prestataire au Sénégal), tel que détaillé à l'article 2.2 ci-dessus.`
     : `Le montant mensuel dû par le Client au titre du présent contrat est de ${fmtEur(p.ht)} hors taxes (HT), soit ${fmtEur(p.ttc)} toutes taxes comprises (TTC) au taux de TVA de ${p.tva}%, tel que détaillé à l'article 2.2 ci-dessus.`);
   if (p.maint > 0) {
-    para(`Les frais de maintenance d'un montant indicatif de ${fmtEur(p.maint)} HT/mois sont susceptibles de varier en fonction du volume et de la complexité des interventions réalisées. Le Client en sera informé au préalable par devis ou avenant.`);
+    para(`Les frais de maintenance sont facturés mensuellement au réel, sur la base des interventions effectivement réalisées, dont le détail figure sur la facture mensuelle. À titre indicatif, ces frais s'élèvent à ${fmtEur(p.maint)} HT/mois et peuvent varier en fonction du volume et de la complexité des interventions. Le Client accepte expressément ce mode de facturation variable, sans qu'un avenant ne soit requis pour chaque variation mensuelle.`);
   }
   subTitle('4.2 – Facturation et modalités de paiement');
   para(`Le Prestataire émet une facture mensuelle entre le 1er et le 10 de chaque mois (date cible : le ${p.jourEch === 1 ? '1er' : p.jourEch + 'e'}). Le Client s'engage à régler chaque facture par ${modeLabelFr} dans un délai de trente (30) jours à compter de la date d'émission.`);
@@ -3862,10 +3925,10 @@ function generateContratPDF(p) {
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFillColor(10,10,10); doc.rect(0, 282, W, 15, 'F');
-    doc.setTextColor(150,150,150); doc.setFontSize(7); doc.setFont('helvetica','normal');
-    doc.text('T-SERVICE & CO SUARL · RCCM SN.DKR.2026.B.15266 · NINEA 0130077702Y2 · tserviceco5@gmail.com', 105, 289, {align:'center'});
-    doc.text(`Page ${i} / ${pageCount}`, MR, 289, {align:'right'});
-    doc.text('Contrat N° ' + p.contractNum, ML, 289);
+    doc.setTextColor(150,150,150); doc.setFontSize(6.5); doc.setFont('helvetica','normal');
+    doc.text('T-SERVICE & CO SUARL  |  RCCM SN.DKR.2026.B.15266  |  NINEA 0130077702Y2  |  tserviceco5@gmail.com', 105, 287, {align:'center'});
+    doc.text('Contrat No ' + p.contractNum, ML, 292);
+    doc.text(`Page ${i} / ${pageCount}`, MR, 292, {align:'right'});
   }
 
   return doc.output('datauristring').split(',')[1];
@@ -4048,6 +4111,18 @@ function generateContratPDF(p) {
         <input type="number" id="fe-gestion" class="ii" style="width:100%" min="0" step="1" value="0" placeholder="0" oninput="feUpdatePreview()">
         <div style="font-size:10px;color:#4FD1E0;margin-top:3px">Tarif standard : <span id="fe-gestion-hint">800</span> €/mois</div>
       </div>
+    </div>
+
+    <div style="margin-bottom:14px" id="fe-maint-detail-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div class="field-lbl" style="margin:0">Détail des interventions de maintenance du mois</div>
+        <button type="button" class="btn-sm" onclick="autoFillMaintenance(this)" style="font-size:10px;padding:5px 10px;background:rgba(79,209,224,0.12);border:1px solid rgba(79,209,224,0.35);color:#4FD1E0;display:inline-flex;align-items:center;gap:5px">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          Générer depuis l'activité du mois
+        </button>
+      </div>
+      <textarea id="fe-maint-detail" class="ii" rows="4" style="width:100%;resize:vertical" placeholder="Ex :&#10;- 12/05 : correctif bug affectation chauffeur (1h30)&#10;- 18/05 : ajout colonne export Excel (2h)&#10;- 24/05 : optimisation requêtes dashboard (1h)"></textarea>
+      <div style="font-size:10px;color:var(--gray);margin-top:3px">Affiché sous la ligne « Frais de maintenance » sur la facture. Le bouton analyse les commits Git du mois et pré-remplit le détail + tarif indicatif (TJM 600 €).</div>
     </div>
 
     <!-- Aperçu totaux -->
