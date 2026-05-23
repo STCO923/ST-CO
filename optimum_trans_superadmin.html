@@ -2386,6 +2386,10 @@ async function loadBillingData() {
           <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email
         </button>
         ${lastSub?.stripe_invoice_url ? `<a href="${lastSub.stripe_invoice_url}" target="_blank" class="btn-sm btn-ghost" style="font-size:11px;padding:5px 8px;text-decoration:none">👁</a>` : ''}
+        <button class="btn-sm" style="font-size:11px;padding:5px 10px;background:rgba(79,209,224,0.1);border:1px solid rgba(79,209,224,0.3);color:#4FD1E0" onclick="openContratModal('${co.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px;display:inline-block;vertical-align:middle;margin-right:3px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Contrat
+        </button>
       </td>`;
     tbody.appendChild(tr);
   });
@@ -3265,6 +3269,555 @@ async function deleteSTTRelation(id, donorName, receiverName) {
   else toast('Erreur lors de la suppression', 'error');
 }
 
+// ══════════════════════════════
+// CONTRATS SAAS
+// ══════════════════════════════
+let _cmCompanyId = null;
+
+function openContratModal(coId) {
+  _cmCompanyId = coId;
+  const co = (allCompanies||[]).find(c => c.id === coId) || {};
+  document.getElementById('cm-company-name').textContent = co.name || '';
+  // Prefill from company data
+  document.getElementById('cm-nb-admins').value = co.max_admins || 0;
+  document.getElementById('cm-nb-chefs').value = co.max_chefs || 0;
+  document.getElementById('cm-nb-chauffeurs').value = co.max_chauffeurs || 0;
+  document.getElementById('cm-tarif-admin').value = PRICE_ADMIN;
+  document.getElementById('cm-tarif-chef').value = PRICE_CHEF;
+  document.getElementById('cm-tarif-chauffeur').value = PRICE_CHAUFFEUR;
+  // Default date = today
+  const today = new Date();
+  document.getElementById('cm-date-debut').value = today.toISOString().split('T')[0];
+  updateDateFin();
+  updateMontantContrat();
+  switchContratTab('params');
+  document.getElementById('contract-modal').style.display = 'block';
+  loadContractsList();
+}
+
+function closeContratModal() {
+  document.getElementById('contract-modal').style.display = 'none';
+  _cmCompanyId = null;
+}
+
+function switchContratTab(tab) {
+  document.getElementById('cm-view-params').style.display = tab === 'params' ? '' : 'none';
+  document.getElementById('cm-view-contrats').style.display = tab === 'contrats' ? '' : 'none';
+  document.getElementById('cm-tab-params').style.background = tab === 'params' ? '#C9A961' : 'none';
+  document.getElementById('cm-tab-params').style.color = tab === 'params' ? '#0A0A0A' : 'var(--gray)';
+  document.getElementById('cm-tab-contrats').style.background = tab === 'contrats' ? '#C9A961' : 'none';
+  document.getElementById('cm-tab-contrats').style.color = tab === 'contrats' ? '#0A0A0A' : 'var(--gray)';
+  if (tab === 'contrats') loadContractsList();
+}
+
+function updateDateFin() {
+  const debut = document.getElementById('cm-date-debut').value;
+  const duree = parseInt(document.getElementById('cm-duree').value);
+  if (!debut) return;
+  const d = new Date(debut);
+  d.setMonth(d.getMonth() + duree);
+  d.setDate(d.getDate() - 1);
+  document.getElementById('cm-date-fin').value = d.toISOString().split('T')[0];
+}
+
+function updateMontantContrat() {
+  const nbA = Number(document.getElementById('cm-nb-admins').value)||0;
+  const nbC = Number(document.getElementById('cm-nb-chefs').value)||0;
+  const nbCh = Number(document.getElementById('cm-nb-chauffeurs').value)||0;
+  const tA = Number(document.getElementById('cm-tarif-admin').value)||0;
+  const tC = Number(document.getElementById('cm-tarif-chef').value)||0;
+  const tCh = Number(document.getElementById('cm-tarif-chauffeur').value)||0;
+  const maint = Number(document.getElementById('cm-maintenance').value)||0;
+  const gest = Number(document.getElementById('cm-gestion').value)||0;
+  const tva = Number(document.getElementById('cm-tva').value)||0;
+  const ht = nbA*tA + nbC*tC + nbCh*tCh + maint + gest;
+  const tvaM = ht * tva / 100;
+  const ttc = ht + tvaM;
+  const fmt = n => n.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  document.getElementById('cm-total-ht').textContent = fmt(ht);
+  document.getElementById('cm-total-tva').textContent = fmt(tvaM);
+  document.getElementById('cm-total-ttc').textContent = fmt(ttc);
+}
+
+function getContratParams() {
+  const co = (allCompanies||[]).find(c => c.id === _cmCompanyId) || {};
+  const nbA = Number(document.getElementById('cm-nb-admins').value)||0;
+  const nbC = Number(document.getElementById('cm-nb-chefs').value)||0;
+  const nbCh = Number(document.getElementById('cm-nb-chauffeurs').value)||0;
+  const tA = Number(document.getElementById('cm-tarif-admin').value)||0;
+  const tC = Number(document.getElementById('cm-tarif-chef').value)||0;
+  const tCh = Number(document.getElementById('cm-tarif-chauffeur').value)||0;
+  const maint = Number(document.getElementById('cm-maintenance').value)||0;
+  const gest = Number(document.getElementById('cm-gestion').value)||0;
+  const tva = Number(document.getElementById('cm-tva').value)||0;
+  const ht = nbA*tA + nbC*tC + nbCh*tCh + maint + gest;
+  const ttc = ht * (1 + tva/100);
+  const dateDebut = document.getElementById('cm-date-debut').value;
+  const dateFin = document.getElementById('cm-date-fin').value;
+  const duree = parseInt(document.getElementById('cm-duree').value);
+  const jourEch = parseInt(document.getElementById('cm-jour-echeance').value);
+  const modePaie = document.getElementById('cm-mode-paiement').value;
+  const notes = document.getElementById('cm-notes').value.trim();
+  const now = new Date();
+  const yy = String(now.getFullYear()).slice(-2);
+  const mm = String(now.getMonth()+1).padStart(2,'0');
+  const dd = String(now.getDate()).padStart(2,'0');
+  const contractNum = `CTR${yy}${mm}${dd}-${co.id ? co.id.substring(0,4).toUpperCase() : 'XXXX'}`;
+  return { co, nbA, nbC, nbCh, tA, tC, tCh, maint, gest, tva, ht, ttc, dateDebut, dateFin, duree, jourEch, modePaie, notes, contractNum };
+}
+
+function previewContrat() {
+  const p = getContratParams();
+  const pdf = generateContratPDF(p);
+  if (!pdf) { toast('Erreur génération PDF'); return; }
+  window.open('data:application/pdf;base64,' + pdf, '_blank');
+}
+
+async function genererContrat() {
+  const p = getContratParams();
+  if (!p.dateDebut) { toast('Veuillez saisir une date de début'); return; }
+  const pdf = generateContratPDF(p);
+  if (!pdf) { toast('Erreur génération PDF'); return; }
+  // Download
+  const a = document.createElement('a');
+  a.href = 'data:application/pdf;base64,' + pdf;
+  a.download = `Contrat-${p.contractNum}.pdf`;
+  a.click();
+  // Save to DB
+  await saveContratToDB(p, pdf);
+  toast('Contrat généré et sauvegardé');
+  loadContractsList();
+}
+
+async function saveContratToDB(p, pdfBase64) {
+  try {
+    // Upload PDF to Supabase Storage
+    const fileName = `${_cmCompanyId}/${p.contractNum}.pdf`;
+    const pdfBytes = Uint8Array.from(atob(pdfBase64), c => c.charCodeAt(0));
+    const uploadResp = await fetch(`${SB}/storage/v1/object/contracts/${fileName}`, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + getSAToken(), 'Content-Type': 'application/pdf', 'x-upsert': 'true' },
+      body: pdfBytes
+    });
+    const pdfUrl = uploadResp.ok ? `${SB}/storage/v1/object/contracts/${fileName}` : null;
+    // Save contract metadata
+    await fetch(`${SB}/rest/v1/sa_contracts`, {
+      method: 'POST',
+      headers: { ...H(), 'Prefer': 'return=minimal' },
+      body: JSON.stringify({
+        company_id: _cmCompanyId,
+        contract_number: p.contractNum,
+        date_debut: p.dateDebut,
+        date_fin: p.dateFin,
+        duree_mois: p.duree,
+        nb_admins: p.nbA, nb_chefs: p.nbC, nb_chauffeurs: p.nbCh,
+        tarif_admin: p.tA, tarif_chef: p.tC, tarif_chauffeur: p.tCh,
+        frais_maintenance: p.maint, frais_gestion: p.gest,
+        tva_rate: p.tva, mode_paiement: p.modePaie,
+        jour_echeance: p.jourEch,
+        montant_ht: p.ht, montant_ttc: p.ttc,
+        statut: 'draft',
+        notes: p.notes,
+        contract_pdf_url: pdfUrl
+      })
+    });
+  } catch(e) { console.error('saveContrat:', e); }
+}
+
+async function loadContractsList() {
+  if (!_cmCompanyId) return;
+  const el = document.getElementById('cm-contracts-list');
+  el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray);font-size:12px">Chargement...</div>';
+  try {
+    const rows = await fetch(`${SB}/rest/v1/sa_contracts?company_id=eq.${_cmCompanyId}&order=created_at.desc`, { headers: H() }).then(r=>r.json());
+    if (!Array.isArray(rows) || rows.length === 0) {
+      el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--gray);font-size:12px">Aucun contrat généré pour ce client.</div>';
+      document.getElementById('cm-upload-contract-id').innerHTML = '<option value="">— Aucun contrat —</option>';
+      return;
+    }
+    const sel = document.getElementById('cm-upload-contract-id');
+    sel.innerHTML = '<option value="">— Sélectionner le contrat —</option>' + rows.map(r => `<option value="${r.id}">${r.contract_number} (${r.date_debut})</option>`).join('');
+    const statutColors = { draft:'#888', active:'#4ade80', terminated:'#D88888', signed:'#C9A961' };
+    el.innerHTML = rows.map(r => `
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:700;font-size:13px;color:#fff">${r.contract_number}</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:3px">${r.date_debut} → ${r.date_fin} · ${r.duree_mois} mois · ${(r.montant_ttc||0).toLocaleString('fr-FR',{minimumFractionDigits:2})} € TTC/mois</div>
+          <div style="font-size:11px;margin-top:2px"><span style="color:${statutColors[r.statut]||'#888'};font-weight:700">${{draft:'Brouillon',active:'Actif',terminated:'Résilié',signed:'Signé'}[r.statut]||r.statut}</span>${r.signed_pdf_url?' · <span style="color:#4ade80">Signé uploadé</span>':''}</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          ${r.contract_pdf_url ? `<button onclick="downloadContratFile('${r.contract_pdf_url}','${r.contract_number}')" style="padding:6px 12px;background:rgba(201,169,97,0.1);border:1px solid #C9A961;color:#C9A961;border-radius:6px;font-size:11px;cursor:pointer">PDF</button>` : ''}
+          ${r.signed_pdf_url ? `<button onclick="downloadContratFile('${r.signed_pdf_url}','${r.contract_number}-signe')" style="padding:6px 12px;background:rgba(74,222,128,0.1);border:1px solid #4ade80;color:#4ade80;border-radius:6px;font-size:11px;cursor:pointer">Signé</button>` : ''}
+          <button onclick="updateContratStatut('${r.id}')" style="padding:6px 12px;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--gray);border-radius:6px;font-size:11px;cursor:pointer">Statut</button>
+        </div>
+      </div>`).join('');
+  } catch(e) { el.innerHTML = '<div style="color:#D88888;padding:20px;text-align:center;font-size:12px">Erreur chargement</div>'; }
+}
+
+async function downloadContratFile(url, name) {
+  try {
+    const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + getSAToken() } });
+    if (!resp.ok) throw new Error('Erreur téléchargement');
+    const blob = await resp.blob();
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${name}.pdf`; a.click();
+  } catch(e) { toast('Erreur téléchargement'); }
+}
+
+async function uploadSignedContrat() {
+  const contractId = document.getElementById('cm-upload-contract-id').value;
+  const file = document.getElementById('cm-upload-file').files[0];
+  if (!contractId || !file) { toast('Sélectionner un contrat et un fichier PDF'); return; }
+  const statusEl = document.getElementById('cm-upload-status');
+  statusEl.textContent = 'Envoi en cours...';
+  try {
+    const fileName = `${_cmCompanyId}/signed-${contractId}.pdf`;
+    const bytes = await file.arrayBuffer();
+    const resp = await fetch(`${SB}/storage/v1/object/contracts/${fileName}`, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + getSAToken(), 'Content-Type': 'application/pdf', 'x-upsert': 'true' },
+      body: bytes
+    });
+    if (!resp.ok) throw new Error('Upload échoué');
+    const signedUrl = `${SB}/storage/v1/object/contracts/${fileName}`;
+    await fetch(`${SB}/rest/v1/sa_contracts?id=eq.${contractId}`, {
+      method: 'PATCH', headers: H(),
+      body: JSON.stringify({ signed_pdf_url: signedUrl, statut: 'signed', signed_client_at: new Date().toISOString() })
+    });
+    statusEl.textContent = 'Contrat signé uploadé avec succès.';
+    statusEl.style.color = '#4ade80';
+    document.getElementById('cm-upload-file').value = '';
+    loadContractsList();
+    toast('Contrat signé enregistré');
+  } catch(e) { statusEl.textContent = 'Erreur : ' + e.message; statusEl.style.color = '#D88888'; }
+}
+
+async function updateContratStatut(contractId) {
+  const statuts = ['draft','active','signed','terminated'];
+  const current = prompt('Nouveau statut (draft / active / signed / terminated) :');
+  if (!statuts.includes(current)) { toast('Statut invalide'); return; }
+  await fetch(`${SB}/rest/v1/sa_contracts?id=eq.${contractId}`, { method:'PATCH', headers:H(), body:JSON.stringify({ statut:current }) });
+  loadContractsList();
+}
+
+function generateContratPDF(p) {
+  if (!window.jspdf) return null;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const W = 210, ML = 20, MR = 190, CW = MR - ML;
+  let y = 0;
+
+  const fmtEur = n => {
+    const parts = n.toFixed(2).split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join(',') + ' €';
+  };
+  const fmtDate = s => {
+    if (!s) return '—';
+    const [yr,m,d] = s.split('-');
+    const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    return `${parseInt(d)} ${mois[parseInt(m)-1]} ${yr}`;
+  };
+  const today = new Date();
+  const todayStr = fmtDate(today.toISOString().split('T')[0]);
+
+  // Check page break helper
+  const checkY = (requiredSpace) => {
+    if (y + requiredSpace > 272) {
+      doc.addPage();
+      y = 20;
+      doc.setFillColor(201,169,97);
+      doc.rect(ML, 10, CW, 0.5, 'F');
+      doc.setFontSize(7); doc.setFont('helvetica','italic'); doc.setTextColor(150,150,150);
+      doc.text('CONTRAT DE SOUSCRIPTION SAAS — ' + p.contractNum + ' — T SERVICE & CO / ' + (p.co.name||''), ML, 8);
+      doc.text(`Page ${doc.getNumberOfPages()}`, MR, 8, {align:'right'});
+      doc.setTextColor(0,0,0);
+    }
+  };
+
+  // ── HEADER PAGE 1 ──
+  doc.setFillColor(10,10,10);
+  doc.rect(0, 0, W, 45, 'F');
+  doc.setFillColor(201,169,97);
+  doc.circle(ML+8, 22.5, 8, 'F');
+  doc.setTextColor(10,10,10); doc.setFontSize(9); doc.setFont('helvetica','bold');
+  doc.text('TS', ML+8, 25, {align:'center'});
+  doc.setTextColor(201,169,97); doc.setFontSize(16); doc.setFont('helvetica','bold');
+  doc.text('T SERVICE & CO', ML+20, 19);
+  doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.setTextColor(150,150,150);
+  doc.text('T Service pilote votre logistique', ML+20, 25);
+  doc.setTextColor(255,255,255); doc.setFontSize(13); doc.setFont('helvetica','bold');
+  doc.text('CONTRAT DE SOUSCRIPTION SaaS', MR, 16, {align:'right'});
+  doc.setFontSize(9); doc.setFont('helvetica','normal');
+  doc.text('N° ' + p.contractNum, MR, 22, {align:'right'});
+  doc.text('Dakar, le ' + todayStr, MR, 28, {align:'right'});
+
+  y = 55;
+
+  // ── PARTIES ──
+  doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(201,169,97);
+  doc.text('ENTRE LES SOUSSIGNÉS :', ML, y); y += 7;
+
+  doc.setFontSize(8.5); doc.setFont('helvetica','bold'); doc.setTextColor(0,0,0);
+  doc.text('Le Prestataire :', ML, y); y += 5;
+  doc.setFont('helvetica','normal');
+  const prestataire = [
+    'Dénomination sociale : T-SERVICE & CO SUARL',
+    'Siège social : Commune Ngor Almadie Zone 14, Dakar, République du Sénégal',
+    'RCCM : SN.DKR.2026.B.15266  |  NINEA : 0130077702Y2',
+    'Représenté par : M. SOW Ibrahima, en qualité de Gérant',
+    'Ci-après dénommé « le Prestataire »'
+  ];
+  prestataire.forEach(l => { doc.text(l, ML+4, y); y += 4.5; });
+  y += 3;
+
+  doc.setFont('helvetica','bold');
+  doc.text('ET :', ML, y); y += 5;
+  doc.text('Le Client :', ML, y); y += 5;
+  doc.setFont('helvetica','normal');
+  const client = [
+    'Dénomination sociale : ' + (p.co.name||'—'),
+    'Siège social : ' + (p.co.city||'—'),
+    (p.co.siret ? 'SIRET / RC : ' + p.co.siret : 'Immatriculation : —'),
+    'Représenté par : ' + (p.co.resp||'—'),
+    'Email : ' + (p.co.billing_email||p.co.email||'—'),
+    'Ci-après dénommé « le Client »'
+  ];
+  client.forEach(l => { doc.text(l, ML+4, y); y += 4.5; });
+  y += 3;
+  doc.setFont('helvetica','italic'); doc.setTextColor(80,80,80);
+  doc.text('Ensemble dénommés « les Parties »', ML, y); y += 8;
+
+  // Separator line
+  doc.setFillColor(201,169,97); doc.rect(ML, y, CW, 0.5, 'F'); y += 5;
+  doc.setFont('helvetica','bold'); doc.setTextColor(0,0,0); doc.setFontSize(9);
+  doc.text('IL A ÉTÉ ARRÊTÉ ET CONVENU CE QUI SUIT :', ML, y); y += 8;
+
+  // ── Article helper ──
+  const article = (num, title) => {
+    checkY(12);
+    doc.setFillColor(240,240,240); doc.rect(ML, y, CW, 7, 'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(0,0,0);
+    doc.text(`Article ${num} – ${title}`, ML+3, y+4.8); y += 10;
+  };
+  const subTitle = (t) => {
+    checkY(8);
+    doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(40,40,40);
+    doc.text(t, ML, y); y += 5;
+    doc.setFont('helvetica','normal');
+  };
+  const para = (text, indent=0) => {
+    doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(30,30,30);
+    const lines = doc.splitTextToSize(text, CW - indent);
+    lines.forEach(l => { checkY(5); doc.text(l, ML+indent, y); y += 4.5; });
+    y += 1;
+  };
+  const bullet = (text) => {
+    checkY(5);
+    doc.setFontSize(8.5); doc.setFont('helvetica','normal'); doc.setTextColor(30,30,30);
+    doc.text('•', ML+3, y);
+    const lines = doc.splitTextToSize(text, CW-10);
+    lines.forEach((l) => { checkY(5); doc.text(l, ML+8, y); y += 4.5; });
+    y += 0.5;
+  };
+
+  const modeLabelFr = {virement:'virement bancaire', swift:'virement SWIFT international', wave:'Wave', mobile_money:'Mobile Money', cheque:'chèque'}[p.modePaie] || p.modePaie;
+  const jourLabel = `le ${p.jourEch === 1 ? '1er' : p.jourEch + 'e'} de chaque mois`;
+
+  // ── ART 1 ──
+  article(1, 'Objet du Contrat');
+  para('Le présent contrat a pour objet de définir les conditions dans lesquelles le Prestataire met à disposition du Client sa solution logicielle de gestion opérationnelle et logistique dénommée « T SERVICE & CO SaaS » (ci-après « la Solution »), accessible via Internet en mode Software as a Service (SaaS), ainsi que les services associés de maintenance, support technique et hébergement des données.');
+
+  // ── ART 2 ──
+  article(2, 'Description des Services');
+  subTitle('2.1 – Modules inclus');
+  para('La Solution comprend, selon les modules activés dans le compte du Client : gestion du planning et des tournées, dispatch et affectation des chauffeurs, suivi en temps réel, gestion des ressources humaines, génération des fiches de paie, tableau de bord analytique, facturation interne, messagerie et outils de communication, ainsi que tous addons souscrits.');
+  y += 2;
+  subTitle('2.2 – Licences souscrites');
+
+  // Licences table
+  checkY(40);
+  const tableData = [];
+  if (p.nbA > 0) tableData.push(['Licence Administrateur', String(p.nbA), fmtEur(p.tA) + '/lic./mois', fmtEur(p.nbA*p.tA)]);
+  if (p.nbC > 0) tableData.push(["Licence Chef d'equipe", String(p.nbC), fmtEur(p.tC) + '/lic./mois', fmtEur(p.nbC*p.tC)]);
+  if (p.nbCh > 0) tableData.push(['Licence Chauffeur', String(p.nbCh), fmtEur(p.tCh) + '/lic./mois', fmtEur(p.nbCh*p.tCh)]);
+  if (p.maint > 0) tableData.push(['Maintenance mensuelle (variable)', '—', '—', fmtEur(p.maint) + ' (indicatif)']);
+  if (p.gest > 0) tableData.push(['Pilotage Complet TS CO', '1', fmtEur(p.gest), fmtEur(p.gest)]);
+
+  // Table header
+  doc.setFillColor(20,20,20); doc.rect(ML, y, CW, 7, 'F');
+  doc.setTextColor(255,255,255); doc.setFontSize(8); doc.setFont('helvetica','bold');
+  doc.text('Désignation', ML+2, y+4.8);
+  doc.text('Qté', ML+85, y+4.8, {align:'center'});
+  doc.text('P.U. HT', ML+125, y+4.8, {align:'center'});
+  doc.text('Total HT', MR-2, y+4.8, {align:'right'});
+  y += 7;
+
+  tableData.forEach((row, i) => {
+    if (i%2===0) { doc.setFillColor(248,248,248); doc.rect(ML, y, CW, 6.5, 'F'); }
+    doc.setTextColor(0,0,0); doc.setFont('helvetica','normal'); doc.setFontSize(8);
+    doc.text(String(row[0]), ML+2, y+4.5);
+    doc.text(String(row[1]), ML+85, y+4.5, {align:'center'});
+    doc.text(String(row[2]), ML+125, y+4.5, {align:'center'});
+    doc.text(String(row[3]), MR-2, y+4.5, {align:'right'});
+    y += 6.5;
+  });
+
+  // Totaux
+  const totaux = [['Total HT', fmtEur(p.ht)], [`TVA (${p.tva}%)`, fmtEur(p.ht*p.tva/100)], ['TOTAL TTC / MOIS', fmtEur(p.ttc)]];
+  totaux.forEach(([label, val], i) => {
+    const isTtc = i === 2;
+    if (isTtc) doc.setFillColor(201,169,97); else doc.setFillColor(235,235,235);
+    doc.rect(ML+70, y, CW-70, 7, 'F');
+    doc.setTextColor(isTtc?10:0, isTtc?10:0, isTtc?10:0);
+    doc.setFont('helvetica', isTtc?'bold':'normal'); doc.setFontSize(isTtc?9:8);
+    doc.text(label, ML+73, y+4.8);
+    doc.text(val, MR-2, y+4.8, {align:'right'});
+    y += 7;
+  });
+  y += 4;
+
+  // ── ART 3 ──
+  article(3, 'Durée et Engagement');
+  subTitle('3.1 – Entrée en vigueur');
+  para(`Le présent contrat prend effet à compter du ${fmtDate(p.dateDebut)} pour une durée ferme et irrévocable de ${p.duree} mois, soit jusqu'au ${fmtDate(p.dateFin)} inclus.`);
+  subTitle('3.2 – Renouvellement');
+  para("A l'issue de la période d'engagement initiale, le contrat se renouvelle tacitement par périodes successives d'un (1) mois, sauf dénonciation par l'une des Parties adressée par écrit (lettre recommandée avec accusé de réception ou email avec confirmation) avec un préavis minimum de trente (30) jours calendaires avant l'échéance.");
+
+  // ── ART 4 ──
+  article(4, 'Conditions Financières');
+  subTitle('4.1 – Tarification mensuelle');
+  para(`Le montant mensuel dû par le Client au titre du présent contrat est de ${fmtEur(p.ht)} hors taxes (HT), soit ${fmtEur(p.ttc)} toutes taxes comprises (TTC) au taux de TVA de ${p.tva}%, tel que détaillé à l'article 2.2 ci-dessus.`);
+  if (p.maint > 0) {
+    para(`Les frais de maintenance d'un montant indicatif de ${fmtEur(p.maint)} HT/mois sont susceptibles de varier en fonction du volume et de la complexité des interventions réalisées. Le Client en sera informé au préalable par devis ou avenant.`);
+  }
+  subTitle('4.2 – Facturation et modalités de paiement');
+  para(`Le Prestataire émet une facture mensuelle le ${p.jourEch === 1 ? '1er' : p.jourEch + 'ème'} jour de chaque mois. Le Client s'engage à régler chaque facture par ${modeLabelFr} dans un délai de trente (30) jours à compter de la date d'émission.`);
+  para(`Coordonnées de règlement : se référer aux informations figurant sur chaque facture émise par le Prestataire.`);
+  subTitle('4.3 – Révision tarifaire');
+  para("Le Prestataire se réserve le droit de procéder à une révision de ses tarifs, une fois par an maximum, moyennant un préavis de soixante (60) jours calendaires notifié par écrit au Client. En cas de refus de la nouvelle tarification, le Client peut résilier le contrat sans pénalité dans ce délai.");
+  subTitle('4.4 – Pénalités de retard');
+  para("Tout retard de paiement donne lieu, de plein droit et sans mise en demeure préalable, à l'application de pénalités de retard calculées au taux légal en vigueur majoré de trois (3) points, à compter du lendemain de la date d'échéance.");
+  para("Pour les Clients établis en France : conformément à l'article L.441-10 du Code de commerce, des pénalités de retard sont exigibles au taux égal à trois (3) fois le taux d'intérêt légal, ainsi qu'une indemnité forfaitaire pour frais de recouvrement de quarante (40) euros.");
+  para("En cas de retard de paiement supérieur à quinze (15) jours calendaires, le Prestataire se réserve le droit de suspendre l'accès à la Solution, après notification par email, sans préjudice des sommes dues et de tout recours judiciaire.");
+
+  // ── ART 5 ──
+  article(5, "Obligations du Prestataire");
+  para("Le Prestataire s'engage à :");
+  bullet("Assurer la disponibilité de la Solution 24h/24 et 7j/7, avec un objectif de taux de disponibilité de 99% hors opérations de maintenance planifiée ;");
+  bullet("Notifier le Client de toute interruption planifiée avec un préavis minimum de quarante-huit (48) heures ;");
+  bullet("Assurer la sécurité, l'intégrité et la confidentialité des données hébergées en mettant en oeuvre les mesures techniques appropriées ;");
+  bullet("Réaliser des sauvegardes quotidiennes automatisées des données du Client ;");
+  bullet("Fournir une assistance technique par email dans un délai de quarante-huit (48) heures ouv rées ;");
+  bullet("Informer le Client des évolutions majeures de la Solution avec un préavis raisonnable.");
+
+  // ── ART 6 ──
+  article(6, "Obligations du Client");
+  para("Le Client s'engage à :");
+  bullet("Régler les factures dans les délais et selon les modalités convenus au présent contrat ;");
+  bullet("Utiliser la Solution conformément à sa destination et aux présentes conditions générales ;");
+  bullet("Ne pas partager, céder ou transférer les accès à des tiers non autorisés ;");
+  bullet("Maintenir la confidentialité des identifiants et mots de passe ;");
+  bullet("Informer le Prestataire de toute anomalie, incident ou dysfonctionnement constaté dans les plus brefs délais ;");
+  bullet("S'assurer que les données saisies respectent la réglementation applicable et ne portent pas atteinte aux droits des tiers.");
+
+  // ── ART 7 ──
+  article(7, "Propriété Intellectuelle");
+  para("La Solution et l'ensemble de ses composants (code source, interfaces graphiques, bases de données, documentation, algorithmes, marques) demeurent la propriété exclusive du Prestataire et sont protégés par les lois en vigueur relatives à la propriété intellectuelle en France et au Sénégal.");
+  para("Le présent contrat confère au Client un droit d'usage non exclusif, non cessible et non transférable, limité à la durée du contrat et à un usage interne à son entreprise.");
+  para("Le Client conserve l'entière propriété de l'ensemble de ses données métier. A l'expiration du contrat, le Client peut demander l'export de ses données dans un délai de trente (30) jours.");
+
+  // ── ART 8 ──
+  article(8, "Confidentialité");
+  para("Chacune des Parties s'engage à traiter comme strictement confidentielles toutes les informations, documents, données techniques ou commerciales échangés dans le cadre du présent contrat, et à ne pas les divulguer à des tiers sans accord préalable écrit de l'autre Partie.");
+  para("Cette obligation de confidentialité survit à l'expiration ou à la résiliation du contrat pour une durée de cinq (5) ans.");
+
+  // ── ART 9 ──
+  article(9, "Protection des Données Personnelles");
+  subTitle('9.1 – Qualité des Parties');
+  para("Dans le cadre de l'exécution du présent contrat, le Client agit en qualité de responsable de traitement et le Prestataire en qualité de sous-traitant au sens du Règlement Général sur la Protection des Données (RGPD - Règlement UE 2016/679) pour les données à caractère personnel des salariés et utilisateurs du Client.");
+  subTitle('9.2 – Engagements du Prestataire');
+  para("Le Prestataire s'engage à traiter les données exclusivement pour les finalités définies dans le présent contrat, à mettre en oeuvre les mesures de sécurité techniques et organisationnelles appropriées, à ne pas sous-traiter sans accord du Client, et à notifier toute violation de données dans les 72 heures.");
+  subTitle('9.3 – Loi sénégalaise');
+  para("Les Parties s'engagent également à respecter les dispositions de la loi n°2008-12 du 25 janvier 2008 sur la protection des données à caractère personnel au Sénégal et les décisions de la Commission de Protection des Données Personnelles (CDP).");
+
+  // ── ART 10 ──
+  article(10, "Responsabilité et Limitation");
+  para("La responsabilité du Prestataire est expressément limitée aux seuls dommages directs et prouvés résultant d'un manquement avéré à ses obligations contractuelles. Elle ne saurait en aucun cas excéder le montant des sommes effectivement facturées et encaissées auprès du Client au cours des trois (3) mois précédant le fait générateur du dommage.");
+  para("Le Prestataire ne saurait être tenu responsable : (i) des dommages indirects, immatériels ou consécutifs (perte d'exploitation, perte de données, manque à gagner, préjudice commercial) ; (ii) des défaillances liées à des tiers (opérateurs télécoms, fournisseurs d'énergie) ; (iii) d'une utilisation non conforme de la Solution par le Client.");
+
+  // ── ART 11 ──
+  article(11, "Résiliation");
+  subTitle('11.1 – Résiliation pour faute');
+  para("En cas de manquement grave de l'une des Parties à ses obligations, non régularisé dans un délai de quinze (15) jours suivant notification par lettre recommandée avec accusé de réception ou email recommandé, l'autre Partie peut résilier le présent contrat de plein droit, sans indemnité et sans préjudice de tous dommages et intérêts.");
+  subTitle('11.2 – Résiliation anticipée par le Client');
+  para(`En cas de résiliation à l'initiative du Client avant l'échéance de la période d'engagement ferme de ${p.duree} mois, une indemnité de résiliation anticipée égale à la somme des loyers mensuels TTC restant dus jusqu'au terme de ladite période sera exigible de plein droit.`);
+  subTitle('11.3 – Résiliation pour non-paiement');
+  para("Le Prestataire se réserve le droit de résilier le contrat de plein droit, après mise en demeure demeurée sans effet pendant quinze (15) jours, en cas de non-paiement de toute somme due à son échéance.");
+
+  // ── ART 12 ──
+  article(12, "Force Majeure");
+  para("Les Parties ne sauraient être tenues responsables de l'inexécution totale ou partielle de leurs obligations résultant d'un événement constitutif de force majeure au sens des jurisprudences française et sénégalaise, notamment : catastrophes naturelles, conflits armés, décisions gouvernementales, cyberattaques massives, pannes généralisées des réseaux Internet.");
+  para("La Partie invoquant la force majeure doit en informer l'autre dans les quarante-huit (48) heures par tout moyen écrit. Si la situation de force majeure se prolonge au-delà de trente (30) jours, chaque Partie peut résilier le contrat sans indemnité.");
+
+  // ── ART 13 ──
+  article(13, "Loi Applicable et Juridiction Compétente");
+  para("Le présent contrat est régi par le droit sénégalais, sous réserve des dispositions impératives du droit français applicables aux relations commerciales avec des entités établies en France (notamment les dispositions du Code de commerce relatives aux délais de paiement).");
+  para("En cas de litige relatif à la validité, l'interprétation ou l'exécution du présent contrat, les Parties conviennent de rechercher en priorité une solution amiable. A défaut d'accord dans un délai de trente (30) jours, le litige sera soumis à la compétence exclusive des juridictions compétentes de Dakar (République du Sénégal), sauf disposition légale impérative contraire applicable au Client.");
+
+  // ── ART 14 ──
+  article(14, "Dispositions Diverses");
+  bullet("Intégralité : Le présent contrat annule et remplace tout accord, verbal ou écrit, antérieur entre les Parties portant sur le même objet.");
+  bullet("Divisibilité : Si une stipulation est déclarée nulle ou inapplicable par une juridiction compétente, les autres stipulations demeurent en pleine vigueur.");
+  bullet("Tolérance : Le fait pour l'une des Parties de ne pas se prévaloir d'un manquement de l'autre ne vaut pas renonciation au droit d'agir ultérieurement.");
+  bullet("Avenant : Toute modification des termes du présent contrat doit faire l'objet d'un avenant écrit, daté et signé par les représentants habilités des deux Parties.");
+  bullet("Election de domicile : Pour l'exécution des présentes, les Parties font respectivement élection de domicile en leurs sièges sociaux respectifs.");
+
+  // ── ART 15 – SIGNATURES ──
+  checkY(70);
+  article(15, "Signatures");
+  para(`Fait en deux (2) exemplaires originaux, à Dakar, le ${todayStr}.`);
+  y += 5;
+
+  // Signature boxes
+  const boxY = y;
+  // Left box - Prestataire
+  doc.setFillColor(248,248,248); doc.rect(ML, boxY, 80, 50, 'F');
+  doc.setDrawColor(200,200,200); doc.rect(ML, boxY, 80, 50);
+  doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(0,0,0);
+  doc.text('Pour T-SERVICE & CO SUARL', ML+3, boxY+7);
+  doc.setFont('helvetica','normal'); doc.setFontSize(8);
+  doc.text('Le Gérant : M. SOW Ibrahima', ML+3, boxY+13);
+  doc.text('Signature et cachet :', ML+3, boxY+20);
+  doc.setDrawColor(180,180,180); doc.rect(ML+3, boxY+23, 72, 18);
+  doc.text('Date : ____________________', ML+3, boxY+46);
+
+  // Right box - Client
+  doc.setFillColor(248,248,248); doc.rect(MR-80, boxY, 80, 50, 'F');
+  doc.setDrawColor(200,200,200); doc.rect(MR-80, boxY, 80, 50);
+  doc.setFont('helvetica','bold'); doc.setFontSize(8.5);
+  doc.text('Pour ' + (p.co.name||'LE CLIENT'), MR-80+3, boxY+7);
+  doc.setFont('helvetica','normal'); doc.setFontSize(8);
+  doc.text('Le Gérant : ' + (p.co.resp||'—'), MR-80+3, boxY+13);
+  doc.text('Signature et cachet :', MR-80+3, boxY+20);
+  doc.setDrawColor(180,180,180); doc.rect(MR-80+3, boxY+23, 72, 18);
+  doc.text('Date : ____________________', MR-80+3, boxY+46);
+
+  y = boxY + 55;
+
+  // ── FOOTER ──
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(10,10,10); doc.rect(0, 282, W, 15, 'F');
+    doc.setTextColor(150,150,150); doc.setFontSize(7); doc.setFont('helvetica','normal');
+    doc.text('T-SERVICE & CO SUARL · RCCM SN.DKR.2026.B.15266 · NINEA 0130077702Y2 · tserviceco5@gmail.com', 105, 289, {align:'center'});
+    doc.text(`Page ${i} / ${pageCount}`, MR, 289, {align:'right'});
+    doc.text('Contrat N° ' + p.contractNum, ML, 289);
+  }
+
+  return doc.output('datauristring').split(',')[1];
+}
+
 </script>
 
 <!-- ── Modal envoi facture par email ─────────────────────── -->
@@ -3453,6 +4006,160 @@ async function deleteSTTRelation(id, donorName, receiverName) {
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
         Générer la facture
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONTRACT MODAL ═══ -->
+<div id="contract-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:500;overflow-y:auto;padding:20px">
+  <div style="max-width:900px;margin:0 auto;background:#1a1a2e;border:1px solid var(--border);border-radius:16px;overflow:hidden">
+    <!-- Header -->
+    <div style="background:#0A0A0A;padding:20px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:#C9A961">Contrat de Souscription SaaS</div>
+        <div id="cm-company-name" style="font-size:12px;color:var(--gray);margin-top:2px"></div>
+      </div>
+      <button onclick="closeContratModal()" style="background:none;border:none;color:var(--gray);cursor:pointer;font-size:20px;padding:4px 8px">&#x2715;</button>
+    </div>
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02)">
+      <button id="cm-tab-params" onclick="switchContratTab('params')" style="padding:12px 24px;background:#C9A961;color:#0A0A0A;border:none;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px">PARAM&Egrave;TRES</button>
+      <button id="cm-tab-contrats" onclick="switchContratTab('contrats')" style="padding:12px 24px;background:none;border:none;color:var(--gray);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px">CONTRATS EXISTANTS</button>
+    </div>
+    <!-- Tab: Params -->
+    <div id="cm-view-params" style="padding:28px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div>
+          <div class="field-lbl">Date de d&eacute;but du contrat</div>
+          <input type="date" id="cm-date-debut" class="ii" style="width:100%;padding:8px 10px">
+        </div>
+        <div>
+          <div class="field-lbl">Dur&eacute;e d'engagement</div>
+          <select id="cm-duree" class="ii" style="width:100%;padding:8px 10px" onchange="updateDateFin()">
+            <option value="1">1 mois</option>
+            <option value="3">3 mois</option>
+            <option value="6">6 mois</option>
+            <option value="12" selected>12 mois</option>
+            <option value="24">24 mois</option>
+          </select>
+        </div>
+        <div>
+          <div class="field-lbl">Date de fin (calcul&eacute;e)</div>
+          <input type="date" id="cm-date-fin" class="ii" style="width:100%;padding:8px 10px" readonly>
+        </div>
+        <div>
+          <div class="field-lbl">Jour d'&eacute;ch&eacute;ance mensuelle</div>
+          <select id="cm-jour-echeance" class="ii" style="width:100%;padding:8px 10px">
+            <option value="1">1er du mois</option>
+            <option value="5" selected>5 du mois</option>
+            <option value="10">10 du mois</option>
+            <option value="15">15 du mois</option>
+            <option value="28">28 du mois</option>
+          </select>
+        </div>
+      </div>
+      <!-- Licences -->
+      <div style="background:rgba(201,169,97,0.06);border:1px solid rgba(201,169,97,0.2);border-radius:10px;padding:16px 20px;margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:#C9A961;letter-spacing:2px;margin-bottom:14px">LICENCES &amp; TARIFS</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div>
+            <div class="field-lbl">Administrateurs</div>
+            <div style="display:flex;gap:6px">
+              <input type="number" id="cm-nb-admins" class="ii" style="width:60px;padding:7px 8px" value="0" min="0" onchange="updateMontantContrat()">
+              <span style="align-self:center;color:var(--gray);font-size:11px">&times;</span>
+              <input type="number" id="cm-tarif-admin" class="ii" style="flex:1;padding:7px 8px" value="500" min="0" step="0.01" onchange="updateMontantContrat()">
+              <span style="align-self:center;color:var(--gray);font-size:11px">&euro;</span>
+            </div>
+          </div>
+          <div>
+            <div class="field-lbl">Chefs d'&eacute;quipe</div>
+            <div style="display:flex;gap:6px">
+              <input type="number" id="cm-nb-chefs" class="ii" style="width:60px;padding:7px 8px" value="0" min="0" onchange="updateMontantContrat()">
+              <span style="align-self:center;color:var(--gray);font-size:11px">&times;</span>
+              <input type="number" id="cm-tarif-chef" class="ii" style="flex:1;padding:7px 8px" value="330" min="0" step="0.01" onchange="updateMontantContrat()">
+              <span style="align-self:center;color:var(--gray);font-size:11px">&euro;</span>
+            </div>
+          </div>
+          <div>
+            <div class="field-lbl">Chauffeurs</div>
+            <div style="display:flex;gap:6px">
+              <input type="number" id="cm-nb-chauffeurs" class="ii" style="width:60px;padding:7px 8px" value="0" min="0" onchange="updateMontantContrat()">
+              <span style="align-self:center;color:var(--gray);font-size:11px">&times;</span>
+              <input type="number" id="cm-tarif-chauffeur" class="ii" style="flex:1;padding:7px 8px" value="299.99" min="0" step="0.01" onchange="updateMontantContrat()">
+              <span style="align-self:center;color:var(--gray);font-size:11px">&euro;</span>
+            </div>
+          </div>
+          <div>
+            <div class="field-lbl">Maintenance mensuelle (&euro; HT, variable)</div>
+            <input type="number" id="cm-maintenance" class="ii" style="width:100%;padding:7px 8px" value="0" min="0" step="0.01" onchange="updateMontantContrat()" placeholder="Variable selon usage">
+          </div>
+          <div>
+            <div class="field-lbl">Gestion Compl&egrave;te (&euro; HT)</div>
+            <input type="number" id="cm-gestion" class="ii" style="width:100%;padding:7px 8px" value="0" min="0" step="0.01" onchange="updateMontantContrat()">
+          </div>
+          <div>
+            <div class="field-lbl">TVA (%)</div>
+            <select id="cm-tva" class="ii" style="width:100%;padding:7px 8px" onchange="updateMontantContrat()">
+              <option value="20" selected>20%</option>
+              <option value="0">0% (exon&eacute;r&eacute;)</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:12px 16px;background:rgba(201,169,97,0.1);border-radius:8px;display:flex;gap:24px;align-items:center">
+          <div style="font-size:12px;color:var(--gray)">Total HT : <strong id="cm-total-ht" style="color:#fff">0,00 &euro;</strong></div>
+          <div style="font-size:12px;color:var(--gray)">TVA : <strong id="cm-total-tva" style="color:#fff">0,00 &euro;</strong></div>
+          <div style="font-size:14px;color:#C9A961;font-weight:700">TOTAL TTC : <strong id="cm-total-ttc">0,00 &euro;</strong></div>
+        </div>
+      </div>
+      <!-- Paiement -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div>
+          <div class="field-lbl">Mode de paiement</div>
+          <select id="cm-mode-paiement" class="ii" style="width:100%;padding:8px 10px">
+            <option value="virement">Virement bancaire</option>
+            <option value="swift">Virement SWIFT international</option>
+            <option value="wave">Wave</option>
+            <option value="mobile_money">Mobile Money</option>
+            <option value="cheque">Ch&egrave;que</option>
+          </select>
+        </div>
+        <div>
+          <div class="field-lbl">Notes / Conditions particuli&egrave;res</div>
+          <textarea id="cm-notes" class="ii" rows="2" style="width:100%;resize:none;padding:8px 10px" placeholder="Conditions sp&eacute;ciales, remises accord&eacute;es..."></textarea>
+        </div>
+      </div>
+      <!-- Actions -->
+      <div style="display:flex;gap:12px;justify-content:flex-end">
+        <button onclick="previewContrat()" style="padding:10px 22px;background:rgba(79,209,224,0.1);border:1px solid #4FD1E0;color:#4FD1E0;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;display:inline-block;vertical-align:middle;margin-right:6px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Pr&eacute;visualiser
+        </button>
+        <button onclick="genererContrat()" style="padding:10px 22px;background:linear-gradient(135deg,#C9A961,#E8C66E);border:none;color:#0A0A0A;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;display:inline-block;vertical-align:middle;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          G&eacute;n&eacute;rer &amp; T&eacute;l&eacute;charger
+        </button>
+      </div>
+    </div>
+    <!-- Tab: Contrats existants -->
+    <div id="cm-view-contrats" style="display:none;padding:28px">
+      <div id="cm-contracts-list">
+        <div style="text-align:center;padding:40px;color:var(--gray);font-size:13px">Chargement...</div>
+      </div>
+      <!-- Upload contrat sign&eacute; -->
+      <div style="margin-top:20px;padding:16px 20px;background:rgba(79,209,224,0.05);border:1px solid rgba(79,209,224,0.2);border-radius:10px">
+        <div style="font-size:11px;font-weight:700;color:#4FD1E0;letter-spacing:2px;margin-bottom:10px">UPLOADER UN CONTRAT SIGN&Eacute; (PDF)</div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <select id="cm-upload-contract-id" class="ii" style="flex:1;padding:8px 10px;font-size:12px">
+            <option value="">&mdash; S&eacute;lectionner le contrat &mdash;</option>
+          </select>
+          <input type="file" id="cm-upload-file" accept="application/pdf" style="display:none" onchange="uploadSignedContrat()">
+          <button onclick="document.getElementById('cm-upload-file').click()" style="padding:9px 18px;background:rgba(79,209,224,0.1);border:1px solid #4FD1E0;color:#4FD1E0;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:4px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Uploader sign&eacute;
+          </button>
+        </div>
+        <div id="cm-upload-status" style="font-size:11px;color:var(--gray);margin-top:6px"></div>
+      </div>
     </div>
   </div>
 </div>
