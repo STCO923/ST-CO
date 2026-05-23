@@ -2269,10 +2269,10 @@ async function saveTarif(key, val) {
 
 async function saveBankCoord(key, val) {
   const v = String(val).trim();
-  await fetch(`${SB}/rest/v1/saas_config?on_conflict=key`, {
-    method: 'POST',
-    headers: { ...H(), 'Prefer': 'resolution=merge-duplicates' },
-    body: JSON.stringify({ key: `bank_${key}`, value: v, updated_at: new Date().toISOString() })
+  await fetch(`${SB}/rest/v1/saas_config?key=eq.bank_${key}`, {
+    method: 'PATCH',
+    headers: H(),
+    body: JSON.stringify({ value: v, updated_at: new Date().toISOString() })
   });
   await loadTarifs();
   toast('Coordonnées bancaires mises à jour');
