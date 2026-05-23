@@ -1075,6 +1075,18 @@ const MODULES_BY_PLAN = {
 
 let allCompanies=[], selectedPlan='pro', editingId=null;
 
+function initSAKeyPrompt() {
+  if(!sessionStorage.getItem(SA_KEY_STORE_KEY)){
+    const btn=document.getElementById('btn-sakey');
+    if(btn){btn.style.border='1px solid rgba(231,76,60,0.5)';btn.style.color='#D88888';btn.textContent=' Clé API';}
+    setTimeout(()=>{
+      if(!sessionStorage.getItem(SA_KEY_STORE_KEY) && typeof openSAKeyModal==='function'){
+        openSAKeyModal();
+      }
+    }, 500);
+  }
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   // Accès restreint — UUID superadmin requis
   const SA_UID='f38392d8-984b-4124-ac07-b6fbda633b2d';
@@ -1083,22 +1095,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(!sess||sess.id!==SA_UID){window.location.href='optimum_trans_dashboard.html';return;}
   renderPlanSelector();
   loadTarifs().then(() => loadCompanies());
-  // Indicateur clé API (sessionStorage, pas localStorage)
-  if(!sessionStorage.getItem(SA_KEY_STORE_KEY)){
-    const btn=document.getElementById('btn-sakey');
-    if(btn){btn.style.border='1px solid rgba(231,76,60,0.5)';btn.style.color='#D88888';btn.textContent=' Clé API';}
-    // Prompt automatique : la clé est requise pour quasiment toutes les
-    // opérations admin. Mieux vaut la demander tout de suite que de laisser
-    // le superadmin tomber sur des "Clé API manquante" à chaque clic.
-    setTimeout(()=>{
-      if(!sessionStorage.getItem(SA_KEY_STORE_KEY) && typeof openSAKeyModal==='function'){
-        openSAKeyModal();
-      }
-    }, 700);
-  }
   // Expiry par défaut = +1 an
   const d=new Date(); d.setFullYear(d.getFullYear()+1);
   document.getElementById('co-expiry').value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  // Si le gate mot de passe est déjà validé (session active), lancer le prompt clé API maintenant
+  if(sessionStorage.getItem('sa_gate_auth')==='1') initSAKeyPrompt();
 });
 
 // ── PLAN SELECTOR ──
@@ -3222,6 +3223,8 @@ async function deleteSTTRelation(id, donorName, receiverName) {
       sessionStorage.setItem(GATE_KEY, '1');
       document.getElementById('sa-gate').style.display = 'none';
       err.textContent = '';
+      // Déclencher le prompt clé API maintenant que le gate est levé
+      if (typeof initSAKeyPrompt === 'function') initSAKeyPrompt();
     } else {
       err.textContent = 'Mot de passe incorrect.';
       document.getElementById('sa-gate-pwd').value = '';
