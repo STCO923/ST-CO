@@ -437,6 +437,45 @@ select option:checked{background:#2a2a2a !important;}
         <span id="pg-rate" style="font-size:11px;color:var(--gray)">1 EUR = 655,957 XOF</span>
       </div>
 
+      <!-- Tarifs éditables -->
+      <div style="max-width:1060px;margin:0 auto 24px;background:rgba(201,169,97,0.06);border:1px solid rgba(201,169,97,0.25);border-radius:12px;padding:18px 24px" class="no-print-plans">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;color:#C9A961;margin-bottom:14px">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M2 12h2M20 12h2M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41"/></svg>
+          Tarifs mensuels — modifiables
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+          <div>
+            <div class="field-lbl">Administrateur (€)</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="number" id="tarif-admin" class="ii" style="width:100%;padding:8px 10px" value="500" min="0" step="1">
+              <button class="btn-sm btn-accent" style="padding:7px 12px;white-space:nowrap" onclick="saveTarif('price_admin',document.getElementById('tarif-admin').value)">✓</button>
+            </div>
+          </div>
+          <div>
+            <div class="field-lbl">Chef d'équipe (€)</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="number" id="tarif-chef" class="ii" style="width:100%;padding:8px 10px" value="330" min="0" step="1">
+              <button class="btn-sm btn-accent" style="padding:7px 12px;white-space:nowrap" onclick="saveTarif('price_chef',document.getElementById('tarif-chef').value)">✓</button>
+            </div>
+          </div>
+          <div>
+            <div class="field-lbl">Chauffeur (€)</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="number" id="tarif-chauffeur" class="ii" style="width:100%;padding:8px 10px" value="299.99" min="0" step="0.01">
+              <button class="btn-sm btn-accent" style="padding:7px 12px;white-space:nowrap" onclick="saveTarif('price_chauffeur',document.getElementById('tarif-chauffeur').value)">✓</button>
+            </div>
+          </div>
+          <div>
+            <div class="field-lbl">Gestion Complète (€)</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="number" id="tarif-gestion" class="ii" style="width:100%;padding:8px 10px" value="800" min="0" step="1">
+              <button class="btn-sm btn-accent" style="padding:7px 12px;white-space:nowrap" onclick="saveTarif('price_gestion',document.getElementById('tarif-gestion').value)">✓</button>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--gray);margin-top:10px">Cliquez ✓ pour sauvegarder — le changement met à jour tous les calculs et la grille immédiatement.</div>
+      </div>
+
       <div class="plans-cards" style="grid-template-columns:repeat(3,1fr);max-width:1060px;margin:0 auto 32px">
         <!-- Admin -->
         <div class="plan-card popular">
@@ -488,6 +527,29 @@ select option:checked{background:#2a2a2a !important;}
           <div style="margin-top:16px;padding:10px 14px;background:rgba(201,169,97,0.08);border:1px solid rgba(201,169,97,0.2);border-radius:8px;font-size:12px;color:var(--accent)">
             Exemple : 45 chauffeurs = <strong id="pg-ex-chauff">13 499,55 € / mois</strong>
           </div>
+        </div>
+      </div>
+
+      <!-- Option Gestion Complète -->
+      <div style="max-width:1060px;margin:0 auto 24px;background:rgba(79,209,224,0.04);border:1px solid rgba(79,209,224,0.25);border-radius:14px;padding:24px 28px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#4FD1E0" stroke-width="2" style="width:28px;height:28px"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          <div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:#4FD1E0">Option — Pilotage Complet par T SERVICE & CO</div>
+            <div style="font-size:12px;color:var(--gray)">Le client exprime ses besoins — T SERVICE & CO gère tout : tournées, chauffeurs, prestations, facturation, administratif</div>
+          </div>
+          <div style="margin-left:auto;text-align:right">
+            <div style="font-size:28px;font-weight:800;color:#4FD1E0" id="pg-price-gestion">800 €</div>
+            <div style="font-size:11px;color:var(--gray)">/mois</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px">
+          <div style="background:rgba(79,209,224,0.06);border-radius:8px;padding:10px">✓ Création & gestion des tournées</div>
+          <div style="background:rgba(79,209,224,0.06);border-radius:8px;padding:10px">✓ Édition des factures clients</div>
+          <div style="background:rgba(79,209,224,0.06);border-radius:8px;padding:10px">✓ Ajout chauffeurs & prestations</div>
+          <div style="background:rgba(79,209,224,0.06);border-radius:8px;padding:10px">✓ Suivi quotidien de l'activité</div>
+          <div style="background:rgba(79,209,224,0.06);border-radius:8px;padding:10px">✓ Reporting mensuel inclus</div>
+          <div style="background:rgba(79,209,224,0.06);border-radius:8px;padding:10px">✓ Accès lecture du client conservé</div>
         </div>
       </div>
 
@@ -695,6 +757,19 @@ select option:checked{background:#2a2a2a !important;}
           <div style="font-size:10px;color:var(--gray);line-height:1.5;margin-top:3px">Pilotage complet par messages texte ou vocaux : planning, tournées, chauffeurs, clients, véhicules, absences, facturation, salaires, gazole, amendes, export Excel. Audit quotidien automatique avec alertes et recommandations. Activation par code Telegram.</div>
         </span>
       </label>
+      <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:13px;background:rgba(79,209,224,0.05);border:1px solid rgba(79,209,224,0.2);border-radius:10px;padding:10px 12px;margin-top:4px">
+        <input type="checkbox" id="co-addon-gestion" style="accent-color:#4FD1E0;width:16px;height:16px;margin-top:3px" onchange="document.getElementById('co-gestion-prix-custom-wrap').style.display=this.checked?'block':'none';document.getElementById('co-gestion-price-val').textContent=PRICE_GESTION;">
+        <span style="flex:1">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#4FD1E0" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Pilotage Complet par T SERVICE & CO
+          <strong id="co-gestion-price-label" style="color:#4FD1E0"> (+<span id="co-gestion-price-val">800</span>€/mois)</strong>
+          <div style="font-size:10px;color:var(--gray);line-height:1.5;margin-top:4px">TS CO gère toute la partie administrative : création tournées, chauffeurs, prestations, facturation. Le client conserve un accès lecture complet.</div>
+        </span>
+      </label>
+      <div id="co-gestion-prix-custom-wrap" style="display:none;margin-top:8px;padding:10px 12px;background:rgba(79,209,224,0.04);border:1px solid rgba(79,209,224,0.15);border-radius:8px">
+        <div class="field-lbl">Prix personnalisé Gestion Complète (€/mois) — laisser vide pour tarif standard</div>
+        <input type="number" id="co-gestion-prix-custom" class="ii" style="padding:8px 10px;width:200px" placeholder="${PRICE_GESTION}" min="0" step="1">
+      </div>
     </div>
 
     <!-- PRIX PERSONNALISÉ (override) -->
@@ -987,7 +1062,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   let sess=null; try{sess=JSON.parse(raw||'');}catch(e){}
   if(!sess||sess.id!==SA_UID){window.location.href='optimum_trans_dashboard.html';return;}
   renderPlanSelector();
-  loadCompanies();
+  loadTarifs().then(() => loadCompanies());
   // Indicateur clé API (sessionStorage, pas localStorage)
   if(!sessionStorage.getItem(SA_KEY_STORE_KEY)){
     const btn=document.getElementById('btn-sakey');
@@ -1234,6 +1309,9 @@ function openNewCompany(){
   document.getElementById('co-addon-etat-vehicule').checked=false;
   document.getElementById('co-addon-agent').checked=false;
   document.getElementById('co-addon-stt').checked=false;
+  document.getElementById('co-addon-gestion').checked=false;
+  document.getElementById('co-gestion-prix-custom').value='';
+  document.getElementById('co-gestion-prix-custom-wrap').style.display='none';
   document.getElementById('custom-quota-toggle').checked=false;
   document.getElementById('custom-quota-block').style.display='none';
   document.getElementById('custom-price-toggle').checked=false;
@@ -1270,6 +1348,9 @@ function editCompany(id){
   document.getElementById('co-addon-etat-vehicule').checked=co.addon_etat_vehicule===true;
   document.getElementById('co-addon-agent').checked=co.addon_agent===true;
   document.getElementById('co-addon-stt').checked=co.addon_stt===true;
+  document.getElementById('co-addon-gestion').checked=co.addon_gestion_complete===true;
+  document.getElementById('co-gestion-prix-custom').value=co.prix_gestion_complete||'';
+  document.getElementById('co-gestion-prix-custom-wrap').style.display=co.addon_gestion_complete?'block':'none';
   // Show custom quotas if they differ from plan defaults
   const p=PLANS[selectedPlan];
   const hasCustom=co.max_admins!==p.max_admins||co.max_chefs!==p.max_chefs||(co.max_chauffeurs!==p.max_chauffeurs&&p.max_chauffeurs!==999);
@@ -1391,6 +1472,8 @@ async function saveCompany(){
     addon_etat_vehicule:document.getElementById('co-addon-etat-vehicule').checked,
     addon_agent:document.getElementById('co-addon-agent').checked,
     addon_stt:document.getElementById('co-addon-stt').checked,
+    addon_gestion_complete:document.getElementById('co-addon-gestion').checked,
+    prix_gestion_complete:(()=>{const v=document.getElementById('co-gestion-prix-custom').value;return(v&&!isNaN(+v))?+v:null;})(),
     phone:document.getElementById('co-phone').value.trim()||null,
     city:document.getElementById('co-city').value.trim()||null,
     siret:document.getElementById('co-siret').value.trim()||null,
@@ -1926,15 +2009,46 @@ async function deleteUser(id,nom){
 // FACTURATION SAAS — Stripe
 // ══════════════════════════════════════════════
 
-// Tarification à la tête
+// Tarification à la tête — valeurs chargées depuis Supabase (saas_config)
 const PLAN_PRICES_TTC = { starter:500, pro:500, business:500 };
-const PRICE_ADMIN     = 500;
-const PRICE_CHEF      = 330;
-const PRICE_CHAUFFEUR = 299.99;
+let PRICE_ADMIN     = 500;
+let PRICE_CHEF      = 330;
+let PRICE_CHAUFFEUR = 299.99;
+let PRICE_GESTION   = 800;
 let   _actualChauffeurCounts = {};
 const esc = s => String(s).replace(/'/g,"&#39;").replace(/"/g,"&quot;");
 const PLAN_LABELS_FR  = { starter:'Essentiel 🥉', pro:'Pro 🥈', business:'Business 🥇' };
 const SB_FUNCTIONS_URL = 'https://kfdyqcbclueppmvkccdz.supabase.co/functions/v1';
+
+async function loadTarifs() {
+  try {
+    const rows = await fetch(`${SB}/rest/v1/saas_config?select=key,value`, { headers: H() }).then(r=>r.json());
+    if (!Array.isArray(rows)) return;
+    rows.forEach(r => {
+      if (r.key === 'price_admin')     PRICE_ADMIN     = +r.value;
+      if (r.key === 'price_chef')      PRICE_CHEF      = +r.value;
+      if (r.key === 'price_chauffeur') PRICE_CHAUFFEUR = +r.value;
+      if (r.key === 'price_gestion')   PRICE_GESTION   = +r.value;
+    });
+    // Sync UI fields if visible
+    ['admin','chef','chauffeur','gestion'].forEach(k => {
+      const el = document.getElementById(`tarif-${k}`);
+      if (el) el.value = ({admin:PRICE_ADMIN,chef:PRICE_CHEF,chauffeur:PRICE_CHAUFFEUR,gestion:PRICE_GESTION})[k];
+    });
+  } catch(e) { console.warn('loadTarifs:', e); }
+}
+
+async function saveTarif(key, val) {
+  const v = parseFloat(val);
+  if (isNaN(v) || v < 0) return;
+  await fetch(`${SB}/rest/v1/saas_config?key=eq.${key}`, {
+    method: 'PATCH', headers: H(), body: JSON.stringify({ value: String(v), updated_at: new Date().toISOString() })
+  });
+  await loadTarifs();
+  // Refresh grille tarifaire prices if visible
+  setPlansCurrency(_pgCurrency);
+  toast(' Tarif mis à jour');
+}
 
 function switchSATab(name, el) {
   document.querySelectorAll('.sa-tab').forEach(t => t.classList.remove('active'));
@@ -1944,6 +2058,7 @@ function switchSATab(name, el) {
   document.getElementById('view-plans').style.display     = name === 'plans' ? '' : 'none';
   document.getElementById('view-stt').style.display       = name === 'stt' ? '' : 'none';
   if (name === 'billing') { checkStripeConfig(); loadBillingData(); loadInvoiceHistory(); }
+  if (name === 'plans')   { loadTarifs(); }
 }
 
 // Stripe key gérée côté serveur (Edge Function Supabase)
@@ -1962,13 +2077,14 @@ function setPlansCurrency(cur) {
   document.getElementById('pg-btn-eur').style.cssText = `padding:7px 20px;border-radius:8px;border:1px solid ${isXOF?'#3A3328':'#C9A961'};background:${isXOF?'transparent':'#C9A961'};color:${isXOF?'var(--gray)':'#0A0A0A'};font-weight:700;font-size:13px;cursor:pointer`;
   document.getElementById('pg-btn-xof').style.cssText = `padding:7px 20px;border-radius:8px;border:1px solid ${isXOF?'#C9A961':'#3A3328'};background:${isXOF?'#C9A961':'transparent'};color:${isXOF?'#0A0A0A':'var(--gray)'};font-weight:700;font-size:13px;cursor:pointer`;
 
-  document.getElementById('pg-price-admin').textContent  = fmt(500);
-  document.getElementById('pg-price-chef').textContent   = fmt(330);
-  document.getElementById('pg-price-chauff').textContent = isXOF ? r(299.99).toLocaleString('fr-FR') + ' F CFA' : '299,99 €';
-  document.getElementById('pg-ex-admin').textContent     = fmt(2*500) + ' / mois';
-  document.getElementById('pg-ex-chef').textContent      = fmt(5*330) + ' / mois';
-  document.getElementById('pg-ex-chauff').textContent    = (isXOF ? r(45*299.99).toLocaleString('fr-FR')+' F CFA' : (45*299.99).toLocaleString('fr-FR',{minimumFractionDigits:2})+'€') + ' / mois';
-  const total = 2*500 + 5*330 + 45*299.99;
+  document.getElementById('pg-price-admin').textContent  = fmt(PRICE_ADMIN);
+  document.getElementById('pg-price-chef').textContent   = fmt(PRICE_CHEF);
+  document.getElementById('pg-price-chauff').textContent = isXOF ? r(PRICE_CHAUFFEUR).toLocaleString('fr-FR')+' F CFA' : PRICE_CHAUFFEUR.toLocaleString('fr-FR',{minimumFractionDigits:2})+' €';
+  document.getElementById('pg-price-gestion').textContent= fmt(PRICE_GESTION) + ' / mois';
+  document.getElementById('pg-ex-admin').textContent     = fmt(2*PRICE_ADMIN) + ' / mois';
+  document.getElementById('pg-ex-chef').textContent      = fmt(5*PRICE_CHEF) + ' / mois';
+  document.getElementById('pg-ex-chauff').textContent    = (isXOF ? r(45*PRICE_CHAUFFEUR).toLocaleString('fr-FR')+' F CFA' : (45*PRICE_CHAUFFEUR).toLocaleString('fr-FR',{minimumFractionDigits:2})+'€') + ' / mois';
+  const total = 2*PRICE_ADMIN + 5*PRICE_CHEF + 45*PRICE_CHAUFFEUR;
   document.getElementById('pg-ex-total').textContent = (isXOF ? r(total).toLocaleString('fr-FR')+' F CFA' : total.toLocaleString('fr-FR',{minimumFractionDigits:2})+'€') + ' / mois';
   if(isXOF) document.getElementById('pg-rate').textContent='Taux fixe BCEAO : 1 EUR = 655,957 XOF';
   else document.getElementById('pg-rate').textContent='1 EUR = 655,957 XOF';
@@ -1981,7 +2097,7 @@ async function loadBillingData() {
   tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px"><div class="spinner" style="margin:0 auto"></div></td></tr>`;
 
   const [companies, subs] = await Promise.all([
-    fetch(`${SB}/rest/v1/sa_companies?order=name&select=id,name,plan,status,billing_email,stripe_customer_id,price,custom_price,max_admins,max_chefs,max_chauffeurs`, { headers: H() }).then(r=>r.json()),
+    fetch(`${SB}/rest/v1/sa_companies?order=name&select=id,name,plan,status,billing_email,stripe_customer_id,price,custom_price,max_admins,max_chefs,max_chauffeurs,addon_gestion_complete,prix_gestion_complete`, { headers: H() }).then(r=>r.json()),
     fetch(`${SB}/rest/v1/saas_subscriptions?order=created_at.desc&select=*`, { headers: H() }).then(r=>r.json())
   ]);
 
@@ -2026,7 +2142,7 @@ async function loadBillingData() {
       <td style="font-size:11px;color:var(--gray)">${lastDate}</td>
       <td>${statutHtml}</td>
       <td style="white-space:nowrap;display:flex;gap:6px;flex-wrap:wrap">
-        <button class="btn-sm btn-accent" style="font-size:11px;padding:5px 10px" onclick="openFactureEditor('${co.id}','${esc(co.name)}',${nbAdmins},${nbChefs},${nbChauffeurs},${price},${hasCustom?1:0})">
+        <button class="btn-sm btn-accent" style="font-size:11px;padding:5px 10px" onclick="openFactureEditor('${co.id}','${esc(co.name)}',${nbAdmins},${nbChefs},${nbChauffeurs},${price},${hasCustom?1:0},${co.addon_gestion_complete?1:0},${co.prix_gestion_complete||0})">
           <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg> Facture
         </button>
         <button class="btn-sm btn-ghost" style="font-size:11px;padding:5px 10px" onclick="openSendInvoiceModal('${co.id}','${co.name}','${co.plan}','${co.stripe_customer_id||''}',${price})">
@@ -2056,7 +2172,7 @@ function feSetCurrency(cur) {
   feUpdatePreview();
 }
 
-function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price, isCustom) {
+function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price, isCustom, gestionActive, prixGestion) {
   const now = new Date();
   _feData = { coId, coName, isCustom, price };
   _feCurrency = 'EUR';
@@ -2072,6 +2188,9 @@ function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price,
   document.getElementById('fe-penalite-type').value= 'pct';
   document.getElementById('fe-penalite-val').value = '0';
   document.getElementById('fe-note').value    = '';
+  document.getElementById('fe-maintenance').value = '0';
+  document.getElementById('fe-gestion').value = gestionActive ? (prixGestion || PRICE_GESTION) : '0';
+  document.getElementById('fe-gestion-hint').textContent = PRICE_GESTION;
   m.style.display = 'flex';
   feSetCurrency('EUR');
 }
@@ -2086,10 +2205,12 @@ function feUpdatePreview() {
   const rVal=Number(document.getElementById('fe-remise-val').value)||0;
   const pType=document.getElementById('fe-penalite-type').value;
   const pVal=Number(document.getElementById('fe-penalite-val').value)||0;
+  const maint = Number(document.getElementById('fe-maintenance').value)||0;
+  const gest  = Number(document.getElementById('fe-gestion').value)||0;
   const isXOF = _feCurrency === 'XOF';
   const rate = isXOF ? EUR_TO_XOF : 1;
   const sym = isXOF ? ' F CFA' : ' €';
-  let ht = +((a*PRICE_ADMIN + ch*PRICE_CHEF + ca*PRICE_CHAUFFEUR) * rate).toFixed(isXOF?0:2);
+  let ht = +((a*PRICE_ADMIN + ch*PRICE_CHEF + ca*PRICE_CHAUFFEUR + maint + gest) * rate).toFixed(isXOF?0:2);
   const remise  = rType==='pct' ? +(ht*rVal/100).toFixed(isXOF?0:2) : +rVal.toFixed(isXOF?0:2);
   const penalite= pType==='pct' ? +(ht*pVal/100).toFixed(isXOF?0:2) : +pVal.toFixed(isXOF?0:2);
   ht = +(ht - remise + penalite).toFixed(isXOF?0:2);
@@ -2116,12 +2237,14 @@ function submitFactureEditor() {
   const rVal=Number(document.getElementById('fe-remise-val').value)||0;
   const pType=document.getElementById('fe-penalite-type').value;
   const pVal=Number(document.getElementById('fe-penalite-val').value)||0;
-  const note=document.getElementById('fe-note').value.trim();
+  const note  = document.getElementById('fe-note').value.trim();
+  const maint = Number(document.getElementById('fe-maintenance').value)||0;
+  const gest  = Number(document.getElementById('fe-gestion').value)||0;
   closeFactureEditor();
-  genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency);
+  genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest);
 }
 
-function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR') {
+function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0) {
   const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   const moisNom = MOIS_FR[moisIdx];
   const now     = new Date();
@@ -2130,13 +2253,15 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
   const rate    = isXOF ? EUR_TO_XOF : 1;
   const sym     = isXOF ? 'F CFA' : '€';
   const dec     = isXOF ? 0 : 2;
-  const ligneAdmin = +((nbAdmins * 500) * rate).toFixed(dec);
-  const ligneChef  = +((nbChefs  * 330) * rate).toFixed(dec);
-  const ligneChauf = +((nbChauffeurs * 299.99) * rate).toFixed(dec);
-  const puAdmin    = +(500 * rate).toFixed(dec);
-  const puChef     = +(330 * rate).toFixed(dec);
-  const puChauf    = +(299.99 * rate).toFixed(dec);
-  let   totalHT    = +(ligneAdmin + ligneChef + ligneChauf).toFixed(dec);
+  const ligneAdmin = +((nbAdmins * PRICE_ADMIN) * rate).toFixed(dec);
+  const ligneChef  = +((nbChefs  * PRICE_CHEF) * rate).toFixed(dec);
+  const ligneChauf = +((nbChauffeurs * PRICE_CHAUFFEUR) * rate).toFixed(dec);
+  const ligneMaint = +(maintenance * rate).toFixed(dec);
+  const ligneGest  = +(gestion * rate).toFixed(dec);
+  const puAdmin    = +(PRICE_ADMIN * rate).toFixed(dec);
+  const puChef     = +(PRICE_CHEF * rate).toFixed(dec);
+  const puChauf    = +(PRICE_CHAUFFEUR * rate).toFixed(dec);
+  let   totalHT    = +(ligneAdmin + ligneChef + ligneChauf + ligneMaint + ligneGest).toFixed(dec);
   const remise     = rType==='pct' ? +(totalHT*rVal/100).toFixed(dec) : +Number(rVal).toFixed(dec);
   const penalite   = pType==='pct' ? +(totalHT*pVal/100).toFixed(dec) : +Number(pVal).toFixed(dec);
   totalHT          = +(totalHT - remise + penalite).toFixed(dec);
@@ -2252,6 +2377,8 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
     ${nbAdmins>0?`<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${nbAdmins}</td><td style="text-align:right">${f(puAdmin)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>`:''}
     ${nbChefs>0?`<tr><td>Licence chef d'équipe — supervision &amp; dispatch</td><td style="text-align:center">${nbChefs}</td><td style="text-align:right">${f(puChef)}</td><td style="text-align:right">${f(ligneChef)}</td></tr>`:''}
     ${nbChauffeurs>0?`<tr><td>Licence chauffeur — gestion tournées &amp; suivi</td><td style="text-align:center">${nbChauffeurs}</td><td style="text-align:right">${f(puChauf)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`:''}
+    ${ligneMaint>0?`<tr><td>Frais de maintenance logicielle</td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneMaint)}</td><td style="text-align:right">${f(ligneMaint)}</td></tr>`:''}
+    ${ligneGest>0?`<tr style="background:#fafcff"><td><strong>Pilotage Complet par T SERVICE &amp; CO</strong><br><span style="font-size:11px;color:#666">Gestion administrative complète : tournées, chauffeurs, facturation, prestations</span></td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneGest)}</td><td style="text-align:right">${f(ligneGest)}</td></tr>`:''}
     ${remise>0?`<tr style="color:#c0392b"><td>Remise${rType==='pct'?' ('+rVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">- ${f(remise)}</td></tr>`:''}
     ${penalite>0?`<tr style="color:#e67e22"><td>Pénalité de retard${pType==='pct'?' ('+pVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">+ ${f(penalite)}</td></tr>`:''}
     ${note?`<tr><td colspan="4" style="font-size:11px;color:#666;border-top:1px dashed #eee;padding-top:10px"><em>Note : ${note}</em></td></tr>`:''}
@@ -2867,6 +2994,20 @@ async function deleteSTTRelation(id, donorName, receiverName) {
     <div style="margin-bottom:14px">
       <div class="field-lbl">Note libre (optionnel)</div>
       <textarea id="fe-note" class="ii" rows="2" style="width:100%;resize:none" placeholder="Ex : régularisation mars, remise fidélité…"></textarea>
+    </div>
+
+    <!-- Frais de maintenance + Gestion Complète -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div class="field-lbl">Frais de maintenance (€) — optionnel</div>
+        <input type="number" id="fe-maintenance" class="ii" style="width:100%" min="0" step="0.01" value="0" placeholder="0" oninput="feUpdatePreview()">
+        <div style="font-size:10px;color:var(--gray);margin-top:3px">Frais fixes de maintenance du logiciel</div>
+      </div>
+      <div>
+        <div class="field-lbl">Pilotage Complet TS CO (€) — optionnel</div>
+        <input type="number" id="fe-gestion" class="ii" style="width:100%" min="0" step="1" value="0" placeholder="0" oninput="feUpdatePreview()">
+        <div style="font-size:10px;color:#4FD1E0;margin-top:3px">Tarif standard : <span id="fe-gestion-hint">800</span> €/mois</div>
+      </div>
     </div>
 
     <!-- Aperçu totaux -->
