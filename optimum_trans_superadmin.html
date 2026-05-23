@@ -2681,6 +2681,16 @@ function openEmailFactureModal(coId, coName, email, price) {
 }
 function closeEmailFactureModal() { document.getElementById('email-facture-modal').style.display = 'none'; }
 
+function previewAttachedPDF() {
+  const inv = (_lastGeneratedInvoice && _lastGeneratedInvoice.coId === _efData.coId) ? _lastGeneratedInvoice : null;
+  if (!inv || !inv.pdfBase64) {
+    toast('Générez d\'abord la facture avant de prévisualiser.');
+    return;
+  }
+  const url = 'data:application/pdf;base64,' + inv.pdfBase64;
+  window.open(url, '_blank');
+}
+
 async function submitEmailFacture() {
   const toEmail  = document.getElementById('ef-to').value.trim();
   const num      = document.getElementById('ef-num').value.trim();
@@ -3189,8 +3199,12 @@ async function deleteSTTRelation(id, donorName, receiverName) {
 
     <div id="ef-status" style="min-height:20px;margin-bottom:12px;font-size:12px"></div>
 
-    <div style="display:flex;gap:10px;justify-content:flex-end">
+    <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
       <button class="btn-sm btn-ghost" onclick="closeEmailFactureModal()">Annuler</button>
+      <button class="btn-sm btn-ghost" style="border-color:rgba(201,169,97,0.4);color:#C9A961" onclick="previewAttachedPDF()">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        Voir le PDF
+      </button>
       <button id="ef-send-btn" class="btn-sm" style="padding:8px 20px;background:linear-gradient(135deg,#4FD1E0,#2A8A95);color:#0A0A0A;font-weight:700;font-size:12px;border:none;border-radius:8px;cursor:pointer" onclick="submitEmailFacture()">
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         Envoyer
