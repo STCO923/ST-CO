@@ -3919,7 +3919,7 @@ function generateContratPDF(p) {
   // ── ART 16 – SIGNATURES ──
   checkY(70);
   article(16, "Signatures");
-  para(`Fait en deux (2) exemplaires originaux de valeur identique, un (1) conservé par chaque Partie en ses bureaux respectifs, le ${todayStr}.`);
+  para(`Fait en deux (2) exemplaires originaux de valeur identique, un (1) conservé par chaque Partie en ses bureaux respectifs, le ${fmtDate(p.dateDebut)}.`);
   y += 5;
 
   // Signature boxes
