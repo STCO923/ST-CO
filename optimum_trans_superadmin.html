@@ -294,7 +294,7 @@ select option:checked{background:#2a2a2a !important;}
     doc.setFontSize(9); doc.setFont('helvetica','bold');
     doc.text('Émetteur', 15, y); doc.text('Client', 110, y);
     doc.setFont('helvetica','normal');
-    const emetteur = ['T-SERVICE & CO SUARL','Commune Ngor Almadie Zone 14','Dakar, Sénégal','RCCM : SN.DKR.2026.B.15266'];
+    const emetteur = ['T-SERVICE & CO SUARL','Commune Ngor Almadie Zone 14','Dakar, Senegal','RCCM : SN.DKR.2026.B.15266','NINEA : 0130077702Y2'];
     emetteur.forEach((l,i) => doc.text(l, 15, y+5+(i*5)));
     doc.setFont('helvetica','bold'); doc.text(d.coName, 110, y+5);
     doc.setFont('helvetica','normal'); doc.text('Abonnement T SERVICE & CO SaaS', 110, y+10);
@@ -380,7 +380,7 @@ select option:checked{background:#2a2a2a !important;}
     doc.setTextColor(130,130,130); doc.setFontSize(7.5); doc.setFont('helvetica','normal');
     const modeLabelMap = { virement:'Virement bancaire', swift:'Virement SWIFT international', wave:'Wave', mobile_money:'Mobile Money', cheque:'Cheque', especes:'Especes' };
     const modeLabel = modeLabelMap[d.modePaiement] || d.modePaiement || 'Virement bancaire';
-    doc.text('T-SERVICE & CO SUARL · RCCM SN.DKR.2026.B.15266 · Gerant : SOW Ibrahima', 15, y);
+    doc.text('T-SERVICE & CO SUARL · RCCM SN.DKR.2026.B.15266 · NINEA 0130077702Y2 · Gerant : SOW Ibrahima', 15, y);
     doc.text('Conditions de paiement : 30 jours net · ' + modeLabel, 15, y+4.5);
     doc.text('En cas de retard, penalites exigibles de plein droit sans rappel prealable, au taux legal majore.', 15, y+9);
     doc.text('Pour les clients en France : art. L.441-10 C.com. (3x le taux legal + indemnite forfaitaire de 40 EUR).', 15, y+13.5);
@@ -2474,15 +2474,30 @@ function submitFactureEditor() {
   const gest     = Number(document.getElementById('fe-gestion').value)||0;
   const modepay  = document.getElementById('fe-modepay').value;
   closeFactureEditor();
-  genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay);
+  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay);
+}
+
+async function genNumFacture() {
+  const now = new Date();
+  const yy  = String(now.getFullYear()).slice(-2);
+  const mm  = String(now.getMonth()+1).padStart(2,'0');
+  const dd  = String(now.getDate()).padStart(2,'0');
+  const prefix = `TS${yy}${mm}${dd}`;
+  try {
+    const rows = await fetch(`${SB}/rest/v1/saas_subscriptions?numero_facture=like.${prefix}*&select=numero_facture`, { headers: H() }).then(r=>r.json());
+    const seq = String((Array.isArray(rows) ? rows.length : 0) + 1).padStart(2,'0');
+    return `${prefix}${seq}`;
+  } catch(e) {
+    return `${prefix}01`;
+  }
 }
 
 let _lastGeneratedInvoice = null;
-function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement') {
+async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement') {
   const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   const moisNom = MOIS_FR[moisIdx];
   const now     = new Date();
-  const num     = `TS-${annee}${String(moisIdx+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
+  const num     = await genNumFacture();
   const isXOF   = currency === 'XOF';
   const rate    = isXOF ? EUR_TO_XOF : 1;
   const sym     = isXOF ? 'F CFA' : '€';
@@ -2592,7 +2607,8 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
     <p><strong>T-SERVICE &amp; CO SUARL</strong><br>
     Commune Ngor Almadie Zone 14<br>
     Dakar, Sénégal<br>
-    RCCM : SN.DKR.2026.B.15266</p>
+    RCCM : SN.DKR.2026.B.15266<br>
+    NINEA : 0130077702Y2</p>
   </div>
   <div class="partie">
     <h3>Client</h3>
@@ -2636,7 +2652,7 @@ ${(modePaiement==='virement'||modePaiement==='swift')&&(BANK_IBAN||BANK_BIC||BAN
   ${BANK_BIC?`BIC/SWIFT : <strong style="font-family:monospace">${BANK_BIC}</strong>`:''}
 </div>`:''}
 <div class="footer">
-  T-SERVICE &amp; CO SUARL · RCCM SN.DKR.2026.B.15266 · Gérant : SOW Ibrahima<br>
+  T-SERVICE &amp; CO SUARL · RCCM SN.DKR.2026.B.15266 · NINEA 0130077702Y2 · Gérant : SOW Ibrahima<br>
   Conditions de paiement : 30 jours net · ${{virement:'Virement bancaire',swift:'Virement SWIFT international',wave:'Wave',mobile_money:'Mobile Money',cheque:'Chèque',especes:'Espèces'}[modePaiement]||'Virement bancaire'}<br>
   En cas de retard de paiement, des pénalités sont exigibles de plein droit, sans rappel préalable, au taux légal majoré.<br>
   Pour les clients établis en France : application de l'art. L.441-10 C.com. (3× le taux légal + indemnité forfaitaire de 40 €).
@@ -2751,7 +2767,7 @@ async function loadInvoiceHistory() {
 
 // ── Modal envoi facture par email ────────────────────────
 let _efData = {};
-function openEmailFactureModal(coId, coName, email, price) {
+async function openEmailFactureModal(coId, coName, email, price) {
   _efData = { coId, coName, price };
   const now  = new Date();
   const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][now.getMonth()];
@@ -2761,7 +2777,7 @@ function openEmailFactureModal(coId, coName, email, price) {
 
   document.getElementById('ef-to').value      = email;
   document.getElementById('ef-client').textContent = coName;
-  document.getElementById('ef-num').value     = inv ? inv.num : `TS-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
+  document.getElementById('ef-num').value     = inv ? inv.num : await genNumFacture();
   document.getElementById('ef-periode').value = inv ? inv.periode : `${mois} ${now.getFullYear()}`;
   document.getElementById('ef-montant').value = inv ? inv.ttc : (price.toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' €');
   const modeLabels = {virement:'Virement bancaire',swift:'Virement SWIFT international',wave:'Wave',mobile_money:'Mobile Money',cheque:'Chèque',especes:'Espèces'};
