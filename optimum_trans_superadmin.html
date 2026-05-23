@@ -3285,6 +3285,7 @@ function openContratModal(coId) {
   document.getElementById('cm-tarif-admin').value = PRICE_ADMIN;
   document.getElementById('cm-tarif-chef').value = PRICE_CHEF;
   document.getElementById('cm-tarif-chauffeur').value = PRICE_CHAUFFEUR;
+  document.getElementById('cm-gestion').value = co.addon_gestion_complete ? (co.prix_gestion_complete || PRICE_GESTION) : 0;
   // Default date = today
   const today = new Date();
   document.getElementById('cm-date-debut').value = today.toISOString().split('T')[0];
@@ -3549,7 +3550,7 @@ function generateContratPDF(p) {
   doc.text('CONTRAT DE SOUSCRIPTION SaaS', MR, 16, {align:'right'});
   doc.setFontSize(9); doc.setFont('helvetica','normal');
   doc.text('N° ' + p.contractNum, MR, 22, {align:'right'});
-  doc.text('Dakar, le ' + todayStr, MR, 28, {align:'right'});
+  doc.text('Date : ' + todayStr, MR, 28, {align:'right'});
 
   y = 55;
 
@@ -3681,7 +3682,7 @@ function generateContratPDF(p) {
   subTitle('3.1 – Entrée en vigueur');
   para(`Le présent contrat prend effet à compter du ${fmtDate(p.dateDebut)} pour une durée ferme et irrévocable de ${p.duree} mois, soit jusqu'au ${fmtDate(p.dateFin)} inclus.`);
   subTitle('3.2 – Renouvellement');
-  para("A l'issue de la période d'engagement initiale, le contrat se renouvelle tacitement par périodes successives d'un (1) mois, sauf dénonciation par l'une des Parties adressée par écrit (lettre recommandée avec accusé de réception ou email avec confirmation) avec un préavis minimum de trente (30) jours calendaires avant l'échéance.");
+  para("A l'issue de la période d'engagement initiale, le contrat se renouvelle tacitement par périodes successives d'un (1) an, sauf dénonciation par l'une des Parties adressée par écrit (lettre recommandée avec accusé de réception ou email avec confirmation) avec un préavis minimum de trente (30) jours calendaires avant l'échéance.");
 
   // ── ART 4 ──
   article(4, 'Conditions Financières');
@@ -3691,10 +3692,10 @@ function generateContratPDF(p) {
     para(`Les frais de maintenance d'un montant indicatif de ${fmtEur(p.maint)} HT/mois sont susceptibles de varier en fonction du volume et de la complexité des interventions réalisées. Le Client en sera informé au préalable par devis ou avenant.`);
   }
   subTitle('4.2 – Facturation et modalités de paiement');
-  para(`Le Prestataire émet une facture mensuelle le ${p.jourEch === 1 ? '1er' : p.jourEch + 'ème'} jour de chaque mois. Le Client s'engage à régler chaque facture par ${modeLabelFr} dans un délai de trente (30) jours à compter de la date d'émission.`);
+  para(`Le Prestataire émet une facture mensuelle entre le 1er et le 10 de chaque mois (date cible : le ${p.jourEch === 1 ? '1er' : p.jourEch + 'e'}). Le Client s'engage à régler chaque facture par ${modeLabelFr} dans un délai de trente (30) jours à compter de la date d'émission.`);
   para(`Coordonnées de règlement : se référer aux informations figurant sur chaque facture émise par le Prestataire.`);
   subTitle('4.3 – Révision tarifaire');
-  para("Le Prestataire se réserve le droit de procéder à une révision de ses tarifs, une fois par an maximum, moyennant un préavis de soixante (60) jours calendaires notifié par écrit au Client. En cas de refus de la nouvelle tarification, le Client peut résilier le contrat sans pénalité dans ce délai.");
+  para("Le Prestataire se réserve le droit de procéder à des révisions de ses tarifs, dans la limite de trois (3) fois par an, moyennant un préavis de soixante (60) jours calendaires notifié par écrit au Client. En cas de refus de la nouvelle tarification, le Client peut résilier le contrat sans pénalité dans ce délai.");
   subTitle('4.4 – Pénalités de retard');
   para("Tout retard de paiement donne lieu, de plein droit et sans mise en demeure préalable, à l'application de pénalités de retard calculées au taux légal en vigueur majoré de trois (3) points, à compter du lendemain de la date d'échéance.");
   para("Pour les Clients établis en France : conformément à l'article L.441-10 du Code de commerce, des pénalités de retard sont exigibles au taux égal à trois (3) fois le taux d'intérêt légal, ainsi qu'une indemnité forfaitaire pour frais de recouvrement de quarante (40) euros.");
@@ -3737,7 +3738,9 @@ function generateContratPDF(p) {
   para("Dans le cadre de l'exécution du présent contrat, le Client agit en qualité de responsable de traitement et le Prestataire en qualité de sous-traitant au sens du Règlement Général sur la Protection des Données (RGPD - Règlement UE 2016/679) pour les données à caractère personnel des salariés et utilisateurs du Client.");
   subTitle('9.2 – Engagements du Prestataire');
   para("Le Prestataire s'engage à traiter les données exclusivement pour les finalités définies dans le présent contrat, à mettre en oeuvre les mesures de sécurité techniques et organisationnelles appropriées, à ne pas sous-traiter sans accord du Client, et à notifier toute violation de données dans les 72 heures.");
-  subTitle('9.3 – Loi sénégalaise');
+  subTitle('9.3 – Hébergement et localisation des données');
+  para("Les données du Client sont hébergées sur l'infrastructure cloud Supabase (https://supabase.com), opérée au sein de l'Union Européenne sur des centres de données situés en République d'Irlande (région eu-west-1). Cette localisation garantit la conformité avec le Règlement Général sur la Protection des Données (RGPD) et évite tout transfert hors UE.");
+  subTitle('9.4 – Loi sénégalaise');
   para("Les Parties s'engagent également à respecter les dispositions de la loi n°2008-12 du 25 janvier 2008 sur la protection des données à caractère personnel au Sénégal et les décisions de la Commission de Protection des Données Personnelles (CDP).");
 
   // ── ART 10 ──
@@ -3775,7 +3778,7 @@ function generateContratPDF(p) {
   // ── ART 15 – SIGNATURES ──
   checkY(70);
   article(15, "Signatures");
-  para(`Fait en deux (2) exemplaires originaux, à Dakar, le ${todayStr}.`);
+  para(`Fait en deux (2) exemplaires originaux de valeur identique, un (1) conservé par chaque Partie en ses bureaux respectifs, le ${todayStr}.`);
   y += 5;
 
   // Signature boxes
@@ -4048,13 +4051,18 @@ function generateContratPDF(p) {
           <input type="date" id="cm-date-fin" class="ii" style="width:100%;padding:8px 10px" readonly>
         </div>
         <div>
-          <div class="field-lbl">Jour d'&eacute;ch&eacute;ance mensuelle</div>
+          <div class="field-lbl">Jour cible d'&eacute;mission de la facture (entre le 1er et le 10)</div>
           <select id="cm-jour-echeance" class="ii" style="width:100%;padding:8px 10px">
             <option value="1">1er du mois</option>
+            <option value="2">2 du mois</option>
+            <option value="3">3 du mois</option>
+            <option value="4">4 du mois</option>
             <option value="5" selected>5 du mois</option>
+            <option value="6">6 du mois</option>
+            <option value="7">7 du mois</option>
+            <option value="8">8 du mois</option>
+            <option value="9">9 du mois</option>
             <option value="10">10 du mois</option>
-            <option value="15">15 du mois</option>
-            <option value="28">28 du mois</option>
           </select>
         </div>
       </div>
@@ -4100,8 +4108,8 @@ function generateContratPDF(p) {
           <div>
             <div class="field-lbl">TVA (%)</div>
             <select id="cm-tva" class="ii" style="width:100%;padding:7px 8px" onchange="updateMontantContrat()">
-              <option value="20" selected>20%</option>
-              <option value="0">0% (exon&eacute;r&eacute;)</option>
+              <option value="0" selected>0% (exon&eacute;r&eacute;)</option>
+              <option value="20">20%</option>
             </select>
           </div>
         </div>
