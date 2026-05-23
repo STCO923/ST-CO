@@ -3698,7 +3698,16 @@ function generateContratPDF(p) {
   }
   subTitle('4.2 – Facturation et modalités de paiement');
   para(`Le Prestataire émet une facture mensuelle entre le 1er et le 10 de chaque mois (date cible : le ${p.jourEch === 1 ? '1er' : p.jourEch + 'e'}). Le Client s'engage à régler chaque facture par ${modeLabelFr} dans un délai de trente (30) jours à compter de la date d'émission.`);
-  para(`Coordonnées de règlement : se référer aux informations figurant sur chaque facture émise par le Prestataire.`);
+  if ((p.modePaie === 'virement' || p.modePaie === 'swift') && (BANK_TITULAIRE || BANK_IBAN || BANK_BIC || BANK_BANQUE)) {
+    para('Coordonnées bancaires du Prestataire pour règlement :');
+    if (BANK_TITULAIRE) bullet('Titulaire du compte : ' + BANK_TITULAIRE);
+    if (BANK_BANQUE)    bullet('Banque : ' + BANK_BANQUE);
+    if (BANK_IBAN)      bullet('IBAN : ' + BANK_IBAN);
+    if (BANK_BIC)       bullet('BIC / SWIFT : ' + BANK_BIC);
+    para("Toute modification des coordonnées bancaires sera notifiée au Client par écrit au moins quinze (15) jours avant prise d'effet.");
+  } else {
+    para('Coordonnées de règlement : se référer aux informations figurant sur chaque facture émise par le Prestataire.');
+  }
   subTitle('4.3 – Révision tarifaire');
   para("Le Prestataire se réserve le droit de procéder à des révisions de ses tarifs, dans la limite de trois (3) fois par an, moyennant un préavis de soixante (60) jours calendaires notifié par écrit au Client. En cas de refus de la nouvelle tarification, le Client peut résilier le contrat sans pénalité dans ce délai.");
   subTitle('4.4 – Pénalités de retard');
