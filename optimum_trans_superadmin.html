@@ -171,16 +171,16 @@ select option:checked{background:#2a2a2a !important;}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-  // EmailJS Config T SERVICE & CO
+  // EmailJS — bienvenue client + notifications superadmin uniquement
   (function(){
     emailjs.init({ publicKey: 'QR2fNiCLJJBpVl0dV' });
   })();
-  
+
   const EJS_SERVICE  = 'service_zhkzzd6';
   const EJS_WELCOME  = 'template_ve97hh1';
   const EJS_NOTIF    = 'template_nc61p59';
-  const EJS_FACTURE  = 'template_hkgb22d';
   
   // Email de bienvenue nouveau client
   async function sendWelcomeEmail(companyName, email, password, plan) {
@@ -224,23 +224,133 @@ select option:checked{background:#2a2a2a !important;}
     }
   }
 
-  // ── Envoi facture par email ──────────────────────────────
-  async function sendFactureEmail(toEmail, clientName, numeroFacture, periode, montantTTC, modePaiement, messageCustom) {
-    try {
-      await emailjs.send(EJS_SERVICE, EJS_FACTURE, {
+  // ── Envoi facture par email via Supabase Edge Function + Resend ──
+  async function sendFactureEmail(toEmail, clientName, numeroFacture, periode, montantTTC, modePaiement, messageCustom, pdfBase64) {
+    const resp = await fetch(`${SB}/functions/v1/send-invoice`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + ANON_KEY },
+      body: JSON.stringify({
         to_email:       toEmail,
         client_name:    clientName,
         numero_facture: numeroFacture,
-        periode:        periode,
+        periode,
         montant_ttc:    montantTTC,
         mode_paiement:  modePaiement,
         message_custom: messageCustom,
-      });
-      return true;
-    } catch(e) {
-      console.warn('[EmailJS] Facture email failed:', e);
-      throw e;
+        pdf_base64:     pdfBase64,
+      })
+    });
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw { text: err.error || `Erreur serveur (${resp.status})` };
     }
+    return await resp.json();
+  }
+
+  // ── Génération PDF facture (jsPDF) ──────────────────────────────
+  function generateInvoicePDFBase64(d) {
+    if (!window.jspdf) return null;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const isXOF = d.currency === 'XOF';
+    const dec   = isXOF ? 0 : 2;
+    const sym   = d.sym;
+    const ff    = n => (typeof n === 'number' ? n.toLocaleString('fr-FR', {minimumFractionDigits:dec, maximumFractionDigits:dec}) : n) + ' ' + sym;
+
+    // ── En-tête ──
+    doc.setFillColor(10,10,10);
+    doc.rect(0, 0, 210, 38, 'F');
+    doc.setTextColor(201,169,97);
+    doc.setFontSize(18); doc.setFont('helvetica','bold');
+    doc.text('T SERVICE & CO', 15, 17);
+    doc.setFontSize(9); doc.setFont('helvetica','normal');
+    doc.setTextColor(150,150,150);
+    doc.text('T Service pilote votre logistique', 15, 24);
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(12); doc.setFont('helvetica','bold');
+    doc.text('FACTURE N° ' + d.num, 195, 14, { align:'right' });
+    doc.setFontSize(8); doc.setFont('helvetica','normal');
+    doc.text('Date : ' + new Date().toLocaleDateString('fr-FR'), 195, 21, { align:'right' });
+    doc.text('Échéance : 30 jours', 195, 27, { align:'right' });
+
+    // ── Émetteur / Client ──
+    let y = 48;
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(9); doc.setFont('helvetica','bold');
+    doc.text('Émetteur', 15, y); doc.text('Client', 110, y);
+    doc.setFont('helvetica','normal');
+    const emetteur = ['T-SERVICE & CO SUARL','Commune Ngor Almadie Zone 14','Dakar, Sénégal','RCCM : SN.DKR.2026.B.15266'];
+    emetteur.forEach((l,i) => doc.text(l, 15, y+5+(i*5)));
+    doc.setFont('helvetica','bold'); doc.text(d.coName, 110, y+5);
+    doc.setFont('helvetica','normal'); doc.text('Abonnement T SERVICE & CO SaaS', 110, y+10);
+
+    // ── Badge période ──
+    y += 38;
+    doc.setFillColor(240,240,240);
+    doc.roundedRect(15, y, 180, 9, 2, 2, 'F');
+    doc.setFontSize(10); doc.setFont('helvetica','bold'); doc.setTextColor(0,0,0);
+    doc.text('Période de facturation : ' + d.moisNom + ' ' + d.annee, 105, y+6.2, { align:'center' });
+
+    // ── Table ──
+    y += 15;
+    doc.setFillColor(20,20,20); doc.rect(15, y, 180, 8, 'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont('helvetica','bold');
+    doc.text('Description', 17, y+5.5);
+    doc.text('Qté', 130, y+5.5, { align:'center' });
+    doc.text('P.U. HT', 162, y+5.5, { align:'right' });
+    doc.text('Total HT', 193, y+5.5, { align:'right' });
+    y += 8;
+
+    const rows = [];
+    if (d.nbAdmins > 0)     rows.push(['Licence administrateur',      d.nbAdmins,     ff(d.puAdmin), ff(d.ligneAdmin)]);
+    if (d.nbChefs > 0)      rows.push(["Licence chef d'équipe",  d.nbChefs,      ff(d.puChef),  ff(d.ligneChef)]);
+    if (d.nbChauffeurs > 0) rows.push(['Licence chauffeur',           d.nbChauffeurs, ff(d.puChauf), ff(d.ligneChauf)]);
+    if (d.ligneMaint > 0)   rows.push(['Frais de maintenance',        1,              ff(d.ligneMaint), ff(d.ligneMaint)]);
+    if (d.ligneGest > 0)    rows.push(['Pilotage Complet TS CO',      1,              ff(d.ligneGest),  ff(d.ligneGest)]);
+    if (d.remise > 0)       rows.push(['Remise' + (d.rType==='pct'?' ('+d.rVal+'%)':''), '—', '—', '- '+ff(d.remise)]);
+    if (d.penalite > 0)     rows.push(['Pénalité de retard'+(d.pType==='pct'?' ('+d.pVal+'%)':''), '—', '—', '+ '+ff(d.penalite)]);
+
+    doc.setTextColor(0,0,0);
+    rows.forEach((row, i) => {
+      if (i%2===0) { doc.setFillColor(250,250,250); doc.rect(15, y, 180, 8, 'F'); }
+      doc.setFontSize(9); doc.setFont('helvetica','normal');
+      doc.text(String(row[0]), 17, y+5.5);
+      doc.text(String(row[1]), 130, y+5.5, { align:'center' });
+      doc.text(String(row[2]), 162, y+5.5, { align:'right' });
+      doc.text(String(row[3]), 193, y+5.5, { align:'right' });
+      y += 8;
+    });
+
+    if (d.note) {
+      doc.setFontSize(8); doc.setTextColor(120,120,120);
+      doc.text('Note : ' + d.note, 17, y+5); y += 8;
+    }
+
+    // ── Totaux ──
+    y += 4;
+    [['Écart HT après remise/pénalité', ff(d.totalHT)], ['TVA ('+d.tvaRate+'%)', ff(d.tva)], ['TOTAL TTC', ff(d.ttc)]].forEach((row, i) => {
+      const isTTC = i === 2;
+      if (isTTC) doc.setFillColor(201,169,97); else doc.setFillColor(240,240,240);
+      doc.rect(115, y, 80, 8, 'F');
+      doc.setTextColor(isTTC?10:0, isTTC?10:0, isTTC?10:0);
+      doc.setFontSize(isTTC?10:9); doc.setFont('helvetica', isTTC?'bold':'normal');
+      doc.text(row[0], 117, y+5.5);
+      doc.text(row[1], 193, y+5.5, { align:'right' });
+      y += 8;
+    });
+
+    // ── Pied de page ──
+    y += 8;
+    doc.setDrawColor(220,220,220); doc.line(15, y, 195, y); y += 5;
+    doc.setTextColor(130,130,130); doc.setFontSize(7.5); doc.setFont('helvetica','normal');
+    const modeLabel = d.modePaiement==='sepa' ? 'Prélèvement SEPA (mandat autorisé)' : 'Virement bancaire';
+    doc.text('T-SERVICE & CO SUARL · RCCM SN.DKR.2026.B.15266 · Gérant : SOW Ibrahima', 15, y);
+    doc.text('Conditions de paiement : 30 jours net · ' + modeLabel, 15, y+4.5);
+    doc.text('En cas de retard, pénalités exigibles de plein droit sans rappel préalable, au taux légal majoré.', 15, y+9);
+    doc.text('Pour les clients en France : art. L.441-10 C.com. (3× le taux légal + indemnité forfaitaire de 40 €).', 15, y+13.5);
+    if (isXOF) doc.text('Montants en Francs CFA (XOF) — taux fixe : 1 EUR = 655,957 XOF (parité BCEAO).', 15, y+18);
+
+    return doc.output('datauristring').split(',')[1];
   }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2431,13 +2541,22 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
 </html>`;
 
   const MOIS_FR2 = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  const pdfBase64 = generateInvoicePDFBase64({
+    num, coName, moisNom, annee,
+    nbAdmins, nbChefs, nbChauffeurs,
+    ligneAdmin, ligneChef, ligneChauf, ligneMaint, ligneGest,
+    puAdmin, puChef, puChauf,
+    remise, penalite, rType, rVal, pType, pVal, note,
+    totalHT, tva, ttc, tvaRate, currency, sym, modePaiement
+  });
   _lastGeneratedInvoice = {
     coId, num,
     ttc: f(ttc),
     ttcRaw: ttc,
     currency,
     periode: `${MOIS_FR2[moisIdx]} ${annee}`,
-    modePaiement
+    modePaiement,
+    pdfBase64
   };
 
   const w = window.open('', '_blank', 'width=900,height=720');
@@ -2557,12 +2676,18 @@ async function submitEmailFacture() {
 
   if (!toEmail) { status.innerHTML = '<span style="color:#D88888">Email destinataire requis.</span>'; return; }
 
+  const inv = (_lastGeneratedInvoice && _lastGeneratedInvoice.coId === _efData.coId) ? _lastGeneratedInvoice : null;
+  if (!inv || !inv.pdfBase64) {
+    status.innerHTML = '<span style="color:#D88888">Générez d\'abord la facture (bouton "Éditer la facture") avant d\'envoyer.</span>';
+    return;
+  }
+
   btn.disabled = true;
   btn.textContent = 'Envoi…';
   status.innerHTML = '<span style="color:var(--gray);font-size:12px">Envoi en cours…</span>';
 
   try {
-    await sendFactureEmail(toEmail, _efData.coName, num, periode, montant, mode, msg || 'Veuillez trouver ci-joint votre facture mensuelle.');
+    await sendFactureEmail(toEmail, _efData.coName, num, periode, montant, mode, msg || 'Veuillez trouver ci-joint votre facture mensuelle.', inv.pdfBase64);
     status.innerHTML = '<span style="color:#6B8E23;font-weight:600">✓ Facture envoyée avec succès !</span>';
     toast('✉ Facture envoyée à ' + toEmail);
     // Marquer envoyée en base
