@@ -357,16 +357,37 @@ select option:checked{background:#2a2a2a !important;}
       y += 8;
     });
 
+    // ── Coordonnées bancaires (virement / swift) ──
+    const showBank = (d.modePaiement === 'virement' || d.modePaiement === 'swift') && (d.bankIban || d.bankBic || d.bankTitulaire);
+    if (showBank) {
+      y += 6;
+      const bankLines = [];
+      if (d.bankTitulaire) bankLines.push('Titulaire : ' + d.bankTitulaire);
+      if (d.bankBanque)    bankLines.push('Banque : ' + d.bankBanque);
+      if (d.bankIban)      bankLines.push('IBAN : ' + d.bankIban);
+      if (d.bankBic)       bankLines.push('BIC/SWIFT : ' + d.bankBic);
+      const boxH = 8 + bankLines.length * 5;
+      doc.setFillColor(245, 248, 250);
+      doc.setDrawColor(79, 209, 224);
+      doc.roundedRect(15, y, 180, boxH, 2, 2, 'FD');
+      doc.setFontSize(8.5); doc.setFont('helvetica','bold'); doc.setTextColor(30,30,30);
+      doc.text('Coordonnees bancaires pour virement :', 19, y + 5.5);
+      doc.setFont('helvetica','normal'); doc.setFontSize(8);
+      bankLines.forEach((line, i) => { doc.text(line, 19, y + 11 + i * 5); });
+      y += boxH;
+    }
+
     // ── Pied de page ──
     y += 8;
     doc.setDrawColor(220,220,220); doc.line(15, y, 195, y); y += 5;
     doc.setTextColor(130,130,130); doc.setFontSize(7.5); doc.setFont('helvetica','normal');
-    const modeLabel = d.modePaiement==='sepa' ? 'Prélèvement SEPA (mandat autorisé)' : 'Virement bancaire';
-    doc.text('T-SERVICE & CO SUARL · RCCM SN.DKR.2026.B.15266 · Gérant : SOW Ibrahima', 15, y);
+    const modeLabelMap = { virement:'Virement bancaire', swift:'Virement SWIFT international', wave:'Wave', mobile_money:'Mobile Money', cheque:'Cheque', especes:'Especes' };
+    const modeLabel = modeLabelMap[d.modePaiement] || d.modePaiement || 'Virement bancaire';
+    doc.text('T-SERVICE & CO SUARL · RCCM SN.DKR.2026.B.15266 · Gerant : SOW Ibrahima', 15, y);
     doc.text('Conditions de paiement : 30 jours net · ' + modeLabel, 15, y+4.5);
-    doc.text('En cas de retard, pénalités exigibles de plein droit sans rappel préalable, au taux légal majoré.', 15, y+9);
-    doc.text('Pour les clients en France : art. L.441-10 C.com. (3× le taux légal + indemnité forfaitaire de 40 €).', 15, y+13.5);
-    if (isXOF) doc.text('Montants en Francs CFA (XOF) — taux fixe : 1 EUR = 655,957 XOF (parité BCEAO).', 15, y+18);
+    doc.text('En cas de retard, penalites exigibles de plein droit sans rappel prealable, au taux legal majore.', 15, y+9);
+    doc.text('Pour les clients en France : art. L.441-10 C.com. (3x le taux legal + indemnite forfaitaire de 40 EUR).', 15, y+13.5);
+    if (isXOF) doc.text('Montants en Francs CFA (XOF) — taux fixe : 1 EUR = 655,957 XOF (parite BCEAO).', 15, y+18);
 
     return doc.output('datauristring').split(',')[1];
   }
@@ -622,6 +643,45 @@ select option:checked{background:#2a2a2a !important;}
           </div>
         </div>
         <div style="font-size:10px;color:var(--gray);margin-top:10px">Cliquez ✓ pour sauvegarder — le changement met à jour tous les calculs et la grille immédiatement.</div>
+      </div>
+
+      <!-- Coordonnées bancaires -->
+      <div style="max-width:1060px;margin:0 auto 24px;background:rgba(79,209,224,0.06);border:1px solid rgba(79,209,224,0.2);border-radius:12px;padding:18px 24px" class="no-print-plans">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;color:#4FD1E0;margin-bottom:14px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Coordonnées bancaires (affichées sur le PDF si mode virement)
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div>
+            <div class="field-lbl">Titulaire du compte</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="text" id="bank-titulaire" class="ii" style="width:100%;padding:8px 10px" placeholder="T-SERVICE & CO SUARL">
+              <button class="btn-sm btn-accent" style="padding:7px 12px;white-space:nowrap" onclick="saveBankCoord('titulaire',document.getElementById('bank-titulaire').value)">✓</button>
+            </div>
+          </div>
+          <div>
+            <div class="field-lbl">Nom de la banque</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="text" id="bank-banque" class="ii" style="width:100%;padding:8px 10px" placeholder="Ecobank Sénégal / Wise...">
+              <button class="btn-sm btn-accent" style="padding:7px 12px;white-space:nowrap" onclick="saveBankCoord('banque',document.getElementById('bank-banque').value)">✓</button>
+            </div>
+          </div>
+          <div>
+            <div class="field-lbl">IBAN</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="text" id="bank-iban" class="ii" style="width:100%;padding:8px 10px;font-family:monospace" placeholder="SN28 0001 0000 0000 0000 0000 000">
+              <button class="btn-sm btn-accent" style="padding:7px 12px;white-space:nowrap" onclick="saveBankCoord('iban',document.getElementById('bank-iban').value)">✓</button>
+            </div>
+          </div>
+          <div>
+            <div class="field-lbl">BIC / SWIFT</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="text" id="bank-bic" class="ii" style="width:100%;padding:8px 10px;font-family:monospace" placeholder="ECOCSNDA">
+              <button class="btn-sm btn-accent" style="padding:7px 12px;white-space:nowrap" onclick="saveBankCoord('bic',document.getElementById('bank-bic').value)">✓</button>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--gray);margin-top:10px">Ces informations apparaissent automatiquement en bas du PDF quand le mode de paiement est "Virement bancaire" ou "Virement SWIFT".</div>
       </div>
 
       <div class="plans-cards" style="grid-template-columns:repeat(3,1fr);max-width:1060px;margin:0 auto 32px">
@@ -2163,6 +2223,10 @@ let PRICE_ADMIN     = 500;
 let PRICE_CHEF      = 330;
 let PRICE_CHAUFFEUR = 299.99;
 let PRICE_GESTION   = 800;
+let BANK_TITULAIRE  = '';
+let BANK_BANQUE     = '';
+let BANK_IBAN       = '';
+let BANK_BIC        = '';
 let   _actualChauffeurCounts = {};
 const esc = s => String(s).replace(/'/g,"&#39;").replace(/"/g,"&quot;");
 const PLAN_LABELS_FR  = { starter:'Essentiel 🥉', pro:'Pro 🥈', business:'Business 🥇' };
@@ -2177,11 +2241,19 @@ async function loadTarifs() {
       if (r.key === 'price_chef')      PRICE_CHEF      = +r.value;
       if (r.key === 'price_chauffeur') PRICE_CHAUFFEUR = +r.value;
       if (r.key === 'price_gestion')   PRICE_GESTION   = +r.value;
+      if (r.key === 'bank_titulaire')  BANK_TITULAIRE  = r.value || '';
+      if (r.key === 'bank_banque')     BANK_BANQUE     = r.value || '';
+      if (r.key === 'bank_iban')       BANK_IBAN       = r.value || '';
+      if (r.key === 'bank_bic')        BANK_BIC        = r.value || '';
     });
     // Sync UI fields if visible
     ['admin','chef','chauffeur','gestion'].forEach(k => {
       const el = document.getElementById(`tarif-${k}`);
       if (el) el.value = ({admin:PRICE_ADMIN,chef:PRICE_CHEF,chauffeur:PRICE_CHAUFFEUR,gestion:PRICE_GESTION})[k];
+    });
+    ['titulaire','banque','iban','bic'].forEach(k => {
+      const el = document.getElementById(`bank-${k}`);
+      if (el) el.value = ({titulaire:BANK_TITULAIRE,banque:BANK_BANQUE,iban:BANK_IBAN,bic:BANK_BIC})[k] || '';
     });
   } catch(e) { console.warn('loadTarifs:', e); }
 }
@@ -2196,6 +2268,17 @@ async function saveTarif(key, val) {
   // Refresh grille tarifaire prices if visible
   setPlansCurrency(_pgCurrency);
   toast(' Tarif mis à jour');
+}
+
+async function saveBankCoord(key, val) {
+  const v = String(val).trim();
+  await fetch(`${SB}/rest/v1/saas_config?on_conflict=key`, {
+    method: 'POST',
+    headers: { ...H(), 'Prefer': 'resolution=merge-duplicates' },
+    body: JSON.stringify({ key: `bank_${key}`, value: v, updated_at: new Date().toISOString() })
+  });
+  await loadTarifs();
+  toast('Coordonnées bancaires mises à jour');
 }
 
 function switchSATab(name, el) {
@@ -2547,9 +2630,17 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
   </table>
 </div>
 
+${(modePaiement==='virement'||modePaiement==='swift')&&(BANK_IBAN||BANK_BIC||BANK_TITULAIRE)?`
+<div style="margin-top:24px;padding:14px 18px;background:#f5f8fa;border:1px solid #4FD1E0;border-radius:8px;font-size:10px;color:#1a1a1a">
+  <strong style="font-size:11px;display:block;margin-bottom:6px">Coordonnées bancaires pour virement :</strong>
+  ${BANK_TITULAIRE?`Titulaire : <strong>${BANK_TITULAIRE}</strong><br>`:''}
+  ${BANK_BANQUE?`Banque : ${BANK_BANQUE}<br>`:''}
+  ${BANK_IBAN?`IBAN : <strong style="font-family:monospace">${BANK_IBAN}</strong><br>`:''}
+  ${BANK_BIC?`BIC/SWIFT : <strong style="font-family:monospace">${BANK_BIC}</strong>`:''}
+</div>`:''}
 <div class="footer">
   T-SERVICE &amp; CO SUARL · RCCM SN.DKR.2026.B.15266 · Gérant : SOW Ibrahima<br>
-  Conditions de paiement : 30 jours net · ${modePaiement === 'sepa' ? 'Prélèvement SEPA (mandat autorisé)' : 'Virement bancaire'}<br>
+  Conditions de paiement : 30 jours net · ${{virement:'Virement bancaire',swift:'Virement SWIFT international',wave:'Wave',mobile_money:'Mobile Money',cheque:'Chèque',especes:'Espèces'}[modePaiement]||'Virement bancaire'}<br>
   En cas de retard de paiement, des pénalités sont exigibles de plein droit, sans rappel préalable, au taux légal majoré.<br>
   Pour les clients établis en France : application de l'art. L.441-10 C.com. (3× le taux légal + indemnité forfaitaire de 40 €).
   ${isXOF ? '<br>Montants exprimés en Francs CFA (XOF) — taux de conversion fixe : 1 EUR = 655,957 XOF (parité BCEAO / Trésor français).' : ''}
@@ -2564,7 +2655,9 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
     ligneAdmin, ligneChef, ligneChauf, ligneMaint, ligneGest,
     puAdmin, puChef, puChauf,
     remise, penalite, rType, rVal, pType, pVal, note,
-    totalHT, tva, ttc, tvaRate, currency, sym, modePaiement
+    totalHT, tva, ttc, tvaRate, currency, sym, modePaiement,
+    bankTitulaire: BANK_TITULAIRE, bankBanque: BANK_BANQUE,
+    bankIban: BANK_IBAN, bankBic: BANK_BIC
   });
   _lastGeneratedInvoice = {
     coId, num,
@@ -2674,7 +2767,8 @@ function openEmailFactureModal(coId, coName, email, price) {
   document.getElementById('ef-num').value     = inv ? inv.num : `TS-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
   document.getElementById('ef-periode').value = inv ? inv.periode : `${mois} ${now.getFullYear()}`;
   document.getElementById('ef-montant').value = inv ? inv.ttc : (price.toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' €');
-  document.getElementById('ef-mode').value    = inv ? (inv.modePaiement === 'sepa' ? 'prélèvement SEPA' : 'virement bancaire') : 'virement bancaire';
+  const modeLabels = {virement:'Virement bancaire',swift:'Virement SWIFT international',wave:'Wave',mobile_money:'Mobile Money',cheque:'Chèque',especes:'Espèces'};
+  document.getElementById('ef-mode').value    = inv ? (modeLabels[inv.modePaiement] || inv.modePaiement || 'Virement bancaire') : 'Virement bancaire';
   document.getElementById('ef-msg').value     = '';
   document.getElementById('ef-status').innerHTML = '';
   document.getElementById('email-facture-modal').style.display = 'flex';
@@ -3301,7 +3395,11 @@ async function deleteSTTRelation(id, donorName, receiverName) {
       <div class="field-lbl">Mode de paiement</div>
       <select id="fe-modepay" class="ii" style="width:100%">
         <option value="virement">Virement bancaire</option>
-        <option value="sepa">Prélèvement SEPA (mandat autorisé)</option>
+        <option value="swift">Virement SWIFT international</option>
+        <option value="wave">Wave</option>
+        <option value="mobile_money">Mobile Money</option>
+        <option value="cheque">Chèque</option>
+        <option value="especes">Espèces</option>
       </select>
     </div>
 
