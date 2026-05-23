@@ -2807,8 +2807,7 @@ function previewAttachedPDF() {
     toast('Générez d\'abord la facture avant de prévisualiser.');
     return;
   }
-  const url = 'data:application/pdf;base64,' + inv.pdfBase64;
-  window.open(url, '_blank');
+  window.open(_b64ToBlobUrl(inv.pdfBase64), '_blank');
 }
 
 async function submitEmailFacture() {
@@ -3367,11 +3366,18 @@ function getContratParams() {
   return { co, nbA, nbC, nbCh, tA, tC, tCh, maint, gest, tva, ht, ttc, dateDebut, dateFin, duree, jourEch, modePaie, notes, contractNum };
 }
 
+function _b64ToBlobUrl(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+}
+
 function previewContrat() {
   const p = getContratParams();
   const pdf = generateContratPDF(p);
   if (!pdf) { toast('Erreur génération PDF'); return; }
-  window.open('data:application/pdf;base64,' + pdf, '_blank');
+  window.open(_b64ToBlobUrl(pdf), '_blank');
 }
 
 async function genererContrat() {
@@ -3381,7 +3387,7 @@ async function genererContrat() {
   if (!pdf) { toast('Erreur génération PDF'); return; }
   // Download
   const a = document.createElement('a');
-  a.href = 'data:application/pdf;base64,' + pdf;
+  a.href = _b64ToBlobUrl(pdf);
   a.download = `Contrat-${p.contractNum}.pdf`;
   a.click();
   // Save to DB
