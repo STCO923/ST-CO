@@ -297,10 +297,16 @@ select option:checked{background:#2a2a2a !important;}
     const emetteur = ['T-SERVICE & CO SUARL','Commune Ngor Almadie Zone 14','Dakar, Senegal','RCCM : SN.DKR.2026.B.15266','NINEA : 0130077702Y2'];
     emetteur.forEach((l,i) => doc.text(l, 15, y+5+(i*5)));
     doc.setFont('helvetica','bold'); doc.text(d.coName, 110, y+5);
-    doc.setFont('helvetica','normal'); doc.text('Abonnement T SERVICE & CO SaaS', 110, y+10);
+    doc.setFont('helvetica','normal');
+    const clientLines = ['Abonnement T SERVICE & CO SaaS'];
+    if (d.coCity)   clientLines.push(d.coCity);
+    if (d.coSiret)  clientLines.push('SIRET/RC : ' + d.coSiret);
+    if (d.coResp)   clientLines.push('Gerant : ' + d.coResp);
+    if (d.coPhone)  clientLines.push('Tel : ' + d.coPhone);
+    clientLines.forEach((l, i) => doc.text(l, 110, y+10+(i*5)));
 
     // ── Badge période ──
-    y += 38;
+    y += Math.max(38, 15 + clientLines.length * 5);
     doc.setFillColor(240,240,240);
     doc.roundedRect(15, y, 180, 9, 2, 2, 'F');
     doc.setFontSize(10); doc.setFont('helvetica','bold'); doc.setTextColor(0,0,0);
@@ -2405,7 +2411,8 @@ function feSetCurrency(cur) {
 
 function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price, isCustom, gestionActive, prixGestion) {
   const now = new Date();
-  _feData = { coId, coName, isCustom, price };
+  const co  = (allCompanies||[]).find(c => c.id === coId) || {};
+  _feData = { coId, coName, isCustom, price, city: co.city||'', siret: co.siret||'', resp: co.resp||'', phone: co.phone||'' };
   _feCurrency = 'EUR';
   const m = document.getElementById('facture-editor-modal');
   document.getElementById('fe-mois').value    = now.getMonth();
@@ -2474,7 +2481,7 @@ async function submitFactureEditor() {
   const gest     = Number(document.getElementById('fe-gestion').value)||0;
   const modepay  = document.getElementById('fe-modepay').value;
   closeFactureEditor();
-  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay);
+  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay, { city:_feData.city, siret:_feData.siret, resp:_feData.resp, phone:_feData.phone });
 }
 
 async function genNumFacture() {
@@ -2493,7 +2500,8 @@ async function genNumFacture() {
 }
 
 let _lastGeneratedInvoice = null;
-async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement') {
+async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement', coInfo={}) {
+  const { city='', siret='', resp='', phone='' } = coInfo;
   const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   const moisNom = MOIS_FR[moisIdx];
   const now     = new Date();
@@ -2613,7 +2621,7 @@ async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeu
   <div class="partie">
     <h3>Client</h3>
     <p><strong>${coName}</strong><br>
-    <span style="color:#666;font-size:12px">Abonnement T SERVICE &amp; CO SaaS</span></p>
+    ${city ? city+'<br>' : ''}${siret ? 'SIRET/RC : '+siret+'<br>' : ''}${resp ? 'Gérant : '+resp+'<br>' : ''}${phone ? 'Tél : '+phone+'<br>' : ''}<span style="color:#666;font-size:12px">Abonnement T SERVICE &amp; CO SaaS</span></p>
   </div>
 </div>
 
@@ -2670,7 +2678,8 @@ ${(modePaiement==='virement'||modePaiement==='swift')&&(BANK_IBAN||BANK_BIC||BAN
     remise, penalite, rType, rVal, pType, pVal, note,
     totalHT, tva, ttc, tvaRate, currency, sym, modePaiement,
     bankTitulaire: BANK_TITULAIRE, bankBanque: BANK_BANQUE,
-    bankIban: BANK_IBAN, bankBic: BANK_BIC
+    bankIban: BANK_IBAN, bankBic: BANK_BIC,
+    coCity: city, coSiret: siret, coResp: resp, coPhone: phone
   });
   _lastGeneratedInvoice = {
     coId, num,
