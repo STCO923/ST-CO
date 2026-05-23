@@ -2805,6 +2805,9 @@ async function loadInvoiceHistory() {
     if (s.stripe_invoice_url) {
       actions.push(`<a href="${s.stripe_invoice_url}" target="_blank" style="color:#E8C66E;font-size:11px;text-decoration:none">↗</a>`);
     }
+    actions.push(`<button class="btn-sm" style="font-size:10px;padding:3px 8px;background:transparent;color:#D88888;border:1px solid rgba(216,136,136,0.4);border-radius:4px;cursor:pointer" onclick="deleteInvoice('${s.id}','${(s.numero_facture||'').replace(/'/g,'')}')" title="Supprimer définitivement">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+    </button>`);
 
     const tr = document.createElement('tr');
     tr.id = `inv-row-${s.id}`;
@@ -2899,6 +2902,17 @@ async function setInvoiceStatut(invoiceId, newStatut) {
     method: 'PATCH', headers: H(), body: JSON.stringify(patch)
   });
   toast(newStatut === 'payee' ? ' Facture marquée payée' : 'Facture annulée');
+  loadInvoiceHistory();
+  loadBillingData();
+}
+
+async function deleteInvoice(invoiceId, numFacture) {
+  if (!confirm(`Supprimer définitivement la facture ${numFacture || invoiceId} ?\n\nCette action est irréversible. Si c'est la dernière du jour, la prochaine reprendra à 01.`)) return;
+  const res = await fetch(`${SB}/rest/v1/saas_subscriptions?id=eq.${invoiceId}`, {
+    method: 'DELETE', headers: H()
+  });
+  if (!res.ok) { toast('Erreur suppression : ' + res.status); return; }
+  toast('Facture supprimée');
   loadInvoiceHistory();
   loadBillingData();
 }
