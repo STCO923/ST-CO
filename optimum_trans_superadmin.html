@@ -326,7 +326,7 @@ select option:checked{background:#2a2a2a !important;}
     if (d.nbAdmins > 0)     rows.push(['Licence administrateur',      d.nbAdmins,     ff(d.puAdmin), ff(d.ligneAdmin)]);
     if (d.nbChefs > 0)      rows.push(["Licence chef d'equipe",       d.nbChefs,      ff(d.puChef),  ff(d.ligneChef)]);
     if (d.nbChauffeurs > 0) rows.push(['Licence chauffeur',           d.nbChauffeurs, ff(d.puChauf), ff(d.ligneChauf)]);
-    if (d.ligneMaint > 0)   rows.push(['Frais de maintenance',        1,              ff(d.ligneMaint), ff(d.ligneMaint), d.maintDetail||'']);
+    if (d.ligneMaint > 0)   rows.push([`Frais de maintenance${d.maintHeader?'  ('+d.maintHeader+')':''}`, 1, ff(d.ligneMaint), ff(d.ligneMaint), d.maintDetail||'']);
     if (d.ligneGest > 0)    rows.push(['Pilotage Complet TS CO',      1,              ff(d.ligneGest),  ff(d.ligneGest)]);
     if (d.remise > 0)       rows.push(['Remise' + (d.rType==='pct'?' ('+d.rVal+'%)':''), '—', '—', '- '+ff(d.remise)]);
     if (d.penalite > 0)     rows.push(['Penalite retard'+(d.pType==='pct'?' ('+d.pVal+'%)':''), '—', '—', '+ '+ff(d.penalite)]);
@@ -2440,6 +2440,8 @@ function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price,
   document.getElementById('fe-note').value    = '';
   document.getElementById('fe-maintenance').value = '0';
   document.getElementById('fe-maint-detail').value = '';
+  document.getElementById('fe-maint-heures').value = '0';
+  document.getElementById('fe-maint-taux').value = '75';
   document.getElementById('fe-gestion').value = gestionActive ? (prixGestion || PRICE_GESTION) : '0';
   document.getElementById('fe-gestion-hint').textContent = PRICE_GESTION;
   m.style.display = 'flex';
@@ -2525,10 +2527,12 @@ async function submitFactureEditor() {
   const note     = document.getElementById('fe-note').value.trim();
   const maint    = Number(document.getElementById('fe-maintenance').value)||0;
   const maintDetail = document.getElementById('fe-maint-detail').value.trim();
+  const maintHeures = Number(document.getElementById('fe-maint-heures').value)||0;
+  const maintTaux   = Number(document.getElementById('fe-maint-taux').value)||0;
   const gest     = Number(document.getElementById('fe-gestion').value)||0;
   const modepay  = document.getElementById('fe-modepay').value;
   closeFactureEditor();
-  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay, { city:_feData.city, siret:_feData.siret, resp:_feData.resp, phone:_feData.phone }, maintDetail);
+  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay, { city:_feData.city, siret:_feData.siret, resp:_feData.resp, phone:_feData.phone }, maintDetail, maintHeures, maintTaux);
 }
 
 async function genNumFacture() {
@@ -2547,7 +2551,8 @@ async function genNumFacture() {
 }
 
 let _lastGeneratedInvoice = null;
-async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement', coInfo={}, maintDetail='') {
+async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement', coInfo={}, maintDetail='', maintHeures=0, maintTaux=0) {
+  const maintHeader = (maintHeures > 0 && maintTaux > 0) ? `${maintHeures}h × ${maintTaux} €/h` : '';
   const { city='', siret='', resp='', phone='' } = coInfo;
   const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   const moisNom = MOIS_FR[moisIdx];
@@ -2682,7 +2687,7 @@ async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeu
     ${nbAdmins>0?`<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${nbAdmins}</td><td style="text-align:right">${f(puAdmin)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>`:''}
     ${nbChefs>0?`<tr><td>Licence chef d'équipe — supervision &amp; dispatch</td><td style="text-align:center">${nbChefs}</td><td style="text-align:right">${f(puChef)}</td><td style="text-align:right">${f(ligneChef)}</td></tr>`:''}
     ${nbChauffeurs>0?`<tr><td>Licence chauffeur — gestion tournées &amp; suivi</td><td style="text-align:center">${nbChauffeurs}</td><td style="text-align:right">${f(puChauf)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`:''}
-    ${ligneMaint>0?`<tr><td>Frais de maintenance logicielle${maintDetail?`<br><span style="font-size:11px;color:#666;white-space:pre-line;line-height:1.5">${maintDetail.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span>`:''}</td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneMaint)}</td><td style="text-align:right">${f(ligneMaint)}</td></tr>`:''}
+    ${ligneMaint>0?`<tr><td>Frais de maintenance logicielle${maintHeader?` <span style="color:#8B7355;font-size:11px">(${maintHeader})</span>`:''}${maintDetail?`<br><span style="font-size:11px;color:#666;white-space:pre-line;line-height:1.5">${maintDetail.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span>`:''}</td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneMaint)}</td><td style="text-align:right">${f(ligneMaint)}</td></tr>`:''}
     ${ligneGest>0?`<tr style="background:#fafcff"><td><strong>Pilotage Complet par T SERVICE &amp; CO</strong><br><span style="font-size:11px;color:#666">Gestion administrative complète : tournées, chauffeurs, facturation, prestations</span></td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneGest)}</td><td style="text-align:right">${f(ligneGest)}</td></tr>`:''}
     ${remise>0?`<tr style="color:#c0392b"><td>Remise${rType==='pct'?' ('+rVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">- ${f(remise)}</td></tr>`:''}
     ${penalite>0?`<tr style="color:#e67e22"><td>Pénalité de retard${pType==='pct'?' ('+pVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">+ ${f(penalite)}</td></tr>`:''}
@@ -2727,7 +2732,7 @@ ${(modePaiement==='virement'||modePaiement==='swift')&&(BANK_IBAN||BANK_BIC||BAN
     bankTitulaire: BANK_TITULAIRE, bankBanque: BANK_BANQUE,
     bankIban: BANK_IBAN, bankBic: BANK_BIC,
     coCity: city, coSiret: siret, coResp: resp, coPhone: phone,
-    maintDetail
+    maintDetail, maintHeader
   });
   _lastGeneratedInvoice = {
     coId, num,
@@ -4125,6 +4130,19 @@ function generateContratPDF(p) {
         <div class="field-lbl">Pilotage Complet TS CO (€) — optionnel</div>
         <input type="number" id="fe-gestion" class="ii" style="width:100%" min="0" step="1" value="0" placeholder="0" oninput="feUpdatePreview()">
         <div style="font-size:10px;color:#4FD1E0;margin-top:3px">Tarif standard : <span id="fe-gestion-hint">800</span> €/mois</div>
+      </div>
+    </div>
+
+    <!-- Maintenance : heures + taux horaire -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div class="field-lbl">Total heures maintenance — optionnel</div>
+        <input type="number" id="fe-maint-heures" class="ii" style="width:100%" min="0" step="0.5" value="0" placeholder="0">
+      </div>
+      <div>
+        <div class="field-lbl">Taux horaire (€/h) — optionnel</div>
+        <input type="number" id="fe-maint-taux" class="ii" style="width:100%" min="0" step="1" value="75" placeholder="75">
+        <div style="font-size:10px;color:var(--gray);margin-top:3px">Affichés sur la facture si renseignés (ex : « 14h × 75 €/h »)</div>
       </div>
     </div>
 
