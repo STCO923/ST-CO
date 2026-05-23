@@ -2458,7 +2458,7 @@ function feUpdatePreview() {
     </div>${isXOF?`<div style="font-size:10px;color:var(--gray);margin-top:6px;text-align:right">Taux fixe : 1 EUR = 655,957 XOF (parité BCEAO)</div>`:''}`;
 }
 
-function submitFactureEditor() {
+async function submitFactureEditor() {
   const moisIdx=Number(document.getElementById('fe-mois').value);
   const annee  =Number(document.getElementById('fe-annee').value);
   const a =Number(document.getElementById('fe-admins').value)||0;
