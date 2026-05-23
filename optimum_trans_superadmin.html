@@ -3647,7 +3647,7 @@ function generateContratPDF(p) {
   doc.text('CONTRAT DE SOUSCRIPTION SaaS', MR, 16, {align:'right'});
   doc.setFontSize(9); doc.setFont('helvetica','normal');
   doc.text('N° ' + p.contractNum, MR, 22, {align:'right'});
-  doc.text('Date : ' + todayStr, MR, 28, {align:'right'});
+  doc.text('Date : ' + fmtDate(p.dateDebut), MR, 28, {align:'right'});
 
   y = 55;
 
