@@ -255,14 +255,32 @@ select option:checked{background:#2a2a2a !important;}
     const isXOF = d.currency === 'XOF';
     const dec   = isXOF ? 0 : 2;
     const sym   = d.sym;
-    const ff    = n => (typeof n === 'number' ? n.toLocaleString('fr-FR', {minimumFractionDigits:dec, maximumFractionDigits:dec}) : n) + ' ' + sym;
+    // Formatage manuel sans espace insécable (évite le bug jsPDF)
+    const ff = n => {
+      if (typeof n !== 'number') return String(n) + ' ' + sym;
+      const parts = n.toFixed(dec).split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      return (dec > 0 ? parts.join(',') : parts[0]) + ' ' + sym;
+    };
 
-    // ── En-tête ──
+    // ── En-tête fond noir ──
     doc.setFillColor(10,10,10);
     doc.rect(0, 0, 210, 38, 'F');
+
+    // ── Logo simplifié (cercle doré + "TS") ──
+    doc.setFillColor(201,169,97);
+    doc.circle(22, 19, 8, 'F');
+    doc.setTextColor(10,10,10);
+    doc.setFontSize(9); doc.setFont('helvetica','bold');
+    doc.text('TS', 22, 21.5, { align:'center' });
+
+    // ── Nom société ──
     doc.setTextColor(201,169,97);
-    doc.setFontSize(18); doc.setFont('helvetica','bold');
-    doc.text('T SERVICE & CO', 15, 17);
+    doc.setFontSize(16); doc.setFont('helvetica','bold');
+    doc.text('T SERVICE & CO', 34, 17);
+    doc.setFontSize(8); doc.setFont('helvetica','normal');
+    doc.setTextColor(150,150,150);
+    doc.text('T Service pilote votre logistique', 34, 24);
     doc.setFontSize(9); doc.setFont('helvetica','normal');
     doc.setTextColor(150,150,150);
     doc.text('T Service pilote votre logistique', 15, 24);
