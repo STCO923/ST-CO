@@ -3338,17 +3338,25 @@ let _cmCompanyId = null;
 
 function _loadTsLogo() {
   if (window._tsLogoB64) return;
-  const img = new Image();
-  img.crossOrigin = 'anonymous';
-  img.onload = () => {
-    try {
-      const c = document.createElement('canvas');
-      c.width = img.width; c.height = img.height;
-      c.getContext('2d').drawImage(img, 0, 0);
-      window._tsLogoB64 = c.toDataURL('image/png').split(',')[1];
-    } catch(e) {}
-  };
-  img.src = '/icons/icon-192.png';
+  fetch('/lib/logo-mark.svg')
+    .then(r => r.text())
+    .then(svgText => {
+      const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const c = document.createElement('canvas');
+          c.width = 512; c.height = 512;
+          c.getContext('2d').drawImage(img, 0, 0, 512, 512);
+          window._tsLogoB64 = c.toDataURL('image/png').split(',')[1];
+        } catch(e) { console.warn('TS logo render failed', e); }
+        URL.revokeObjectURL(url);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); };
+      img.src = url;
+    })
+    .catch(() => {});
 }
 
 function openContratModal(coId) {
