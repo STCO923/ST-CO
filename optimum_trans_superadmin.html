@@ -2210,6 +2210,7 @@ function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price,
   document.getElementById('fe-remise-val').value   = '0';
   document.getElementById('fe-penalite-type').value= 'pct';
   document.getElementById('fe-penalite-val').value = '0';
+  document.getElementById('fe-modepay').value = 'virement';
   document.getElementById('fe-note').value    = '';
   document.getElementById('fe-maintenance').value = '0';
   document.getElementById('fe-gestion').value = gestionActive ? (prixGestion || PRICE_GESTION) : '0';
@@ -2260,14 +2261,16 @@ function submitFactureEditor() {
   const rVal=Number(document.getElementById('fe-remise-val').value)||0;
   const pType=document.getElementById('fe-penalite-type').value;
   const pVal=Number(document.getElementById('fe-penalite-val').value)||0;
-  const note  = document.getElementById('fe-note').value.trim();
-  const maint = Number(document.getElementById('fe-maintenance').value)||0;
-  const gest  = Number(document.getElementById('fe-gestion').value)||0;
+  const note     = document.getElementById('fe-note').value.trim();
+  const maint    = Number(document.getElementById('fe-maintenance').value)||0;
+  const gest     = Number(document.getElementById('fe-gestion').value)||0;
+  const modepay  = document.getElementById('fe-modepay').value;
   closeFactureEditor();
-  genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest);
+  genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay);
 }
 
-function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0) {
+let _lastGeneratedInvoice = null;
+function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement') {
   const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   const moisNom = MOIS_FR[moisIdx];
   const now     = new Date();
@@ -2418,13 +2421,23 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
 
 <div class="footer">
   T-SERVICE &amp; CO SUARL · RCCM SN.DKR.2026.B.15266 · Gérant : SOW Ibrahima<br>
-  Conditions de paiement : 30 jours net · Virement bancaire<br>
+  Conditions de paiement : 30 jours net · ${modePaiement === 'sepa' ? 'Prélèvement SEPA (mandat autorisé)' : 'Virement bancaire'}<br>
   En cas de retard de paiement, des pénalités sont exigibles de plein droit, sans rappel préalable, au taux légal majoré.<br>
   Pour les clients établis en France : application de l'art. L.441-10 C.com. (3× le taux légal + indemnité forfaitaire de 40 €).
   ${isXOF ? '<br>Montants exprimés en Francs CFA (XOF) — taux de conversion fixe : 1 EUR = 655,957 XOF (parité BCEAO / Trésor français).' : ''}
 </div>
 </body>
 </html>`;
+
+  const MOIS_FR2 = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  _lastGeneratedInvoice = {
+    coId, num,
+    ttc: f(ttc),
+    ttcRaw: ttc,
+    currency,
+    periode: `${MOIS_FR2[moisIdx]} ${annee}`,
+    modePaiement
+  };
 
   const w = window.open('', '_blank', 'width=900,height=720');
   w.document.write(html);
@@ -2513,14 +2526,18 @@ async function loadInvoiceHistory() {
 let _efData = {};
 function openEmailFactureModal(coId, coName, email, price) {
   _efData = { coId, coName, price };
-  const now = new Date();
+  const now  = new Date();
   const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][now.getMonth()];
+
+  // Use last generated invoice data if it belongs to this company
+  const inv = (_lastGeneratedInvoice && _lastGeneratedInvoice.coId === coId) ? _lastGeneratedInvoice : null;
+
   document.getElementById('ef-to').value      = email;
   document.getElementById('ef-client').textContent = coName;
-  document.getElementById('ef-num').value     = `TS-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
-  document.getElementById('ef-periode').value = `${mois} ${now.getFullYear()}`;
-  document.getElementById('ef-montant').value = price.toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' €';
-  document.getElementById('ef-mode').value    = 'virement bancaire';
+  document.getElementById('ef-num').value     = inv ? inv.num : `TS-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
+  document.getElementById('ef-periode').value = inv ? inv.periode : `${mois} ${now.getFullYear()}`;
+  document.getElementById('ef-montant').value = inv ? inv.ttc : (price.toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' €');
+  document.getElementById('ef-mode').value    = inv ? (inv.modePaiement === 'sepa' ? 'prélèvement SEPA' : 'virement bancaire') : 'virement bancaire';
   document.getElementById('ef-msg').value     = '';
   document.getElementById('ef-status').innerHTML = '';
   document.getElementById('email-facture-modal').style.display = 'flex';
@@ -3121,6 +3138,14 @@ async function deleteSTTRelation(id, donorName, receiverName) {
           <option value="0">0 % (exonéré)</option>
         </select>
       </div>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div class="field-lbl">Mode de paiement</div>
+      <select id="fe-modepay" class="ii" style="width:100%">
+        <option value="virement">Virement bancaire</option>
+        <option value="sepa">Prélèvement SEPA (mandat autorisé)</option>
+      </select>
     </div>
 
     <div style="margin-bottom:14px">
