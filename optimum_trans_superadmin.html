@@ -3273,7 +3273,23 @@ async function deleteSTTRelation(id, donorName, receiverName) {
 // ══════════════════════════════
 let _cmCompanyId = null;
 
+function _loadTsLogo() {
+  if (window._tsLogoB64) return;
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    try {
+      const c = document.createElement('canvas');
+      c.width = img.width; c.height = img.height;
+      c.getContext('2d').drawImage(img, 0, 0);
+      window._tsLogoB64 = c.toDataURL('image/png').split(',')[1];
+    } catch(e) {}
+  };
+  img.src = '/icons/icon-192.png';
+}
+
 function openContratModal(coId) {
+  _loadTsLogo();
   _cmCompanyId = coId;
   const co = (allCompanies||[]).find(c => c.id === coId) || {};
   document.getElementById('cm-company-name').textContent = co.name || '';
@@ -3544,10 +3560,14 @@ function generateContratPDF(p) {
   // ── HEADER PAGE 1 ──
   doc.setFillColor(10,10,10);
   doc.rect(0, 0, W, 45, 'F');
-  doc.setFillColor(201,169,97);
-  doc.circle(ML+8, 22.5, 8, 'F');
-  doc.setTextColor(10,10,10); doc.setFontSize(9); doc.setFont('helvetica','bold');
-  doc.text('TS', ML+8, 25, {align:'center'});
+  if (window._tsLogoB64) {
+    doc.addImage(window._tsLogoB64, 'PNG', ML, 14, 16, 16);
+  } else {
+    doc.setFillColor(201,169,97);
+    doc.circle(ML+8, 22.5, 8, 'F');
+    doc.setTextColor(10,10,10); doc.setFontSize(9); doc.setFont('helvetica','bold');
+    doc.text('TS', ML+8, 25, {align:'center'});
+  }
   doc.setTextColor(201,169,97); doc.setFontSize(16); doc.setFont('helvetica','bold');
   doc.text('T SERVICE & CO', ML+20, 19);
   doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.setTextColor(150,150,150);
@@ -3700,7 +3720,7 @@ function generateContratPDF(p) {
     ? `Le montant mensuel dû par le Client au titre du présent contrat est de ${fmtEur(p.ht)} net, le Prestataire étant non assujetti à la TVA (TVA non applicable, conformément à la réglementation fiscale applicable au Prestataire au Sénégal), tel que détaillé à l'article 2.2 ci-dessus.`
     : `Le montant mensuel dû par le Client au titre du présent contrat est de ${fmtEur(p.ht)} hors taxes (HT), soit ${fmtEur(p.ttc)} toutes taxes comprises (TTC) au taux de TVA de ${p.tva}%, tel que détaillé à l'article 2.2 ci-dessus.`);
   if (p.maint > 0) {
-    para(`Les frais de maintenance d'un montant indicatif de ${fmtEur(p.maint)} HT/mois sont susceptibles de varier en fonction du volume et de la complexité des interventions réalisées. Le Client en sera informé au préalable par devis ou avenant.`);
+    para(`Les frais de maintenance sont facturés mensuellement au réel, sur la base des interventions effectivement réalisées, dont le détail figure sur la facture mensuelle. À titre indicatif, ces frais s'élèvent à ${fmtEur(p.maint)} HT/mois et peuvent varier en fonction du volume et de la complexité des interventions. Le Client accepte expressément ce mode de facturation variable, sans qu'un avenant ne soit requis pour chaque variation mensuelle.`);
   }
   subTitle('4.2 – Facturation et modalités de paiement');
   para(`Le Prestataire émet une facture mensuelle entre le 1er et le 10 de chaque mois (date cible : le ${p.jourEch === 1 ? '1er' : p.jourEch + 'e'}). Le Client s'engage à régler chaque facture par ${modeLabelFr} dans un délai de trente (30) jours à compter de la date d'émission.`);
@@ -3862,10 +3882,10 @@ function generateContratPDF(p) {
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     doc.setFillColor(10,10,10); doc.rect(0, 282, W, 15, 'F');
-    doc.setTextColor(150,150,150); doc.setFontSize(7); doc.setFont('helvetica','normal');
-    doc.text('T-SERVICE & CO SUARL · RCCM SN.DKR.2026.B.15266 · NINEA 0130077702Y2 · tserviceco5@gmail.com', 105, 289, {align:'center'});
-    doc.text(`Page ${i} / ${pageCount}`, MR, 289, {align:'right'});
-    doc.text('Contrat N° ' + p.contractNum, ML, 289);
+    doc.setTextColor(150,150,150); doc.setFontSize(6.5); doc.setFont('helvetica','normal');
+    doc.text('T-SERVICE & CO SUARL  |  RCCM SN.DKR.2026.B.15266  |  NINEA 0130077702Y2  |  tserviceco5@gmail.com', 105, 287, {align:'center'});
+    doc.text('Contrat No ' + p.contractNum, ML, 292);
+    doc.text(`Page ${i} / ${pageCount}`, MR, 292, {align:'right'});
   }
 
   return doc.output('datauristring').split(',')[1];
