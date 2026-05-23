@@ -3180,5 +3180,63 @@ async function deleteSTTRelation(id, donorName, receiverName) {
   </div>
 </div>
 
+<!-- ── SUPERADMIN PASSWORD GATE ─────────────────────────── -->
+<div id="sa-gate" style="position:fixed;inset:0;background:#0A0A0A;z-index:9999;display:flex;align-items:center;justify-content:center">
+  <div style="background:#141414;border:1px solid rgba(201,169,97,0.25);border-radius:18px;padding:40px 36px;width:100%;max-width:400px;text-align:center">
+    <svg viewBox="0 0 48 48" fill="none" style="width:52px;height:52px;margin:0 auto 20px">
+      <rect x="8" y="20" width="32" height="22" rx="4" fill="none" stroke="#C9A961" stroke-width="2.2"/>
+      <path d="M16 20v-6a8 8 0 0 1 16 0v6" stroke="#C9A961" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="24" cy="31" r="3" fill="#C9A961"/>
+      <line x1="24" y1="34" x2="24" y2="38" stroke="#C9A961" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <div style="color:#C9A961;font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;margin-bottom:6px">T SERVICE &amp; CO</div>
+    <div style="color:#f5f5f0;font-size:18px;font-weight:700;margin-bottom:4px">Accès Superadmin</div>
+    <div style="color:#888;font-size:12px;margin-bottom:28px">Saisir le mot de passe pour continuer</div>
+    <input id="sa-gate-pwd" type="password" placeholder="Mot de passe superadmin"
+      style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;font-size:14px;color:#f5f5f0;outline:none;margin-bottom:10px;box-sizing:border-box"
+      onkeydown="if(event.key==='Enter')verifySAGate()">
+    <div id="sa-gate-err" style="color:#D88888;font-size:12px;min-height:18px;margin-bottom:10px"></div>
+    <button onclick="verifySAGate()"
+      style="width:100%;background:linear-gradient(135deg,#C9A961,#a07c30);color:#0A0A0A;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif">
+      Déverrouiller
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const GATE_HASH = '63f0cde3f81db28a1f31e9498dfe27f71fe01e51d47acc147341f231abc80de9';
+  const GATE_KEY  = 'sa_gate_auth';
+
+  async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+
+  window.verifySAGate = async function() {
+    const pwd = document.getElementById('sa-gate-pwd').value;
+    const err = document.getElementById('sa-gate-err');
+    if (!pwd) { err.textContent = 'Mot de passe requis.'; return; }
+    const h = await sha256(pwd);
+    if (h === GATE_HASH) {
+      sessionStorage.setItem(GATE_KEY, '1');
+      document.getElementById('sa-gate').style.display = 'none';
+      err.textContent = '';
+    } else {
+      err.textContent = 'Mot de passe incorrect.';
+      document.getElementById('sa-gate-pwd').value = '';
+      document.getElementById('sa-gate-pwd').focus();
+    }
+  };
+
+  if (sessionStorage.getItem(GATE_KEY) === '1') {
+    document.addEventListener('DOMContentLoaded', () => {
+      const g = document.getElementById('sa-gate');
+      if (g) g.style.display = 'none';
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
