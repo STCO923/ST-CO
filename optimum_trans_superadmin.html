@@ -180,6 +180,7 @@ select option:checked{background:#2a2a2a !important;}
   const EJS_SERVICE  = 'service_71zw1uf';
   const EJS_WELCOME  = 'template_ve97hh1';
   const EJS_NOTIF    = 'template_nc61p59';
+  const EJS_FACTURE  = 'template_hkgb22d';
   
   // Email de bienvenue nouveau client
   async function sendWelcomeEmail(companyName, email, password, plan) {
@@ -220,6 +221,25 @@ select option:checked{background:#2a2a2a !important;}
     } catch(e) {
       console.warn('[EmailJS] Admin notif failed:', e);
       return false;
+    }
+  }
+
+  // ── Envoi facture par email ──────────────────────────────
+  async function sendFactureEmail(toEmail, clientName, numeroFacture, periode, montantTTC, modePaiement, messageCustom) {
+    try {
+      await emailjs.send(EJS_SERVICE, EJS_FACTURE, {
+        to_email:       toEmail,
+        client_name:    clientName,
+        numero_facture: numeroFacture,
+        periode:        periode,
+        montant_ttc:    montantTTC,
+        mode_paiement:  modePaiement,
+        message_custom: messageCustom,
+      });
+      return true;
+    } catch(e) {
+      console.warn('[EmailJS] Facture email failed:', e);
+      throw e;
     }
   }
 </script>
@@ -2148,6 +2168,9 @@ async function loadBillingData() {
         <button class="btn-sm btn-ghost" style="font-size:11px;padding:5px 10px" onclick="openSendInvoiceModal('${co.id}','${co.name}','${co.plan}','${co.stripe_customer_id||''}',${price})">
           Stripe
         </button>
+        <button class="btn-sm" style="font-size:11px;padding:5px 10px;background:rgba(79,209,224,0.12);border:1px solid rgba(79,209,224,0.35);color:#4FD1E0;border-radius:8px;cursor:pointer" onclick="openEmailFactureModal('${co.id}','${esc(co.name)}','${co.billing_email||''}',${price})">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email
+        </button>
         ${lastSub?.stripe_invoice_url ? `<a href="${lastSub.stripe_invoice_url}" target="_blank" class="btn-sm btn-ghost" style="font-size:11px;padding:5px 8px;text-decoration:none">👁</a>` : ''}
       </td>`;
     tbody.appendChild(tr);
@@ -2484,6 +2507,57 @@ async function loadInvoiceHistory() {
       <td style="white-space:nowrap;display:flex;gap:4px;flex-wrap:wrap">${actions.join('')}</td>`;
     tbody.appendChild(tr);
   });
+}
+
+// ── Modal envoi facture par email ────────────────────────
+let _efData = {};
+function openEmailFactureModal(coId, coName, email, price) {
+  _efData = { coId, coName, price };
+  const now = new Date();
+  const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][now.getMonth()];
+  document.getElementById('ef-to').value      = email;
+  document.getElementById('ef-client').textContent = coName;
+  document.getElementById('ef-num').value     = `TS-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}-${coId.substring(0,6).toUpperCase()}`;
+  document.getElementById('ef-periode').value = `${mois} ${now.getFullYear()}`;
+  document.getElementById('ef-montant').value = price.toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' €';
+  document.getElementById('ef-mode').value    = 'virement bancaire';
+  document.getElementById('ef-msg').value     = '';
+  document.getElementById('ef-status').innerHTML = '';
+  document.getElementById('email-facture-modal').style.display = 'flex';
+}
+function closeEmailFactureModal() { document.getElementById('email-facture-modal').style.display = 'none'; }
+
+async function submitEmailFacture() {
+  const toEmail  = document.getElementById('ef-to').value.trim();
+  const num      = document.getElementById('ef-num').value.trim();
+  const periode  = document.getElementById('ef-periode').value.trim();
+  const montant  = document.getElementById('ef-montant').value.trim();
+  const mode     = document.getElementById('ef-mode').value;
+  const msg      = document.getElementById('ef-msg').value.trim();
+  const status   = document.getElementById('ef-status');
+  const btn      = document.getElementById('ef-send-btn');
+
+  if (!toEmail) { status.innerHTML = '<span style="color:#D88888">Email destinataire requis.</span>'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Envoi…';
+  status.innerHTML = '<span style="color:var(--gray);font-size:12px">Envoi en cours…</span>';
+
+  try {
+    await sendFactureEmail(toEmail, _efData.coName, num, periode, montant, mode, msg || 'Veuillez trouver ci-joint votre facture mensuelle.');
+    status.innerHTML = '<span style="color:#6B8E23;font-weight:600">✓ Facture envoyée avec succès !</span>';
+    toast('✉ Facture envoyée à ' + toEmail);
+    // Marquer envoyée en base
+    const numFacture = num;
+    await fetch(`${SB}/rest/v1/saas_subscriptions?numero_facture=eq.${numFacture}`, {
+      method: 'PATCH', headers: H(), body: JSON.stringify({ statut: 'envoyee', email_sent_at: new Date().toISOString(), email_destinataire: toEmail })
+    }).catch(()=>{});
+    setTimeout(() => { closeEmailFactureModal(); loadInvoiceHistory(); }, 1800);
+  } catch(e) {
+    status.innerHTML = `<span style="color:#D88888">Erreur : ${e.text || e.message || 'Échec envoi'}</span>`;
+    btn.disabled = false;
+    btn.textContent = 'Envoyer';
+  }
 }
 
 async function setInvoiceStatut(invoiceId, newStatut) {
@@ -2906,6 +2980,64 @@ async function deleteSTTRelation(id, donorName, receiverName) {
 }
 
 </script>
+
+<!-- ── Modal envoi facture par email ─────────────────────── -->
+<div id="email-facture-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);z-index:600;align-items:center;justify-content:center" onclick="if(event.target===this)closeEmailFactureModal()">
+  <div style="background:#141414;border:1px solid rgba(79,209,224,0.35);border-radius:16px;width:min(520px,96vw);padding:28px;position:relative;max-height:90vh;overflow-y:auto">
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#4FD1E0,#C9A961,#4FD1E0);border-radius:16px 16px 0 0"></div>
+
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--white);margin-bottom:4px">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#4FD1E0" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Envoyer la facture par email
+    </div>
+    <div style="font-size:11px;color:var(--gray);margin-bottom:20px">Client : <strong style="color:var(--white)" id="ef-client">—</strong></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div class="field-lbl">N° Facture</div>
+        <input type="text" id="ef-num" class="ii" style="width:100%;padding:8px 10px">
+      </div>
+      <div>
+        <div class="field-lbl">Période</div>
+        <input type="text" id="ef-periode" class="ii" style="width:100%;padding:8px 10px" placeholder="Mai 2026">
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div class="field-lbl">Email destinataire</div>
+      <input type="email" id="ef-to" class="ii" style="width:100%;padding:8px 10px" placeholder="client@email.com">
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div class="field-lbl">Montant TTC</div>
+        <input type="text" id="ef-montant" class="ii" style="width:100%;padding:8px 10px">
+      </div>
+      <div>
+        <div class="field-lbl">Mode de paiement</div>
+        <select id="ef-mode" class="ii" style="width:100%;padding:8px 10px">
+          <option value="virement bancaire">Virement bancaire</option>
+          <option value="prélèvement bancaire (mandat SEPA autorisé)">Prélèvement SEPA</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-bottom:18px">
+      <div class="field-lbl">Message personnalisé (optionnel)</div>
+      <textarea id="ef-msg" class="ii" rows="3" style="width:100%;resize:none;padding:8px 10px" placeholder="Ex : Suite à notre échange du 15 juin, veuillez trouver ci-joint…"></textarea>
+    </div>
+
+    <div id="ef-status" style="min-height:20px;margin-bottom:12px;font-size:12px"></div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn-sm btn-ghost" onclick="closeEmailFactureModal()">Annuler</button>
+      <button id="ef-send-btn" class="btn-sm" style="padding:8px 20px;background:linear-gradient(135deg,#4FD1E0,#2A8A95);color:#0A0A0A;font-weight:700;font-size:12px;border:none;border-radius:8px;cursor:pointer" onclick="submitEmailFacture()">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Envoyer
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- ── Éditeur de facture interne ─────────────────────── -->
 <div id="facture-editor-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);z-index:600;align-items:center;justify-content:center" onclick="if(event.target===this)closeFactureEditor()">
