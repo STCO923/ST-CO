@@ -2590,7 +2590,7 @@ function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, mo
       company_id: coId, plan: 'internal', numero_facture: num,
       montant_ht: totalHT, montant_ttc: ttc, tva: tvaRate,
       statut: 'en_attente', periode_debut: periodeDebut, periode_fin: periodeFin,
-      description_json: JSON.stringify({ nbAdmins, nbChefs, nbChauffeurs, remise, penalite, note, tvaRate })
+      notes: JSON.stringify({ nbAdmins, nbChefs, nbChauffeurs, remise, penalite, note, tvaRate })
     })
   }).then(() => loadInvoiceHistory()).catch(()=>{});
 }
