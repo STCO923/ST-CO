@@ -3336,7 +3336,7 @@ function updateMontantContrat() {
   const ttc = ht + tvaM;
   const fmt = n => n.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
   document.getElementById('cm-total-ht').textContent = fmt(ht);
-  document.getElementById('cm-total-tva').textContent = fmt(tvaM);
+  document.getElementById('cm-total-tva').textContent = tva === 0 ? 'Exonéré' : fmt(tvaM);
   document.getElementById('cm-total-ttc').textContent = fmt(ttc);
 }
 
@@ -3664,7 +3664,10 @@ function generateContratPDF(p) {
   });
 
   // Totaux
-  const totaux = [['Total HT', fmtEur(p.ht)], [`TVA (${p.tva}%)`, fmtEur(p.ht*p.tva/100)], ['TOTAL TTC / MOIS', fmtEur(p.ttc)]];
+  const tvaLabel = p.tva === 0 ? 'TVA' : `TVA (${p.tva}%)`;
+  const tvaValue = p.tva === 0 ? 'Exonéré' : fmtEur(p.ht*p.tva/100);
+  const ttcLabel = p.tva === 0 ? 'TOTAL NET / MOIS' : 'TOTAL TTC / MOIS';
+  const totaux = [['Total HT', fmtEur(p.ht)], [tvaLabel, tvaValue], [ttcLabel, fmtEur(p.ttc)]];
   totaux.forEach(([label, val], i) => {
     const isTtc = i === 2;
     if (isTtc) doc.setFillColor(201,169,97); else doc.setFillColor(235,235,235);
@@ -3687,7 +3690,9 @@ function generateContratPDF(p) {
   // ── ART 4 ──
   article(4, 'Conditions Financières');
   subTitle('4.1 – Tarification mensuelle');
-  para(`Le montant mensuel dû par le Client au titre du présent contrat est de ${fmtEur(p.ht)} hors taxes (HT), soit ${fmtEur(p.ttc)} toutes taxes comprises (TTC) au taux de TVA de ${p.tva}%, tel que détaillé à l'article 2.2 ci-dessus.`);
+  para(p.tva === 0
+    ? `Le montant mensuel dû par le Client au titre du présent contrat est de ${fmtEur(p.ht)} net, le Prestataire étant non assujetti à la TVA (TVA non applicable, conformément à la réglementation fiscale applicable au Prestataire au Sénégal), tel que détaillé à l'article 2.2 ci-dessus.`
+    : `Le montant mensuel dû par le Client au titre du présent contrat est de ${fmtEur(p.ht)} hors taxes (HT), soit ${fmtEur(p.ttc)} toutes taxes comprises (TTC) au taux de TVA de ${p.tva}%, tel que détaillé à l'article 2.2 ci-dessus.`);
   if (p.maint > 0) {
     para(`Les frais de maintenance d'un montant indicatif de ${fmtEur(p.maint)} HT/mois sont susceptibles de varier en fonction du volume et de la complexité des interventions réalisées. Le Client en sera informé au préalable par devis ou avenant.`);
   }
@@ -3740,7 +3745,22 @@ function generateContratPDF(p) {
   para("Le Prestataire s'engage à traiter les données exclusivement pour les finalités définies dans le présent contrat, à mettre en oeuvre les mesures de sécurité techniques et organisationnelles appropriées, à ne pas sous-traiter sans accord du Client, et à notifier toute violation de données dans les 72 heures.");
   subTitle('9.3 – Hébergement et localisation des données');
   para("Les données du Client sont hébergées sur l'infrastructure cloud Supabase (https://supabase.com), opérée au sein de l'Union Européenne sur des centres de données situés en République d'Irlande (région eu-west-1). Cette localisation garantit la conformité avec le Règlement Général sur la Protection des Données (RGPD) et évite tout transfert hors UE.");
-  subTitle('9.4 – Loi sénégalaise');
+  subTitle('9.4 – Sous-traitants techniques (sous-processeurs)');
+  para("Pour la fourniture du service, le Prestataire a recours aux sous-traitants techniques suivants, dont la liste pourra évoluer :");
+  bullet("Supabase Inc. (États-Unis / opération UE Irlande) - hébergement de la base de données PostgreSQL, authentification, stockage de fichiers ;");
+  bullet("Vercel Inc. (États-Unis / CDN mondial) - hébergement de l'application web frontale et distribution via CDN ;");
+  bullet("Sendinblue / Brevo (France) - service d'envoi des emails transactionnels (factures, notifications).");
+  para("Le Client autorise expressément ces sous-traitances dans le cadre du présent contrat. Toute modification substantielle de cette liste fera l'objet d'une information préalable du Client.");
+  subTitle('9.5 – Durée de conservation des données');
+  para("Les données du Client sont conservées pendant toute la durée du contrat et pour une période complémentaire de trente (30) jours à compter de sa résiliation, durant laquelle le Client peut demander l'export complet de ses données. Au-delà, les données sont supprimées de manière définitive et irréversible, à l'exception des données nécessaires au respect des obligations légales (factures conservées 10 ans conformément à l'article L.123-22 du Code de commerce et art. 33 du Code général des impôts sénégalais).");
+  subTitle('9.6 – Droits des personnes concernées');
+  para("Conformément aux articles 15 à 22 du RGPD, toute personne concernée par un traitement de données dispose d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de ses données. Ces droits s'exercent prioritairement auprès du Client (responsable de traitement). Le Prestataire s'engage à apporter son concours pour faciliter l'exercice de ces droits.");
+  para("Les personnes concernées peuvent également introduire une réclamation auprès de la CNIL (France - www.cnil.fr) ou de la CDP (Sénégal - www.cdp.sn) selon leur lieu de résidence.");
+  subTitle('9.7 – Cookies et traceurs techniques');
+  para("La Solution utilise exclusivement des cookies et traceurs techniques strictement nécessaires à son fonctionnement : cookies de session pour l'authentification, stockage local (localStorage / sessionStorage) pour la persistance des préférences utilisateur et du token de session. Aucun cookie publicitaire, de mesure d'audience tierce ou de profilage commercial n'est utilisé, ce qui dispense le Prestataire de l'obligation de recueil du consentement préalable (art. 82 de la loi Informatique et Libertés modifiée).");
+  subTitle('9.8 – Contact pour l\'exercice des droits');
+  para("Pour toute question relative à la protection des données personnelles ou pour exercer ses droits, le Client ou toute personne concernée peut contacter le Prestataire à l'adresse : tserviceco5@gmail.com.");
+  subTitle('9.9 – Loi sénégalaise');
   para("Les Parties s'engagent également à respecter les dispositions de la loi n°2008-12 du 25 janvier 2008 sur la protection des données à caractère personnel au Sénégal et les décisions de la Commission de Protection des Données Personnelles (CDP).");
 
   // ── ART 10 ──
@@ -3768,16 +3788,31 @@ function generateContratPDF(p) {
   para("En cas de litige relatif à la validité, l'interprétation ou l'exécution du présent contrat, les Parties conviennent de rechercher en priorité une solution amiable. A défaut d'accord dans un délai de trente (30) jours, le litige sera soumis à la compétence exclusive des juridictions compétentes de Dakar (République du Sénégal), sauf disposition légale impérative contraire applicable au Client.");
 
   // ── ART 14 ──
-  article(14, "Dispositions Diverses");
+  article(14, "Mentions Légales et Conditions Générales d'Utilisation");
+  subTitle('14.1 – Éditeur de la Solution');
+  para("La Solution « T SERVICE & CO SaaS » est éditée par T-SERVICE & CO SUARL, société à responsabilité limitée unipersonnelle de droit sénégalais, immatriculée au RCCM sous le numéro SN.DKR.2026.B.15266, NINEA 0130077702Y2, dont le siège social est situé Commune Ngor Almadie Zone 14, Dakar (Sénégal), représentée par son Gérant M. SOW Ibrahima. Email : tserviceco5@gmail.com.");
+  subTitle('14.2 – Hébergement technique');
+  para("L'application web frontale est hébergée par Vercel Inc. (340 S Lemon Ave #4133, Walnut, CA 91789, USA) via son réseau de distribution mondial (CDN). La base de données et l'authentification sont opérées par Supabase Inc. (970 Toa Payoh North #07-04, Singapore 318992) sur infrastructure située en République d'Irlande (Union Européenne).");
+  subTitle('14.3 – Propriété de la marque');
+  para("« T SERVICE & CO », le logo et tous éléments graphiques associés sont la propriété exclusive de T-SERVICE & CO SUARL. Toute reproduction, même partielle, est strictement interdite sans autorisation écrite préalable.");
+  subTitle('14.4 – Conditions Générales d\'Utilisation (CGU)');
+  para("L'utilisation de la Solution est soumise aux Conditions Générales d'Utilisation (CGU) accessibles depuis l'interface de l'application et acceptées par chaque utilisateur lors de sa première connexion. Les CGU complètent le présent contrat sans s'y substituer ; en cas de contradiction, les stipulations du présent contrat prévalent.");
+  subTitle('14.5 – Liens vers ressources tierces');
+  para("La Solution peut intégrer des liens ou services tiers (cartographie OpenStreetMap, données météo Open-Meteo, etc.). Le Prestataire ne saurait être tenu responsable du contenu ou de la disponibilité de ces services tiers, qui relèvent de leurs propres conditions d'utilisation.");
+  subTitle('14.6 – Accessibilité');
+  para("Le Prestataire met en oeuvre des efforts raisonnables pour rendre la Solution accessible. Les utilisateurs rencontrant des difficultés d'accessibilité peuvent contacter le Prestataire pour signaler tout obstacle.");
+
+  // ── ART 15 ──
+  article(15, "Dispositions Diverses");
   bullet("Intégralité : Le présent contrat annule et remplace tout accord, verbal ou écrit, antérieur entre les Parties portant sur le même objet.");
   bullet("Divisibilité : Si une stipulation est déclarée nulle ou inapplicable par une juridiction compétente, les autres stipulations demeurent en pleine vigueur.");
   bullet("Tolérance : Le fait pour l'une des Parties de ne pas se prévaloir d'un manquement de l'autre ne vaut pas renonciation au droit d'agir ultérieurement.");
   bullet("Avenant : Toute modification des termes du présent contrat doit faire l'objet d'un avenant écrit, daté et signé par les représentants habilités des deux Parties.");
   bullet("Election de domicile : Pour l'exécution des présentes, les Parties font respectivement élection de domicile en leurs sièges sociaux respectifs.");
 
-  // ── ART 15 – SIGNATURES ──
+  // ── ART 16 – SIGNATURES ──
   checkY(70);
-  article(15, "Signatures");
+  article(16, "Signatures");
   para(`Fait en deux (2) exemplaires originaux de valeur identique, un (1) conservé par chaque Partie en ses bureaux respectifs, le ${todayStr}.`);
   y += 5;
 
