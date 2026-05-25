@@ -2483,6 +2483,15 @@ async function autoFillMaintenance(btn) {
   }
 }
 
+function feAutoMaint() {
+  const h = Number(document.getElementById('fe-maint-heures').value) || 0;
+  const t = Number(document.getElementById('fe-maint-taux').value) || 0;
+  if (h > 0 && t > 0) {
+    document.getElementById('fe-maintenance').value = (h * t).toFixed(2);
+  }
+  feUpdatePreview();
+}
+
 function feUpdatePreview() {
   const a=Number(document.getElementById('fe-admins').value)||0;
   const ch=Number(document.getElementById('fe-chefs').value)||0;
@@ -4145,11 +4154,11 @@ function generateContratPDF(p) {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
       <div>
         <div class="field-lbl">Total heures maintenance — optionnel</div>
-        <input type="number" id="fe-maint-heures" class="ii" style="width:100%" min="0" step="0.5" value="0" placeholder="0">
+        <input type="number" id="fe-maint-heures" class="ii" style="width:100%" min="0" step="0.5" value="0" placeholder="0" oninput="feAutoMaint()">
       </div>
       <div>
         <div class="field-lbl">Taux horaire (€/h) — optionnel</div>
-        <input type="number" id="fe-maint-taux" class="ii" style="width:100%" min="0" step="1" value="75" placeholder="75">
+        <input type="number" id="fe-maint-taux" class="ii" style="width:100%" min="0" step="1" value="75" placeholder="75" oninput="feAutoMaint()">
         <div style="font-size:10px;color:var(--gray);margin-top:3px">Affichés sur la facture si renseignés (ex : « 14h × 75 €/h »)</div>
       </div>
     </div>
