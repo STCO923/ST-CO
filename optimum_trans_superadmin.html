@@ -1801,27 +1801,33 @@ async function generateTelegramCode(companyId,companyName){
 
 async function deleteCompany(id,name){
   if(!confirm(` Supprimer définitivement ${name} ?\n\nToutes les données associées (chauffeurs, tournées, états véhicules, messages, etc.) seront définitivement effacées.`)) return;
-  // Suppression en cascade de toutes les tables liées au company_id
+  const hdr = getSAKey() ? HS() : H();
+  // Cascade : toutes les tables avec FK vers sa_companies.id via company_id
   const tables=[
-    'etats_vehicule','tournee_validations','tournee_points','tournees',
-    'affectations_vehicule','maintenance_vehicules','vehicules',
+    'tournee_points','tournee_validations','tournees',
+    'affectations_vehicule','etats_vehicule','maintenance_vehicules','vehicules',
     'gazole_pleins','amendes','fiches_paie','chauffeur_avances',
-    'absences','soldes_conges','contrats','penalites_config',
+    'absences','soldes_conges','contrats','penalites_config','planning',
     'points_livraison','factures','clients','commissionnaires',
-    'messages','message_group_members','message_groups',
-    'monmarche_shifts','decompte_st_imports','decompte_st_zones',
+    'messages','message_groups',
+    'monmarche_shifts','decompte_st_imports','decompte_st_zones','decompte_st_city_zones',
     'chef_equipe_jour','driver_locations','driver_positions_history',
-    'session_invalidations','company_users','chauffeurs' ];
+    'session_invalidations','activation_codes','saas_subscriptions','sa_contracts',
+    'entreprise','ai_conversations','bot_conversations','audit_log',
+    'security_events','gmail_tokens','telegram_agents','company_users','chauffeurs' ];
   await Promise.all(tables.map(t=>
-    fetch(`${SB}/rest/v1/${t}?company_id=eq.${id}`,{method:'DELETE',headers:H()})
+    fetch(`${SB}/rest/v1/${t}?company_id=eq.${id}`,{method:'DELETE',headers:hdr}).catch(()=>{})
   ));
-  // Supprimer les relations STT (donor ou receiver)
+  // Relations STT et STT orders (colonnes donor/receiver séparées)
   await Promise.all([
-    fetch(`${SB}/rest/v1/stt_relationships?donor_company_id=eq.${id}`,{method:'DELETE',headers:HS()}),
-    fetch(`${SB}/rest/v1/stt_relationships?receiver_company_id=eq.${id}`,{method:'DELETE',headers:HS()}),
+    fetch(`${SB}/rest/v1/stt_relationships?donor_company_id=eq.${id}`,{method:'DELETE',headers:hdr}),
+    fetch(`${SB}/rest/v1/stt_relationships?receiver_company_id=eq.${id}`,{method:'DELETE',headers:hdr}),
+    fetch(`${SB}/rest/v1/stt_orders?donor_company_id=eq.${id}`,{method:'DELETE',headers:hdr}).catch(()=>{}),
+    fetch(`${SB}/rest/v1/stt_orders?receiver_company_id=eq.${id}`,{method:'DELETE',headers:hdr}).catch(()=>{}),
   ]);
-  await fetch(`${SB}/rest/v1/sa_companies?id=eq.${id}`,{method:'DELETE',headers:H()});
-  toast(`🗑 ${name} supprimée`);
+  const r = await fetch(`${SB}/rest/v1/sa_companies?id=eq.${id}`,{method:'DELETE',headers:hdr});
+  if(!r.ok){ toast(`Erreur suppression (${r.status}) — chargez la clé API service_role`,'error'); loadCompanies(); return; }
+  toast(`${name} supprimée`);
   loadCompanies();
 }
 
