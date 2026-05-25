@@ -1823,9 +1823,12 @@ async function deleteCompany(id,name){
       }).catch(()=>{}),
   ]);
 
+  // tournees doit être supprimé avant chauffeurs/clients (FK: tournees.chauffeur_id, tournees.client_id)
+  await del('tournees',`company_id=eq.${id}`);
+
   // Phase 2 — tables parents et reste des tables company_id
   await Promise.all([
-    'tournees','vehicules','chauffeurs','clients','message_groups',
+    'vehicules','chauffeurs','clients','message_groups',
     'etats_vehicule','maintenance_vehicules','gazole_pleins','amendes',
     'fiches_paie','chauffeur_avances','absences','soldes_conges','contrats',
     'penalites_config','planning','points_livraison','factures','commissionnaires',
@@ -1833,7 +1836,7 @@ async function deleteCompany(id,name){
     'chef_equipe_jour','session_invalidations','activation_codes','saas_subscriptions',
     'sa_contracts','entreprise','ai_conversations','bot_conversations',
     'audit_log','security_events','gmail_tokens','telegram_agents',
-    'company_users','chauffeurs'
+    'company_users'
   ].map(t=>del(t,`company_id=eq.${id}`)));
 
   // Phase 3 — relations STT et sa_companies
