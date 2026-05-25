@@ -1292,7 +1292,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   let sess=null; try{sess=JSON.parse(raw||'');}catch(e){}
   if(!sess||sess.id!==SA_UID){ window.location.replace('/'); return; }
   renderPlanSelector();
-  loadTarifs().then(() => loadCompanies());
+  Promise.all([loadTarifs(), loadCompanies()]).then(() => updateKPIs());
   initSAKeyPrompt();
   // Expiry par défaut = +1 an
   const d=new Date(); d.setFullYear(d.getFullYear()+1);
