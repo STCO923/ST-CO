@@ -1455,8 +1455,8 @@ function renderCompanies(data){
         if(co.custom_price!=null&&co.custom_price!=='') return `<span title="Prix personnalisé">${Number(co.custom_price).toLocaleString('fr-FR',{minimumFractionDigits:2})}€ <span style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:3px">Manuel</span></span>`;
         const a=Number(co.max_admins||1),ch=Number(co.max_chefs||0);
         const rawCauff=Number(co.max_chauffeurs||0),cauff=rawCauff>=999?0:rawCauff;
-        const ps=a*500+ch*330+cauff*299.99;
-        return `<span title="${a}×500 + ${ch}×330 + ${cauff}×299,99">${ps.toLocaleString('fr-FR',{minimumFractionDigits:2})}€</span>`;
+        const ps=a*PRICE_ADMIN+ch*PRICE_CHEF+cauff*PRICE_CHAUFFEUR;
+        return `<span title="${a}×${PRICE_ADMIN} + ${ch}×${PRICE_CHEF} + ${cauff}×${PRICE_CHAUFFEUR}">${ps.toLocaleString('fr-FR',{minimumFractionDigits:2})}€</span>`;
       })()}</td>
       <td>${expiryHtml}</td>
       <td>${addonsHtml}</td>
