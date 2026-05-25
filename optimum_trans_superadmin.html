@@ -1455,8 +1455,8 @@ function renderCompanies(data){
         if(co.custom_price!=null&&co.custom_price!=='') return `<span title="Prix personnalisé">${Number(co.custom_price).toLocaleString('fr-FR',{minimumFractionDigits:2})}€ <span style="font-size:9px;background:rgba(245,166,35,0.18);color:var(--accent);padding:1px 6px;border-radius:8px;margin-left:3px">Manuel</span></span>`;
         const a=Number(co.max_admins||1),ch=Number(co.max_chefs||0);
         const rawCauff=Number(co.max_chauffeurs||0),cauff=rawCauff>=999?0:rawCauff;
-        const ps=a*500+ch*330+cauff*299.99;
-        return `<span title="${a}×500 + ${ch}×330 + ${cauff}×299,99">${ps.toLocaleString('fr-FR',{minimumFractionDigits:2})}€</span>`;
+        const ps=a*PRICE_ADMIN+ch*PRICE_CHEF+cauff*PRICE_CHAUFFEUR;
+        return `<span title="${a}×${PRICE_ADMIN} + ${ch}×${PRICE_CHEF} + ${cauff}×${PRICE_CHAUFFEUR}">${ps.toLocaleString('fr-FR',{minimumFractionDigits:2})}€</span>`;
       })()}</td>
       <td>${expiryHtml}</td>
       <td>${addonsHtml}</td>
@@ -2481,6 +2481,15 @@ async function autoFillMaintenance(btn) {
     btn.innerHTML = original;
     btn.disabled = false;
   }
+}
+
+function feAutoMaint() {
+  const h = Number(document.getElementById('fe-maint-heures').value) || 0;
+  const t = Number(document.getElementById('fe-maint-taux').value) || 0;
+  if (h > 0 && t > 0) {
+    document.getElementById('fe-maintenance').value = (h * t).toFixed(2);
+  }
+  feUpdatePreview();
 }
 
 function feUpdatePreview() {
@@ -4145,11 +4154,11 @@ function generateContratPDF(p) {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
       <div>
         <div class="field-lbl">Total heures maintenance — optionnel</div>
-        <input type="number" id="fe-maint-heures" class="ii" style="width:100%" min="0" step="0.5" value="0" placeholder="0">
+        <input type="number" id="fe-maint-heures" class="ii" style="width:100%" min="0" step="0.5" value="0" placeholder="0" oninput="feAutoMaint()">
       </div>
       <div>
         <div class="field-lbl">Taux horaire (€/h) — optionnel</div>
-        <input type="number" id="fe-maint-taux" class="ii" style="width:100%" min="0" step="1" value="75" placeholder="75">
+        <input type="number" id="fe-maint-taux" class="ii" style="width:100%" min="0" step="1" value="75" placeholder="75" oninput="feAutoMaint()">
         <div style="font-size:10px;color:var(--gray);margin-top:3px">Affichés sur la facture si renseignés (ex : « 14h × 75 €/h »)</div>
       </div>
     </div>
