@@ -285,7 +285,7 @@ select option:checked{background:#2a2a2a !important;}
     doc.setFontSize(12); doc.setFont('helvetica','bold');
     doc.text('FACTURE N° ' + d.num, 195, 14, { align:'right' });
     doc.setFontSize(8); doc.setFont('helvetica','normal');
-    doc.text('Date : ' + new Date().toLocaleDateString('fr-FR'), 195, 21, { align:'right' });
+    doc.text('Date : ' + (d.dateEmissionLabel || new Date().toLocaleDateString('fr-FR')), 195, 21, { align:'right' });
     doc.text('Échéance : 30 jours', 195, 27, { align:'right' });
 
     // ── Émetteur / Client ──
@@ -310,7 +310,7 @@ select option:checked{background:#2a2a2a !important;}
     doc.setFillColor(240,240,240);
     doc.roundedRect(15, y, 180, 9, 2, 2, 'F');
     doc.setFontSize(10); doc.setFont('helvetica','bold'); doc.setTextColor(0,0,0);
-    doc.text('Période de facturation : ' + d.moisNom + ' ' + d.annee, 105, y+6.2, { align:'center' });
+    doc.text('Période de facturation : ' + (d.periodeLabel || (d.moisNom + ' ' + d.annee)), 105, y+6.2, { align:'center' });
 
     // ── Table ──  colonnes : Desc(17) | Qté(120 center) | P.U.HT(155 right) | Total HT(193 right)
     y += 15;
@@ -2451,8 +2451,12 @@ function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price,
   _feData = { coId, coName, isCustom, price, city: co.city||'', siret: co.siret||'', resp: co.resp||'', phone: co.phone||'' };
   _feCurrency = 'EUR';
   const m = document.getElementById('facture-editor-modal');
-  document.getElementById('fe-mois').value    = now.getMonth();
-  document.getElementById('fe-annee').value   = now.getFullYear();
+  const _toISO = dt => `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+  const _firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  const _lastDay  = new Date(now.getFullYear(), now.getMonth()+1, 0);
+  document.getElementById('fe-date-emission').value = _toISO(now);
+  document.getElementById('fe-periode-debut').value = _toISO(_firstDay);
+  document.getElementById('fe-periode-fin').value   = _toISO(_lastDay);
   document.getElementById('fe-admins').value  = nbAdmins;
   document.getElementById('fe-chefs').value   = nbChefs;
   document.getElementById('fe-chauff').value  = nbChauffeurs;
@@ -2474,9 +2478,21 @@ function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price,
 }
 function closeFactureEditor() { document.getElementById('facture-editor-modal').style.display='none'; }
 
+function feSetMois(offset) {
+  const ref = new Date();
+  ref.setDate(1);
+  ref.setMonth(ref.getMonth() + offset);
+  const first = new Date(ref.getFullYear(), ref.getMonth(), 1);
+  const last  = new Date(ref.getFullYear(), ref.getMonth()+1, 0);
+  const iso = dt => `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+  document.getElementById('fe-periode-debut').value = iso(first);
+  document.getElementById('fe-periode-fin').value   = iso(last);
+}
+
 async function autoFillMaintenance(btn) {
-  const moisIdx = Number(document.getElementById('fe-mois').value);
-  const annee = Number(document.getElementById('fe-annee').value);
+  const pd = document.getElementById('fe-periode-debut').value;
+  const [annee, mm] = (pd || '').split('-').map(Number);
+  const moisIdx = (mm || 1) - 1;
   const original = btn.innerHTML;
   btn.disabled = true;
   btn.innerHTML = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10" stroke-dasharray="50" stroke-dashoffset="20"/></svg> Analyse en cours…';
@@ -2548,8 +2564,11 @@ function feUpdatePreview() {
 }
 
 async function submitFactureEditor() {
-  const moisIdx=Number(document.getElementById('fe-mois').value);
-  const annee  =Number(document.getElementById('fe-annee').value);
+  const dateEmission = document.getElementById('fe-date-emission').value;
+  const periodeDebut = document.getElementById('fe-periode-debut').value;
+  const periodeFin   = document.getElementById('fe-periode-fin').value;
+  if (!dateEmission || !periodeDebut || !periodeFin) { toast('Renseignez la date d\'émission et la période.'); return; }
+  if (periodeFin < periodeDebut) { toast('La date de fin de période est antérieure à la date de début.'); return; }
   const a =Number(document.getElementById('fe-admins').value)||0;
   const ch=Number(document.getElementById('fe-chefs').value)||0;
   const ca=Number(document.getElementById('fe-chauff').value)||0;
@@ -2566,14 +2585,14 @@ async function submitFactureEditor() {
   const gest     = Number(document.getElementById('fe-gestion').value)||0;
   const modepay  = document.getElementById('fe-modepay').value;
   closeFactureEditor();
-  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay, { city:_feData.city, siret:_feData.siret, resp:_feData.resp, phone:_feData.phone }, maintDetail, maintHeures, maintTaux);
+  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, dateEmission, periodeDebut, periodeFin, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay, { city:_feData.city, siret:_feData.siret, resp:_feData.resp, phone:_feData.phone }, maintDetail, maintHeures, maintTaux);
 }
 
-async function genNumFacture() {
-  const now = new Date();
-  const yy  = String(now.getFullYear()).slice(-2);
-  const mm  = String(now.getMonth()+1).padStart(2,'0');
-  const dd  = String(now.getDate()).padStart(2,'0');
+async function genNumFacture(refDate) {
+  const d   = refDate instanceof Date ? refDate : new Date();
+  const yy  = String(d.getFullYear()).slice(-2);
+  const mm  = String(d.getMonth()+1).padStart(2,'0');
+  const dd  = String(d.getDate()).padStart(2,'0');
   const prefix = `TS${yy}${mm}${dd}`;
   try {
     const rows = await fetch(`${SB}/rest/v1/saas_subscriptions?numero_facture=like.${prefix}*&select=numero_facture`, { headers: H() }).then(r=>r.json());
@@ -2585,13 +2604,27 @@ async function genNumFacture() {
 }
 
 let _lastGeneratedInvoice = null;
-async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, moisIdx, annee, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement', coInfo={}, maintDetail='', maintHeures=0, maintTaux=0) {
+async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, dateEmission, periodeDebut, periodeFin, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement', coInfo={}, maintDetail='', maintHeures=0, maintTaux=0) {
   const maintHeader = (maintHeures > 0 && maintTaux > 0) ? `${maintHeures}h × ${maintTaux} €/h` : '';
   const { city='', siret='', resp='', phone='' } = coInfo;
   const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  const _parseISO = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
+  const _dEmis = _parseISO(dateEmission);
+  const _dDeb  = _parseISO(periodeDebut);
+  const _dFin  = _parseISO(periodeFin);
+  const dateEmissionLabel = _dEmis.toLocaleDateString('fr-FR');
+  const lastOfMonth = new Date(_dDeb.getFullYear(), _dDeb.getMonth()+1, 0).getDate();
+  const isFullMonth = _dDeb.getDate() === 1
+    && _dFin.getMonth() === _dDeb.getMonth()
+    && _dFin.getFullYear() === _dDeb.getFullYear()
+    && _dFin.getDate() === lastOfMonth;
+  const moisIdx = _dDeb.getMonth();
+  const annee   = _dDeb.getFullYear();
   const moisNom = MOIS_FR[moisIdx];
-  const now     = new Date();
-  const num     = await genNumFacture();
+  const periodeLabel = isFullMonth
+    ? `${moisNom} ${annee}`
+    : `du ${_dDeb.toLocaleDateString('fr-FR')} au ${_dFin.toLocaleDateString('fr-FR')}`;
+  const num     = await genNumFacture(_dEmis);
   const isXOF   = currency === 'XOF';
   const rate    = isXOF ? EUR_TO_XOF : 1;
   const sym     = isXOF ? 'F CFA' : '€';
@@ -2690,7 +2723,7 @@ async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeu
   </div>
   <div class="inv-meta">
     <div class="num">FACTURE N° ${num}</div>
-    <div class="date">Date : ${now.toLocaleDateString('fr-FR')}</div>
+    <div class="date">Date : ${dateEmissionLabel}</div>
     <div class="date">Échéance : 30 jours</div>
   </div>
 </div>
@@ -2711,7 +2744,7 @@ async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeu
   </div>
 </div>
 
-<div class="periode-badge">Période de facturation : ${moisNom} ${annee}</div>
+<div class="periode-badge">Période de facturation : ${periodeLabel}</div>
 
 <table>
   <thead>
@@ -2755,9 +2788,8 @@ ${(modePaiement==='virement'||modePaiement==='swift')&&(BANK_IBAN||BANK_BIC||BAN
 </body>
 </html>`;
 
-  const MOIS_FR2 = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
   const pdfBase64 = generateInvoicePDFBase64({
-    num, coName, moisNom, annee,
+    num, coName, periodeLabel, dateEmissionLabel,
     nbAdmins, nbChefs, nbChauffeurs,
     ligneAdmin, ligneChef, ligneChauf, ligneMaint, ligneGest,
     puAdmin, puChef, puChauf,
@@ -2773,7 +2805,7 @@ ${(modePaiement==='virement'||modePaiement==='swift')&&(BANK_IBAN||BANK_BIC||BAN
     ttc: f(ttc),
     ttcRaw: ttc,
     currency,
-    periode: `${MOIS_FR2[moisIdx]} ${annee}`,
+    periode: periodeLabel,
     modePaiement,
     pdfBase64
   };
@@ -2783,9 +2815,6 @@ ${(modePaiement==='virement'||modePaiement==='swift')&&(BANK_IBAN||BANK_BIC||BAN
   w.document.close();
 
   // Sauvegarde en base (suivi sans Stripe)
-  const periodeDebut = `${annee}-${String(moisIdx+1).padStart(2,'0')}-01`;
-  const _lastDay = new Date(annee, moisIdx+1, 0);
-  const periodeFin = `${_lastDay.getFullYear()}-${String(_lastDay.getMonth()+1).padStart(2,'0')}-${String(_lastDay.getDate()).padStart(2,'0')}`;
   fetch(`${SB}/rest/v1/saas_subscriptions`, {
     method:'POST', headers:{...H(),'Prefer':'return=minimal'},
     body: JSON.stringify({
@@ -4078,20 +4107,25 @@ function generateContratPDF(p) {
       <div id="fe-rate-info" style="font-size:10px;color:var(--gray);white-space:nowrap">1 EUR = 655,957 XOF</div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px">
       <div>
-        <div class="field-lbl">Mois</div>
-        <select id="fe-mois" class="ii" style="width:100%" onchange="feUpdatePreview()">
-          <option value="0">Janvier</option><option value="1">Février</option><option value="2">Mars</option>
-          <option value="3">Avril</option><option value="4">Mai</option><option value="5">Juin</option>
-          <option value="6">Juillet</option><option value="7">Août</option><option value="8">Septembre</option>
-          <option value="9">Octobre</option><option value="10">Novembre</option><option value="11">Décembre</option>
-        </select>
+        <div class="field-lbl">Date d'émission</div>
+        <input type="date" id="fe-date-emission" class="ii" style="width:100%;color-scheme:dark">
       </div>
       <div>
-        <div class="field-lbl">Année</div>
-        <input type="number" id="fe-annee" class="ii" style="width:100%" min="2024" max="2099" onchange="feUpdatePreview()">
+        <div class="field-lbl">Période du</div>
+        <input type="date" id="fe-periode-debut" class="ii" style="width:100%;color-scheme:dark">
       </div>
+      <div>
+        <div class="field-lbl">Période au</div>
+        <input type="date" id="fe-periode-fin" class="ii" style="width:100%;color-scheme:dark">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;font-size:10px;color:var(--gray);margin-bottom:14px">
+      <span>Raccourci :</span>
+      <button type="button" class="btn-sm btn-ghost" style="font-size:10px;padding:3px 8px" onclick="feSetMois(-1)">← Mois précédent</button>
+      <button type="button" class="btn-sm btn-ghost" style="font-size:10px;padding:3px 8px" onclick="feSetMois(0)">Mois en cours</button>
+      <button type="button" class="btn-sm btn-ghost" style="font-size:10px;padding:3px 8px" onclick="feSetMois(1)">Mois suivant →</button>
     </div>
 
     <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:8px;font-family:'Bebas Neue',sans-serif">Licences</div>
