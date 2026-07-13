@@ -323,9 +323,9 @@ select option:checked{background:#2a2a2a !important;}
     y += 8;
 
     const rows = [];
-    if (d.nbAdmins > 0)     rows.push(['Licence administrateur',      d.nbAdmins,     ff(d.puAdmin), ff(d.ligneAdmin)]);
-    if (d.nbChefs > 0)      rows.push(["Licence chef d'equipe",       d.nbChefs,      ff(d.puChef),  ff(d.ligneChef)]);
-    if (d.nbChauffeurs > 0) rows.push(['Licence chauffeur',           d.nbChauffeurs, ff(d.puChauf), ff(d.ligneChauf)]);
+    if (d.nbAdmins > 0)     rows.push(['Licence administrateur',      d.masquerNbAdmin?'':d.nbAdmins,     d.masquerNbAdmin?'':ff(d.puAdmin), ff(d.ligneAdmin)]);
+    if (d.nbChefs > 0)      rows.push(["Licence chef d'equipe",       d.masquerNbChef?'':d.nbChefs,      d.masquerNbChef?'':ff(d.puChef),  ff(d.ligneChef)]);
+    if (d.nbChauffeurs > 0) rows.push(['Licence chauffeur',           d.masquerNbChauff?'':d.nbChauffeurs, d.masquerNbChauff?'':ff(d.puChauf), ff(d.ligneChauf)]);
     if (d.ligneMaint > 0)   rows.push([`Frais de maintenance${d.maintHeader?'  ('+d.maintHeader+')':''}`, 1, ff(d.ligneMaint), ff(d.ligneMaint), d.maintDetail||'']);
     if (d.ligneGest > 0)    rows.push(['Pilotage Complet TS CO',      1,              ff(d.ligneGest),  ff(d.ligneGest)]);
     if (d.remise > 0)       rows.push(['Remise' + (d.rType==='pct'?' ('+d.rVal+'%)':''), '—', '—', '- '+ff(d.remise)]);
@@ -2460,6 +2460,9 @@ function openFactureEditor(coId, coName, nbAdmins, nbChefs, nbChauffeurs, price,
   document.getElementById('fe-admins').value  = nbAdmins;
   document.getElementById('fe-chefs').value   = nbChefs;
   document.getElementById('fe-chauff').value  = nbChauffeurs;
+  document.getElementById('fe-masquer-nb-admin').checked = false;
+  document.getElementById('fe-masquer-nb-chef').checked = false;
+  document.getElementById('fe-masquer-nb-chauff').checked = false;
   document.getElementById('fe-tva').value     = '20';
   document.getElementById('fe-remise-type').value  = 'pct';
   document.getElementById('fe-remise-val').value   = '0';
@@ -2584,8 +2587,11 @@ async function submitFactureEditor() {
   const maintTaux   = Number(document.getElementById('fe-maint-taux').value)||0;
   const gest     = Number(document.getElementById('fe-gestion').value)||0;
   const modepay  = document.getElementById('fe-modepay').value;
+  const masquerNbAdmin  = document.getElementById('fe-masquer-nb-admin').checked;
+  const masquerNbChef   = document.getElementById('fe-masquer-nb-chef').checked;
+  const masquerNbChauff = document.getElementById('fe-masquer-nb-chauff').checked;
   closeFactureEditor();
-  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, dateEmission, periodeDebut, periodeFin, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay, { city:_feData.city, siret:_feData.siret, resp:_feData.resp, phone:_feData.phone }, maintDetail, maintHeures, maintTaux);
+  await genererFactureInterne(_feData.coId, _feData.coName, a, ch, ca, dateEmission, periodeDebut, periodeFin, tvaRate, rType, rVal, pType, pVal, note, _feData.isCustom, _feCurrency, maint, gest, modepay, { city:_feData.city, siret:_feData.siret, resp:_feData.resp, phone:_feData.phone }, maintDetail, maintHeures, maintTaux, masquerNbChauff, masquerNbAdmin, masquerNbChef);
 }
 
 async function genNumFacture(refDate) {
@@ -2604,7 +2610,7 @@ async function genNumFacture(refDate) {
 }
 
 let _lastGeneratedInvoice = null;
-async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, dateEmission, periodeDebut, periodeFin, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement', coInfo={}, maintDetail='', maintHeures=0, maintTaux=0) {
+async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeurs, dateEmission, periodeDebut, periodeFin, tvaRate, rType, rVal, pType, pVal, note, isCustom, currency='EUR', maintenance=0, gestion=0, modePaiement='virement', coInfo={}, maintDetail='', maintHeures=0, maintTaux=0, masquerNbChauff=false, masquerNbAdmin=false, masquerNbChef=false) {
   const maintHeader = (maintHeures > 0 && maintTaux > 0) ? `${maintHeures}h × ${maintTaux} €/h` : '';
   const { city='', siret='', resp='', phone='' } = coInfo;
   const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
@@ -2751,9 +2757,9 @@ async function genererFactureInterne(coId, coName, nbAdmins, nbChefs, nbChauffeu
     <tr><th>Description</th><th style="text-align:center">Qté</th><th style="text-align:right">P.U. HT</th><th style="text-align:right">Total HT</th></tr>
   </thead>
   <tbody>
-    ${nbAdmins>0?`<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${nbAdmins}</td><td style="text-align:right">${f(puAdmin)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>`:''}
-    ${nbChefs>0?`<tr><td>Licence chef d'équipe — supervision &amp; dispatch</td><td style="text-align:center">${nbChefs}</td><td style="text-align:right">${f(puChef)}</td><td style="text-align:right">${f(ligneChef)}</td></tr>`:''}
-    ${nbChauffeurs>0?`<tr><td>Licence chauffeur — gestion tournées &amp; suivi</td><td style="text-align:center">${nbChauffeurs}</td><td style="text-align:right">${f(puChauf)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`:''}
+    ${nbAdmins>0?`<tr><td>Licence administrateur — accès complet plateforme</td><td style="text-align:center">${masquerNbAdmin?'':nbAdmins}</td><td style="text-align:right">${masquerNbAdmin?'':f(puAdmin)}</td><td style="text-align:right">${f(ligneAdmin)}</td></tr>`:''}
+    ${nbChefs>0?`<tr><td>Licence chef d'équipe — supervision &amp; dispatch</td><td style="text-align:center">${masquerNbChef?'':nbChefs}</td><td style="text-align:right">${masquerNbChef?'':f(puChef)}</td><td style="text-align:right">${f(ligneChef)}</td></tr>`:''}
+    ${nbChauffeurs>0?`<tr><td>Licence chauffeur — gestion tournées &amp; suivi</td><td style="text-align:center">${masquerNbChauff?'':nbChauffeurs}</td><td style="text-align:right">${masquerNbChauff?'':f(puChauf)}</td><td style="text-align:right">${f(ligneChauf)}</td></tr>`:''}
     ${ligneMaint>0?`<tr><td>Frais de maintenance logicielle${maintHeader?` <span style="color:#8B7355;font-size:11px">(${maintHeader})</span>`:''}${maintDetail?`<br><span style="font-size:11px;color:#666;white-space:pre-line;line-height:1.5">${maintDetail.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span>`:''}</td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneMaint)}</td><td style="text-align:right">${f(ligneMaint)}</td></tr>`:''}
     ${ligneGest>0?`<tr style="background:#fafcff"><td><strong>Pilotage Complet par T SERVICE &amp; CO</strong><br><span style="font-size:11px;color:#666">Gestion administrative complète : tournées, chauffeurs, facturation, prestations</span></td><td style="text-align:center">1</td><td style="text-align:right">${f(ligneGest)}</td><td style="text-align:right">${f(ligneGest)}</td></tr>`:''}
     ${remise>0?`<tr style="color:#c0392b"><td>Remise${rType==='pct'?' ('+rVal+'%)':''}</td><td style="text-align:center">—</td><td style="text-align:right">—</td><td style="text-align:right">- ${f(remise)}</td></tr>`:''}
@@ -2798,7 +2804,7 @@ ${(modePaiement==='virement'||modePaiement==='swift')&&(BANK_IBAN||BANK_BIC||BAN
     bankTitulaire: BANK_TITULAIRE, bankBanque: BANK_BANQUE,
     bankIban: BANK_IBAN, bankBic: BANK_BIC,
     coCity: city, coSiret: siret, coResp: resp, coPhone: phone,
-    maintDetail, maintHeader
+    maintDetail, maintHeader, masquerNbChauff, masquerNbAdmin, masquerNbChef
   });
   _lastGeneratedInvoice = {
     coId, num,
@@ -4145,6 +4151,22 @@ function generateContratPDF(p) {
         <input type="number" id="fe-chauff" class="ii" style="width:100%" min="0" onchange="feUpdatePreview()" oninput="feUpdatePreview()">
         <div id="fe-hint-chauff" style="font-size:10px;color:var(--gray);margin-top:3px">× 299,99 €</div>
       </div>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;color:var(--gray);margin-bottom:6px">Masquer le nombre de licences sur la facture (afficher uniquement la désignation et le montant) :</div>
+      <label style="display:flex;align-items:center;gap:8px;margin-bottom:5px;cursor:pointer;font-size:12px;color:var(--gray)">
+        <input type="checkbox" id="fe-masquer-nb-admin" style="width:15px;height:15px;accent-color:#C9A961;cursor:pointer">
+        Licence administrateur
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;margin-bottom:5px;cursor:pointer;font-size:12px;color:var(--gray)">
+        <input type="checkbox" id="fe-masquer-nb-chef" style="width:15px;height:15px;accent-color:#C9A961;cursor:pointer">
+        Licence chef d'équipe
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--gray)">
+        <input type="checkbox" id="fe-masquer-nb-chauff" style="width:15px;height:15px;accent-color:#C9A961;cursor:pointer">
+        Licence chauffeur
+      </label>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
